@@ -1,0 +1,179 @@
+﻿<div ng-init="OnLoad()">
+    <div class="modal-header bg-color" style="background-color:#ccc">
+        <div class="modal-title">
+            <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+            <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin {{item.Ten}} </label></h4>
+
+        </div>
+    </div>
+    <div class="modal-body form">
+        <div class="form-body form-horizontal margin-top-10">
+            <div class="row margin-bottom-5">
+
+                <label class="control-label col-md-3">Theo tiêu chuẩn: </label>
+                <div class="col-md-9">
+                    <select ng-model="item.IdTieuChuan" class="form-control input-sm select2" convert-to-number>
+                        <option ng-repeat="nl in DsTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+
+                <div class="{{itemError.ModelState.NoiDung[1]}}">
+                    <label class="control-label col-md-3">Nội dung<span style="color:red">*</span>: </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control input-sm" ng-model="item.NoiDung">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-3">Tiêu chuẩn thứ:</label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control input-sm" ng-model="item.TTKhac1">
+                </div>
+
+                <label class="control-label col-md-3">Yêu cầu đánh giá:</label>
+                <div class="col-md-1" style="margin-top:-3px">
+                    <input type="checkbox" class="input-sm" ng-model="item.YCDanhGia">
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-3">Hiển thị:</label>
+                <div class="col-md-1" style="margin-top:-3px">
+                    <input type="checkbox" class="input-sm" ng-model="item.FInUse">
+                </div>
+
+                <label class="control-label col-md-5 text-right">STT:</label>
+                <div class="col-md-3">
+                    <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control input-sm" ng-model="item.STT">
+                </div>
+            </div>
+
+            <!--Vẽ các tab tại đây-->
+            <div class="row margin-bottom-5">
+                <!--<ul class="nav nav-tabs tabs-up ">
+                    <li class="active">
+                        <a class="bold media_node active span" data-target="#tab_1" data-toggle="tab" aria-expanded="true">
+                            Chỉ số A
+                        </a>
+                    </li>
+                    <li>
+                        <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold media_node active span">
+                            Chỉ số B
+                        </a>
+                    </li>
+                    <li>
+                        <a data-target="#tab_3" data-toggle="tab" aria-expanded="true" class="bold">
+                            Chỉ số C
+                        </a>
+                    </li>
+                </ul>-->
+                <!--<div class="tab-content" style="margin-top: -10px">
+                    <div class="tab-pane active" id="tab_1" ng-controller="TieuChiChiSoAController">
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.NoiDungA[1]}}">
+                                <label class="control-label col-md-3">Nội dung<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="2" type="text" class="form-control" ng-model="item.NoiDungA" id="NoiDungA" name="NoiDungA"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.YeuCauA[1]}}">
+                                <label class="control-label col-md-3">Yêu cầu<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" type="text" class="form-control" ng-model="item.YeuCauA" id="YeuCauA" name="YeuCauA"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.GoiYA[1]}}">
+                                <label class="control-label col-md-3">Gợi ý<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" type="text" class="form-control" ng-model="item.GoiYA" id="GoiYA" name="GoiYA"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <!--Tab 2-->
+                    <!--<div class="tab-pane" id="tab_1" ng-controller="TieuChiChiSoBController">
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.NoiDungB[1]}}">
+                                <label class="control-label col-md-3">Nội dung<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="2" type="text" class="form-control" ng-model="item.NoiDungB" id="NoiDungB" name="NoiDungB"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.YeuCauB[1]}}">
+                                <label class="control-label col-md-3">Yêu cầu<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" type="text" class="form-control" ng-model="item.YeuCauB" id="YeuCauB" name="YeuCauB"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.GoiYB[1]}}">
+                                <label class="control-label col-md-3">Gợi ý<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" type="text" class="form-control" ng-model="item.GoiYB" id="GoiYB" name="GoiYB"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    <!--Tab 3-->
+                    <!--<div class="tab-pane" id="tab_1" ng-controller="TieuChiChiSoCController">
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.NoiDungC[1]}}">
+                                <label class="control-label col-md-3">Nội dung<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="2" type="text" class="form-control" ng-model="item.NoiDungC" id="NoiDungC" name="NoiDungC"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.YeuCauC[1]}}">
+                                <label class="control-label col-md-3">Yêu cầu<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" type="text" class="form-control" ng-model="item.YeuCauC" id="YeuCauC" name="YeuCauC"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="{{itemError.ModelState.GoiYC[1]}}">
+                                <label class="control-label col-md-3">Gợi ý<span style="color:red">*</span>: </label>
+                                <div class="col-md-9">
+                                    <textarea rows="3" type="text" class="form-control" ng-model="item.GoiYC" id="GoiYC" name="GoiYC"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+
+
+            <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+                <div class="text-left"><label class="control-label col-md-4"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></label></div>
+                <div class="col-md-8 clearfix text-right">
+                    <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                    <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

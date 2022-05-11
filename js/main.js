@@ -479,6 +479,25 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         }
 
+        $scope.openModalSmall = function (item, type, check) {
+            $scope.modalInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                animation: false,
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'views-client/template/Modal/Modal' + type + '.html?bust=' + Math.random().toString(36).slice(2),
+                controller: 'Modal' + type + 'HandlerController',
+                controllerAs: 'vm',
+                scope: $scope,
+                backdrop: 'static',
+                size: 'md',
+                index: 10000,
+                resolve: {
+                    item: function () { return item },
+                    check: function () { return check }
+                }
+            });
+        }
+
 
         $scope.LogOut = function () {
             $http({

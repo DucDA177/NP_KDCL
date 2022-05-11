@@ -941,7 +941,7 @@ angular.module('WebApiApp').controller("ModalCreateDataHandlerController", funct
         $uibModalInstance.dismiss('close');
     }
     $scope.Calculate = function () {
-        
+
         $scope.item.AverageWage = $scope.item.AverageWage_Tax - $scope.item.Deduct;
         $scope.item.Coefficient = $scope.item.Coefficient_Tax;
         $scope.item.Pension = $scope.item.AverageWage * $scope.item.Coefficient;
@@ -980,3 +980,142 @@ angular.module('WebApiApp').controller("ModalCreateDataHandlerController", funct
 
 });
 
+//Thêm danh mục tiêu chuẩn
+angular.module('WebApiApp').controller("ModalDMTieuChuanHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.check = $scope.$resolve.check;
+    $scope.type = $scope.$resolve.type;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    if (!$scope.item || $scope.item == undefined) {
+        $scope.item = {
+            "FInUse": true,
+            "IdDonvi": $rootScope.CurDonVi.Id
+        }
+    }
+
+    // Load lên STT
+    $scope.LoadSTT = function () {
+        $scope.idTieuChuan = ($scope.item != null && $scope.item.Id != undefined) ? $scope.item.Id : 0;
+        $http({
+            method: "GET",
+            url: "api/DanhMucTieuChuan/LaySTT?tieuChuanID=" + $scope.idTieuChuan
+        }).then(function successCallback(response) {
+            $scope.item.STT = response.data;
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+    $scope.LoadSTT();
+
+    // Validate dữ liệu
+    $scope.Validate = function (isNew) {
+        if (!$scope.item.NoiDung) return "Vui lòng nhập nội dung tiêu chuẩn!";
+        return 1;
+    };
+
+    // Lưu dữ liệu
+    $scope.Save = function (isNew) {
+        if ($scope.Validate(isNew) != 1) {
+            var str = $scope.Validate(isNew);
+            toastr.error(str, "Thông báo");
+            return;
+        }
+        $http({
+            method: "POST",
+            url: "api/DanhMucTieuChuan/LuuDanhMucTieuChuan",
+            data: $scope.item,
+        }).then(function successCallback(response) {
+            toastr.success('Lưu dữ liệu thành công!', 'Thông báo');
+            $scope.item = response.data;
+            $rootScope.LoadDMTieuChuan();
+            if (isNew == 1)
+                $scope.openModalSmall('', 'DMTieuChuan');
+            $scope.cancelModal()
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    // Load danh mục trong bảng tblDanhmuc
+    $scope.LoadDanhMuc('QuyDinh', 'QUYDINH');
+});
+
+
+//Thêm danh mục tiêu chí
+angular.module('WebApiApp').controller("ModalDMTieuChiHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.check = $scope.$resolve.check;
+    $scope.type = $scope.$resolve.type;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    if (!$scope.item || $scope.item == undefined) {
+        $scope.item = {
+            "FInUse": true,
+            "IdDonvi": $rootScope.CurDonVi.Id
+        }
+    }
+
+    // Xử lý load danh mục tiêu chuẩn
+    //$rootScope.LoadDMTieuChuan = function () {
+    //    $scope.searchKey = '';
+    //    $http({
+    //        method: 'GET',
+    //        url: 'api/DanhMucTieuChuan/LayDuLieuBang?noiDung=' + $scope.searchKey
+    //    }).then(function successCallback(response) {
+
+    //        $scope.DsTieuChuan = response.data;
+
+    //    }, function errorCallback(response) {
+    //        toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+    //    });
+    //}
+    //$rootScope.LoadDMTieuChuan();
+
+    //// Load lên STT
+    //$scope.LoadSTT = function () {
+    //    $scope.idTieuChi = ($scope.item != null && $scope.item.Id != undefined) ? $scope.item.Id : 0;
+    //    $http({
+    //        method: "GET",
+    //        url: "api/DanhMucTieuChi/LaySTT?tieuChiID=" + $scope.idTieuChi
+    //    }).then(function successCallback(response) {
+    //        $scope.item.STT = response.data;
+    //    }, function errorCallback(response) {
+    //        toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+    //    });
+    //}
+    //$scope.LoadSTT();
+
+    //// Validate dữ liệu
+    //$scope.Validate = function (isNew) {
+    //    if (!$scope.item.NoiDung) return "Vui lòng nhập nội dung tiêu chuẩn!";
+    //    return 1;
+    //};
+
+    //// Lưu dữ liệu
+    //$scope.Save = function (isNew) {
+    //    if ($scope.Validate(isNew) != 1) {
+    //        var str = $scope.Validate(isNew);
+    //        toastr.error(str, "Thông báo");
+    //        return;
+    //    }
+    //    $http({
+    //        method: "POST",
+    //        url: "api/DanhMucTieuChi/LuuDanhMucTieuChi",
+    //        data: $scope.item,
+    //    }).then(function successCallback(response) {
+    //        toastr.success('Lưu dữ liệu thành công!', 'Thông báo');
+    //        $scope.item = response.data;
+    //        $rootScope.LoadDMTieuChuan();
+    //        if (isNew == 1)
+    //            $scope.openModalSmall('', 'DMTieuChi');
+    //        $scope.cancelModal()
+    //    }, function errorCallback(response) {
+    //        toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+    //    });
+    //}
+});

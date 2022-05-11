@@ -190,6 +190,16 @@ namespace WebApiCore.Commons
             return dv.IDLoaiTruong;
         }
 
+        public static long? GetCurrentDonVi(WebApiDataEntities db)
+        {
+            //string user = HttpContext.Current.User.Identity.Name;
+            //var oUser = (from u in db.UserProfiles where u.UserName == user select u).FirstOrDefault();
+            //if (oUser != null)
+            //    return oUser.IDDonVi;
+            //else return null;
+            return Convert.ToInt32(HttpContext.Current.Request.Cookies.Get("DonVi").Value);
+        }
+
         public static long? GetCurrentDonVi(WebApiDataEntities db, string user)
         {
             var oUser = ( from u in db.UserProfiles where u.UserName == user select u ).FirstOrDefault();
