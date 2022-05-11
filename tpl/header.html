@@ -10,8 +10,9 @@
     <div class="row">
         <div class="col-md-6" style="vertical-align: middle">
             <a ui-sref="dashboard">
-                <img class="img-circle" width="70px" height="40px" alt="" src="../logo.jpg" />
-                <label style="color:black; font-size: 20px;font-weight: bold;">&nbsp;&nbsp;NENKIN AMARIRISU</label>
+                <label style="color:black; font-size: 20px;font-weight: bold; margin-top:8px">
+                &nbsp;&nbsp;{{CurDonVi.TenDonVi}}
+                </label>
                 
             </a>
 
@@ -137,7 +138,7 @@
                         <ul class="dropdown-menu pull-left">
                             <li ng-class="{'active': cm.FCode == $stateParams.param.FCode}"
                                 ui-sref-active="active"
-                                ng-repeat="cm in menu | filter: {ParentMenu: m.FCode,FName : search} | orderBy : 'FIndex'">
+                                ng-repeat="cm in menu | filter: {ParentMenu: m.FCode,FName : search}  : true  | orderBy : 'FIndex'">
                                 <a ui-sref="{{cm.FCode}}({param:cm,FCode:cm.FCode})"
                                    class="bold"
                                    ng-class="{'bold font-red': cm.FCode == $stateParams.param.FCode}">

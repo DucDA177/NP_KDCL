@@ -24,6 +24,7 @@
         <EntityTypeShape EntityType="WebApiDataModel.UserProfile" Width="1.5" PointX="12.75" PointY="4.75" />
         <EntityTypeShape EntityType="WebApiDataModel.DMTieuChi" Width="1.5" PointX="13.375" PointY="10.75" />
         <EntityTypeShape EntityType="WebApiDataModel.DMTieuChuan" Width="1.5" PointX="5.375" PointY="14.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachTDG" Width="1.5" PointX="7.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

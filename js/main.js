@@ -81,9 +81,18 @@ WebApiApp.factory('$settings', ['$rootScope', function ($rootScope) {
 WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '$http', '$uibModal', '$cookies', '$state', '$uibModalStack'
     , function ($stateParams, $scope, $rootScope, $http, $uibModal, $cookies, $state, $uibModalStack) {
 
+        $scope.NhomLoai = [
+            { Code: 'MN', Name: 'Mầm non(MN)' },
+            { Code: 'TH', Name: 'Tiểu học(TH)' },
+            { Code: 'THCS', Name: 'Trung học cơ sở(THCS)' },
+            { Code: 'THPT', Name: 'Trung học phổ thông(THPT)' }
+        ];
+        $scope.LoaiHinh = ['Công lập', 'Bán công', 'Dân lập', 'Tư thục'];
         $scope.LoaiDonVi = [
-            { Code: 'ADMIN', Name: 'Quản trị hệ thống' },
-            { Code: 'KHAC', Name: 'Khác' },
+            { Code: 'SO', Name: 'Đơn vị cấp Sở' },
+            { Code: 'PHONG', Name: 'Đơn vị cấp Phòng' },
+            { Code: 'TRUONG', Name: 'Đơn vị cấp Trường' },
+            { Code: 'DIEMTRUONG', Name: 'Đơn vị cấp Điểm trường' }
         ];
         $scope.TypeArea = [
             { Code: 'XA', Name: 'Xã/Phường' },
@@ -97,8 +106,11 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             { Name: 'Không xác định' }
         ];
 
-        $scope.months = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
-        
+        $scope.TTKeHoachTDG = [
+            { Code: 'CTH' , Name:'Chưa tiến hành' },
+            { Code: 'DTH', Name: 'Đang tiến hành' },
+            { Code: 'DGD', Name: 'Đã gửi duyệt' },
+        ];
         $scope.DefaultArea = '01' // Hà Nội
         $scope.isHidePagebar = 0;
 

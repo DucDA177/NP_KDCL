@@ -25,11 +25,9 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChuan/LayDuLieuBang")]
-        public IHttpActionResult LayDuLieuBang(string noiDung)
+        public IHttpActionResult LayDuLieuBang(int IdDonVi, int IdQuyDinh)
         {
-            var IdDonvi = Commons.Common.GetCurrentDonVi(db);
-            return Ok(db.DMTieuChuans.Where(x => x.IdDonVi == IdDonvi
-            && (x.NoiDung.Contains(noiDung) || string.IsNullOrEmpty(noiDung))).OrderBy(t => t.STT).ToList());
+            return Ok(db.DMTieuChuans.Where(x => x.IdDonVi == IdDonVi && x.IdQuyDinh == IdQuyDinh).OrderBy(t => t.STT).ToList());
         }
 
         /// <summary>
@@ -95,20 +93,11 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChuan/LaySTT")]
-        public IHttpActionResult LaySTT(int tieuChuanID)
+        public IHttpActionResult LaySTT(int IdDonVi, int IdQuyDinh)
         {
-            int curDonvi = Convert.ToInt32(Commons.Common.GetCurrentDonVi(db));
-            var data = db.DMTieuChuans.Where(x => x.Id == tieuChuanID).FirstOrDefault();
-            int maxSTT = 0;
-    
-            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdDonVi == curDonvi).ToList();
+            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdDonVi == IdDonVi && x.IdQuyDinh == IdQuyDinh).ToList();
 
-            if (dsTieuChuan.Count > 0)
-            {
-                maxSTT = dsTieuChuan.Max(t => t.STT);
-            }
-
-            return Ok(data != null ? data.STT : (maxSTT + 1));
+            return Ok(dsTieuChuan.Count + 1);
         }
 
         /// <summary>
@@ -117,9 +106,15 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <param name="data"></param>
         private void Validate(DMTieuChuan data)
         {
+            if (data.IdQuyDinh == 0)
+            {
+                ModelState.AddModelError("QuyDinh", "Quy định tiêu chuẩn bắt buộc chọn");
+                ModelState.AddModelError("QuyDinh", "has-error");
+            }
             if (string.IsNullOrEmpty(data.NoiDung))
             {
                 ModelState.AddModelError("NoiDung", "Nội dung tiêu chuẩn bắt buộc nhập");
+                ModelState.AddModelError("NoiDung", "has-error");
             }
         }
     }

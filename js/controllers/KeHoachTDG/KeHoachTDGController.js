@@ -1,0 +1,52 @@
+﻿angular.module('WebApiApp').controller('KeHoachTDGController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
+
+
+    $scope.Del = function (Id) {
+        if (confirm('Bạn có chắc chắn muốn xóa đối tượng này ?'))
+            $http({
+                method: 'GET',
+                url: 'api/KeHoachTDG/Del?Id=' + Id,
+            }).then(function successCallback(response) {
+                toastr.success('Xóa dữ liệu thành công !', 'Thông báo');
+                $rootScope.LoadKeHoachTDG();
+            }, function errorCallback(response) {
+                //$scope.itemError = response.data;
+                toastr.error('Có lỗi trong quá trình xóa dữ liệu !', 'Thông báo');
+            });
+
+    }
+
+    $scope.DoiTrangThai = function (item,TrangThai) {
+        item.TrangThai = TrangThai
+
+        $http({
+            method: 'POST',
+            url: 'api/KeHoachTDG/Save',
+            data: item
+        }).then(function successCallback(response) {
+            item = response.data;
+            toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
+            $rootScope.LoadKeHoachTDG();
+          
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            toastr.error('Có lỗi xảy ra hoặc bạn chưa điền đầy đủ các trường bắt buộc !', 'Thông báo');
+        });
+    }
+    
+    $rootScope.LoadKeHoachTDG = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/KeHoachTDG/GetAll?IdDonVi=' + $rootScope.CurDonVi.Id
+        }).then(function successCallback(response) {
+
+            $scope.KeHoachTDG = response.data;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    $rootScope.LoadKeHoachTDG();
+}]);

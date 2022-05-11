@@ -25,11 +25,10 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChi/LayDuLieuBang")]
-        public IHttpActionResult LayDuLieuBang(string noiDung)
+        public IHttpActionResult LayDuLieuBang(int IdDonVi, int IdTieuChuan)
         {
-            var IdDonvi = Commons.Common.GetCurrentDonVi(db);
-            return Ok(db.DMTieuChis.Where(x => x.IdDonVi == IdDonvi
-            && (x.NoiDung.Contains(noiDung) || string.IsNullOrEmpty(noiDung))).OrderBy(t => t.STT).ToList());
+            return Ok(db.DMTieuChis.Where(x => x.IdDonVi == IdDonVi
+            && x.IdTieuChuan == IdTieuChuan).OrderBy(t => t.STT).ToList());
         }
 
         /// <summary>
@@ -41,7 +40,6 @@ namespace WebApiCore.Controllers.DanhMuc
         [Route("api/DanhMucTieuChi/LuuDanhMucTieuChi")]
         public IHttpActionResult Save([FromBody] DMTieuChi data)
         {
-            int curDonvi = Convert.ToInt32(Commons.Common.GetCurrentDonVi(db));
             Validate(data);
             if (!ModelState.IsValid)
             {
@@ -50,7 +48,7 @@ namespace WebApiCore.Controllers.DanhMuc
 
             if (data.STT == 0 || string.IsNullOrEmpty(data.STT.ToString().Trim()))
             {
-                var dt = db.DMTieuChis.Where(t => t.IdDonVi == curDonvi);
+                var dt = db.DMTieuChis.Where(t => t.IdDonVi == data.IdDonVi);
                 if (dt != null && dt.Count() > 0)
                     data.STT = dt.Max(t => t.STT) + 1;
                 else data.STT = 1;
@@ -95,20 +93,11 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChi/LaySTT")]
-        public IHttpActionResult LaySTT(int tieuChiID)
+        public IHttpActionResult LaySTT(int IdDonVi, int IdTieuChuan)
         {
-            int curDonvi = Convert.ToInt32(Commons.Common.GetCurrentDonVi(db));
-            var data = db.DMTieuChis.Where(x => x.Id == tieuChiID).FirstOrDefault();
-            int maxSTT = 0;
+            var dsTieuChi = db.DMTieuChis.Where(x => x.IdDonVi == IdDonVi && x.IdTieuChuan == IdTieuChuan).ToList();
 
-            var dsTieuChi = db.DMTieuChis.Where(x => x.IdDonVi == curDonvi).ToList();
-
-            if (dsTieuChi.Count > 0)
-            {
-                maxSTT = dsTieuChi.Max(t => t.STT);
-            }
-
-            return Ok(data != null ? data.STT : (maxSTT + 1));
+            return Ok(dsTieuChi.Count + 1);
         }
 
         /// <summary>
@@ -117,9 +106,63 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <param name="data"></param>
         private void Validate(DMTieuChi data)
         {
+            if (data.IdTieuChuan == 0)
+            {
+                ModelState.AddModelError("TieuChuan", "Tiêu chuẩn bắt buộc chọn");
+                ModelState.AddModelError("TieuChuan", "has-error");
+            }
+
             if (string.IsNullOrEmpty(data.NoiDung))
             {
                 ModelState.AddModelError("NoiDung", "Nội dung tiêu chí bắt buộc nhập");
+                ModelState.AddModelError("NoiDung", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.NoiDungA))
+            {
+                ModelState.AddModelError("NoiDungA", "Nội dung chỉ số A bắt buộc nhập");
+                ModelState.AddModelError("NoiDungA", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.NoiDungB))
+            {
+                ModelState.AddModelError("NoiDungB", "Nội dung chỉ số B bắt buộc nhập");
+                ModelState.AddModelError("NoiDungB", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.NoiDungC))
+            {
+                ModelState.AddModelError("NoiDungC", "Nội dung chỉ số C bắt buộc nhập");
+                ModelState.AddModelError("NoiDungC", "has-error");
+            }
+
+            if (string.IsNullOrEmpty(data.YeuCauA))
+            {
+                ModelState.AddModelError("YeuCauA", "Yêu cầu chỉ số A bắt buộc nhập");
+                ModelState.AddModelError("YeuCauA", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.YeuCauB))
+            {
+                ModelState.AddModelError("YeuCauB", "Yêu cầu chỉ số B bắt buộc nhập");
+                ModelState.AddModelError("YeuCauB", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.YeuCauC))
+            {
+                ModelState.AddModelError("YeuCauC", "Yêu cầu chỉ số C bắt buộc nhập");
+                ModelState.AddModelError("YeuCauC", "has-error");
+            }
+
+            if (string.IsNullOrEmpty(data.GoiYA))
+            {
+                ModelState.AddModelError("GoiYA", "Gợi ý chỉ số A bắt buộc nhập");
+                ModelState.AddModelError("GoiYA", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.GoiYB))
+            {
+                ModelState.AddModelError("GoiYB", "Gợi ý chỉ số B bắt buộc nhập");
+                ModelState.AddModelError("GoiYB", "has-error");
+            }
+            if (string.IsNullOrEmpty(data.GoiYC))
+            {
+                ModelState.AddModelError("GoiYC", "Gợi ý chỉ số C bắt buộc nhập");
+                ModelState.AddModelError("GoiYC", "has-error");
             }
         }
     }

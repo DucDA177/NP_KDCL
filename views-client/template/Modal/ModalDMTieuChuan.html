@@ -3,19 +3,20 @@
         <div class="modal-title">
             <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
 
-            <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin {{item.Ten}} </label></h4>
+            <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin tiêu chuẩn </label></h4>
 
         </div>
     </div>
     <div class="modal-body form">
         <div class="form-body form-horizontal margin-top-10">
             <div class="row margin-bottom-5">
-
-                <label class="control-label col-md-3">Theo quy định: </label>
-                <div class="col-md-9">
-                    <select ng-model="item.IdQuyDinh" class="form-control input-sm select2" convert-to-number>
-                        <option ng-repeat="nl in QuyDinh" value={{nl.Id}}>{{nl.Ten}}</option>
-                    </select>
+                <div class="{{itemError.ModelState.QuyDinh[1]}}">
+                    <label class="control-label col-md-3">Theo quy định<span style="color:red">*</span>: </label>
+                    <div class="col-md-9">
+                        <select ng-model="item.IdQuyDinh" class="form-control input-sm select2" convert-to-number>
+                            <option ng-repeat="nl in QuyDinh" value={{nl.Id}}>{{nl.Ten}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="row margin-bottom-5">
@@ -23,8 +24,7 @@
                 <div class="{{itemError.ModelState.NoiDung[1]}}">
                     <label class="control-label col-md-3">Nội dung<span style="color:red">*</span>: </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" ng-model="item.NoiDung">
-
+                        <textarea class="form-control input-sm" ng-model="item.NoiDung" rows="2"></textarea>
                     </div>
                 </div>
 
@@ -32,9 +32,8 @@
             <div class="row margin-bottom-5">
                 <label class="control-label col-md-3">Tiêu chuẩn thứ:</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control input-sm" ng-model="item.TTKhac1">
+                    <input type="text" class="form-control input-sm" ng-model="item.ThuTu">
                 </div>
-
                 <label class="control-label col-md-3">Yêu cầu đánh giá:</label>
                 <div class="col-md-1" style="margin-top:-3px">
                     <input type="checkbox" class="input-sm" ng-model="item.YCDanhGia">
