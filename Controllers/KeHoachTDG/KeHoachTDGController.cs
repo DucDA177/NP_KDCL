@@ -22,6 +22,36 @@ namespace WebApiCore.Controllers.KeHoachTDG
             return Ok(data);
         }
 
+        [HttpGet]
+        [Route("api/KeHoachTDG/LoadListNamHoc")]
+        public IHttpActionResult LoadListNamHoc()
+        {
+            var data = db.tblKeHoachTDGs.GroupBy(t => new { t.NamHocBD, t.NamHocKT })
+                .Select(t => t.FirstOrDefault())
+                .OrderByDescending(t => t.NamHocKT)
+                .Select(t => t.NamHocBD + "-" + t.NamHocKT);
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("api/KeHoachTDG/LoadKeHoachTDGHienTai")]
+        public IHttpActionResult LoadKeHoachTDGHienTai(string NamHoc, int IdDonVi)
+        {
+            if (string.IsNullOrEmpty(NamHoc))
+                return Ok();
+
+            var NamHocBD = Convert.ToInt32(NamHoc.Split('-').First());
+            var NamHocKT = Convert.ToInt32(NamHoc.Split('-').Last());
+
+            var data = db.tblKeHoachTDGs.Where(t => t.IdDonVi == IdDonVi
+            && t.NamHocBD == NamHocBD && t.NamHocKT == NamHocKT)
+                .OrderByDescending(t => t.NamHocKT)
+                .FirstOrDefault();
+
+            return Ok(data);
+        }
+
         [HttpPost]
         [Route("api/KeHoachTDG/Save")]
         public IHttpActionResult Save([FromBody] tblKeHoachTDG data)
@@ -35,6 +65,10 @@ namespace WebApiCore.Controllers.KeHoachTDG
 
             if (data.Id == null || data.Id == 0)
             {
+                var checkKHTDG = db.tblKeHoachTDGs.Where(t => t.NamHocBD == data.NamHocBD && t.NamHocKT == data.NamHocKT).Any();
+                if (checkKHTDG)
+                    return BadRequest("Năm học " + data.NamHocBD + " - " + data.NamHocKT + " đã tồn tại kế hoạch tự đánh giá");
+
                 db.tblKeHoachTDGs.Add(data);
                 db.SaveChanges();
             }
@@ -64,7 +98,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
                 ModelState.AddModelError("NgayKT", "Ngày kết thúc bắt buộc nhập");
                 ModelState.AddModelError("NgayKT", "has-error");
             }
-            if(item.NamHocBD == 0 || item.NamHocKT == 0)
+            if (item.NamHocBD == 0 || item.NamHocKT == 0)
             {
                 ModelState.AddModelError("NamHoc", "Năm học bắt buộc nhập");
                 ModelState.AddModelError("NamHoc", "has-error");

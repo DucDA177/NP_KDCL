@@ -3,7 +3,7 @@
     // console.log($scope.item)
     $scope.type = $scope.$resolve.type;
     if ($scope.item) {
-        try { $scope.item.ThongTinKhac = JSON.parse($scope.item.ThongTinKhac) } catch{ }
+        try { $scope.item.ThongTinKhac = JSON.parse($scope.item.ThongTinKhac) } catch { }
 
         $scope.LoadProvin('0', '0', '0');
         $scope.LoadProvin($scope.item.IDTinh, $scope.item.IDHuyen, $scope.item.IDXa);
@@ -410,7 +410,7 @@ angular.module('WebApiApp').controller("ModalDMCacThanhVienHandlerController", f
                     $scope.openModal('', 'DMCacThanhVien', $scope.check)
                 try {
                     $rootScope.SelectedDoiTuong.push($scope.item)
-                } catch{ }
+                } catch { }
             },
             function errorCallback(response) {
                 //console.log(response)
@@ -949,22 +949,22 @@ angular.module('WebApiApp').controller("ModalDMTieuChuanHandlerController", func
 
     // Load lên STT
     $scope.LoadSTT = function () {
-       
-        $http({
-            method: "GET",
-            url: "api/DanhMucTieuChuan/LaySTT?IdQuyDinh=" + $rootScope.IdQuyDinh
-                + '&IdDonVi=' + $rootScope.CurDonVi.Id
-        }).then(function successCallback(response) {
-            $scope.item.STT = response.data;
-        }, function errorCallback(response) {
-            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
-        });
+        if (!$scope.item.STT)
+            $http({
+                method: "GET",
+                url: "api/DanhMucTieuChuan/LaySTT?IdQuyDinh=" + $rootScope.IdQuyDinh
+                    + '&IdDonVi=' + $rootScope.CurDonVi.Id
+            }).then(function successCallback(response) {
+                $scope.item.STT = response.data;
+            }, function errorCallback(response) {
+                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            });
     }
     $scope.LoadSTT();
 
     // Lưu dữ liệu
     $scope.Save = function (isNew) {
-        
+
         $http({
             method: "POST",
             url: "api/DanhMucTieuChuan/LuuDanhMucTieuChuan",
@@ -974,16 +974,17 @@ angular.module('WebApiApp').controller("ModalDMTieuChuanHandlerController", func
             $scope.item = response.data;
             $scope.itemError = ''
             $rootScope.LoadDMTieuChuan();
+            $scope.cancelModal()
             if (isNew)
                 $scope.openModalSmall('', 'DMTieuChuan');
-            $scope.cancelModal()
+            
         }, function errorCallback(response) {
             $scope.itemError = response.data;
             toastr.warning('Có lỗi trong quá trình lưu dữ liệu hoặc chưa điền các trường bắt buộc!', 'Thông báo');
         });
     }
 
-   
+
 });
 
 
@@ -1004,29 +1005,28 @@ angular.module('WebApiApp').controller("ModalDMTieuChiHandlerController", functi
         }
     }
 
-     
+
 
     // Load lên STT
     $scope.LoadSTT = function () {
-        
-        $scope.idTieuChi = $scope.item.Id ? $scope.item.Id : 0;
-        $http({
-            method: "GET",
-            url: "api/DanhMucTieuChi/LaySTT?IdTieuChuan=" + $rootScope.IdTieuChuan
-                + '&IdDonVi=' + $rootScope.CurDonVi.Id
-        }).then(function successCallback(response) {
-            $scope.item.STT = response.data;
-        }, function errorCallback(response) {
-            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
-        });
+        if (!$scope.item.STT)
+            $http({
+                method: "GET",
+                url: "api/DanhMucTieuChi/LaySTT?IdTieuChuan=" + $rootScope.IdTieuChuan
+                    + '&IdDonVi=' + $rootScope.CurDonVi.Id
+            }).then(function successCallback(response) {
+                $scope.item.STT = response.data;
+            }, function errorCallback(response) {
+                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            });
     }
     $scope.LoadSTT();
 
-   
+
 
     // Lưu dữ liệu
     $scope.Save = function (isNew) {
-      
+
         $http({
             method: "POST",
             url: "api/DanhMucTieuChi/LuuDanhMucTieuChi",
@@ -1036,9 +1036,10 @@ angular.module('WebApiApp').controller("ModalDMTieuChiHandlerController", functi
             $scope.item = response.data;
             $scope.itemError = ''
             $rootScope.LoadDMTieuChi();
+            $scope.cancelModal()
             if (isNew)
                 $scope.openModal('', 'DMTieuChi');
-            $scope.cancelModal()
+            
         }, function errorCallback(response) {
             $scope.itemError = response.data;
             toastr.warning('Có lỗi trong quá trình lưu dữ liệu hoặc chưa điền đầy đủ nội dung bắt buộc!', 'Thông báo');
@@ -1059,8 +1060,12 @@ angular.module('WebApiApp').controller("ModalKeHoachTDGHandlerController", funct
         $scope.item = {
             IdDonVi: $rootScope.CurDonVi.Id,
             FInUse: true,
-            TrangThai : 'CTH'
+            TrangThai: 'CTH'
         }
+    else {
+        $scope.item.NgayBD = new Date($scope.item.NgayBD)
+        $scope.item.NgayKT = new Date($scope.item.NgayKT)
+    }
     $scope.SaveModal = function (isNew) {
 
         if ($scope.item.NgayBD >= $scope.item.NgayKT) {
@@ -1072,6 +1077,15 @@ angular.module('WebApiApp').controller("ModalKeHoachTDGHandlerController", funct
             return;
         }
 
+        if ($scope.item.NgayBD && $scope.item.NgayKT)
+            if ($scope.item.NgayBD.getFullYear() < $scope.item.NamHocBD
+                || $scope.item.NgayBD.getFullYear() > $scope.item.NamHocKT
+                || $scope.item.NgayKT.getFullYear() < $scope.item.NamHocBD
+                || $scope.item.NgayKT.getFullYear() > $scope.item.NamHocKT) {
+                toastr.error('Ngày bắt đầu và ngày kết thúc phải thuộc năm học đã nhập !', 'Thông báo');
+                return;
+            }
+
         $http({
             method: 'POST',
             url: 'api/KeHoachTDG/Save',
@@ -1081,15 +1095,63 @@ angular.module('WebApiApp').controller("ModalKeHoachTDGHandlerController", funct
             $scope.itemError = "";
             toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
             $rootScope.LoadKeHoachTDG();
+            $scope.cancelModal();
             if (isNew)
-                $scope.openModal('','KeHoachTDG')
-            else
-                $scope.cancelModal();
+                $scope.openModal('', 'KeHoachTDG')
+                
         }, function errorCallback(response) {
             $scope.itemError = response.data;
-            toastr.error('Có lỗi xảy ra hoặc bạn chưa điền đầy đủ các trường bắt buộc !', 'Thông báo');
+            if ($scope.itemError.ModelState)
+                toastr.error('Có lỗi xảy ra hoặc bạn chưa điền đầy đủ các trường bắt buộc !', 'Thông báo');
+            else
+                toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
         });
 
     }
+
+});
+
+//Hội đồng
+angular.module('WebApiApp').controller("ModalHoiDongHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    if (!$scope.item)
+        $scope.item = {
+            IdDonVi: $rootScope.CurDonVi.Id,
+            IdKeHoachTDG: $rootScope.KeHoachTDG.Id,
+            FInUse: true,
+        }
+
+    $scope.SaveModal = function (isNew) {
+
+        $http({
+            method: 'POST',
+            url: 'api/HoiDong/Save',
+            data: $scope.item
+        }).then(function successCallback(response) {
+            $scope.item = response.data;
+            $scope.itemError = "";
+            toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
+            $rootScope.LoadHoiDong();
+            $scope.cancelModal();
+            if (isNew)
+                $scope.openModal('', 'HoiDong')
+                
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            toastr.error('Có lỗi xảy ra hoặc bạn chưa điền đầy đủ các trường bắt buộc !', 'Thông báo');
+
+        });
+
+    }
+
+    // Load danh mục trong bảng tblDanhmuc
+    $scope.LoadDanhMuc('NhiemVu', 'NHIEMVU');
+    $scope.LoadDanhMuc('ChucVu', 'CHUCVU');
 
 });

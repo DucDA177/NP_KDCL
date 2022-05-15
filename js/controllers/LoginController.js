@@ -4,34 +4,23 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
     try {
         $scope.auth = JSON.parse(readUserConfig())
         if (!$scope.auth.remember) $scope.auth.password = ''
-    } catch{ }
-    
-    $scope.$on('$viewContentLoaded', function () {
-        // initi    ize core components
-        App.initAjax();
-        //App.init();
-        // set default layout mode
-        $rootScope.$settings.layout.pageContentWhite = true;
-        $rootScope.$settings.layout.pageBodySolid = false;
-        $rootScope.$settings.layout.pageSidebarClosed = true;
-        // Simple GET request example:
+    } catch { }
 
-        $('.login-bg').backstretch([
-            "../assets/pages/img/login/bg1.jpg",
-            "../assets/pages/img/login/bg2.jpg",
-            "../assets/pages/img/login/bg3.jpg"
-            // "../assets/BackGround.jpg"
-        ], {
-                fade: 1000,
-                duration: 8000
-            }
-        );
-        $scope.loading = "Đăng nhập";
-        $scope.CheckLocationHash();
-    });
+    $scope.NamHoc = localStorage.getItem('NamHoc');
+    $scope.LoadListNamHoc = function () {
+        $http({
+            method: 'GET',
+            url: 'api/KeHoachTDG/LoadListNamHoc'
+        }).then(function successCallback(response) {
 
+            $scope.ListNamHoc = response.data;
 
-    //$scope.LoadKyThi();
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+    $scope.LoadListNamHoc();
+
     $scope.fnLogin = function (obj) {
         $scope.show = 1;
         if ($scope.auth == null) {
@@ -44,7 +33,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             $scope.show = 0;
             return;
         }
-        
+
         var data = "grant_type=password&username=" + $scope.auth.username + "&password=" + $scope.auth.password;
         $scope.loading = 'loading ...';
         $http.post('/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
@@ -54,21 +43,21 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
 
                 $cookies.put('token_type', response.token_type);
                 $cookies.put('token', response.access_token);
-                
+
+                localStorage.setItem('NamHoc', $scope.NamHoc);
+
                 toastr.success('Đăng nhập thành công !', 'Đăng nhập');
                 window.location.assign('/home.html');
 
             }).error(function (err, status) {
-                
-                    $scope.loading = "Đăng nhập";
-                    toastr.error('Sai tên đăng nhập hoặc mật khẩu !', 'Đăng nhập');
-                    $scope.show = 0;
-                
+
+                $scope.loading = "Đăng nhập";
+                toastr.error('Sai tên đăng nhập hoặc mật khẩu !', 'Đăng nhập');
+                $scope.show = 0;
+
 
             });
 
-        //$cookies.put('username', $scope.auth.username);
-        //window.location.assign('/home.html');
     };
     $scope.authenExProvider = function (provider) {
         var str = "&response_type=token&client_id=self&redirect_uri=http%3A%2F%2Flocalhost%3A23815%2Flogin.html&state=BnwLgVjy8UypsGKjQ9u32FCuYxKs6Q_86J92RemSxpM1";
@@ -106,6 +95,29 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
 
         }
     }
+    $scope.$on('$viewContentLoaded', function () {
+
+        App.initAjax();
+        //App.init();
+        // set default layout mode
+        $rootScope.$settings.layout.pageContentWhite = true;
+        $rootScope.$settings.layout.pageBodySolid = false;
+        $rootScope.$settings.layout.pageSidebarClosed = true;
+        // Simple GET request example:
+
+        $('.login-bg').backstretch([
+            "../assets/pages/img/login/bg1.jpg",
+            "../assets/pages/img/login/bg2.jpg",
+            "../assets/pages/img/login/bg3.jpg"
+            // "../assets/BackGround.jpg"
+        ], {
+            fade: 1000,
+            duration: 8000
+        }
+        );
+        $scope.loading = "Đăng nhập";
+        $scope.CheckLocationHash();
+    });
 }]);
 WebApiApp.factory('loginAppFactory', function ($q, $http) {
     var fac = {};

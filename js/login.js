@@ -137,7 +137,7 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', f
         .state('/auth', {
             url: "/auth",
             templateUrl: "views-client/Account/login.html",
-            data: { pageTitle: '  PHẦN MỀM QUẢN LÝ' },
+            data: { pageTitle: '  PHẦN MỀM KIỂM ĐỊNH CHẤT LƯỢNG GIÁO DỤC' },
             controller: "LoginController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -158,7 +158,7 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', f
         .state('/access_token', {
             url: "/access_token={accessToken}&token_type={tokenType}&expires_in={expiresIn}",
             templateUrl: "views-client/Account/login.html",
-            data: { pageTitle: '  PHẦN MỀM QUẢN LÝ' },
+            data: { pageTitle: '  PHẦN MỀM KIỂM ĐỊNH CHẤT LƯỢNG GIÁO DỤC' },
             controller: "LoginController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
