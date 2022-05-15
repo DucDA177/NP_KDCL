@@ -1,0 +1,67 @@
+﻿<div ng-init="OnLoad()">
+    <div class="modal-header bg-color" style="background-color:#ccc">
+        <div class="modal-title">
+            <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+            <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin {{item.HoVaTen}} </label></h4>
+
+        </div>
+    </div>
+    <div class="modal-body form">
+        <div class="form-body form-horizontal margin-top-10">
+            <div class="row margin-bottom-5">
+                <div class="{{itemError.ModelState.HoVaTen[1]}}">
+                    <label class="control-label col-md-2">Họ và tên<span style="color:red">*</span>: </label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control input-sm" ng-model="item.HoVaTen">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+
+                <div class="{{itemError.ModelState.IdChucVu[1]}}">
+                    <label class="control-label col-md-2">Chức vụ<span style="color:red">*</span>: </label>
+                    <div class="col-md-4">
+                        <select ng-model="item.IdChucVu" class="form-control input-sm select2" convert-to-number>
+                            <option ng-repeat="nl in ChucVu" value={{nl.Id}}>{{nl.Ten}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="{{itemError.ModelState.IdNhiemVu[1]}}">
+                    <label class="control-label col-md-2">Nhiệm vụ<span style="color:red">*</span>: </label>
+                    <div class="col-md-4">
+                        <select ng-model="item.IdNhiemVu" class="form-control input-sm select2" convert-to-number>
+                            <option ng-repeat="nl in NhiemVu" value={{nl.Id}}>{{nl.Ten}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Ghi chú: </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control input-sm" ng-model="item.GhiChu">
+
+                </div>
+            </div>
+           
+
+            <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+                <div class="text-left"><label class="control-label col-md-4"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></label></div>
+                <div class="col-md-8 clearfix text-right">
+                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                    <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

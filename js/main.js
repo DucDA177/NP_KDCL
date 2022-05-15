@@ -839,7 +839,7 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', funct
             url: "/dashboard",
             templateUrl: "views-client/dashboard.html?bust=" + Math.random().toString(36).slice(2),
 
-            data: { pageTitle: '  PHẦN MỀM QUẢN LÝ' },
+            data: { pageTitle: '  PHẦN MỀM KIỂM ĐỊNH CHẤT LƯỢNG GIÁO DỤC' },
             controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -897,7 +897,7 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', funct
        
 }]);
 WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies', "$state", "$stateParams",
-    function ($q, $rootScope, $http, $urlRouter, $settings, $cookies, $state, $stateParams, ) {
+    function ($q, $rootScope, $http, $urlRouter, $settings, $cookies, $state, $stateParams ) {
 
         $rootScope.$on('$includeContentLoaded', function () {
             // $rootScope.GetNotificationTTDX();
@@ -959,6 +959,16 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                     url: 'api/DonVi/GetDVbyId?Id=' + $cookies.get('DonVi'),
                 }).then(function successCallback(response) {
                     $rootScope.CurDonVi = response.data;
+
+                    $http({
+                        method: 'GET',
+                        url: 'api/KeHoachTDG/LoadKeHoachTDGHienTai?IdDonVi=' + $rootScope.CurDonVi.Id
+                            + '&NamHoc=' + localStorage.getItem('NamHoc'),
+                    }).then(function successCallback(response) {
+                        $rootScope.KeHoachTDG = response.data;
+
+                    }, function errorCallback(response) {});
+
                     $rootScope.LoadThongBao();
                     $rootScope.LoadMenu();
 
@@ -1030,7 +1040,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
 
                         },
                         data: {
-                            pageTitle: '  PHẦN MỀM QUẢN LÝ'
+                            pageTitle: '  PHẦN MỀM KIỂM ĐỊNH CHẤT LƯỢNG GIÁO DỤC'
                         },
                         controllerProvider: ['$stateParams', function ($stateParams) {
                             var controller = '';

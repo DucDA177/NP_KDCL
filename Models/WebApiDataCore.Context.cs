@@ -22,6 +22,7 @@ namespace WebApiCore.Models
             : base("name=WebApiDataEntities")
         {
         }
+
         public override int SaveChanges()
         {
 
@@ -143,6 +144,7 @@ namespace WebApiCore.Models
         public virtual DbSet<DMTieuChi> DMTieuChis { get; set; }
         public virtual DbSet<DMTieuChuan> DMTieuChuans { get; set; }
         public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
+        public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

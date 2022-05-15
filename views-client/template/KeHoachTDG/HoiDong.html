@@ -1,0 +1,59 @@
+﻿
+
+<div class="col-md-12">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> THÀNH LẬP HỘI ĐỒNG TỰ ĐÁNH GIÁ </label></h4>
+</div>
+<div class="form-body form-horizontal col-md-12">
+    <div class="form-group ">
+
+        <div class="col-md-4">
+            <a class="btn btn-primary btn-sm action-btn" ng-click="openModal('','HoiDong')"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <!-- BEGIN FORM-->
+                <table class="table table-striped table-bordered table-hover"
+                       id="fixTable">
+                    <thead>
+                        <tr>
+                            <th width="1px" align="center"> STT </th>
+                            <th> <div style="text-align:center">Họ và tên</div></th>
+                            <th> <div style="text-align:center">Chức vụ, chứ danh</div> </th>
+                            <th> <div style="text-align:center">Nhiệm vụ</div></th>
+                            <th width="1px"><div style="text-align:center">#</div>  </th>
+                            <th width="1px"><div style="text-align:center">#</div> </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="dm in HoiDong">
+                            <td align="center" width="1px"> {{$index + 1}} </td>
+                            <td>  <a ng-click="openModal(dm.hd,'HoiDong')"> {{dm.hd.HoVaTen}}</a> </td>
+                            <td align="center">
+                                {{dm.cv.Ten}}
+                            </td>
+                            <td>
+                                {{dm.nv.Ten}}
+                            </td>
+                            <td><a class="action-btn" ng-click="openModal(dm.hd,'HoiDong')" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                            <td><a class="action-btn" ng-click="Del(dm.hd)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
