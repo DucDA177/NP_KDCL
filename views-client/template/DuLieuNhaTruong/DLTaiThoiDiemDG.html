@@ -1,0 +1,22 @@
+﻿<div class="col-md-12">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> SỐ LIỆU TẠI THỜI ĐIỂM ĐÁNH GIÁ </label></h4>
+</div>
+<div class="form-body form-horizontal col-md-12">
+    <div ng-controller="DLTaiThoiDiemDGController">
+        <h5 class="font-red" ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
+            <b>
+                1. Số liệu cán bộ quản lý, giáo viên, nhân viên tại thời điểm đánh giá
+                <i class="{{show ? 'fa fa-angle-up':'fa fa-angle-down'}}"></i>
+            </b>
+        </h5><hr />
+        <div ng-show="show">
+            <div id="{{sheetName}}"></div>
+            <div>
+                <a class="btn btn-success btn-sm action-btn"
+                   ng-click="Save(loaiSL,sheetName,true)">
+                    <i class="fa fa-save"></i> Lưu
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

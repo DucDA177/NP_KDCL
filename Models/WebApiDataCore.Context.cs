@@ -124,10 +124,13 @@ namespace WebApiCore.Models
             }
         }
 
+
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AutoID> AutoIDs { get; set; }
         public virtual DbSet<DMDonVi> DMDonVis { get; set; }
+        public virtual DbSet<DMTieuChi> DMTieuChis { get; set; }
+        public virtual DbSet<DMTieuChuan> DMTieuChuans { get; set; }
         public virtual DbSet<FILE_DINH_KEM> FILE_DINH_KEM { get; set; }
         public virtual DbSet<Group_Menu> Group_Menu { get; set; }
         public virtual DbSet<Group_User> Group_User { get; set; }
@@ -136,15 +139,14 @@ namespace WebApiCore.Models
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<NhatKySuDung> NhatKySuDungs { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<tblDanhmuc> tblDanhmucs { get; set; }
+        public virtual DbSet<tblDuLieuNhaTruong> tblDuLieuNhaTruongs { get; set; }
+        public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }
+        public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
+        public virtual DbSet<tblMoDauKetLuanTC> tblMoDauKetLuanTCs { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
-        public virtual DbSet<DMTieuChi> DMTieuChis { get; set; }
-        public virtual DbSet<DMTieuChuan> DMTieuChuans { get; set; }
-        public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
-        public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

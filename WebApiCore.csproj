@@ -440,6 +440,7 @@
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChuanController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucChungController.cs" />
     <Compile Include="Controllers\DonViController.cs" />
+    <Compile Include="Controllers\DuLieuNhaTruong\DuLieuNhaTruongController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -603,16 +604,19 @@
     <Compile Include="Models\Proc_Search_DonVi_Ins_Result.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
+    <Compile Include="Models\tblDanhmuc.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\tblDanhmuc.cs">
+    <Compile Include="Models\tblDuLieuNhaTruong.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblHoiDong.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblKeHoachTDG.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMoDauKetLuanTC.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongBao.cs">
@@ -3058,7 +3062,7 @@
     <Content Include="js\controllers\DashboardController.js" />
     <Content Include="js\controllers\DanhMuc\DMDiaBanController.js" />
     <Content Include="js\controllers\DanhMuc\DMDonViController.js" />
-    <Content Include="js\controllers\DuLieuNhaTruong\SoLieu5NamController.js" />
+    <Content Include="js\controllers\DuLieuNhaTruong\DuLieuNhaTruongController.js" />
     <Content Include="js\controllers\GroupController.js" />
     <Content Include="js\controllers\KeHoachTDG\HoiDongController.js" />
     <Content Include="js\controllers\KeHoachTDG\KeHoachTDGController.js" />
@@ -3807,6 +3811,7 @@
     <Content Include="views-client\template\DanhMuc\DMChung.html" />
     <Content Include="views-client\template\DanhMuc\DMDiaBan.html" />
     <Content Include="views-client\template\DanhMuc\DMDonVi.html" />
+    <Content Include="views-client\template\DuLieuNhaTruong\DLTaiThoiDiemDG.html" />
     <Content Include="views-client\template\DuLieuNhaTruong\SoLieu5Nam.html" />
     <Content Include="views-client\template\EditArea.html" />
     <Content Include="views-client\template\EditGroup.html" />
@@ -3838,6 +3843,8 @@
     <Content Include="views-client\template\Modal\ModalViewPDF.html" />
     <Content Include="views-client\template\NhatKySuDung.html" />
     <Content Include="views-client\template\SaoLuuPhucHoi.html" />
+    <Content Include="views-client\template\ThongTinTDG\DatVanDeKetLuan.html" />
+    <Content Include="views-client\template\ThongTinTDG\DMVietTat.html" />
     <Content Include="views-client\template\TienIch\HDSD.html" />
     <Content Include="views-client\template\TienIch\HoTro.html" />
     <Content Include="views-client\template\TienIch\ThongBao.html" />

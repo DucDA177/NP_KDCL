@@ -35,5 +35,6 @@ namespace WebApiCore.Models
         public Nullable<int> LockScreenTime { get; set; }
         public Nullable<bool> IsOnline { get; set; }
         public string ConnId { get; set; }
+        public string TieuChi { get; set; }
     }
 }
