@@ -6,7 +6,8 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
         if (!$scope.auth.remember) $scope.auth.password = ''
     } catch { }
 
-    $scope.NamHoc = localStorage.getItem('NamHoc');
+    let NamHocIfNull = (new Date().getFullYear() - 1) + '-' + (new Date().getFullYear())
+    $scope.NamHoc = localStorage.getItem('NamHoc') ? localStorage.getItem('NamHoc') : NamHocIfNull;
     $scope.LoadListNamHoc = function () {
         $http({
             method: 'GET',
