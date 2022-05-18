@@ -1155,3 +1155,116 @@ angular.module('WebApiApp').controller("ModalHoiDongHandlerController", function
     $scope.LoadDanhMuc('ChucVu', 'CHUCVU');
 
 });
+
+// Thiết lập tiêu chuẩn, tiêu chí
+angular.module('WebApiApp').controller("ModalPhanQuyenTCHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.itemGroup = $scope.$resolve.item;
+    $scope.MenuArr = [];
+    $rootScope.IdQuyDinh = 0;
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+
+    $scope.SaveModal = function () {
+        $scope.MenuArr = [];
+        $scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IsCheck == true).forEach(t => {
+            $scope.MenuArr.push(t.Id);
+        });
+
+        $scope.$resolve.item.TieuChi = JSON.stringify($scope.MenuArr);
+
+        $http({
+            method: 'POST',
+            url: '/api/UserProfiles/',
+            data: $scope.$resolve.item
+        }).then(function successCallback(response) {
+            toastr.success('Cập nhật dữ liệu thành công !', 'Thông báo');
+            $scope.cancelModal();
+        }, function errorCallback(response) {
+            $scope.itemRoleError = response.data;
+            $scope.LoadError($scope.itemRoleError.ModelState);
+        });
+
+    }
+
+    // Hàm click chọn
+    $scope.OnCheck = function (item) {
+        if (item.IsCheck == true) {
+            // Nếu là tích chọn
+            if (item.LoaiDuLieu == 1) {
+                // Nếu là dữ liệu cha, khi click => chọn tất cả dữ liệu con
+                item.IsCheck = true;
+                $scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IdChiTieuCha == item.Id).forEach(t => {
+                    t.IsCheck = true;
+                });
+            } else {
+                // Nếu là dữ liệu con => click cho dữ liệu cha
+                item.IsCheck = true;
+                $scope.MenuDrop.filter(x => x.LoaiDuLieu == 1 && x.Id == item.IdChiTieuCha).forEach(t => {
+                    t.IsCheck = true;
+                });
+            }
+        } else {
+            // nếu là tích bỏ
+            if (item.LoaiDuLieu == 1) {
+                // Nếu là dữ liệu cha, khi click => hủy bỏ chọn tất cả dữ liệu con
+                item.IsCheck = false;
+                $scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IdChiTieuCha == item.Id).forEach(t => {
+                    t.IsCheck = false;
+                });
+            } else {
+                // Nếu là dữ liệu con => chỉ hủy bỏ dữ liệu con
+                item.IsCheck = false;
+
+                if ($scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IdChiTieuCha == item.IdChiTieuCha && x.IsCheck == true).length == 0) {
+                    $scope.MenuDrop.filter(x => x.LoaiDuLieu == 1 && x.Id == item.IdChiTieuCha).forEach(t => {
+                        t.IsCheck = false;
+                    });
+                }
+            }
+        }
+    }
+
+    // Hàm tích chọn tất cả
+    $scope.CheckAll = function (itemAll) {
+        if (itemAll.Check == true) {
+            $scope.MenuDrop.forEach(x => {
+                x.IsCheck = true;
+            });
+        } else {
+            $scope.MenuDrop.forEach(x => {
+                x.IsCheck = false;
+            });
+        }
+    }
+
+    $scope.Gr_Menu = {
+        CodeGroup: '',
+        MenuArr: []
+    }
+
+    $scope.GetAllMenuDrop = function () {
+        $http({
+            method: 'GET',
+            url: '/api/UserProfile/LoadTieuChuanTieuChi?idDonVi=' + $rootScope.CurDonVi.Id
+                + '&idQuyDinh=' + $rootScope.IdQuyDinh
+                + '&userId=' + $scope.$resolve.item.Id
+        }).then(function successCallback(response) {
+            $scope.MenuDrop = response.data;
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+        });
+    }
+    $scope.GetAllMenuDrop();
+
+
+    $scope.AfterGetQuyDinh = function () {
+        if ($scope.QuyDinh.length > 0) {
+            $rootScope.IdQuyDinh = $scope.QuyDinh[0].Id;
+            $scope.GetAllMenuDrop();
+        }
+    }
+
+    // Load danh mục trong bảng tblDanhmuc
+    $scope.LoadDanhMuc('QuyDinh', 'QUYDINH', '', '', '', $scope.AfterGetQuyDinh);
+});

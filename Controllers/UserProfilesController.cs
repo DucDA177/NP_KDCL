@@ -34,7 +34,7 @@ namespace WebApiCore.Controllers
         {
             var curUser = HttpContext.Current.User.Identity.Name;
             var IdCurUser = db.UserProfiles.Where(t => t.UserName == curUser).FirstOrDefault().Id;
-            
+
             var dt = from usp in db.UserProfiles.Where(t => t.UserName != curUser)
                      join ms in db.UnreadMes.Where(t => t.IdNguoinhan == IdCurUser)
                      on usp.Id equals ms.IdNguoigui into gr
@@ -89,37 +89,37 @@ namespace WebApiCore.Controllers
         [ResponseType(typeof(object))]
         public List GetUsers(int pageNumber, int pageSize, string searchKey, string maDV)
         {
-            if ( searchKey == null ) searchKey = "";
-            if ( maDV == null || maDV == "0" ) maDV = "";
+            if (searchKey == null) searchKey = "";
+            if (maDV == null || maDV == "0") maDV = "";
             List ls = new List();
             var cmd = db.Database.Connection.CreateCommand();
             cmd.CommandText = "[dbo].[GetUsers]" + pageNumber + "," + pageSize + ",N'" + searchKey + "','" + maDV + "'";
             db.Database.Connection.Open();
             var reader = cmd.ExecuteReader();
-            var dt = ( (IObjectContextAdapter) db )
+            var dt = ((IObjectContextAdapter)db)
                 .ObjectContext
                 .Translate<Obj>(reader).ToList();
             ls.dt = dt;
 
             reader.NextResult();
-            var totalCount = ( (IObjectContextAdapter) db )
+            var totalCount = ((IObjectContextAdapter)db)
                 .ObjectContext
                 .Translate<int>(reader).ToList();
 
 
-            foreach ( var item in totalCount )
+            foreach (var item in totalCount)
             {
                 ls.totalCount = item;
             }
 
             db.Database.Connection.Close();
             ls.totalPage = System.Convert.ToInt32(System.Math.Ceiling(ls.totalCount / System.Convert.ToDouble(pageSize)));
-            ls.pageStart = ( ( pageNumber - 1 ) * pageSize ) + 1;
-            if ( ls.totalPage == pageNumber )
+            ls.pageStart = ((pageNumber - 1) * pageSize) + 1;
+            if (ls.totalPage == pageNumber)
             {
                 ls.pageEnd = ls.totalCount;
             }
-            else ls.pageEnd = ( ( pageNumber - 1 ) * pageSize ) + pageSize;
+            else ls.pageEnd = ((pageNumber - 1) * pageSize) + pageSize;
             return ls;
         }
         public class Obj
@@ -167,7 +167,7 @@ namespace WebApiCore.Controllers
         public async Task<IHttpActionResult> GetUserProfile(string id)
         {
             UserProfile userProfile = await db.UserProfiles.FindAsync(id);
-            if ( userProfile == null )
+            if (userProfile == null)
             {
                 return NotFound();
             }
@@ -179,8 +179,8 @@ namespace WebApiCore.Controllers
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutUserProfile(long id, UserProfile userProfile)
         {
-          
-            if ( id != userProfile.Id )
+
+            if (id != userProfile.Id)
             {
                 return BadRequest();
             }
@@ -191,9 +191,9 @@ namespace WebApiCore.Controllers
             {
                 await db.SaveChangesAsync();
             }
-            catch ( DbUpdateConcurrencyException )
+            catch (DbUpdateConcurrencyException)
             {
-                if ( !UserProfileExists(id) )
+                if (!UserProfileExists(id))
                 {
                     return NotFound();
                 }
@@ -203,7 +203,7 @@ namespace WebApiCore.Controllers
                 }
             }
             AspNetUser aspUser = db.AspNetUsers.Where(t => t.Id == id.ToString()).FirstOrDefault();
-            if ( aspUser == null )
+            if (aspUser == null)
             {
                 return NotFound();
             }
@@ -217,7 +217,7 @@ namespace WebApiCore.Controllers
         private void ValidateMenu(UserProfile menu)
         {
 
-            if ( menu.UserName == null || string.IsNullOrEmpty(menu.UserName) )
+            if (menu.UserName == null || string.IsNullOrEmpty(menu.UserName))
             {
                 ModelState.AddModelError("UserName", "Tên đăng nhập bắt buộc nhập");
                 ModelState.AddModelError("UserName", "has-error");
@@ -227,9 +227,9 @@ namespace WebApiCore.Controllers
         [ResponseType(typeof(UserProfile))]
         public async Task<IHttpActionResult> PostUserProfile(UserProfile userProfile)
         {
-            
+
             Validate(userProfile);
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -238,7 +238,7 @@ namespace WebApiCore.Controllers
             user.Email = userProfile.Email;
             user.PhoneNumber = userProfile.Mobile;
 
-            if ( userProfile.Id == 0 )
+            if (userProfile.Id == 0)
             {
                 db.UserProfiles.Add(userProfile);
                 db.SaveChanges();
@@ -249,7 +249,7 @@ namespace WebApiCore.Controllers
                 db.SaveChanges();
 
             }
-            
+
             return CreatedAtRoute("DefaultApi", new { id = userProfile.Id }, userProfile);
         }
         [HttpPost]
@@ -257,26 +257,26 @@ namespace WebApiCore.Controllers
         [ResponseType(typeof(UserProfile))]
         public IHttpActionResult DeleteUser(string username)
         {
-           
+
             UserProfile userProfile = db.UserProfiles.Where(t => t.UserName == username).FirstOrDefault();
-            if ( userProfile == null )
+            if (userProfile == null)
                 return NotFound();
             else
             {
-               
+
                 db.UserProfiles.Remove(userProfile);
             }
-                
-            
+
+
             AspNetUser aspUser = db.AspNetUsers.Where(t => t.UserName == username).FirstOrDefault();
-            if ( aspUser == null )
+            if (aspUser == null)
                 return NotFound();
             else
                 db.AspNetUsers.Remove(aspUser);
-            
+
             #region xóa nhóm của user liên quan
             var group_us = db.Group_User.Where(t => t.UserName == userProfile.UserName && t.FInUse == true).ToList();
-            foreach ( var item in group_us )
+            foreach (var item in group_us)
             {
                 db.Group_User.Remove(item);
             }
@@ -288,7 +288,7 @@ namespace WebApiCore.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if ( disposing )
+            if (disposing)
             {
                 db.Dispose();
             }
@@ -300,16 +300,16 @@ namespace WebApiCore.Controllers
             return db.UserProfiles.Count(e => e.Id == id) > 0;
         }
 
-     
+
         [HttpGet]
         [Route("api/UserProfiles/GetUserbyGroup")]
         [ResponseType(typeof(string))]
         public IHttpActionResult GetUserbyGroup(string codeGroup)
         {
-            var obj = ( from gr in db.Group_User
-                        join us in db.UserProfiles on gr.UserName equals us.UserName
-                        where gr.FInUse == true && gr.CodeGroup == codeGroup && gr.CodeGroup != Constants.SUPPERADMIN
-                        select us );
+            var obj = (from gr in db.Group_User
+                       join us in db.UserProfiles on gr.UserName equals us.UserName
+                       where gr.FInUse == true && gr.CodeGroup == codeGroup && gr.CodeGroup != Constants.SUPPERADMIN
+                       select us);
             return Ok(obj);
         }
 
@@ -320,7 +320,7 @@ namespace WebApiCore.Controllers
         public async Task<IHttpActionResult> GetUserbyUserName(string UserName)
         {
             var obj = db.UserProfiles.Where(t => t.UserName == UserName).FirstOrDefault();
-            if ( obj == null )
+            if (obj == null)
             {
                 obj = new UserProfile();
                 obj.UserName = UserName;
@@ -334,14 +334,14 @@ namespace WebApiCore.Controllers
         {
             string curUser = HttpContext.Current.User.Identity.Name;
             var checkUpdatePass = db.AspNetUsers.Where(t => t.UserName == curUser).FirstOrDefault();
-           
-            var userProfile = db.UserProfiles.Where(t => 
+
+            var userProfile = db.UserProfiles.Where(t =>
             t.UserName == curUser
             && t.FInUse == true).FirstOrDefault();
 
-            if( checkUpdatePass.FUpdateTime == null )
+            if (checkUpdatePass.FUpdateTime == null)
                 userProfile.ConnId = null;
-            else if ( checkUpdatePass.FUpdateTime.Value.AddDays(90) <= DateTime.Now )
+            else if (checkUpdatePass.FUpdateTime.Value.AddDays(90) <= DateTime.Now)
                 userProfile.ConnId = null;
 
             return Ok(userProfile);
@@ -353,13 +353,13 @@ namespace WebApiCore.Controllers
 
             bool exists = System.IO.Directory.Exists(HttpContext.Current.Server.MapPath("~/Avatar"));
 
-            if ( !exists )
+            if (!exists)
                 System.IO.Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/Avatar"));
             System.Web.HttpFileCollection httpRequest = System.Web.HttpContext.Current.Request.Files;
-            for ( int i = 0; i <= httpRequest.Count - 1; i++ )
+            for (int i = 0; i <= httpRequest.Count - 1; i++)
             {
                 System.Web.HttpPostedFile postedfile = httpRequest[i];
-                if ( postedfile.ContentLength > 0 )
+                if (postedfile.ContentLength > 0)
                 {
                     var fileSavePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Avatar"), postedfile.FileName);
                     postedfile.SaveAs(fileSavePath);
@@ -376,7 +376,7 @@ namespace WebApiCore.Controllers
             cmd.CommandText = "[dbo].[GetUserReceived] '" + curUser + "'";
             db.Database.Connection.Open();
             var reader = cmd.ExecuteReader();
-            var dt = ( (IObjectContextAdapter) db )
+            var dt = ((IObjectContextAdapter)db)
                 .ObjectContext
                 .Translate<UserProfile>(reader).ToList();
 
@@ -395,25 +395,25 @@ namespace WebApiCore.Controllers
         [Route("api/UserProfile/GetDSTaiKhoan")]
         public List<TaiKhoan> GetDSTaiKhoan(int IDDonVi)
         {
-            
-            var dt = ( from us in db.UserProfiles
-                       join dv in db.DMDonVis on us.IDDonVi equals dv.Id
-                       into gr
-                       from
-                       _dv in gr.DefaultIfEmpty()
-                       where us.IDDonVi == IDDonVi || IDDonVi == 0
-                       select new
-                       {
-                           us,
-                           _dv
-                       } ).Select(t => new TaiKhoan
-                       {
-                           STT = 0,
-                           UserName = t.us.UserName,
-                           Password = "",
-                           HoTen = t.us.HoTen,
-                           TenDonVi = t._dv != null ? t._dv.TenDonVi : ""
-                       }).ToList();
+
+            var dt = (from us in db.UserProfiles
+                      join dv in db.DMDonVis on us.IDDonVi equals dv.Id
+                      into gr
+                      from
+                      _dv in gr.DefaultIfEmpty()
+                      where us.IDDonVi == IDDonVi || IDDonVi == 0
+                      select new
+                      {
+                          us,
+                          _dv
+                      }).Select(t => new TaiKhoan
+                      {
+                          STT = 0,
+                          UserName = t.us.UserName,
+                          Password = "",
+                          HoTen = t.us.HoTen,
+                          TenDonVi = t._dv != null ? t._dv.TenDonVi : ""
+                      }).ToList();
             return dt;
         }
         [HttpPost]
@@ -435,14 +435,14 @@ namespace WebApiCore.Controllers
             string filepath = HttpContext.Current.Server.MapPath("~/Excel_Template/DSTaiKhoan.xlsx");
             FileInfo template = new FileInfo(filepath);
 
-            using ( var package = new ExcelPackage(template) )
+            using (var package = new ExcelPackage(template))
             {
-                
+
                 ExcelWorksheet worksheet = package.Workbook.Worksheets["Sheet1"];
 
 
                 worksheet.Cells["A4"].LoadFromCollection(GetDSTaiKhoan(IDDonVi), false);
-            
+
                 var stream = new MemoryStream(package.GetAsByteArray()); //capacidade
                 return stream;
             }
@@ -460,6 +460,118 @@ namespace WebApiCore.Controllers
 
             db.SaveChanges();
         }
-       
+
+        [HttpGet]
+        [Route("api/UserProfile/LoadTieuChuanTieuChi")]
+        public IHttpActionResult LoadTieuChuanTieuChi(int idDonVi, int idQuyDinh, int userId)
+        {
+            var result = new List<DSTieuChuanTieuChiClient>();
+
+            var dtTieuChuan = new List<DSTieuChuanTieuChiClient>();
+
+            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdDonVi == idDonVi && x.IdQuyDinh == idQuyDinh).ToList();
+            var dsTieuChi = db.DMTieuChis.Where(x => x.IdDonVi == idDonVi).ToList();
+
+            // Chuyển dữ liệu từ tiêu chuẩn -> tiêu chí để concat dữ liệu với tiêu chí
+            if (dsTieuChi.Count > 0 && dsTieuChuan.Count > 0)
+            {
+
+                var userProfile = db.UserProfiles.Where(t =>
+                t.Id == userId).FirstOrDefault();
+
+                var lsTC = new List<int>();
+                if (userProfile != null && !string.IsNullOrEmpty(userProfile.TieuChi))
+                {
+                    lsTC = JsonConvert.DeserializeObject<List<int>>(userProfile.TieuChi);
+                }
+                var lsIdTieuChuan = dsTieuChi.Select(x => x.IdTieuChuan).Distinct().OrderBy(x => x).ToList();
+
+                int i = 1;
+                lsIdTieuChuan.ForEach(x =>
+                {
+                    var dt = new DSTieuChuanTieuChiClient();
+                    var dataTieuChuan = dsTieuChuan.Find(t => t.Id == x);
+                    if (dataTieuChuan != null)
+                    {
+                        dt.Id = x;
+                        dt.LoaiDuLieu = 1;
+                        dt.NoiDung = dataTieuChuan.NoiDung;
+                        dt.IdChiTieuCha = null;
+                        dt.DuLieuCha = true;
+                        dt.Index = i;
+
+                        i++;
+
+                        dtTieuChuan.Add(dt);
+
+                        result.Add(dt);
+                    }
+                });
+
+                dsTieuChi.ForEach(x =>
+                {
+                    var dt = new DSTieuChuanTieuChiClient();
+                    var tc = dtTieuChuan.Find(t => t.Id == x.IdTieuChuan);
+
+                    if (tc != null)
+                    {
+                        dt.Id = x.Id;
+                        dt.LoaiDuLieu = 2;
+                        dt.NoiDung = x.NoiDung;
+                        dt.IdChiTieuCha = x.IdTieuChuan;
+                        dt.DuLieuCha = false;
+                        dt.Index = tc.Index;
+                        dt.IsCheck = lsTC.Contains(x.Id) ? true : false;
+
+                        // Nếu dữ liệu con check thì check luôn dữ liệu cha
+                        if (dt.IsCheck)
+                            result.Where(t => t.Id == dt.IdChiTieuCha && t.LoaiDuLieu == 1).FirstOrDefault().IsCheck = true;
+
+                        result.Add(dt);
+                    }
+                });
+            }
+
+            if (result.Count > 0)
+            {
+                result = result.OrderBy(x => x.Index).ThenBy(x => x.LoaiDuLieu).ThenBy(x => x.NoiDung).ToList();
+            }
+
+
+            return Ok(result);
+        }
+
+        public class DSTieuChuanTieuChiClient
+        {
+            /// <summary>
+            /// Id tiêu chuẩn, tiêu chí
+            /// </summary>
+            public int Id { get; set; }
+            /// <summary>
+            /// Loại dữ liệu 1/Tiêu chuẩn; 2/Tiêu chí
+            /// </summary>
+            public int LoaiDuLieu { get; set; }
+            /// <summary>
+            /// Tên tiêu chuẩn, tiêu chí
+            /// </summary>
+            public string NoiDung { get; set; }
+            /// <summary>
+            /// Id chỉ tiêu cha
+            /// </summary>
+            public int? IdChiTieuCha { get; set; }
+            /// <summary>
+            /// Có là dữ liệu cha hay không
+            /// </summary>
+            public bool DuLieuCha { get; set; }
+            /// <summary>
+            /// Index các dữ liệu cha con cùng loại
+            /// </summary>
+            public int Index { get; set; }
+            /// <summary>
+            /// Đã được tích phân công hay chưa
+            /// </summary>
+            public bool IsCheck { get; set; }
+        }
+
     }
 }

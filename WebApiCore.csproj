@@ -3829,6 +3829,7 @@
     <Content Include="views-client\template\Modal\ModalDeleteBak.html" />
     <Content Include="views-client\template\Modal\ModalCreateData.html" />
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
+    <Content Include="views-client\template\Modal\ModalPhanQuyenTC.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChi.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChuan.html" />
     <Content Include="views-client\template\Modal\ModalDMChung.html" />
