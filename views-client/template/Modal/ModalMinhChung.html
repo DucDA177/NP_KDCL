@@ -1,0 +1,148 @@
+﻿
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin minh chứng</label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-2">Tiêu chuẩn:</label>
+            <div class="col-md-4">
+                <select ng-model="" class="form-control input-sm select2" convert-to-number>
+                </select>
+            </div>
+
+
+            <div class="{{itemError.ModelState.TieuChi[1]}}">
+                <label class="control-label col-md-2">Tiêu chí<span style="color:red">*</span>:</label>
+                <div class="col-md-4">
+                    <select ng-model="" class="form-control input-sm select2" convert-to-number>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="row margin-bottom-5">
+            <div class="{{itemError.ModelState.HeThongMa[1]}}">
+                <label class="control-label col-md-2">Hệ thống mã<span style="color:red">*</span>:</label>
+                <div class="col-md-2">
+                    <select ng-model="" class="form-control input-sm select2" convert-to-number>
+                    </select>
+                </div>
+            </div>
+            <label class="control-label col-md-2">Mã:</label>
+            <div class="col-md-2">
+                <input type="text" disabled class="form-control input-sm" />
+
+            </div>
+            <label class="control-label col-md-2">Số minh chứng:</label>
+            <div class="col-md-2">
+                <input type="text" disabled class="form-control input-sm" />
+
+            </div>
+        </div>
+
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-2">Tên minh chứng<span style="color:red">*</span>:</label>
+            <div class="col-md-10">
+                <textarea class="form-control input-sm" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-2">Số, ngày ban hành hoặc thời điểm phỏng vấn:</label>
+            <div class="col-md-10">
+                <textarea class="form-control input-sm" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-2">Nơi ban hành hoặc người thực hiện:</label>
+            <div class="col-md-10">
+                <textarea class="form-control input-sm" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-2">Ghi chú:</label>
+            <div class="col-md-10">
+                <textarea class="form-control input-sm" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-2">Chỉ số:</label>
+            <div class="col-md-2" style="margin-top:7px">
+                <input type="radio" value="" /> A
+            </div>
+            <div class="col-md-2" style="margin-top:7px">
+                <input type="radio" value="" /> B
+            </div>
+            <div class="col-md-2" style="margin-top:7px">
+                <input type="radio" value="" /> C
+            </div>
+            <div class="col-md-4">
+                <input type="file"
+                       id="ngexcelfile"
+                       multiple
+                       placeholder="Chọn tệp đính kèm từ máy tính"
+                       class="form-control input-sm"
+                       ng-files="getTheFiles($files)" />
+
+                <table>
+                    <tbody>
+                        <tr ng-repeat="f in ListFileUpLoad">
+                            <td>
+                                <a href="{{f.filename}}" target="_blank">{{f.FName}}</a>
+                            </td>
+                            <td>
+                                <a ng-hide="check == 1" ng-click="RemoveFile($index,f.filename)">
+                                    <i class="fa fa-times-circle font-red"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row margin-bottom-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+                <div style="white-space: pre-wrap; overflow-y:scroll;max-height:150px">
+                    {{}}
+                    - Có hiệu trưởng;
+                    - Có đủ số lượng phó hiệu trưởng theo quy định tại Khoản 1 Điều 18, Điều lệ trường tiểu học (trường hạng I có 2 phó hiệu trưởng, trường hạng II, hạng III có 1 phó hiệu trưởng, trường có từ 20 học sinh khuyết tật trở lên được thêm 1 phó hiệu trưởng);
+                    - Có đủ các hội đồng:
+                    + Hội đồng trường đối với trường công lập; hội đồng quản trị đối với trường tư thục;
+                    + Hội đồng thi đua khen thưởng;
+                    + Hội đồng kỷ luật (nếu có);
+                    + Hội đồng tư vấn (các hội đồng tư vấn do hiệu trưởng ra quyết định thành lập. Nhiệm vụ, quyền hạn, thành phần và thời gian hoạt động của các hội đồng tư vấn do hiệu trưởng quyết định. Ví dụ: Hội đồng chấm sáng kiến kinh nghiệm; hội đồng chấm thi giáo viên giỏi,...).
+                </div>
+            </div>
+        </div>
+        <div class="row margin-bottom-5">
+
+            <div class="col-md-12 text-right">
+                <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
+            </div>
+        </div>
+
+        <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <label class="control-label col-md-2"></label>
+            <div class="col-md-10 clearfix">
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

@@ -1,0 +1,75 @@
+﻿<div class="col-md-12">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> MỞ ĐẦU - KẾT LUẬN TIÊU CHUẨN </label></h4>
+</div>
+<div class="form-body form-horizontal col-md-12">
+    <div class="form-group">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Chọn tiêu chuẩn:</span>
+                <select ng-model="IdTieuChuan" class="form-control select2"
+                        ng-change="LoadMDKL()" convert-to-number>
+                    <option ng-repeat="nl in TieuChuan" value={{nl[0].tchuan.Id}}>{{nl[0].tchuan.NoiDung}}</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group" ng-hide="IdTieuChuan">
+        <div class="col-md-12">
+            <i class="font-red"><b>Bạn chưa được phân công viết mở đầu, kết luận cho tiêu chuẩn nào. Vui lòng liên hệ quản lý!</b></i>
+
+        </div>
+    </div>
+    <div class="form-group col-md-12" ng-show="IdTieuChuan">
+        <div class="tabbable-custom portlet box margin-top-10">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
+                        1. Mở đầu
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold">
+                        2. Kết luận
+                    </a>
+                </li>
+
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active " id="tab_1">
+                    <div class="row">
+                        <div class="portlet light">
+                            <div class="form-body form-horizontal col-md-12">
+                                <ng-ckeditor ng-model="MoDau.NoiDung"
+                                             ng-config="config"></ng-ckeditor>
+                                <div class="margin-top-10">
+                                    <a class="btn btn-success btn-sm action-btn"
+                                       ng-click="Save(MoDau,'MD')">
+                                        <i class="fa fa-save"></i> Lưu
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane " id="tab_2">
+                    <div class="row">
+                        <div class="portlet light ">
+                            <div class="form-body form-horizontal col-md-12">
+                                <ng-ckeditor ng-model="KetLuan.NoiDung"
+                                             ng-config="config"></ng-ckeditor>
+                                <div class="margin-top-10">
+                                    <a class="btn btn-success btn-sm action-btn"
+                                       ng-click="Save(KetLuan,'KL')">
+                                        <i class="fa fa-save"></i> Lưu
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

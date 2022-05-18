@@ -451,6 +451,8 @@
     <Compile Include="Controllers\MenusController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ThongBaoController.cs" />
+    <Compile Include="Controllers\ThongTinTDG\MinhChungController.cs" />
+    <Compile Include="Controllers\ThongTinTDG\MoDauKetLuanTCController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -614,6 +616,9 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblKeHoachTDG.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMinhChung.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblMoDauKetLuanTC.cs">
@@ -3071,6 +3076,8 @@
     <Content Include="js\controllers\MenuController.js" />
     <Content Include="js\controllers\NhatKySuDungController.js" />
     <Content Include="js\controllers\SaoLuuPhucHoiController.js" />
+    <Content Include="js\controllers\ThongTinTDG\MinhChungController.js" />
+    <Content Include="js\controllers\ThongTinTDG\MoDauKetLuanTCController.js" />
     <Content Include="js\controllers\TienIch\HDSDController.js" />
     <Content Include="js\controllers\TienIch\HoTroController.js" />
     <Content Include="js\controllers\TienIch\ThongBaoController.js" />
@@ -3829,6 +3836,7 @@
     <Content Include="views-client\template\Modal\ModalDeleteBak.html" />
     <Content Include="views-client\template\Modal\ModalCreateData.html" />
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
+    <Content Include="views-client\template\Modal\ModalMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalPhanQuyenTC.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChi.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChuan.html" />
@@ -3846,6 +3854,8 @@
     <Content Include="views-client\template\SaoLuuPhucHoi.html" />
     <Content Include="views-client\template\ThongTinTDG\DatVanDeKetLuan.html" />
     <Content Include="views-client\template\ThongTinTDG\DMVietTat.html" />
+    <Content Include="views-client\template\ThongTinTDG\MinhChung.html" />
+    <Content Include="views-client\template\ThongTinTDG\MoDauKetLuanTC.html" />
     <Content Include="views-client\template\TienIch\HDSD.html" />
     <Content Include="views-client\template\TienIch\HoTro.html" />
     <Content Include="views-client\template\TienIch\ThongBao.html" />

@@ -1156,7 +1156,7 @@ angular.module('WebApiApp').controller("ModalHoiDongHandlerController", function
 
 });
 
-// Thiết lập tiêu chuẩn, tiêu chí
+// Thiết lập tiêu chuẩn, tiêu chí cho từng user
 angular.module('WebApiApp').controller("ModalPhanQuyenTCHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
     $scope.itemGroup = $scope.$resolve.item;
     $scope.MenuArr = [];
@@ -1267,4 +1267,16 @@ angular.module('WebApiApp').controller("ModalPhanQuyenTCHandlerController", func
 
     // Load danh mục trong bảng tblDanhmuc
     $scope.LoadDanhMuc('QuyDinh', 'QUYDINH', '', '', '', $scope.AfterGetQuyDinh);
+});
+
+//Thiết lập minh chứng và gợi ý
+angular.module('WebApiApp').controller("ModalMinhChungHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    
 });

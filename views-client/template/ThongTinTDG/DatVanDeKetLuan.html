@@ -2,37 +2,57 @@
     <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> ĐẶT VẤN ĐỀ - KẾT LUẬN </label></h4>
 </div>
 <div class="form-body form-horizontal col-md-12">
-    <div ng-controller="DatVanDeController">
-        <h5 class="font-red">
-            <b>
-                1. Đặt vấn đề
-            </b>
-        </h5><hr />
-        <div id="datvande">
-            <ng-ckeditor ng-model="SheetDatVanDe.HTML"
-                         ng-config="config"></ng-ckeditor>
-            <div class="margin-top-10">
-                <a class="btn btn-success btn-sm action-btn"
-                   ng-click="Save(loaiSL,sheetName,true)">
-                    <i class="fa fa-save"></i> Lưu
+    <div class="tabbable-custom portlet box margin-top-10">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
+                    1. Mở đầu
                 </a>
+            </li>
+            <li>
+                <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold">
+                    2. Kết luận
+                </a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active " id="tab_1">
+                <div class="row">
+                    <div class="portlet light">
+                        <div class="form-body form-horizontal col-md-12">
+                            <div ng-controller="DatVanDeController">
+                                <ng-ckeditor ng-model="SheetDatVanDe.HTML"
+                                             ng-config="config"></ng-ckeditor>
+                                <div class="margin-top-10">
+                                    <a class="btn btn-success btn-sm action-btn"
+                                       ng-click="Save(loaiSL,sheetName,true)">
+                                        <i class="fa fa-save"></i> Lưu
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div ng-controller="KetLuanController">
-        <h5 class="font-red">
-            <b>
-                2. Kết luận
-            </b>
-        </h5><hr />
-        <div id="ketluan">
-            <ng-ckeditor ng-model="SheetKetLuan.HTML"
-                         ng-config="config"></ng-ckeditor>
-            <div class="margin-top-10">
-                <a class="btn btn-success btn-sm action-btn"
-                   ng-click="Save(loaiSL,sheetName,true)">
-                    <i class="fa fa-save"></i> Lưu
-                </a>
+
+            <div class="tab-pane " id="tab_2">
+                <div class="row">
+                    <div class="portlet light ">
+                        <div class="form-body form-horizontal col-md-12">
+                            <div ng-controller="KetLuanController">
+                                <ng-ckeditor ng-model="SheetKetLuan.HTML"
+                                             ng-config="config"></ng-ckeditor>
+                                <div class="margin-top-10">
+                                    <a class="btn btn-success btn-sm action-btn"
+                                       ng-click="Save(loaiSL,sheetName,true)">
+                                        <i class="fa fa-save"></i> Lưu
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
