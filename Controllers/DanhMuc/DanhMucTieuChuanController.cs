@@ -24,6 +24,17 @@ namespace WebApiCore.Controllers.DanhMuc
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("api/DanhMucTieuChuan/LoadTieuChuan")]
+        public IHttpActionResult LoadTieuChuan(int IdDonVi)
+        {
+            return Ok(db.DMTieuChuans.Where(x => x.IdDonVi == IdDonVi).OrderBy(t => t.STT).ToList());
+        }
+
+        /// <summary>
+        /// Api lấy dữ liệu danh mục tiêu chuẩn
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         [Route("api/DanhMucTieuChuan/LayDuLieuBang")]
         public IHttpActionResult LayDuLieuBang(int IdDonVi, int IdQuyDinh)
         {

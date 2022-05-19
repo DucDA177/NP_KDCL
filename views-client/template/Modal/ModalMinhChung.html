@@ -12,7 +12,8 @@
         <div class="row margin-bottom-5">
             <label class="control-label col-md-2">Tiêu chuẩn:</label>
             <div class="col-md-4">
-                <select ng-model="" class="form-control input-sm select2" convert-to-number>
+                <select ng-model="IdTieuChuan" class="form-control input-sm select2" convert-to-number ng-change="LoadTieuChi(IdTieuChuan)">
+                    <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
                 </select>
             </div>
 
@@ -20,7 +21,8 @@
             <div class="{{itemError.ModelState.TieuChi[1]}}">
                 <label class="control-label col-md-2">Tiêu chí<span style="color:red">*</span>:</label>
                 <div class="col-md-4">
-                    <select ng-model="" class="form-control input-sm select2" convert-to-number>
+                    <select ng-model="item.IdTieuChi" class="form-control input-sm select2" convert-to-number ng-change="renderMa(item.HeThongMa, item.IdTieuChi, IdTieuChuan)">
+                        <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
                     </select>
                 </div>
             </div>
@@ -30,18 +32,19 @@
             <div class="{{itemError.ModelState.HeThongMa[1]}}">
                 <label class="control-label col-md-2">Hệ thống mã<span style="color:red">*</span>:</label>
                 <div class="col-md-2">
-                    <select ng-model="" class="form-control input-sm select2" convert-to-number>
+                    <select ng-model="item.HeThongMa" class="form-control input-sm select2" ng-change="renderMa(item.HeThongMa, item.IdTieuChi, IdTieuChuan)">
+                        <option ng-repeat="nl in DSHeThongMa" value={{nl}}>{{nl}}</option>
                     </select>
                 </div>
             </div>
             <label class="control-label col-md-2">Mã:</label>
             <div class="col-md-2">
-                <input type="text" disabled class="form-control input-sm" />
+                <input type="text" ng-model="item.Ma" disabled class="form-control input-sm" />
 
             </div>
             <label class="control-label col-md-2">Số minh chứng:</label>
             <div class="col-md-2">
-                <input type="text" disabled class="form-control input-sm" />
+                <input type="text" ng-model="item.SoMinhChung" disabled class="form-control input-sm" />
 
             </div>
         </div>

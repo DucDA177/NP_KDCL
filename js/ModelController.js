@@ -977,7 +977,7 @@ angular.module('WebApiApp').controller("ModalDMTieuChuanHandlerController", func
             $scope.cancelModal()
             if (isNew)
                 $scope.openModalSmall('', 'DMTieuChuan');
-            
+
         }, function errorCallback(response) {
             $scope.itemError = response.data;
             toastr.warning('Có lỗi trong quá trình lưu dữ liệu hoặc chưa điền các trường bắt buộc!', 'Thông báo');
@@ -1005,8 +1005,6 @@ angular.module('WebApiApp').controller("ModalDMTieuChiHandlerController", functi
         }
     }
 
-
-
     // Load lên STT
     $scope.LoadSTT = function () {
         if (!$scope.item.STT)
@@ -1021,7 +1019,6 @@ angular.module('WebApiApp').controller("ModalDMTieuChiHandlerController", functi
             });
     }
     $scope.LoadSTT();
-
 
 
     // Lưu dữ liệu
@@ -1039,7 +1036,7 @@ angular.module('WebApiApp').controller("ModalDMTieuChiHandlerController", functi
             $scope.cancelModal()
             if (isNew)
                 $scope.openModal('', 'DMTieuChi');
-            
+
         }, function errorCallback(response) {
             $scope.itemError = response.data;
             toastr.warning('Có lỗi trong quá trình lưu dữ liệu hoặc chưa điền đầy đủ nội dung bắt buộc!', 'Thông báo');
@@ -1098,7 +1095,7 @@ angular.module('WebApiApp').controller("ModalKeHoachTDGHandlerController", funct
             $scope.cancelModal();
             if (isNew)
                 $scope.openModal('', 'KeHoachTDG')
-                
+
         }, function errorCallback(response) {
             $scope.itemError = response.data;
             if ($scope.itemError.ModelState)
@@ -1141,7 +1138,7 @@ angular.module('WebApiApp').controller("ModalHoiDongHandlerController", function
             $scope.cancelModal();
             if (isNew)
                 $scope.openModal('', 'HoiDong')
-                
+
         }, function errorCallback(response) {
             $scope.itemError = response.data;
             toastr.error('Có lỗi xảy ra hoặc bạn chưa điền đầy đủ các trường bắt buộc !', 'Thông báo');
@@ -1275,8 +1272,125 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
     $scope.type = $scope.$resolve.type;
     $scope.check = $scope.$resolve.check;
 
+    if (!$scope.item) {
+        $scope.item = {
+            "IdTieuChi": 0,
+            "IdTieuChuan": 0,
+            "HeThongMa": '',
+            "IdDonVi": $rootScope.CurDonVi.Id,
+        }
+    }
+
     $scope.cancelModal = function () {
         $uibModalInstance.dismiss('close');
     }
-    
+
+    $scope.LoadDMTieuChuan = function () {
+        $http({
+            method: 'GET',
+            url: 'api/DanhMucTieuChuan/LoadTieuChuan?IdDonVi=' + $rootScope.CurDonVi.Id
+        }).then(function successCallback(response) {
+            $scope.DSTieuChuan = response.data;
+            if ($scope.DSTieuChuan.length > 0) {
+                $scope.IdTieuChuan = $scope.DSTieuChuan[0].Id;
+
+                $scope.LoadTieuChi($scope.IdTieuChuan);
+            }  
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    $scope.LoadTieuChi = function (tieuChuanId) {
+        if (tieuChuanId != 0 && tieuChuanId != undefined) {
+            $http({
+                method: 'GET',
+                url: 'api/DanhMucTieuChi/LayDuLieuBang?IdDonVi=' + $rootScope.CurDonVi.Id
+                    + '&IdTieuChuan=' + tieuChuanId
+            }).then(function successCallback(response) {
+                $scope.DsTieuChi = response.data;
+                if ($scope.DsTieuChi.length > 0) {
+                    $scope.item.IdTieuChi = $scope.DsTieuChi[0].Id;
+                } else {
+                    $scope.item.IdTieuChi = null;
+                }
+                $scope.renderMa($scope.item.HeThongMa, $scope.item.IdTieuChi, tieuChuanId)
+            }, function errorCallback(response) {
+                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            });
+        }
+        
+    }
+
+    $scope.renderHeThongMa = function () {
+        $http({
+            method: 'GET',
+            url: 'api/MinhChung/LoadHeThongMa'
+        }).then(function successCallback(response) {
+            $scope.DSHeThongMa = response.data;
+            if ($scope.DSHeThongMa.length > 0) {
+                $scope.item.HeThongMa = $scope.DSHeThongMa[0];
+            }
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    $scope.renderMa = function (heThongMa, idTieuChi, idTieuChuan) {
+        // Load lên số minh chứng trước khi gen mã
+        if (heThongMa != null && heThongMa != undefined) {
+            $http({
+                method: 'GET',
+                url: 'api/MinhChung/LoadSoMinhChung?heThongMa=' + heThongMa
+            }).then(function successCallback(response) {
+                $scope.SoMinhChung = response.data;
+                if ($scope.SoMinhChung != null && $scope.SoMinhChung != undefined) {
+                    $scope.item.SoMinhChung = $scope.SoMinhChung;
+
+                    // Nếu có id tiêu chí thì tiếp tục gen mã
+                    if (idTieuChi != undefined && idTieuChi != undefined && idTieuChuan != undefined && idTieuChuan != undefined) {
+
+                        var thuTuTieuChuan = $scope.DSTieuChuan.filter(x => x.Id == idTieuChuan)[0].ThuTu;
+                        var thuTuTieuChi = $scope.DsTieuChi.filter(x => x.Id == idTieuChi)[0].ThuTu;
+
+                        $scope.item.Ma = heThongMa + "-" + $scope.item.SoMinhChung + "-" + thuTuTieuChuan + "-" + thuTuTieuChi;
+                    } else {
+                        $scope.item.Ma = "";
+                    }
+                } else {
+                    $scope.item.Ma = "";
+                }
+            }, function errorCallback(response) {
+                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            });
+        } else {
+            $scope.item.Ma = "";
+        }
+    }
+
+    // Lưu dữ liệu
+    $scope.Save = function (isNew) {
+        $http({
+            method: "POST",
+            url: "api/MinhChung/LuuMinhChung",
+            data: $scope.item,
+        }).then(function successCallback(response) {
+            toastr.success('Lưu dữ liệu thành công!', 'Thông báo');
+            $scope.item = response.data;
+            $scope.itemError = ''
+            $rootScope.LoadMinhChung();
+            $scope.cancelModal()
+            if (isNew)
+                $scope.openModal('', 'MinhChung');
+
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            toastr.warning('Có lỗi trong quá trình lưu dữ liệu hoặc chưa điền các trường bắt buộc!', 'Thông báo');
+        });
+    }
+
+
+    $scope.LoadDMTieuChuan();
+    $scope.renderHeThongMa();
+
 });
