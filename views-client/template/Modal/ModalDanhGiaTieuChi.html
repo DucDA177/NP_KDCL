@@ -1,0 +1,374 @@
+﻿<style>
+    .text-multi-line {
+        overflow-y: scroll;
+        max-height: 100px;
+        white-space: pre;
+        background-color: antiquewhite
+    }
+
+    .modal-dialog {
+        width: 90%
+    }
+</style>
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Đánh giá tiêu chí </label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row margin-bottom-5 ">
+            <label class="col-md-12 bold">- Tiêu chuẩn: {{TieuChuan}}</label>
+        </div>
+        <div class="row margin-bottom-5 bold">
+            <label class="col-md-12 bold">- Tiêu chí: {{item.tchi.NoiDung}}</label>
+        </div>
+
+        <!--Vẽ các tab tại đây-->
+        <div class="row margin-bottom-5">
+            <div class="col-md-12">
+                <div class="tabbable-custom portlet box margin-top-10">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
+                                Chỉ số A
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold">
+                                Chỉ số B
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="#tab_3" data-toggle="tab" aria-expanded="true" class="bold">
+                                Chỉ số C
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="#tab_4" data-toggle="tab" aria-expanded="true" class="bold">
+                                Đánh giá
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="#tab_5" data-toggle="tab" aria-expanded="true" class="bold">
+                                Kế hoạch cải tiến
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="#tab_6" data-toggle="tab" aria-expanded="true" class="bold">
+                                Nhóm
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active " id="tab_1">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Yêu cầu: </label>
+                                                <div class="col-md-11">
+                                                    <div class="text-multi-line">
+                                                        {{item.tchi.YeuCauA}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Gợi ý: </label>
+                                                <div class="col-md-11">
+                                                    <div class="text-multi-line">
+                                                        {{item.tchi.GoiYA}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Mô tả<span style="color:red">*</span>: </label>
+                                                <div class="col-md-7">
+                                                    <ng-ckeditor ng-model="item.dgtc.MoTaA"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="1px" align="center"> # </th>
+                                                                <th> <div style="text-align:center">Mã <br /> minh chứng</div> </th>
+                                                                <th> <div style="text-align:center">Tên <br /> minh chứng</div> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="mc in DSMinhChungA">
+                                                                <td align="center" width="1px">
+                                                                    <input ng-click="OnClickMinhChung(mc,'A')"
+                                                                           type="checkbox" 
+                                                                           ng-model="mc.check" />
+                                                                </td>
+                                                                <td>
+                                                                    <a>{{mc.Ma}}</a>
+                                                                </td>
+                                                                <td>{{mc.TenMinhChung}}  </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <input type="checkbox" ng-model="item.dgtc.KQDatA" /> Kết quả đạt
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane " id="tab_2">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Yêu cầu: </label>
+                                                <div class="col-md-11">
+                                                    <div class="text-multi-line">
+                                                        {{item.tchi.YeuCauB}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Gợi ý: </label>
+                                                <div class="col-md-11">
+                                                    <div class="text-multi-line">
+                                                        {{item.tchi.GoiYB}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Mô tả<span style="color:red">*</span>: </label>
+                                                <div class="col-md-7">
+                                                    <ng-ckeditor ng-model="item.dgtc.MoTaB"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="1px" align="center"> # </th>
+                                                                <th> <div style="text-align:center">Mã <br /> minh chứng</div> </th>
+                                                                <th> <div style="text-align:center">Tên <br /> minh chứng</div> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="mc in DSMinhChungB">
+                                                                <td align="center" width="1px">
+                                                                <input ng-click="OnClickMinhChung(mc,'B')"
+                                                                       type="checkbox" 
+                                                                       ng-model="mc.check" /> </td>
+                                                                <td>
+                                                                    <a>{{mc.Ma}}</a>
+                                                                </td>
+                                                                <td>{{mc.TenMinhChung}}  </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <input type="checkbox" ng-model="item.dgtc.KQDatB" /> Kết quả đạt
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="tab_3">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Yêu cầu: </label>
+                                                <div class="col-md-11">
+                                                    <div class="text-multi-line">
+                                                        {{item.tchi.YeuCauC}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Gợi ý: </label>
+                                                <div class="col-md-11">
+                                                    <div class="text-multi-line">
+                                                        {{item.tchi.GoiYC}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Mô tả<span style="color:red">*</span>: </label>
+                                                <div class="col-md-7">
+                                                    <ng-ckeditor ng-model="item.dgtc.MoTaC"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <table class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="1px" align="center"> # </th>
+                                                                <th> <div style="text-align:center">Mã <br /> minh chứng</div> </th>
+                                                                <th> <div style="text-align:center">Tên <br /> minh chứng</div> </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="mc in DSMinhChungC">
+                                                                <td align="center" width="1px">
+                                                                <input ng-click="OnClickMinhChung(mc,'C')"
+                                                                       type="checkbox" 
+                                                                       ng-model="mc.check" /> </td>
+                                                                <td>
+                                                                    <a>{{mc.Ma}}</a>
+                                                                </td>
+                                                                <td>{{mc.TenMinhChung}}  </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <input type="checkbox" ng-model="item.dgtc.KQDatC" /> Kết quả đạt
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="tab_4">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Điểm mạnh: </label>
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control input-sm"
+                                                              ng-model="item.dgtc.DiemManh"
+                                                              rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Điểm yếu: </label>
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control input-sm"
+                                                              ng-model="item.dgtc.DiemYeu"
+                                                              rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Ý kiến cấp trên: </label>
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control input-sm"
+                                                              ng-model="item.dgtc.YKienCapTrenDG"
+                                                              rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-1"></div>
+                                                <label class="col-md-3">
+                                                    <input type="checkbox" ng-model="item.dgtc.CapTrenDuyet" /> Cấp trên duyệt
+                                                </label>
+                                                <label class="col-md-3">
+                                                    <input type="checkbox" ng-model="item.dgtc.KQDat" /> Kết quả đạt
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="tab_5">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Kế hoạch cải tiến: </label>
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control input-sm"
+                                                              ng-model="item.dgtc.KeHoachCaiTien"
+                                                              rows="4"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-1">Ý kiến cấp trên: </label>
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control input-sm"
+                                                              ng-model="item.dgtc.YKienCapTrenKHCT"
+                                                              rows="4"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane " id="tab_6">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="text-left"><label class="control-label col-md-4"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></label></div>
+            <div class="col-md-8 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

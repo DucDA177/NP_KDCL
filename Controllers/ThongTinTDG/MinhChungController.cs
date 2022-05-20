@@ -14,13 +14,14 @@ namespace WebApiCore.Controllers.ThongTinTDG
     {
         private WebApiDataEntities db = new WebApiDataEntities();
 
-
-        
         [HttpGet]
         [Route("api/MinhChung/LoadDSMinhChung")]
-        public IHttpActionResult LoadDSMinhChung(int IdDonVi, int idTieuChi, string heThongMa)
+        public IHttpActionResult LoadDSMinhChung(int IdDonVi, int IdKeHoachTDG ,int idTieuChi, string heThongMa)
         {
-            var result = db.tblMinhChungs.Where(x => x.IdDonVi == IdDonVi && x.HeThongMa == heThongMa && (x.IdTieuChi == idTieuChi || idTieuChi == 0)).ToList();
+            var result = db.tblMinhChungs.Where(x => x.IdDonVi == IdDonVi
+            && x.IdKeHoachTDG == IdKeHoachTDG
+            && (x.HeThongMa == heThongMa || string.IsNullOrEmpty(heThongMa) )
+            && (x.IdTieuChi == idTieuChi || idTieuChi == 0)).ToList();
 
             return Ok(result);
         }
@@ -105,6 +106,17 @@ namespace WebApiCore.Controllers.ThongTinTDG
                 ModelState.AddModelError("TenMinhChung", "Tên minh chứng bắt buộc nhập");
                 ModelState.AddModelError("TenMinhChung", "has-error");
             }
+        }
+
+        [HttpGet]
+        [Route("api/MinhChung/Del")]
+        public IHttpActionResult Del(int Id)
+        {
+            var dt = db.tblMinhChungs.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
+            db.tblMinhChungs.Remove(dt);
+            db.SaveChanges();
+            return Ok(dt);
+
         }
 
     }

@@ -147,6 +147,7 @@ namespace WebApiCore.Models
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
         public virtual DbSet<tblMinhChung> tblMinhChungs { get; set; }
+        public virtual DbSet<tblDanhGiaTieuChi> tblDanhGiaTieuChis { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

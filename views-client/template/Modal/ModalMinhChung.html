@@ -12,7 +12,8 @@
         <div class="row margin-bottom-5">
             <label class="control-label col-md-2">Tiêu chuẩn:</label>
             <div class="col-md-4">
-                <select ng-model="IdTieuChuan" class="form-control input-sm select2" convert-to-number ng-change="LoadTieuChi(IdTieuChuan)">
+                <select ng-model="IdTieuChuan" class="form-control input-sm select2"
+                        convert-to-number ng-change="LoadTieuChi(IdTieuChuan)">
                     <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
                 </select>
             </div>
@@ -21,7 +22,9 @@
             <div class="{{itemError.ModelState.TieuChi[1]}}">
                 <label class="control-label col-md-2">Tiêu chí<span style="color:red">*</span>:</label>
                 <div class="col-md-4">
-                    <select ng-model="item.IdTieuChi" class="form-control input-sm select2" convert-to-number ng-change="renderMa(item.HeThongMa, item.IdTieuChi, IdTieuChuan)">
+                    <select ng-model="item.IdTieuChi" class="form-control input-sm select2"
+                            convert-to-number
+                            ng-change="renderMa(item.HeThongMa, item.IdTieuChi, IdTieuChuan);RenderNoiDungChiSo()">
                         <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
                     </select>
                 </div>
@@ -50,39 +53,41 @@
         </div>
 
         <div class="row margin-bottom-5">
-            <label class="control-label col-md-2">Tên minh chứng<span style="color:red">*</span>:</label>
-            <div class="col-md-10">
-                <textarea class="form-control input-sm" rows="2"></textarea>
+            <div class="{{itemError.ModelState.TenMinhChung[1]}}">
+                <label class="control-label col-md-2">Tên minh chứng<span style="color:red">*</span>:</label>
+                <div class="col-md-10">
+                    <textarea ng-model="item.TenMinhChung" class="form-control input-sm" rows="2"></textarea>
+                </div>
             </div>
         </div>
         <div class="row margin-bottom-5">
             <label class="control-label col-md-2">Số, ngày ban hành hoặc thời điểm phỏng vấn:</label>
             <div class="col-md-10">
-                <textarea class="form-control input-sm" rows="3"></textarea>
+                <textarea ng-model="item.SoNgayBanHanh" class="form-control input-sm" rows="3"></textarea>
             </div>
         </div>
         <div class="row margin-bottom-5">
             <label class="control-label col-md-2">Nơi ban hành hoặc người thực hiện:</label>
             <div class="col-md-10">
-                <textarea class="form-control input-sm" rows="3"></textarea>
+                <textarea ng-model="item.NoiBanHanh" class="form-control input-sm" rows="3"></textarea>
             </div>
         </div>
         <div class="row margin-bottom-5">
             <label class="control-label col-md-2">Ghi chú:</label>
             <div class="col-md-10">
-                <textarea class="form-control input-sm" rows="2"></textarea>
+                <textarea ng-model="item.GhiChu" class="form-control input-sm" rows="2"></textarea>
             </div>
         </div>
         <div class="row margin-bottom-5">
             <label class="control-label col-md-2">Chỉ số:</label>
             <div class="col-md-2" style="margin-top:7px">
-                <input type="radio" value="" /> A
+                <input type="radio" ng-model="item.ChiSo" value="A" ng-change="RenderNoiDungChiSo()" /> A
             </div>
             <div class="col-md-2" style="margin-top:7px">
-                <input type="radio" value="" /> B
+                <input type="radio" ng-model="item.ChiSo" value="B" ng-change="RenderNoiDungChiSo()" /> B
             </div>
             <div class="col-md-2" style="margin-top:7px">
-                <input type="radio" value="" /> C
+                <input type="radio" ng-model="item.ChiSo" value="C" ng-change="RenderNoiDungChiSo()" /> C
             </div>
             <div class="col-md-4">
                 <input type="file"
@@ -111,15 +116,8 @@
         <div class="row margin-bottom-5">
             <div class="col-md-2"></div>
             <div class="col-md-6">
-                <div style="white-space: pre-wrap; overflow-y:scroll;max-height:150px">
-                    {{}}
-                    - Có hiệu trưởng;
-                    - Có đủ số lượng phó hiệu trưởng theo quy định tại Khoản 1 Điều 18, Điều lệ trường tiểu học (trường hạng I có 2 phó hiệu trưởng, trường hạng II, hạng III có 1 phó hiệu trưởng, trường có từ 20 học sinh khuyết tật trở lên được thêm 1 phó hiệu trưởng);
-                    - Có đủ các hội đồng:
-                    + Hội đồng trường đối với trường công lập; hội đồng quản trị đối với trường tư thục;
-                    + Hội đồng thi đua khen thưởng;
-                    + Hội đồng kỷ luật (nếu có);
-                    + Hội đồng tư vấn (các hội đồng tư vấn do hiệu trưởng ra quyết định thành lập. Nhiệm vụ, quyền hạn, thành phần và thời gian hoạt động của các hội đồng tư vấn do hiệu trưởng quyết định. Ví dụ: Hội đồng chấm sáng kiến kinh nghiệm; hội đồng chấm thi giáo viên giỏi,...).
+                <div style="white-space: pre; overflow-y:scroll;max-height:150px">
+                    {{NoiDungChiSo}}
                 </div>
             </div>
         </div>
@@ -133,8 +131,8 @@
         <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
             <label class="control-label col-md-2"></label>
             <div class="col-md-10 clearfix">
-                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
-                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
             </div>
 

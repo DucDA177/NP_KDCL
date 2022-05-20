@@ -31,7 +31,7 @@
                 if ($scope.DsTieuChi.length > 0) {
                     $scope.Paging.idTieuChi = $scope.DsTieuChi[0].Id;
 
-                    $scope.LoadData($scope.Paging.idTieuChi, $scope.Paging.heThongMa);
+                    $rootScope.LoadMinhChung();
                 } else {
                     $scope.Paging.idTieuChi = null;
                 }
@@ -52,7 +52,7 @@
             if ($scope.DSHeThongMa.length > 0) {
                 $scope.Paging.heThongMa = $scope.DSHeThongMa[0];
 
-                $scope.LoadData($scope.Paging.idTieuChi, $scope.Paging.heThongMa);
+                $rootScope.LoadMinhChung();
             } else {
                 $scope.Paging.heThongMa = "";
             }
@@ -61,21 +61,38 @@
         });
     }
 
-    $scope.LoadData = function (idTieuChi, heThongMa) {
-        if (idTieuChi != undefined && !heThongMa) {
+    $rootScope.LoadMinhChung = function () {
+        
             $http({
                 method: 'GET',
                 url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + $rootScope.CurDonVi.Id
-                    + '&idTieuChi=' + idTieuChi
-                    + '&heThongMa=' + heThongMa
+                    + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                    + '&idTieuChi=' + $scope.Paging.idTieuChi
+                    + '&heThongMa=' + $scope.Paging.heThongMa
             }).then(function successCallback(response) {
                 $scope.DSMinhChung = response.data;
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
-        }
+        
     }
 
     $scope.LoadDMTieuChuan();
     $scope.RenderHeThongMa();
+
+    $scope.Delete = function (Id) {
+        
+        if (confirm('Bạn có chắc chắn muốn xóa đối tượng này ?'))
+            $http({
+                method: 'GET',
+                url: 'api/MinhChung/Del?Id=' + Id,
+            }).then(function successCallback(response) {
+                toastr.success('Xóa dữ liệu thành công !', 'Thông báo');
+                $rootScope.LoadMinhChung();
+            }, function errorCallback(response) {
+                //$scope.itemError = response.data;
+                toastr.error('Có lỗi trong quá trình xóa dữ liệu !', 'Thông báo');
+            });
+
+    }
 }]);
