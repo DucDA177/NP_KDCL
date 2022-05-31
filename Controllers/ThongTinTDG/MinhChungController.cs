@@ -18,6 +18,14 @@ namespace WebApiCore.Controllers.ThongTinTDG
         private WebApiDataEntities db = new WebApiDataEntities();
 
         [HttpGet]
+        [Route("api/MinhChung/LoadMinhChungById")]
+        public IHttpActionResult LoadDSMinhChung(int IdMinhChung)
+        {
+            
+            return Ok(db.tblMinhChungs.Find(IdMinhChung));
+        }
+
+        [HttpGet]
         [Route("api/MinhChung/LoadDSMinhChung")]
         public IHttpActionResult LoadDSMinhChung(int IdDonVi, int IdKeHoachTDG ,int idTieuChi, string heThongMa, bool ChiThuThap)
         {

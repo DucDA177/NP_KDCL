@@ -40,7 +40,7 @@ CKEDITOR.plugins.add(pluginName,
                         var item = value.split(delim);
                         var id = item[0];
                         var name = item[1];
-                        var v = "<a class='link-minhchung' href='" + minhchungURL + "?IdMinhChung=" + id + "'>[" + name + "]</a>";
+                        var v = "<a class='link-minhchung' href='javascript:void(0);' onclick='angular.element(document.body).scope().OpenViewMinhChung(" + id + ")' >[" + name + "]</a>";
 
                         editor.fire('saveSnapshot');
                         editor.insertHtml(v);

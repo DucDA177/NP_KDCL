@@ -112,7 +112,7 @@
                                 <a href="{{f.filename}}" target="_blank">{{f.FName}}</a>
                             </td>
                             <td>
-                                <a ng-click="RemoveFile($index,f.filename,f.key)">
+                                <a ng-click="RemoveFile($index,f.filename,f.key)" ng-hide="hideBtn">
                                     <i class="fa fa-times-circle font-red"></i>
                                 </a>
                             </td>
@@ -139,9 +139,11 @@
         <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
             <label class="control-label col-md-2"></label>
             <div class="col-md-10 clearfix">
-                <a class="btn btn-sm btn-success btn-outline sbold action-button" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                <a class="btn btn-sm btn-success btn-outline sbold action-button" 
+                   ng-click="Save()"
+                   ng-hide="hideBtn"><i class="fa fa-save"></i> Lưu </a>
                 <a class="btn btn-sm btn-success btn-outline sbold action-button"
-                   ng-hide="ChiThuThap"
+                   ng-hide="ChiThuThap || hideBtn"
                    ng-click="Save(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
             </div>

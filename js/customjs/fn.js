@@ -268,3 +268,4 @@ function download(strData, strFileName, strMimeType) {
     }, 333);
     return true;
 }
+

@@ -1284,6 +1284,8 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
     $scope.type = $scope.$resolve.type;
     $scope.check = $scope.$resolve.check;
 
+    $scope.hideBtn = $scope.check;
+
     $scope.NoiDungChiSo = '';
 
     if (!$scope.item) {

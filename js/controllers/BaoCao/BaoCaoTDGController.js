@@ -99,7 +99,7 @@
         }).then(function successCallback(response) {
 
             $scope.BaoCaoTCTC = response.data;
-           
+
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });

@@ -107,7 +107,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
         ];
 
         $scope.TTKeHoachTDG = [
-            { Code: 'CTH' , Name:'Chưa tiến hành' },
+            { Code: 'CTH', Name: 'Chưa tiến hành' },
             { Code: 'DTH', Name: 'Đang tiến hành' },
             { Code: 'DGD', Name: 'Đã gửi duyệt' },
         ];
@@ -119,7 +119,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         }
 
-        $scope.DanhGiaTC = function (item,IdDonVi,IdKeHoachTDG) {
+        $scope.DanhGiaTC = function (item, IdDonVi, IdKeHoachTDG) {
 
             $http({
                 method: 'GET',
@@ -150,6 +150,17 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             });
 
 
+        }
+
+        $scope.OpenViewMinhChung = function (IdMinhChung) {
+            $http({
+                method: 'GET',
+                url: 'api/MinhChung/LoadMinhChungById?IdMinhChung=' + IdMinhChung
+            }).then(function successCallback(response) {
+                $scope.openModal(response.data, 'MinhChung', true);
+            }, function errorCallback(response) {
+                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            });
         }
 
         $scope.exportBaoCao = function (printDivId, fileName, mineType) {
@@ -185,7 +196,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                     if (u.Link && result)
                         try {
                             $state.go(u.Link)
-                        } catch{ }
+                        } catch { }
                     else return;
                 }
             );
@@ -225,7 +236,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 $scope.Group = response.data;
                 if ($rootScope.CurDonVi.NhomLoai != "ADMIN")
                     $scope.Group = $scope.Group.filter(t => t.FCode != "ADMIN")
-                
+
                 if (!$rootScope.checkCapTren && !$rootScope.checkAdmin)
                     $scope.Group = $scope.Group.filter(t => t.FCode != "XDDG")
 
@@ -654,8 +665,8 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             $rootScope.IsLockScreen = true;
         }
 
-        
-      
+
+
     }]);
 
 WebApiApp.controller("ModalLockScreenHandlerController", function ($cookies, $scope, $http, $uibModalInstance, $rootScope) {
@@ -946,10 +957,10 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', funct
                 }]
             }
         })
-       
+
 }]);
 WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies', "$state", "$stateParams",
-    function ($q, $rootScope, $http, $urlRouter, $settings, $cookies, $state, $stateParams ) {
+    function ($q, $rootScope, $http, $urlRouter, $settings, $cookies, $state, $stateParams) {
 
         $rootScope.$on('$includeContentLoaded', function () {
             // $rootScope.GetNotificationTTDX();
@@ -987,7 +998,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                 });
 
                 $('body').addClass('no-pointer');
-                
+
 
                 return data;
             }
@@ -1021,7 +1032,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                         $rootScope.LoadThongBao();
                         $rootScope.LoadMenu();
 
-                    }, function errorCallback(response) {});
+                    }, function errorCallback(response) { });
 
                 }, function errorCallback(response) {
                     ////console.log(response)
