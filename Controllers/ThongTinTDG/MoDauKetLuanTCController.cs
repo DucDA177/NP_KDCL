@@ -17,29 +17,6 @@ namespace WebApiCore.Controllers.ThongTinTDG
         private WebApiDataEntities db = new WebApiDataEntities();
 
         [HttpGet]
-        [Route("api/MoDauKetLuanTC/LoadTCTCByUser")]
-        public IHttpActionResult LoadTCTCByUser()
-        {
-            string userName = HttpContext.Current.User.Identity.Name;
-            var user = db.UserProfiles.Where(x => x.UserName == userName && x.FInUse == true).FirstOrDefault();
-
-            if (user != null && !string.IsNullOrEmpty(user.TieuChi))
-            {
-                var listTieuChiId = JsonConvert.DeserializeObject<List<int>>(user.TieuChi);
-                var listTCTC = from tcId in listTieuChiId
-                               join tchi in db.DMTieuChis on tcId equals tchi.Id
-                               join tchuan in db.DMTieuChuans on tchi.IdTieuChuan equals tchuan.Id
-                               where tchi.IdDonVi == user.IDDonVi
-                               select new { tchi, tchuan };
-                var result = listTCTC.GroupBy(t => t.tchuan).ToList();
-                return Ok(result);
-            }
-
-            return Ok();
-        }
-
-
-        [HttpGet]
         [Route("api/MoDauKetLuanTC/LoadMDKLTC")]
         public IHttpActionResult LoadMDKLTC(int IdTieuChuan, int IdDonVi, int IdKeHoachTDG)
         {

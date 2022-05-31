@@ -204,3 +204,67 @@ function saveContent(href, fileName) {
     link.href = href;
     link.click();
 }
+
+function exportFromHtml(base64InnerHtml, fileName, mineType, isHaveUTF8) {
+    var tab_text = "";
+    if (isHaveUTF8) {
+        tab_text = decodeURIComponent(escape(window.atob(base64InnerHtml)));
+    }
+    else {
+        tab_text = window.atob(base64InnerHtml);
+    }
+    tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+    tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+    tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+    {
+        txtArea1.document.open("txt/html", "replace");
+        txtArea1.document.write(tab_text);
+        txtArea1.document.close();
+        txtArea1.focus();
+        sa = txtArea1.document.execCommand("SaveAs", true, fileName);
+    }
+    else                 //other browser not tested on IE 11
+        sa = download(tab_text, fileName, mineType);
+
+    return false;
+}
+
+function download(strData, strFileName, strMimeType) {
+    var D = document,
+        a = D.createElement("a");
+    strMimeType = strMimeType || "application/octet-stream";
+
+
+    if (navigator.msSaveBlob) { // IE10
+        return navigator.msSaveBlob(new Blob([strData], { type: strMimeType }), strFileName);
+    } /* end if(navigator.msSaveBlob) */
+
+
+    if ('download' in a) { //html5 A[download]
+        a.href = "data:" + strMimeType + "," + encodeURIComponent(strData);
+        a.setAttribute("download", strFileName);
+        a.innerHTML = "downloading...";
+        D.body.appendChild(a);
+        setTimeout(function () {
+            a.click();
+            D.body.removeChild(a);
+        }, 66);
+        return true;
+    } /* end if('download' in a) */
+
+
+    //do iframe dataURL download (old ch+FF):
+    var f = D.createElement("iframe");
+    D.body.appendChild(f);
+    f.src = "data:" + strMimeType + "," + encodeURIComponent(strData);
+
+    setTimeout(function () {
+        D.body.removeChild(f);
+    }, 333);
+    return true;
+}

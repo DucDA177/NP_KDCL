@@ -25,10 +25,9 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChi/LayDuLieuBang")]
-        public IHttpActionResult LayDuLieuBang(int IdDonVi, int IdTieuChuan)
+        public IHttpActionResult LayDuLieuBang(int IdTieuChuan)
         {
-            return Ok(db.DMTieuChis.Where(x => x.IdDonVi == IdDonVi
-            && x.IdTieuChuan == IdTieuChuan).OrderBy(t => t.STT).ToList());
+            return Ok(db.DMTieuChis.Where(x => x.IdTieuChuan == IdTieuChuan).OrderBy(t => t.STT).ToList());
         }
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace WebApiCore.Controllers.DanhMuc
 
             if (data.STT == 0 || string.IsNullOrEmpty(data.STT.ToString().Trim()))
             {
-                var dt = db.DMTieuChis.Where(t => t.IdDonVi == data.IdDonVi);
+                var dt = db.DMTieuChis.Where(t => t.IdTieuChuan == data.IdTieuChuan);
                 if (dt != null && dt.Count() > 0)
                     data.STT = dt.Max(t => t.STT) + 1;
                 else data.STT = 1;
@@ -93,9 +92,9 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChi/LaySTT")]
-        public IHttpActionResult LaySTT(int IdDonVi, int IdTieuChuan)
+        public IHttpActionResult LaySTT(int IdTieuChuan)
         {
-            var dsTieuChi = db.DMTieuChis.Where(x => x.IdDonVi == IdDonVi && x.IdTieuChuan == IdTieuChuan).ToList();
+            var dsTieuChi = db.DMTieuChis.Where(x => x.IdTieuChuan == IdTieuChuan).ToList();
 
             return Ok(dsTieuChi.Count + 1);
         }

@@ -45,7 +45,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
             var NamHocKT = Convert.ToInt32(NamHoc.Split('-').Last());
 
             var data = db.tblKeHoachTDGs.Where(t => t.IdDonVi == IdDonVi
-            && t.NamHocBD == NamHocBD && t.NamHocKT == NamHocKT)
+            && t.NamHocBD <= NamHocBD && t.NamHocKT >= NamHocKT)
                 .OrderByDescending(t => t.NamHocKT)
                 .FirstOrDefault();
 
@@ -65,9 +65,9 @@ namespace WebApiCore.Controllers.KeHoachTDG
 
             if (data.Id == null || data.Id == 0)
             {
-                var checkKHTDG = db.tblKeHoachTDGs.Where(t => t.NamHocBD == data.NamHocBD && t.NamHocKT == data.NamHocKT).Any();
+                var checkKHTDG = db.tblKeHoachTDGs.Where(t => t.NamHocBD <= data.NamHocBD && t.NamHocKT >= data.NamHocKT).Any();
                 if (checkKHTDG)
-                    return BadRequest("Năm học " + data.NamHocBD + " - " + data.NamHocKT + " đã tồn tại kế hoạch tự đánh giá");
+                    return BadRequest("Giai đoạn " + data.NamHocBD + " - " + data.NamHocKT + " đã tồn tại kế hoạch tự đánh giá");
 
                 db.tblKeHoachTDGs.Add(data);
                 db.SaveChanges();
@@ -102,6 +102,11 @@ namespace WebApiCore.Controllers.KeHoachTDG
             {
                 ModelState.AddModelError("NamHoc", "Năm học bắt buộc nhập");
                 ModelState.AddModelError("NamHoc", "has-error");
+            }
+            if (item.IdQuyDinhTC == null || item.IdQuyDinhTC == 0)
+            {
+                ModelState.AddModelError("IdQuyDinhTC", "Quy định tiêu chuẩn bắt buộc nhập");
+                ModelState.AddModelError("IdQuyDinhTC", "has-error");
             }
         }
 

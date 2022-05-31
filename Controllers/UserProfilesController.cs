@@ -463,82 +463,52 @@ namespace WebApiCore.Controllers
 
         [HttpGet]
         [Route("api/UserProfile/LoadTieuChuanTieuChi")]
-        public IHttpActionResult LoadTieuChuanTieuChi(int idDonVi, int idQuyDinh, int userId)
+        public IHttpActionResult LoadTieuChuanTieuChi(int idQuyDinh, int userId)
         {
             var result = new List<DSTieuChuanTieuChiClient>();
+            var user = db.UserProfiles.Find(userId);
+            var listTieuChiId = JsonConvert.DeserializeObject<List<int>>
+                (string.IsNullOrEmpty(user.TieuChi) ? "[]" : user.TieuChi);
 
-            var dtTieuChuan = new List<DSTieuChuanTieuChiClient>();
-
-            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdDonVi == idDonVi && x.IdQuyDinh == idQuyDinh).ToList();
-            var dsTieuChi = db.DMTieuChis.Where(x => x.IdDonVi == idDonVi).ToList();
-
-            // Chuyển dữ liệu từ tiêu chuẩn -> tiêu chí để concat dữ liệu với tiêu chí
-            if (dsTieuChi.Count > 0 && dsTieuChuan.Count > 0)
+            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdQuyDinh == idQuyDinh).OrderBy(t => t.STT);
+            int index = 1;
+            foreach(var item in dsTieuChuan)
             {
+                DSTieuChuanTieuChiClient tchuan = new DSTieuChuanTieuChiClient();
+                tchuan.DuLieuCha = true;
+                tchuan.Id = item.Id;
+                tchuan.Index = index;
+                tchuan.LoaiDuLieu = 1;
+                tchuan.NoiDung = item.NoiDung;
+                index++;
 
-                var userProfile = db.UserProfiles.Where(t =>
-                t.Id == userId).FirstOrDefault();
+                var tchis = db.DMTieuChis.Where(x => x.IdTieuChuan == item.Id);
+                if (!tchis.Any())
+                    continue;
 
-                var lsTC = new List<int>();
-                if (userProfile != null && !string.IsNullOrEmpty(userProfile.TieuChi))
+                foreach(var tchi in tchis)
                 {
-                    lsTC = JsonConvert.DeserializeObject<List<int>>(userProfile.TieuChi);
+                    DSTieuChuanTieuChiClient tc = new DSTieuChuanTieuChiClient();
+                    tc.DuLieuCha = false;
+                    tc.Id = tchi.Id;
+                    tc.IdChiTieuCha = item.Id;
+                    tc.Index = index;
+                    tc.IsCheck = listTieuChiId.Contains(tchi.Id);
+                    tc.LoaiDuLieu = 2;
+                    tc.NoiDung = tchi.NoiDung;
+
+                    result.Add(tc);
+                    index++;
+
+                    if(tc.IsCheck)
+                        tchuan.IsCheck = true;
                 }
-                var lsIdTieuChuan = dsTieuChi.Select(x => x.IdTieuChuan).Distinct().OrderBy(x => x).ToList();
 
-                int i = 1;
-                lsIdTieuChuan.ForEach(x =>
-                {
-                    var dt = new DSTieuChuanTieuChiClient();
-                    var dataTieuChuan = dsTieuChuan.Find(t => t.Id == x);
-                    if (dataTieuChuan != null)
-                    {
-                        dt.Id = x;
-                        dt.LoaiDuLieu = 1;
-                        dt.NoiDung = dataTieuChuan.NoiDung;
-                        dt.IdChiTieuCha = null;
-                        dt.DuLieuCha = true;
-                        dt.Index = i;
+                result.Add(tchuan);
 
-                        i++;
-
-                        dtTieuChuan.Add(dt);
-
-                        result.Add(dt);
-                    }
-                });
-
-                dsTieuChi.ForEach(x =>
-                {
-                    var dt = new DSTieuChuanTieuChiClient();
-                    var tc = dtTieuChuan.Find(t => t.Id == x.IdTieuChuan);
-
-                    if (tc != null)
-                    {
-                        dt.Id = x.Id;
-                        dt.LoaiDuLieu = 2;
-                        dt.NoiDung = x.NoiDung;
-                        dt.IdChiTieuCha = x.IdTieuChuan;
-                        dt.DuLieuCha = false;
-                        dt.Index = tc.Index;
-                        dt.IsCheck = lsTC.Contains(x.Id) ? true : false;
-
-                        // Nếu dữ liệu con check thì check luôn dữ liệu cha
-                        if (dt.IsCheck)
-                            result.Where(t => t.Id == dt.IdChiTieuCha && t.LoaiDuLieu == 1).FirstOrDefault().IsCheck = true;
-
-                        result.Add(dt);
-                    }
-                });
             }
 
-            if (result.Count > 0)
-            {
-                result = result.OrderBy(x => x.Index).ThenBy(x => x.LoaiDuLieu).ThenBy(x => x.NoiDung).ToList();
-            }
-
-
-            return Ok(result);
+            return Ok(result.OrderBy(x => x.Index).ThenBy(x => x.LoaiDuLieu).ThenBy(x => x.NoiDung));
         }
 
         public class DSTieuChuanTieuChiClient

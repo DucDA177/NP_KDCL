@@ -8,7 +8,7 @@
                 <span class="input-group-addon">Chọn tiêu chuẩn:</span>
                 <select ng-model="IdTieuChuan" class="form-control select2"
                         ng-change="LoadMDKL()" convert-to-number>
-                    <option ng-repeat="nl in TieuChuan" value={{nl[0].tchuan.Id}}>{{nl[0].tchuan.NoiDung}}</option>
+                    <option ng-repeat="nl in TieuChuan" value={{nl.tchuan.Id}}>{{nl.tchuan.NoiDung}}</option>
                 </select>
             </div>
 

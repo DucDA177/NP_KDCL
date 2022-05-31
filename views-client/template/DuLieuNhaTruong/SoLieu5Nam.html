@@ -30,7 +30,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLCoCauCongTrinhController">
+    <div ng-controller="SLCoCauCongTrinhController"
+         ng-click="GetData('', loaiSL, sheetName, minDimensions, footers,genesisColumn, genesisData, updateSettings)">
         <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
             <b>
                 2. Cơ cấu khối công trình của nhà trường
@@ -48,7 +49,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLCanBoController">
+    <div ng-controller="SLCanBoController"
+         ng-click="GetData('', loaiSL, sheetName, minDimensions, footers,genesisColumn, genesisData)">
         <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
             <b>
                 3. Cán bộ quản lý, giáo viên, nhân viên
@@ -66,7 +68,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLHocSinhController">
+    <div ng-controller="SLHocSinhController"
+         ng-click="GetData('',loaiSL,sheetName,minDimensions, footers,genesisColumn, genesisData)">
         <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
             <b>
                 4.a. Học sinh - Số liệu chung
@@ -84,7 +87,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLKQGiaoDucController">
+    <div ng-controller="SLKQGiaoDucController"
+         ng-click="GetData('',loaiSL, sheetName, minDimensions,footers,genesisColumn, genesisData)">
         <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
             <b>
                 4.b. Học sinh - Kết quả giáo dục (đối với trường THCS, THPT và trường phổ thông có nhiều cấp học)

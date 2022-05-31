@@ -9,94 +9,102 @@
 </div>
 <div class="modal-body form">
     <div class="form-body form-horizontal">
-        <div class="row margin-bottom-5">
-            <label class="control-label col-md-2">Tiêu chuẩn:</label>
-            <div class="col-md-4">
-                <select ng-model="IdTieuChuan" class="form-control input-sm select2"
-                        convert-to-number ng-change="LoadTieuChi(IdTieuChuan)">
-                    <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
-                </select>
-            </div>
-
-
-            <div class="{{itemError.ModelState.TieuChi[1]}}">
-                <label class="control-label col-md-2">Tiêu chí<span style="color:red">*</span>:</label>
+        <div class="except-thuthap">
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Tiêu chuẩn:</label>
                 <div class="col-md-4">
-                    <select ng-model="item.IdTieuChi" class="form-control input-sm select2"
+                    <select ng-model="IdTieuChuan" class="form-control input-sm select2"
                             convert-to-number
-                            ng-change="renderMa(item.HeThongMa, item.IdTieuChi, IdTieuChuan);RenderNoiDungChiSo()">
-                        <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                            ng-disabled="item.Id"
+                            ng-change="LoadTieuChi(IdTieuChuan)">
+                        <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
                     </select>
                 </div>
-            </div>
 
-        </div>
-        <div class="row margin-bottom-5">
-            <div class="{{itemError.ModelState.HeThongMa[1]}}">
-                <label class="control-label col-md-2">Hệ thống mã<span style="color:red">*</span>:</label>
+
+                <div class="{{itemError.ModelState.TieuChi[1]}}">
+                    <label class="control-label col-md-2">Tiêu chí<span style="color:red">*</span>:</label>
+                    <div class="col-md-4">
+                        <select ng-model="item.IdTieuChi" class="form-control input-sm select2"
+                                ng-disabled="item.Id"
+                                convert-to-number
+                                ng-change="renderMa();RenderNoiDungChiSo()">
+                            <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row margin-bottom-5">
+                <div class="{{itemError.ModelState.HeThongMa[1]}}">
+                    <label class="control-label col-md-2">Hệ thống mã<span style="color:red">*</span>:</label>
+                    <div class="col-md-2">
+                        <select ng-model="item.HeThongMa" class="form-control input-sm select2"
+                                ng-disabled="item.Id"
+                                ng-change="renderMa()">
+                            <option ng-repeat="nl in DSHeThongMa" value={{nl}}>{{nl}}</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="control-label col-md-2">Mã:</label>
                 <div class="col-md-2">
-                    <select ng-model="item.HeThongMa" class="form-control input-sm select2" ng-change="renderMa(item.HeThongMa, item.IdTieuChi, IdTieuChuan)">
-                        <option ng-repeat="nl in DSHeThongMa" value={{nl}}>{{nl}}</option>
-                    </select>
+                    <input type="text" ng-model="item.Ma" disabled class="form-control input-sm" />
+
+                </div>
+                <label class="control-label col-md-2">Số minh chứng:</label>
+                <div class="col-md-2">
+                    <input type="text" ng-model="item.SoMinhChung" disabled class="form-control input-sm" />
+
                 </div>
             </div>
-            <label class="control-label col-md-2">Mã:</label>
-            <div class="col-md-2">
-                <input type="text" ng-model="item.Ma" disabled class="form-control input-sm" />
 
+            <div class="row margin-bottom-5">
+                <div class="{{itemError.ModelState.TenMinhChung[1]}}">
+                    <label class="control-label col-md-2">Tên minh chứng<span style="color:red">*</span>:</label>
+                    <div class="col-md-10">
+                        <textarea ng-model="item.TenMinhChung" class="form-control input-sm" rows="2"></textarea>
+                    </div>
+                </div>
             </div>
-            <label class="control-label col-md-2">Số minh chứng:</label>
-            <div class="col-md-2">
-                <input type="text" ng-model="item.SoMinhChung" disabled class="form-control input-sm" />
-
-            </div>
-        </div>
-
-        <div class="row margin-bottom-5">
-            <div class="{{itemError.ModelState.TenMinhChung[1]}}">
-                <label class="control-label col-md-2">Tên minh chứng<span style="color:red">*</span>:</label>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Số, ngày ban hành hoặc thời điểm phỏng vấn:</label>
                 <div class="col-md-10">
-                    <textarea ng-model="item.TenMinhChung" class="form-control input-sm" rows="2"></textarea>
+                    <textarea ng-model="item.SoNgayBanHanh" class="form-control input-sm" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Nơi ban hành hoặc người thực hiện:</label>
+                <div class="col-md-10">
+                    <textarea ng-model="item.NoiBanHanh" class="form-control input-sm" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Ghi chú:</label>
+                <div class="col-md-10">
+                    <textarea ng-model="item.GhiChu" class="form-control input-sm" rows="2"></textarea>
                 </div>
             </div>
         </div>
         <div class="row margin-bottom-5">
-            <label class="control-label col-md-2">Số, ngày ban hành hoặc thời điểm phỏng vấn:</label>
-            <div class="col-md-10">
-                <textarea ng-model="item.SoNgayBanHanh" class="form-control input-sm" rows="3"></textarea>
+            <div class="except-thuthap">
+                <label class="control-label col-md-2">Mức độ:</label>
+                <div class="col-md-2" style="margin-top:7px">
+                    <input type="radio" ng-model="item.ChiSo" value="A" ng-change="RenderNoiDungChiSo()" /> 1
+                </div>
+                <div class="col-md-2" style="margin-top:7px">
+                    <input type="radio" ng-model="item.ChiSo" value="B" ng-change="RenderNoiDungChiSo()" /> 2
+                </div>
+                <div class="col-md-2" style="margin-top:7px">
+                    <input type="radio" ng-model="item.ChiSo" value="C" ng-change="RenderNoiDungChiSo()" /> 3
+                </div>
             </div>
-        </div>
-        <div class="row margin-bottom-5">
-            <label class="control-label col-md-2">Nơi ban hành hoặc người thực hiện:</label>
-            <div class="col-md-10">
-                <textarea ng-model="item.NoiBanHanh" class="form-control input-sm" rows="3"></textarea>
-            </div>
-        </div>
-        <div class="row margin-bottom-5">
-            <label class="control-label col-md-2">Ghi chú:</label>
-            <div class="col-md-10">
-                <textarea ng-model="item.GhiChu" class="form-control input-sm" rows="2"></textarea>
-            </div>
-        </div>
-        <div class="row margin-bottom-5">
-            <label class="control-label col-md-2">Chỉ số:</label>
-            <div class="col-md-2" style="margin-top:7px">
-                <input type="radio" ng-model="item.ChiSo" value="A" ng-change="RenderNoiDungChiSo()" /> A
-            </div>
-            <div class="col-md-2" style="margin-top:7px">
-                <input type="radio" ng-model="item.ChiSo" value="B" ng-change="RenderNoiDungChiSo()" /> B
-            </div>
-            <div class="col-md-2" style="margin-top:7px">
-                <input type="radio" ng-model="item.ChiSo" value="C" ng-change="RenderNoiDungChiSo()" /> C
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-4" style="position:absolute;right:0px">
                 <input type="file"
                        id="ngexcelfile"
                        multiple
                        placeholder="Chọn tệp đính kèm từ máy tính"
                        class="form-control input-sm"
                        ng-files="getTheFiles($files)" />
-
                 <table>
                     <tbody>
                         <tr ng-repeat="f in ListFileUpLoad">
@@ -104,7 +112,7 @@
                                 <a href="{{f.filename}}" target="_blank">{{f.FName}}</a>
                             </td>
                             <td>
-                                <a ng-hide="check == 1" ng-click="RemoveFile($index,f.filename)">
+                                <a ng-click="RemoveFile($index,f.filename,f.key)">
                                     <i class="fa fa-times-circle font-red"></i>
                                 </a>
                             </td>
@@ -131,19 +139,22 @@
         <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
             <label class="control-label col-md-2"></label>
             <div class="col-md-10 clearfix">
-                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
-                <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                <a class="btn btn-sm btn-success btn-outline sbold action-button" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                <a class="btn btn-sm btn-success btn-outline sbold action-button"
+                   ng-hide="ChiThuThap"
+                   ng-click="Save(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
             </div>
 
         </div>
     </div>
 </div>
-
-
-
 <script>
     jQuery(document).ready(function () {
         ComponentsSelect2.init();
+        let rootScope = angular.element(document.body).scope().$root;
+        if (rootScope.ChiThuThap) {
+            $(".except-thuthap :input").attr("disabled", true);
+        }
     });
 </script>

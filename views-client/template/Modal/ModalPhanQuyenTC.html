@@ -11,7 +11,8 @@
                 <label class="col-md-2 control-label">Chọn quy định:</label>
                 <div class="col-md-9">
                     <select ng-model="$root.IdQuyDinh" class="form-control input-sm select2"
-                            ng-change="GetAllMenuDrop()" convert-to-number>
+                            ng-change="GetAllMenuDrop()" convert-to-number 
+                            ng-disabled="KeHoachTDG">
                         <option ng-repeat="nl in QuyDinh" value={{nl.Id}}>{{nl.Ten}}</option>
                     </select>
                 </div>

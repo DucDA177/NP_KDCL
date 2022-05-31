@@ -1,4 +1,8 @@
 ﻿angular.module('WebApiApp').controller('MinhChungController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
+    $rootScope.ChiThuThap = false;
+    if (!$rootScope.checkAdmin && !$rootScope.checkTongHop)
+        $rootScope.ChiThuThap = true;
+
     $scope.Paging = {
         "idTieuChuan": '0',
         "idTieuChi": "0",
@@ -7,39 +11,40 @@
     $scope.LoadDMTieuChuan = function () {
         $http({
             method: 'GET',
-            url: 'api/DanhMucTieuChuan/LoadTieuChuan?IdDonVi=' + $rootScope.CurDonVi.Id
+            url: 'api/DanhMucTieuChuan/LoadTCTCByUser'
         }).then(function successCallback(response) {
-            $scope.DSTieuChuan = response.data;
+            $scope.DSTCTC = response.data;
+            $scope.DSTieuChuan = $scope.DSTCTC.map(t => t.tchuan);
+
             if ($scope.DSTieuChuan.length > 0) {
                 $scope.Paging.idTieuChuan = $scope.DSTieuChuan[0].Id;
-
-                $scope.LoadTieuChi($scope.Paging.idTieuChuan);
+                $scope.LoadTieuChi();
+            }
+            else {
+                $scope.Paging.idTieuChuan = '';
+                $scope.DsTieuChi = []
+                $scope.Paging.idTieuChi =  ''
             }
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });
     }
 
-    $scope.LoadTieuChi = function (tieuChuanId) {
-        if (tieuChuanId != 0 && tieuChuanId != undefined) {
-            $http({
-                method: 'GET',
-                url: 'api/DanhMucTieuChi/LayDuLieuBang?IdDonVi=' + $rootScope.CurDonVi.Id
-                    + '&IdTieuChuan=' + tieuChuanId
-            }).then(function successCallback(response) {
-                $scope.DsTieuChi = response.data;
-                if ($scope.DsTieuChi.length > 0) {
-                    $scope.Paging.idTieuChi = $scope.DsTieuChi[0].Id;
-
-                    $rootScope.LoadMinhChung();
-                } else {
-                    $scope.Paging.idTieuChi = null;
-                }
-            }, function errorCallback(response) {
-                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
-            });
-        }
+    $scope.LoadTieuChi = function () {
         
+        $scope.DsTieuChi = $scope.DSTCTC
+            .filter(x => x.tchuan.Id == $scope.Paging.idTieuChuan)
+            .map(t => t.tchi)[0];
+
+        if ($scope.DsTieuChi.length > 0) {
+            $scope.Paging.idTieuChi = $scope.DsTieuChi[0].Id;
+
+            $rootScope.LoadMinhChung();
+        } else {
+            $scope.Paging.idTieuChi = null;
+            $scope.DSMinhChung = []
+        }
+
     }
 
 
@@ -69,6 +74,7 @@
                     + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
                     + '&idTieuChi=' + $scope.Paging.idTieuChi
                     + '&heThongMa=' + $scope.Paging.heThongMa
+                    + '&ChiThuThap=' + $rootScope.ChiThuThap
             }).then(function successCallback(response) {
                 $scope.DSMinhChung = response.data;
             }, function errorCallback(response) {
@@ -95,4 +101,9 @@
             });
 
     }
+    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+        if ($rootScope.ChiThuThap) {
+            $('.except-thuthap').hide();
+        }
+    });
 }]);

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using WebApiCore.Models;
 
@@ -19,7 +21,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
         public IHttpActionResult GetDGTC(int IdDonVi, int IdKeHoachTDG,int IdTieuChuan)
         {
            var data = from tchi  in db.DMTieuChis
-                      .Where(x => x.IdTieuChuan == IdTieuChuan && x.IdDonVi == IdDonVi && x.YCDanhGia == true)
+                      .Where(x => x.IdTieuChuan == IdTieuChuan && x.YCDanhGia == true)
                       join dgtc in db.tblDanhGiaTieuChis
                       .Where(x => x.IdDonVi == IdDonVi && x.IdKeHoachTDG == IdKeHoachTDG)
                       on tchi.Id equals dgtc.IdTieuChi
@@ -57,6 +59,19 @@ namespace WebApiCore.Controllers.ThongTinTDG
         }
 
         [HttpGet]
+        [Route("api/DanhGiaTieuChi/SaveKQTDG")]
+        public IHttpActionResult SaveKQTDG(int IdDonVi, int IdKeHoachTDG, int KQDatMuc)
+        {
+            var data = db.tblDanhGiaTieuChis.Where(t => t.IdDonVi == IdDonVi && t.IdKeHoachTDG == IdKeHoachTDG).ToList();
+            foreach (var item in data)
+            {
+                item.KQDatMuc = KQDatMuc;
+            }
+            return Ok(db.SaveChanges());
+
+        }
+
+        [HttpGet]
         [Route("api/DanhGiaTieuChi/Del")]
         public IHttpActionResult Del(int Id)
         {
@@ -64,6 +79,34 @@ namespace WebApiCore.Controllers.ThongTinTDG
             db.tblDanhGiaTieuChis.Remove(dt);
             db.SaveChanges();
             return Ok(dt);
+
+        }
+
+        [HttpGet]
+        [Route("api/DanhGiaTieuChi/LoadKHTDGCapDuoi")]
+        public IHttpActionResult LoadKHTDGCapDuoi(int IdDonViCapTren, string NamHoc)
+        {
+            if (string.IsNullOrEmpty(NamHoc))
+                return Ok();
+
+            var NamHocBD = Convert.ToInt32(NamHoc.Split('-').First());
+            var NamHocKT = Convert.ToInt32(NamHoc.Split('-').Last());
+
+            var data = (from dv in db.DMDonVis
+                        join tdg in db.tblKeHoachTDGs
+                        .Where(tdg => tdg.NamHocBD <= NamHocBD && tdg.NamHocKT >= NamHocKT)
+                        on dv.Id equals tdg.IdDonVi
+                        into _tdg
+                        from tdg in _tdg.DefaultIfEmpty()
+                        where dv.IDDVCha == IdDonViCapTren
+                        && dv.FInUse == true
+                        select new
+                        {
+                            dv,
+                            tdg
+                        }).OrderBy(t => t.dv.TenDonVi);
+
+            return Ok(data);
 
         }
     }

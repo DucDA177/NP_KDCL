@@ -3,19 +3,33 @@
 </div>
 <div class="form-body form-horizontal col-md-12">
     <div class="form-group ">
-        <label class="col-md-2 control-label">Chọn quy định:</label>
-        <div class="col-md-3">
-            <select ng-model="$root.IdQuyDinh" class="form-control input-sm select2"
-                    ng-change="LoadDMTieuChuan()" convert-to-number>
-                <option ng-repeat="nl in QuyDinh" value={{nl.Id}}>{{nl.Ten}}</option>
-            </select>
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Tiêu chuẩn</span>
+                <select ng-model="$root.IdTieuChuan" class="form-control input-sm select2"
+                        ng-change="LoadDGTC()" convert-to-number>
+                    <option ng-repeat="nl in DsTieuChuan" value={{nl.tchuan.Id}}>{{nl.tchuan.NoiDung}}</option>
+                </select>
+            </div>
+
         </div>
-        <label class="col-md-2 control-label">Chọn tiêu chuẩn:</label>
-        <div class="col-md-3">
-            <select ng-model="$root.IdTieuChuan" class="form-control input-sm select2"
-                    ng-change="LoadDGTC()" convert-to-number>
-                <option ng-repeat="nl in DsTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
-            </select>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Tự đánh giá đạt mức</span>
+                <select class="form-control input-sm select2"
+                        convert-to-number
+                        ng-model="DGTC[0].dgtc.KQDatMuc">
+                    <option value="0">Không đạt</option>
+                    <option value="1">Mức 1</option>
+                    <option value="2">Mức 2</option>
+                    <option value="3">Mức 3</option>
+                </select>
+                <a class="btn btn-sm btn-primary bold input-group-addon"
+                   ng-click="SaveKQTDG(DGTC[0].dgtc.KQDatMuc)"
+                   ><i class="fa fa-save font-green-haze"></i> Lưu</a>
+            </div>
+
         </div>
     </div>
 
@@ -31,7 +45,7 @@
                             <th> <div style="text-align:center">Tiêu <br /> chí</div> </th>
                             <th> <div style="text-align:center">Cấp trên <br /> duyệt</div> </th>
                             <th> <div style="text-align:center">Ý kiến <br /> cấp trên</div> </th>
-                            <th> <div style="text-align:center">Tự <br /> đánh giá</div> </th>
+                            <th> <div style="text-align:center">Tự đánh giá <br /> đạt mức</div> </th>
                             <th> <div style="text-align:center">Điểm mạnh, <br /> Điểm yếu</div> </th>
                             <th> <div style="text-align:center">Kế hoạch <br /> cải tiến</div> </th>
                             <th width="1px"><div style="text-align:center">#</div> </th>
@@ -42,19 +56,23 @@
                         <tr class="odd gradeX" ng-repeat="dm in DGTC">
                             <td align="center" width="1px"> {{$index +1}} </td>
                             <td>
-                                <a ng-click="openModal(dm,'DanhGiaTieuChi')"> {{dm.tchi.NoiDung}}</a>
+                                <a ng-click="DanhGiaTC(dm,CurDonVi.Id,KeHoachTDG.Id)"> {{dm.tchi.NoiDung}}</a>
                             </td>
                             <td align="center"> <i ng-if="dm.dgtc.CapTrenDuyet" class="fa fa-check-circle"></i> </td>
                             <td> {{dm.dgtc.YKienCapTrenDG}} </td>
-                            <td align="center"> {{dm.dgtc.KQDat ? 'Hoàn thành' : 'Chưa hoàn thành'}} </td>
+                            <td align="center"> 
+                                <b ng-if="dm.dgtc.KQDatA"> [1]</b> 
+                                <b ng-if="dm.dgtc.KQDatB"> [2]</b> 
+                                <b ng-if="dm.dgtc.KQDatC"> [3]</b> 
+                            </td>
                             <td>
                                 - {{dm.dgtc.DiemManh}}
                                 <br />
                                 - {{dm.dgtc.DiemYeu}}
                             </td>
-                            <td>{{dm.dgtc.KeHoachCaiTien}}</td>
+                            <td> <div ng-bind-html="dm.dgtc.KeHoachCaiTien"></div></td>
                             <td>
-                                <a ng-click="openModal(dm,'DanhGiaTieuChi')" title="Đánh giá tiêu chí" tooltip>
+                                <a ng-click="DanhGiaTC(dm,CurDonVi.Id,KeHoachTDG.Id)" title="Đánh giá tiêu chí" tooltip>
                                     <i class="fa fa-edit"></i>
                                 </a>
                             </td>

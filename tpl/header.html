@@ -8,7 +8,7 @@
 
 <div class="page-header-inner">
     <div class="row">
-        <div class="col-md-6" style="vertical-align: middle">
+        <div class="col-md-4" style="vertical-align: middle">
             <a ui-sref="dashboard">
                 <label style="color:black; font-size: 20px;font-weight: bold; margin-top:8px">
                 &nbsp;&nbsp;{{CurDonVi.TenDonVi}}
@@ -27,9 +27,7 @@
 
             </marquee>
         </div>
-        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
-            <i class="fa fa-list font-white"></i>
-        </a>
+        
         <div class="top-menu" style="margin-top:-5px">
             <ul class="nav navbar-nav pull-right">
                 <li class="dropdown dropdown-extended dropdown-notification "
@@ -81,11 +79,13 @@
                     </ul>
                 </li>
 
-                <li class="dropdown dropdown-user">
+                <li class="dropdown dropdown-user dropdown-extended">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-close-others="true"
                        id="Hoten" style="font-size:smaller">
-                        <img class="img-circle" alt="" src="{{user.Avatar != null ? '../FILE_DINH_KEM/' + user.Avatar : '../FILE_DINH_KEM/noavatar.jpg'}}" />
-                        <span class="username username-hide-on-mobile" style="color: black;white-space: nowrap;width:100px;overflow: hidden;text-overflow: ellipsis; ">{{user.HoTen}}</span>
+                        <img class="img-circle" alt="" 
+                             src="{{user.Avatar != null ? '../FILE_DINH_KEM/' + user.Avatar : '../FILE_DINH_KEM/noavatar.jpg'}}" />
+                        <span class="username" 
+                              style="color: black;white-space: nowrap;width:100px;text-overflow: ellipsis; ">{{user.HoTen}}</span>
 
                         <i class="fa fa-angle-down"></i>
                     </a>
@@ -115,7 +115,12 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="dropdown dropdown-extended ">
+                    <a href="javascript:;" class="menu-toggler responsive-toggler dropdown-toggle margin-right-10" 
+                       data-toggle="collapse" data-target=".navbar-collapse">
+                        <i class="fa fa-list font-red"></i>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

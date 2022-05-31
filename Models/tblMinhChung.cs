@@ -27,6 +27,8 @@ namespace WebApiCore.Models
         public string NoiBanHanh { get; set; }
         public string GhiChu { get; set; }
         public string ChiSo { get; set; }
+        public string DuongDanFile { get; set; }
+        public Nullable<bool> HasFile { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using WebApiCore.Models;
 
@@ -14,20 +16,18 @@ namespace WebApiCore.Controllers.DanhMuc
     {
         // GET: api/DanhMucTieuChuan
         private WebApiDataEntities db = new WebApiDataEntities();
-        public IHttpActionResult Get()
-        {
-            return Ok(db.DMTieuChuans.Where(t => t.FInUse == true).OrderBy(t => t.STT).ToList());
-        }
 
         /// <summary>
         /// Api lấy dữ liệu danh mục tiêu chuẩn
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/DanhMucTieuChuan/LoadTieuChuan")]
-        public IHttpActionResult LoadTieuChuan(int IdDonVi)
+        [Route("api/DanhMucTieuChuan/LoadTieuChuanDanhGia")]
+        public IHttpActionResult LoadTieuChuanDanhGia(int IdQuyDinh)
         {
-            return Ok(db.DMTieuChuans.Where(x => x.IdDonVi == IdDonVi).OrderBy(t => t.STT).ToList());
+            return Ok(db.DMTieuChuans.Where(t => t.FInUse == true
+            && t.IdQuyDinh == IdQuyDinh && t.YCDanhGia == true
+            ).OrderBy(t => t.STT).ToList());
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChuan/LayDuLieuBang")]
-        public IHttpActionResult LayDuLieuBang(int IdDonVi, int IdQuyDinh)
+        public IHttpActionResult LayDuLieuBang(int IdQuyDinh)
         {
-            return Ok(db.DMTieuChuans.Where(x => x.IdDonVi == IdDonVi && x.IdQuyDinh == IdQuyDinh).OrderBy(t => t.STT).ToList());
+            return Ok(db.DMTieuChuans.Where(x => x.IdQuyDinh == IdQuyDinh).OrderBy(t => t.STT).ToList());
         }
 
         /// <summary>
@@ -50,7 +50,6 @@ namespace WebApiCore.Controllers.DanhMuc
         [Route("api/DanhMucTieuChuan/LuuDanhMucTieuChuan")]
         public IHttpActionResult Save([FromBody] DMTieuChuan data)
         {
-            int curDonvi = Convert.ToInt32(Commons.Common.GetCurrentDonVi(db));
             Validate(data);
             if (!ModelState.IsValid)
             {
@@ -59,7 +58,7 @@ namespace WebApiCore.Controllers.DanhMuc
 
             if (data.STT == 0 || string.IsNullOrEmpty(data.STT.ToString().Trim()))
             {
-                var dt = db.DMTieuChuans.Where(t => t.IdDonVi == curDonvi);
+                var dt = db.DMTieuChuans.Where(t => t.IdQuyDinh == data.IdQuyDinh);
                 if (dt != null && dt.Count() > 0)
                     data.STT = dt.Max(t => t.STT) + 1;
                 else data.STT = 1;
@@ -104,9 +103,9 @@ namespace WebApiCore.Controllers.DanhMuc
         /// <returns></returns>
         [HttpGet]
         [Route("api/DanhMucTieuChuan/LaySTT")]
-        public IHttpActionResult LaySTT(int IdDonVi, int IdQuyDinh)
+        public IHttpActionResult LaySTT( int IdQuyDinh)
         {
-            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdDonVi == IdDonVi && x.IdQuyDinh == IdQuyDinh).ToList();
+            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdQuyDinh == IdQuyDinh).ToList();
 
             return Ok(dsTieuChuan.Count + 1);
         }
@@ -127,6 +126,34 @@ namespace WebApiCore.Controllers.DanhMuc
                 ModelState.AddModelError("NoiDung", "Nội dung tiêu chuẩn bắt buộc nhập");
                 ModelState.AddModelError("NoiDung", "has-error");
             }
+        }
+
+
+        [HttpGet]
+        [Route("api/DanhMucTieuChuan/LoadTCTCByUser")]
+        public IHttpActionResult LoadTCTCByUser()
+        {
+            string userName = HttpContext.Current.User.Identity.Name;
+            var user = db.UserProfiles.Where(x => x.UserName == userName && x.FInUse == true).FirstOrDefault();
+
+            if (user != null && !string.IsNullOrEmpty(user.TieuChi))
+            {
+                var listTieuChiId = JsonConvert.DeserializeObject<List<int>>(user.TieuChi);
+                var listTCTC = from tcId in listTieuChiId
+                               join tchi in db.DMTieuChis on tcId equals tchi.Id
+                               join tchuan in db.DMTieuChuans on tchi.IdTieuChuan equals tchuan.Id
+                               select new { tchi, tchuan };
+                var result = listTCTC.GroupBy(t => t.tchuan)
+                    .Select(t => new
+                    {
+                        tchuan = t.FirstOrDefault()?.tchuan,
+                        tchi = t.Select(x => x.tchi)
+                    }).ToList();
+
+                return Ok(result);
+            }
+
+            return Ok();
         }
     }
 }

@@ -17,6 +17,7 @@ namespace WebApiCore.Models
         public int Id { get; set; }
         public int STT { get; set; }
         public int IdDonVi { get; set; }
+        public Nullable<int> IdQuyDinhTC { get; set; }
         public Nullable<System.DateTime> NgayBD { get; set; }
         public Nullable<System.DateTime> NgayKT { get; set; }
         public int NamHocBD { get; set; }

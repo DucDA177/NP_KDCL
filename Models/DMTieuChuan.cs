@@ -16,9 +16,8 @@ namespace WebApiCore.Models
     {
         public int Id { get; set; }
         public int STT { get; set; }
-        public string ThuTu { get; set; }
+        public int ThuTu { get; set; }
         public int IdQuyDinh { get; set; }
-        public int IdDonVi { get; set; }
         public string NoiDung { get; set; }
         public string GhiChu { get; set; }
         public Nullable<bool> YCDanhGia { get; set; }

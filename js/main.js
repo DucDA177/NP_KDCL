@@ -119,6 +119,54 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         }
 
+        $scope.DanhGiaTC = function (item,IdDonVi,IdKeHoachTDG) {
+
+            $http({
+                method: 'GET',
+                url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + IdDonVi
+                    + '&IdKeHoachTDG=' + IdKeHoachTDG
+                    + '&idTieuChi=' + item.tchi.Id
+                    + '&heThongMa='
+                    + '&ChiThuThap=false'
+            }).then(function successCallback(dgtc) {
+
+                $http({
+                    method: 'GET',
+                    url: 'api/PhanCongMinhChung/LoadUserByTieuChi?IdDonVi=' + IdDonVi
+                        + '&IdKeHoachTDG=' + IdKeHoachTDG
+                        + '&IdTieuChi=' + item.tchi.Id
+                }).then(function successCallback(userInNhom) {
+
+                    localStorage.setItem('DSMinhChung', JSON.stringify(dgtc.data));
+                    localStorage.setItem('UserInNhom', JSON.stringify(userInNhom.data));
+                    $scope.openModal(item, 'DanhGiaTieuChi');
+
+                }, function errorCallback(response) {
+                    toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+                });
+
+            }, function errorCallback(response) {
+                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            });
+
+
+        }
+
+        $scope.exportBaoCao = function (printDivId, fileName, mineType) {
+            let innerHtml = document.getElementById(printDivId).innerHTML;
+            var jHtmlObject = jQuery(innerHtml);
+            var editor = jQuery("<p>").append(jHtmlObject);
+            editor.find("table").css("width", "100%");
+            editor.find("thead").css('font-weight', 'bold');
+            editor.find("thead").css('text-align', 'center');
+            editor.find("th,td").css('border', '0.5pt solid black');
+            editor.find("th,td").css('border-collapse', 'collapse');
+            editor.find(".table-from-db td:first-child").remove();
+            editor.find(".table-from-db th:first-child").remove();
+
+            var newHtml = editor.html();
+            exportFromHtml(btoa(unescape(encodeURIComponent(newHtml))), fileName, mineType, true);
+        }
 
         $scope.CheckReadTB = function (u) {
             if (u.NguoiDoc == null || !u.NguoiDoc.includes($rootScope.user.UserName + '#'))
@@ -177,6 +225,10 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 $scope.Group = response.data;
                 if ($rootScope.CurDonVi.NhomLoai != "ADMIN")
                     $scope.Group = $scope.Group.filter(t => t.FCode != "ADMIN")
+                
+                if (!$rootScope.checkCapTren && !$rootScope.checkAdmin)
+                    $scope.Group = $scope.Group.filter(t => t.FCode != "XDDG")
+
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
             });
@@ -966,12 +1018,10 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                             + '&NamHoc=' + localStorage.getItem('NamHoc'),
                     }).then(function successCallback(response) {
                         $rootScope.KeHoachTDG = response.data;
+                        $rootScope.LoadThongBao();
+                        $rootScope.LoadMenu();
 
                     }, function errorCallback(response) {});
-
-                    $rootScope.LoadThongBao();
-                    $rootScope.LoadMenu();
-
 
                 }, function errorCallback(response) {
                     ////console.log(response)
@@ -984,8 +1034,14 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
 
             }).then(function successCallback(response) {
                 //console.log(response.data)
-                if (response.data[0].includes("ADMIN")) $rootScope.checkAdmin = true;
+                if (response.data.includes("ADMIN")) $rootScope.checkAdmin = true;
                 else $rootScope.checkAdmin = false;
+
+                if (response.data.includes("TONGHOP")) $rootScope.checkTongHop = true;
+                else $rootScope.checkTongHop = false;
+
+                if (response.data.includes("XDDG")) $rootScope.checkCapTren = true;
+                else $rootScope.checkCapTren = false;
 
                 $rootScope.CurUserGroup = response.data;
 

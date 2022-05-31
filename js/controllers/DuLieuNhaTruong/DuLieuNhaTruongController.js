@@ -114,12 +114,14 @@
     ]
 
     $scope.GetData = function (TaiTDDG, loaiSL, sheetName, minDimensions, footers, genesisColumn, genesisData, fn) {
+        $('#' + sheetName).empty();
 
         $http({
             method: 'GET',
             url: 'api/DuLieuNhaTruong/GetData?IdDonVi=' + $rootScope.CurDonVi.Id
                 + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
                 + '&TaiTDDG=' + TaiTDDG + '&Loai=' + loaiSL
+                + '&NamHoc=' + NamHoc
         }).then(function successCallback(response) {
 
             $scope[sheetName] = response.data;
@@ -239,8 +241,8 @@ angular.module('WebApiApp').controller('SLCoCauCongTrinhController', ['$rootScop
         UPDATEROWSTYLE($scope.sheetName, rowsToBold, 'font-weight', 'bold')
     }
 
-    $scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
-        $scope.genesisColumn, $scope.genesisData, $scope.updateSettings);
+    //$scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
+    //    $scope.genesisColumn, $scope.genesisData, $scope.updateSettings);
 
 
 
@@ -262,8 +264,8 @@ angular.module('WebApiApp').controller('SLCanBoController', ['$rootScope', '$sco
         ['5', 'Tổng số giáo viên dạy giỏi cấp tỉnh trở lên (nếu có)']
     ];
 
-    $scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
-        $scope.genesisColumn, $scope.genesisData);
+    //$scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
+    //    $scope.genesisColumn, $scope.genesisData);
 
 
 
@@ -298,8 +300,8 @@ angular.module('WebApiApp').controller('SLHocSinhController', ['$rootScope', '$s
     ];
 
 
-    $scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
-        $scope.genesisColumn, $scope.genesisData);
+    //$scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
+    //    $scope.genesisColumn, $scope.genesisData);
 }]);
 
 angular.module('WebApiApp').controller('SLKQGiaoDucController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
@@ -321,8 +323,8 @@ angular.module('WebApiApp').controller('SLKQGiaoDucController', ['$rootScope', '
     ];
 
 
-    $scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
-        $scope.genesisColumn, $scope.genesisData);
+    //$scope.GetData('', $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
+    //    $scope.genesisColumn, $scope.genesisData);
 
 
 
@@ -394,8 +396,8 @@ angular.module('WebApiApp').controller('DLTaiThoiDiemDGController', ['$rootScope
     ];
 
 
-    $scope.GetData(true, $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
-        $scope.genesisColumn, $scope.genesisData);
+    //$scope.GetData(true, $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
+    //    $scope.genesisColumn, $scope.genesisData);
 
 
 
@@ -431,8 +433,8 @@ angular.module('WebApiApp').controller('DMVietTatController', ['$rootScope', '$s
     ];
 
 
-    $scope.GetData(true, $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
-        $scope.genesisColumn, $scope.genesisData);
+    //$scope.GetData(true, $scope.loaiSL, $scope.sheetName, $scope.minDimensions, $scope.footers,
+    //    $scope.genesisColumn, $scope.genesisData);
 
 
 
@@ -442,7 +444,7 @@ angular.module('WebApiApp').controller('DatVanDeController', ['$rootScope', '$sc
     $scope.loaiSL = 'DatVanDe';
     $scope.sheetName = 'SheetDatVanDe';
 
-    $scope.GetData(true, $scope.loaiSL, $scope.sheetName, [], [], [], []);
+    /*$scope.GetData(true, $scope.loaiSL, $scope.sheetName, [], [], [], []);*/
 
 
 }]);
@@ -451,5 +453,5 @@ angular.module('WebApiApp').controller('KetLuanController', ['$rootScope', '$sco
     $scope.loaiSL = 'KetLuan';
     $scope.sheetName = 'SheetKetLuan';
 
-    $scope.GetData(true, $scope.loaiSL, $scope.sheetName, [], [], [], []);
+    /*$scope.GetData(true, $scope.loaiSL, $scope.sheetName, [], [], [], []);*/
 }]);

@@ -36,8 +36,9 @@ namespace WebApiCore.Models
         public Nullable<bool> KQDatC { get; set; }
         public string DiemManh { get; set; }
         public string DiemYeu { get; set; }
+        public string YKienLanhDao { get; set; }
         public string YKienCapTrenDG { get; set; }
-        public Nullable<bool> KQDat { get; set; }
+        public Nullable<int> KQDatMuc { get; set; }
         public Nullable<bool> CapTrenDuyet { get; set; }
         public string KeHoachCaiTien { get; set; }
         public string YKienCapTrenKHCT { get; set; }

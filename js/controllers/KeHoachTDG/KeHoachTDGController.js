@@ -25,7 +25,7 @@
             let curDate = new Date();
             let curYear = curDate.getFullYear();
             if (curYear < item.NamHocBD || curYear > item.NamHocKT) {
-                toastr.error('Năm hiện tại không thuộc năm học ' + item.NamHocBD + ' - ' + item.NamHocKT, 'Thông báo');
+                toastr.error('Năm hiện tại không thuộc giai đoạn ' + item.NamHocBD + ' - ' + item.NamHocKT, 'Thông báo');
                 return;
             }
             if (curDate < new Date(item.NgayBD) || curDate > new Date(item.NgayKT)) {

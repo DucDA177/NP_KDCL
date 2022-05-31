@@ -5,22 +5,17 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
         $scope.auth = JSON.parse(readUserConfig())
         if (!$scope.auth.remember) $scope.auth.password = ''
     } catch { }
-
+    $scope.ListNamHoc = [];
     let NamHocIfNull = (new Date().getFullYear() - 1) + '-' + (new Date().getFullYear())
     $scope.NamHoc = localStorage.getItem('NamHoc') ? localStorage.getItem('NamHoc') : NamHocIfNull;
     $scope.LoadListNamHoc = function () {
-        $http({
-            method: 'GET',
-            url: 'api/KeHoachTDG/LoadListNamHoc'
-        }).then(function successCallback(response) {
-
-            $scope.ListNamHoc = response.data;
-
-        }, function errorCallback(response) {
-            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
-        });
-    }
-    $scope.LoadListNamHoc();
+        $scope.ListNamHoc.push(NamHocIfNull);
+        let curYear = new Date().getFullYear();
+        for (let i = curYear - 1; i >= curYear - 20; i--) {
+            let NamHoc = (i - 1) + '-' + i
+            $scope.ListNamHoc.push(NamHoc)
+        }
+    }();
 
     $scope.fnLogin = function (obj) {
         $scope.show = 1;

@@ -1,16 +1,14 @@
 ﻿angular.module('WebApiApp').controller('DanhGiaTieuChiController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
     $rootScope.IdTieuChuan = 0;
-    $rootScope.IdQuyDinh = 0;
     //Xử lý load danh mục tiêu chuẩn
     $scope.LoadDMTieuChuan = function () {
         $http({
             method: 'GET',
-            url: 'api/DanhMucTieuChuan/LayDuLieuBang?IdDonVi=' + $rootScope.CurDonVi.Id
-                + '&IdQuyDinh=' + $rootScope.IdQuyDinh
+            url: 'api/DanhMucTieuChuan/LoadTCTCByUser'
         }).then(function successCallback(response) {
-            $rootScope.DsTieuChuan = response.data.filter(x => x.YCDanhGia);
+            $rootScope.DsTieuChuan = response.data;
             if ($rootScope.DsTieuChuan.length > 0) {
-                $rootScope.IdTieuChuan = $rootScope.DsTieuChuan[0].Id;
+                $rootScope.IdTieuChuan = $rootScope.DsTieuChuan[0].tchuan.Id;
                 $rootScope.LoadDGTC();
             }
             else {
@@ -21,7 +19,7 @@
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });
-    }
+    }();
 
 
     // Xử lý load danh mục đánh giá tiêu chí
@@ -40,18 +38,9 @@
         });
     }
 
-    $scope.AfterGetQuyDinh = function () {
-        if ($scope.QuyDinh.length > 0) {
-            $rootScope.IdQuyDinh = $scope.QuyDinh[0].Id;
-            $scope.LoadDMTieuChuan();
-        }
-    }
-
-    // Load danh mục trong bảng tblDanhmuc
-    $scope.LoadDanhMuc('QuyDinh', 'QUYDINH', '', '', '', $scope.AfterGetQuyDinh);
 
     $scope.Del = function (Id) {
-      
+
         if (confirm('Bạn có chắc chắn muốn đánh giá lại tiêu chí này ?'))
             $http({
                 method: 'GET',
@@ -65,4 +54,27 @@
             });
 
     }
+
+    $scope.SaveKQTDG = function (KQDatMuc) {
+
+        if ($scope.DGTC.length == 0) {
+            toastr.error('Không thể đặt kết quả tự đánh giá khi chưa tiêu chí nào được đánh giá !', 'Thông báo');
+            return;
+        }
+
+        $http({
+            method: 'GET',
+            url: 'api/DanhGiaTieuChi/SaveKQTDG?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                + '&KQDatMuc=' + KQDatMuc
+        }).then(function successCallback(response) {
+            toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
+            $rootScope.LoadDGTC();
+        }, function errorCallback(response) {
+            //$scope.itemError = response.data;
+            toastr.error('Có lỗi trong quá trình lưu dữ liệu !', 'Thông báo');
+        });
+
+    }
+
 }]);

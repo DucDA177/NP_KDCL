@@ -1,0 +1,454 @@
+﻿<style>
+    table {
+        width: 100% !important
+    }
+
+    h4, h5 {
+        font-weight: bold
+    }
+</style>
+<div class="col-md-6">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> BÁO CÁO TỰ ĐÁNH GIÁ </label></h4>
+</div>
+<div class="col-md-6 text-right margin-top-10">
+    <a class="btn btn-sm btn-primary"
+       ng-click="exportBaoCao('PrintDiv','Báo cáo tự đánh giá.doc','application/vnd.ms-word')">
+        <i class="fa fa-file-word-o"></i> Xuất báo cáo
+    </a>
+
+</div>
+<div class="form-body form-horizontal col-md-12" id="PrintDiv">
+    <div class="form-group">
+        <div class="col-md-12">
+            <center><h4> DANH SÁCH VÀ CHỮ KÝ THÀNH VIÊN HỘI ĐỒNG TỰ ĐÁNH GIÁ</h4></center>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <!-- BEGIN FORM-->
+                <table class="table"
+                       id="fixTable">
+                    <thead>
+                        <tr>
+                            <th width="1px" align="center"> STT </th>
+                            <th> <div style="text-align:center">Họ và tên</div></th>
+                            <th> <div style="text-align:center">Chức vụ, chức danh</div> </th>
+                            <th> <div style="text-align:center">Nhiệm vụ</div></th>
+                            <th> <div style="text-align:center">Chữ ký</div></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="dm in HoiDong">
+                            <td align="center" width="1px"> {{$index + 1}} </td>
+                            <td>  <b> {{dm.us.HoTen}}</b> </td>
+                            <td align="center">
+                                {{dm.cv.Ten}}
+                            </td>
+                            <td>
+                                {{dm.nv.Ten}}
+                            </td>
+                            <td>
+                                {{dm.hd.ChuKy}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <center><h4> DANH MỤC CHỮ VIẾT TẮT </h4></center>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <div ng-bind-html="DMVietTat">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <center><h4> TỔNG HỢP KẾT QUẢ TỰ ĐÁNH GIÁ </h4></center>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <!-- BEGIN FORM-->
+                <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th rowspan="3">
+                                <div style="text-align:center">
+                                    Tiêu chuẩn, tiêu chí
+                                </div>
+                            </th>
+                            <th colspan="4">
+                                <div style="text-align:center">
+                                    Kết quả
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">
+                                <div style="text-align:center">
+                                    Không đạt
+                                </div>
+
+                            </th>
+                            <th colspan="3">
+                                <div style="text-align:center">
+                                    Đạt
+                                </div>
+
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div style="text-align:center">
+                                    Mức 1
+                                </div>
+
+                            </th>
+                            <th>
+                                <div style="text-align:center">
+                                    Mức 2
+                                </div>
+
+                            </th>
+                            <th>
+                                <div style="text-align:center">
+                                    Mức 3
+                                </div>
+
+                            </th>
+                        </tr>
+
+                    </thead>
+                    <tbody ng-repeat="(key, value) in KetQua | groupBy: 'IdTieuChuan'">
+                        <tr>
+                            <td style="font-weight:bold">
+                                Tiêu chuẩn {{value[0].TTTieuChuan}}
+                            </td>
+                            <td colspan="4"></td>
+                        </tr>
+                        <tr ng-repeat="item in value">
+                            <td>
+                                Tiêu chuẩn {{value[0].TTTieuChuan}}.{{item.TTTieuChi}}
+                            </td>
+                            <td align="center">
+                                {{ !item.KQDatA && !item.KQDatB && !item.KQDatC ? 'X' : '' }}
+                            </td>
+                            <td align="center">
+                                {{ item.KQDatA ? 'X' : '' }}
+                            </td>
+                            <td align="center">
+                                {{ item.KQDatB ? 'X' : '' }}
+                            </td>
+                            <td align="center">
+                                {{ item.KQDatC ? 'X' : '' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <b>Kết quả: </b> Đạt mức {{KetQua[0].KQDatMuc}}
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <center><h4> PHẦN I. CƠ SỞ DỮ LIỆU </h4></center>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <!-- BEGIN FORM-->
+                <table class="table"
+                       id="fixTable">
+                    <tbody>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Tỉnh/ Thành phố </td>
+                            <td>  {{TTDonVi.Tinh}} </td>
+                            <td style="font-weight:bold"> Họ và tên hiệu trưởng </td>
+                            <td>  {{TTDonVi.HieuTruong}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Quận/ Huyện </td>
+                            <td>  {{TTDonVi.Huyen}} </td>
+                            <td style="font-weight:bold"> Điện thoại </td>
+                            <td>  {{TTDonVi.DienThoai}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Xã/ Phường </td>
+                            <td>  {{TTDonVi.Xa}} </td>
+                            <td style="font-weight:bold"> Fax </td>
+                            <td>  {{TTDonVi.Fax}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Đạt CQG </td>
+                            <td>  {{TTDonVi.ThongTinKhac.DatCQG ? 'X' : ''}} </td>
+                            <td style="font-weight:bold"> Website </td>
+                            <td> <a target="_blank" href="{{TTDonVi.Website}}"> {{TTDonVi.Website}} </a> </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Năm thành lập trường (theo quyết định thành lập) </td>
+                            <td>  {{TTDonVi.ThongTinKhac.NamThanhLap}} </td>
+                            <td style="font-weight:bold"> Số điểm trường </td>
+                            <td>  {{TTDonVi.SoDiemTruong}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Công lập </td>
+                            <td>  {{TTDonVi.CongLap}} </td>
+                            <td style="font-weight:bold"> Loại hình khác </td>
+                            <td>  {{TTDonVi.ThongTinKhac.LoaiHinhKhac}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Tư thục </td>
+                            <td>  {{TTDonVi.TuThuc}} </td>
+                            <td style="font-weight:bold"> Thuộc vùng khó khăn </td>
+                            <td>  {{TTDonVi.ThongTinKhac.ThuocVungKK ? 'X' : ''}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Trường chuyên biệt </td>
+                            <td>  {{TTDonVi.ThongTinKhac.TruongChuyenBiet ? 'X' : ''}} </td>
+                            <td style="font-weight:bold"> Thuộc vùng khó khăn </td>
+                            <td>  {{TTDonVi.ThongTinKhac.ThuocVungKKDB ? 'X' : ''}} </td>
+                        </tr>
+                        <tr class="odd gradeX">
+                            <td style="font-weight:bold"> Trường liên kết với nước ngoài </td>
+                            <td>  {{TTDonVi.ThongTinKhac.LKNuocNgoai ? 'X' : ''}} </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h5> 1.Số lớp học </h5>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <div ng-bind-html="SLSoLopHoc">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h5> 2.Cơ cấu khối công trình nhà trường </h5>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <div ng-bind-html="SLCoCauCongTrinh">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h5> 3.Cán bộ quản lý, giáo viên, nhân viên </h5>
+        </div>
+        <div class="col-md-12">
+            a) Số liệu tại thời điểm đánh giá:
+            <div class="table-scrollable ">
+                <div ng-bind-html="DLTaiThoiDiemDG">
+
+                </div>
+            </div>
+            b) Số liệu của 5 năm gần đây:
+            <div class="table-scrollable ">
+                <div ng-bind-html="SLCanBo">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h5> 4.Học sinh </h5>
+        </div>
+        <div class="col-md-12">
+            a) Số liệu chung:
+            <div class="table-scrollable ">
+                <div ng-bind-html="SLHocSinh">
+
+                </div>
+            </div>
+            b) Kết quả giáo dục (đối với trường THCS, THPT và trường phổ thông có nhiều cấp học):
+            <div class="table-scrollable ">
+                <div ng-bind-html="SLKQGiaoDuc">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <center><h4> PHẦN II. TỰ ĐÁNH GIÁ </h4></center>
+        </div>
+        <div class="col-md-12">
+            <h5> A. ĐẶT VẤN ĐỀ </h5>
+        </div>
+        <div class="col-md-12">
+            <div ng-bind-html="DatVanDe">
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h5> B. TỰ ĐÁNH GIÁ </h5>
+            <h5> I. TỰ ĐÁNH GIÁ TIÊU CHÍ MỨC 1, 2 VÀ 3 </h5>
+        </div>
+        <div ng-repeat="bctchuan in BaoCaoTCTC">
+            <div class="col-md-12">
+                <h5> Tiêu chuẩn {{bctchuan.ThuTu}}: {{bctchuan.TenTieuChuan}} </h5>
+                <h5> Mở đầu </h5>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="bctchuan.MoDau"></div>
+            </div>
+            <div ng-repeat="bctchi in bctchuan.ListTieuChi">
+                <div class="col-md-12">
+                    <h5> Tiêu chí {{bctchuan.ThuTu}}.{{bctchi.ThuTu}}: {{bctchi.TenTieuChi}} </h5>
+                    <h5> Mức 1 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.NoiDung1" style="font-style:italic"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 2 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.NoiDung2" style="font-style:italic"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 3 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.NoiDung3" style="font-style:italic"></div>
+                </div>
+
+                <div class="col-md-12">
+                    <h5> 1. Mô tả hiện trạng </h5>
+                    <h5> Mức 1 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.MoTa1"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 2 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.MoTa2"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 3 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.MoTa3"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 2. Điểm mạnh </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.DiemManh"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 3. Điểm yếu </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.DiemYeu"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 4. Kế hoạch cải tiến chất lượng </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="bctchi.KHCaiTienChatLuong"></div>
+                </div>
+                <div class="col-md-12">
+                    <b> 5. Tự đánh giá: </b> Đạt mức {{bctchi.KQDatMuc}}
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <h5> Kết luận về Tiêu chuẩn {{bctchuan.ThuTu}}: </h5>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="bctchuan.KetLuan"></div>
+            </div>
+
+            <div class="col-md-12">
+                <h5> Kết quả tự đánh giá Tiêu chuẩn {{bctchuan.ThuTu}}: </h5>
+            </div>
+            <div class="col-md-12">
+                <p>Tiêu chí đạt mức 1: {{bctchuan.TchiDatMuc1}}/{{bctchuan.TongTieuChi}}</p>
+                <p>Tiêu chí đạt mức 2: {{bctchuan.TchiDatMuc2}}/{{bctchuan.TongTieuChi}}</p>
+                <p>Tiêu chí đạt mức 3: {{bctchuan.TchiDatMuc3}}/{{bctchuan.TongTieuChi}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <center><h4> PHẦN III. KẾT LUẬN CHUNG </h4></center>
+        </div>
+        <div class="col-md-12">
+            <div ng-bind-html="KetLuan"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <center>
+                <h4>
+                    PHẦN IV. PHỤ LỤC <br />
+                    BẢNG THỐNG KÊ DANH MỤC MÃ HÓA MINH CHỨNG
+                </h4>
+            </center>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <!-- BEGIN FORM-->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="1px" align="center"> STT </th>
+                            <th> <div style="text-align:center">Mã minh chứng</div></th>
+                            <th> <div style="text-align:center">Tên minh chứng</div> </th>
+                            <th> <div style="text-align:center">Số, ngày ban hành, hoặc thời điểm khảo sát, điều tra, phỏng vấn, quan sát</div></th>
+                            <th> <div style="text-align:center">Nơi ban hành hoặc nhóm, cá nhân thực hiện</div></th>
+                            <th> <div style="text-align:center">Ghi chú</div></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="dm in PhuLucMC">
+                            <td align="center" width="1px"> {{$index + 1}} </td>
+                            <td>  [{{dm.Ma}}] </td>
+                            <td>
+                                {{dm.TenMinhChung}}
+                            </td>
+                            <td>
+                                {{dm.SoNgayBanHanh}}
+                            </td>
+                            <td>
+                                {{dm.NoiBanHanh}}
+                            </td>
+                            <td>
+                                {{dm.GhiChu}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

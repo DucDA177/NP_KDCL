@@ -386,3 +386,21 @@
 .select-checkbox-fa option:checked::before {
     content: "\f046";
 }
+
+.table {
+    border: solid 1px !important
+}
+
+    .table > thead {
+        background-color: #eee;
+        font-weight:bold;
+        text-align:center
+    }
+
+        .table > thead > tr > th {
+            border: solid 1px
+        }
+
+    .table > tbody > tr > td {
+        border: solid 1px
+    }

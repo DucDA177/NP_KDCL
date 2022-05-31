@@ -1,0 +1,158 @@
+﻿<style>
+    .modal-dialog {
+        width: 90%
+    }
+</style>
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật gơi ý và thông tin thu nhập minh chứng</label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row margin-bottom-5">
+            <label class="control-label col-md-1">Tiêu chuẩn:</label>
+            <div class="col-md-5">
+                <select ng-model="IdTieuChuan" class="form-control input-sm select2"
+                        convert-to-number
+                        ng-change="LoadTieuChi()">
+                    <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+
+            <label class="control-label col-md-1">Tiêu chí<span style="color:red">*</span>:</label>
+            <div class="col-md-5">
+                <select ng-model="IdTieuChi" class="form-control input-sm select2"
+                       ng-change="LoadPCMC()"
+                        convert-to-number>
+                    <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="row margin-bottom-5">
+
+            <div class="col-md-12">
+
+                <div class="tabbable-custom portlet box margin-top-10">
+                    <ul class="nav nav-tabs ">
+                        <li class="{{tab.Code == 'A' ? 'active' : ''}}" ng-repeat="tab in ListTab">
+                            <a data-target="#{{tab.Id}}" data-toggle="tab" aria-expanded="true" class="bold">
+                                {{tab.Name}}
+                            </a>
+                        </li>
+                       
+                    </ul>
+                    <div class="tab-content">
+                        <div ng-repeat="tab in ListTab" class="tab-pane {{tab.Code == 'A' ? 'active' : ''}} " id="{{tab.Id}}">
+
+                            <div class="row">
+                                <div class="portlet light">
+
+                                    <div class="form-body form-horizontal col-md-12">
+                                        <table class="table table-striped table-bordered table-hover"
+                                               id="fixTable">
+                                            <thead>
+                                                <tr>
+                                                    <th width="1px" align="center"> STT </th>
+                                                    <th> <div style="text-align:center">Tên minh chứng</div> </th>
+                                                    <th> <div style="text-align:center">Người lưu giữ</div> </th>
+                                                    <th> <div style="text-align:center">Người thu thập</div> </th>
+                                                    <th> <div style="text-align:center">Từ ngày</div> </th>
+                                                    <th> <div style="text-align:center">Đến ngày</div> </th>
+                                                    <th> <div style="text-align:center">Trạng thái</div> </th>
+                                                    <th> <div style="text-align:center">Ghi chú</div> </th>
+                                                    <th width="1px"><div style="text-align:center">#</div> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="odd gradeX" ng-repeat="dm in PCMC | filter:{mc:{ChiSo: tab.Code}}"
+                                                    on-finish-render="ngRepeatFinished"
+                                                    >
+                                                    <td align="center" width="1px"> {{$index + 1}} </td>
+                                                    <td> {{dm.mc.TenMinhChung}} </td>
+                                                    <td>
+                                                        <select ng-model="dm.pcmc.NguoiLuuGiu" class="form-control input-sm " select2>
+                                                            <option ng-repeat="nl in Users"
+                                                                    value={{nl.Username}}>
+                                                                {{nl.HoTen}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select ng-model="dm.pcmc.NguoiThuThap" class="form-control input-sm " select2>
+                                                            <option ng-repeat="nl in Users"
+                                                                    value={{nl.Username}}>
+                                                                {{nl.HoTen}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                               placeholder="dd/MM/yyyy"
+                                                               datetime="dd/MM/yyyy"
+                                                               class="form-control input-sm"
+                                                               ng-model="dm.pcmc.TuNgay"
+                                                               datetime-separator=",.-/" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                               placeholder="dd/MM/yyyy"
+                                                               datetime="dd/MM/yyyy"
+                                                               class="form-control input-sm"
+                                                               ng-model="dm.pcmc.DenNgay"
+                                                               datetime-separator=",.-/" />
+                                                    </td>
+                                                    <td>
+                                                        <select ng-model="dm.pcmc.TrangThai" class="form-control input-sm include-thuthap" >
+                                                            <option ng-repeat="nl in ListTrangThai"
+                                                                    value={{nl.Code}}>
+                                                                {{nl.Name}}
+                                                            </option>
+                                                        </select>
+                                                    </td>
+                                                    <td><input ng-model="dm.pcmc.GhiChu" class="form-control input-sm" /></td>
+                                                    <td><a ng-click="Delete(dm.pcmc.Id)" title="Xóa"
+                                                           ng-hide="ChiThuThap"
+                                                           ><i class="fa fa-trash font-red"></i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-6 clearfix">
+                <a class="btn btn-sm btn-success btn-outline sbold action-button"
+                   ng-show="PCMC.length > 0"
+                   ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+            <div class="col-md-6 text-right">
+                <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

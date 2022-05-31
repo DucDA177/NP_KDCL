@@ -25,7 +25,7 @@
                 <li ng-class="{'active': cm.FCode == $stateParams.param.FCode}"
                     ui-sref-active="active"
                   
-                    ng-repeat="cm in menu | filter: {ParentMenu: m.FCode,FName : search} | orderBy : 'FIndex'">
+                    ng-repeat="cm in menu | filter: {ParentMenu: m.FCode,FName : search} : true | orderBy : 'FIndex'">
                     <a ui-sref="{{cm.FCode}}({param:cm,FCode:cm.FCode})">
                         {{m.Stt}}.{{$index + 1}}. {{cm.FName}}
                     </a>

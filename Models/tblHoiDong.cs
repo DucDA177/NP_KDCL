@@ -18,6 +18,7 @@ namespace WebApiCore.Models
         public int STT { get; set; }
         public int IdDonVi { get; set; }
         public int IdKeHoachTDG { get; set; }
+        public string Username { get; set; }
         public string HoVaTen { get; set; }
         public Nullable<int> IdChucVu { get; set; }
         public Nullable<int> IdNhiemVu { get; set; }

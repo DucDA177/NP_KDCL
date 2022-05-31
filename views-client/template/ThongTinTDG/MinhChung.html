@@ -4,35 +4,55 @@
 </div>
 <div class="form-body form-horizontal col-md-12">
     <div class="form-group ">
-        <div class="col-md-2 text-left">
-            <a class="btn btn-primary btn-sm action-button"
+
+        <div class="col-md-5">
+            <div class="input-group">
+                <span class="input-group-addon">Tiêu chuẩn</span>
+                <select ng-model="Paging.idTieuChuan"
+                        class="form-control input-sm select2" convert-to-number
+                        ng-change="LoadTieuChi()">
+                    <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="input-group">
+                <span class="input-group-addon">Tiêu chí</span>
+                <select ng-model="Paging.idTieuChi"
+                        class="form-control input-sm select2"
+                        convert-to-number
+                        ng-change="LoadMinhChung()">
+                    <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">Hệ thống mã</span>
+                <select ng-model="Paging.heThongMa"
+                        class="form-control input-sm select2"
+                        ng-change="LoadMinhChung()">
+                    <option ng-repeat="nl in DSHeThongMa" value={{nl}}>{{nl}}</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4 text-left">
+            <a class="btn btn-primary btn-sm action-button except-thuthap"
                ng-click="openModal('','MinhChung')">
                 <i class="fa fa-plus-circle"></i> Thêm minh chứng
             </a>
-        </div>
-        <div class="col-md-4">
-            <select ng-model="Paging.idTieuChuan" 
-                    class="form-control input-sm select2" convert-to-number 
-                    ng-change="LoadTieuChi(Paging.idTieuChuan)">
-                <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
-            </select>
-        </div>
-        <div class="col-md-4">
-            <select ng-model="Paging.idTieuChi" 
-                    class="form-control input-sm select2" 
-                    convert-to-number 
-                    ng-change="LoadMinhChung()">
-                <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select ng-model="Paging.heThongMa" 
-                    class="form-control input-sm select2" 
-                    ng-change="LoadMinhChung()">
-                <option ng-repeat="nl in DSHeThongMa" value={{nl}}>{{nl}}</option>
-            </select>
+
+            <a class="btn btn-primary btn-sm action-button"
+               ng-click="openModal('','PhanCongMinhChung')">
+                <i class="fa fa-users"></i> Gợi ý và phân công
+            </a>
         </div>
     </div>
+
 
     <div class="form-group">
         <div class="col-md-12">
@@ -48,20 +68,22 @@
                             <th> <div style="text-align:center">Số, ngày ban hành, thời điểm khảo sát</div> </th>
                             <th> <div style="text-align:center">Nơi ban hành, người thực hiện</div> </th>
                             <th> <div style="text-align:center">Tiêu chuẩn-tiêu chí số</div> </th>
+                            <th> <div style="text-align:center">Tệp đính kèm</div> </th>
                             <th width="1px"><div style="text-align:center">#</div> </th>
                             <th width="1px"><div style="text-align:center">#</div> </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="odd gradeX" ng-repeat="dm in DSMinhChung">
+                        <tr class="odd gradeX" ng-repeat="dm in DSMinhChung" on-finish-render="ngRepeatFinished">
                             <td align="center" width="1px"> {{$index + 1}} </td>
                             <td style="text-transform: uppercase"> <a ng-click="openModal(dm,'MinhChung')"> {{dm.Ma}}</a> </td>
                             <td>{{dm.TenMinhChung}}</td>
                             <td>{{dm.SoNgayBanHanh}}</td>
                             <td>{{dm.NoiBanHanh}}</td>
-                            <td>{{dm.Ma.split('-')[2]}} - {{dm.Ma.split('-')[3]}}</td>
+                            <td>{{dm.Ma.split('-')[1]}}</td>
+                            <td align="center"><i ng-if="dm.HasFile" class="fa fa-check"></i></td>
                             <td><a ng-click="openModal(dm,'MinhChung')" title="Sửa"><i class="fa fa-edit"></i></a></td>
-                            <td><a ng-click="Delete(dm.Id)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
+                            <td><a ng-click="Delete(dm.Id)" title="Xóa" class="except-thuthap"><i class="fa fa-trash font-red"></i></a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,7 +94,10 @@
 </div>
 
 <script>
-    ComponentsSelect2.init();
+    $(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+    
 </script>
 
 

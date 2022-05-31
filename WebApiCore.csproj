@@ -436,6 +436,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\AutoIDsController.cs" />
+    <Compile Include="Controllers\BaoCaoController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChiController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChuanController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucChungController.cs" />
@@ -454,6 +455,7 @@
     <Compile Include="Controllers\ThongTinTDG\DanhGiaTieuChiController.cs" />
     <Compile Include="Controllers\ThongTinTDG\MinhChungController.cs" />
     <Compile Include="Controllers\ThongTinTDG\MoDauKetLuanTCController.cs" />
+    <Compile Include="Controllers\ThongTinTDG\PhanCongMinhChungController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -626,6 +628,9 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblMoDauKetLuanTC.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPhanCongMinhChung.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongBao.cs">
@@ -1825,6 +1830,8 @@
     <Content Include="assets\global\plugins\ckeditor\plugins\iframe\images\placeholder.png" />
     <Content Include="assets\global\plugins\ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung\icons\insert-minhchung.png" />
+    <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung\plugin.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\link\dialogs\anchor.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\link\dialogs\link.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\link\images\anchor.png" />
@@ -3065,6 +3072,8 @@
     <Content Include="js\ckeditor.js" />
     <Content Include="js\controllers\AccountController.js" />
     <Content Include="js\controllers\AreasController.js" />
+    <Content Include="js\controllers\BaoCao\BaoCaoTDGController.js" />
+    <Content Include="js\controllers\BaoCao\TongHopKQDGController.js" />
     <Content Include="js\controllers\DanhMuc\DMTieuChiController.js" />
     <Content Include="js\controllers\DanhMuc\DMTieuChuanController.js" />
     <Content Include="js\controllers\DanhMuc\DMChungController.js" />
@@ -3086,6 +3095,7 @@
     <Content Include="js\controllers\TienIch\HDSDController.js" />
     <Content Include="js\controllers\TienIch\HoTroController.js" />
     <Content Include="js\controllers\TienIch\ThongBaoController.js" />
+    <Content Include="js\controllers\XetDuyet\XetDuyetTDGCapDuoiController.js" />
     <Content Include="js\controllers\XuLyYeuCauController.js" />
     <Content Include="js\customjs\angular-datetime.js" />
     <Content Include="js\customjs\angular-filter.js" />
@@ -3137,6 +3147,7 @@
     <Content Include="js\scripts\Jspreadsheet\jsuites.css" />
     <Content Include="js\scripts\Jspreadsheet\jsuites.js" />
     <Content Include="js\scripts\orgchart.js" />
+    <Content Include="js\scripts\qrcode.min.js" />
     <Content Include="js\scripts\table-ajax.js" />
     <Content Include="js\scripts\vendor\jquery.ui.widget.js" />
     <Content Include="js\tempPagination\dirPagination.js" />
@@ -3818,6 +3829,8 @@
     <Content Include="views-client\dashboard.html" />
     <Content Include="views-client\profile\account.html" />
     <Content Include="views-client\template\Areas.html" />
+    <Content Include="views-client\template\BaoCao\BaoCaoTDG.html" />
+    <Content Include="views-client\template\BaoCao\TongHopKQDG.html" />
     <Content Include="views-client\template\DanhMuc\DMTieuChi.html" />
     <Content Include="views-client\template\DanhMuc\DMTieuChuan.html" />
     <Content Include="views-client\template\DanhMuc\DMChung.html" />
@@ -3843,6 +3856,7 @@
     <Content Include="views-client\template\Modal\ModalCreateData.html" />
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
     <Content Include="views-client\template\Modal\ModalMinhChung.html" />
+    <Content Include="views-client\template\Modal\ModalPhanCongMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalPhanQuyenTC.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChi.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChuan.html" />
@@ -3869,6 +3883,7 @@
     <Content Include="views-client\template\User.html" />
     <Content Include="views-client\template\UserGroup.html" />
     <Content Include="views-client\template\UserManager.html" />
+    <Content Include="views-client\template\XetDuyet\XetDuyetTDGCapDuoi.html" />
     <Content Include="views-client\template\XuLyYeuCau.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

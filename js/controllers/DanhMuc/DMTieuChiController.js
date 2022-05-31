@@ -5,8 +5,7 @@
     $scope.LoadDMTieuChuan = function () {
         $http({
             method: 'GET',
-            url: 'api/DanhMucTieuChuan/LayDuLieuBang?IdDonVi=' + $rootScope.CurDonVi.Id
-                + '&IdQuyDinh=' + $rootScope.IdQuyDinh
+            url: 'api/DanhMucTieuChuan/LayDuLieuBang?IdQuyDinh=' + $rootScope.IdQuyDinh
         }).then(function successCallback(response) {
 
             $rootScope.DsTieuChuan = response.data;
@@ -45,8 +44,7 @@
     $rootScope.LoadDMTieuChi = function () {
         $http({
             method: 'GET',
-            url: 'api/DanhMucTieuChi/LayDuLieuBang?IdDonVi=' + $rootScope.CurDonVi.Id
-                + '&IdTieuChuan=' + $rootScope.IdTieuChuan
+            url: 'api/DanhMucTieuChi/LayDuLieuBang?IdTieuChuan=' + $rootScope.IdTieuChuan
         }).then(function successCallback(response) {
 
             $scope.DMTieuChi = response.data;

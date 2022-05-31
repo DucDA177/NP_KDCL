@@ -30,14 +30,14 @@
 
             </div>
             <div class="row margin-bottom-5">
-                <label class="control-label col-md-2">Tiêu chí thứ:</label>
-                <div class="col-md-1">
-                    <input type="text" class="form-control input-sm" ng-model="item.ThuTu">
+                <div class="{{itemError.ModelState.NoiDung[1]}}">
+                    <label class="control-label col-md-2">Tiêu chí thứ:</label>
+                    <div class="col-md-4">
+                        <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+                               class="form-control input-sm" ng-model="item.ThuTu">
+                    </div>
                 </div>
-                <label class="control-label col-md-2 text-right">STT:</label>
-                <div class="col-md-1">
-                    <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control input-sm" ng-model="item.STT">
-                </div>
+
                 <label class="control-label col-md-2">Yêu cầu đánh giá:</label>
                 <div class="col-md-1" style="margin-top:-3px">
                     <input type="checkbox" class="input-sm" ng-model="item.YCDanhGia">
@@ -56,17 +56,17 @@
                         <ul class="nav nav-tabs ">
                             <li class="active">
                                 <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
-                                    Chỉ số A
+                                    Mức độ 1
                                 </a>
                             </li>
                             <li>
                                 <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold">
-                                    Chỉ số B
+                                    Mức độ 2
                                 </a>
                             </li>
                             <li>
                                 <a data-target="#tab_3" data-toggle="tab" aria-expanded="true" class="bold">
-                                    Chỉ số C
+                                    Mức độ 3
                                 </a>
                             </li>
 

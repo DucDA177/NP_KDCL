@@ -22,8 +22,10 @@ namespace WebApiCore.Controllers.KeHoachTDG
                        on hd.IdChucVu equals cv.Id
                        join nv in db.tblDanhmucs.Where(t => t.Maloai == "NHIEMVU")
                        on hd.IdNhiemVu equals nv.Id
+                       join us in db.UserProfiles 
+                       on hd.Username equals us.UserName
                        where hd.IdDonVi == IdDonVi && hd.IdKeHoachTDG == IdKeHoachTDG
-                       select new {hd, cv, nv};
+                       select new {hd, cv, nv, us};
             return Ok(data);
         }
 
@@ -54,10 +56,10 @@ namespace WebApiCore.Controllers.KeHoachTDG
         }
         private void Validate(tblHoiDong item)
         {
-            if (string.IsNullOrEmpty(item.HoVaTen))
+            if (string.IsNullOrEmpty(item.Username))
             {
-                ModelState.AddModelError("HoVaTen", "Họ và tên bắt buộc nhập");
-                ModelState.AddModelError("HoVaTen", "has-error");
+                ModelState.AddModelError("Username", "Họ và tên bắt buộc chọn");
+                ModelState.AddModelError("Username", "has-error");
             }
             if (item.IdChucVu == null | item.IdChucVu == 0)
             {

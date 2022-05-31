@@ -16,9 +16,8 @@ namespace WebApiCore.Models
     {
         public int Id { get; set; }
         public int STT { get; set; }
-        public string ThuTu { get; set; }
+        public int ThuTu { get; set; }
         public int IdTieuChuan { get; set; }
-        public int IdDonVi { get; set; }
         public string NoiDung { get; set; }
         public string NoiDungA { get; set; }
         public string YeuCauA { get; set; }

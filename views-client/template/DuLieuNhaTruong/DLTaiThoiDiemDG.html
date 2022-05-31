@@ -2,7 +2,8 @@
     <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> SỐ LIỆU TẠI THỜI ĐIỂM ĐÁNH GIÁ </label></h4>
 </div>
 <div class="form-body form-horizontal col-md-12">
-    <div ng-controller="DLTaiThoiDiemDGController">
+    <div ng-controller="DLTaiThoiDiemDGController"
+         ng-init="GetData(true,loaiSL,sheetName,minDimensions,footers,genesisColumn, genesisData)">
         <h5 class="font-red" ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
             <b>
                 1. Số liệu cán bộ quản lý, giáo viên, nhân viên tại thời điểm đánh giá

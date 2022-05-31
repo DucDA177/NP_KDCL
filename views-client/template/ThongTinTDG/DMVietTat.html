@@ -2,7 +2,8 @@
     <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> DANH MỤC VIẾT TẮT </label></h4>
 </div>
 <div class="form-body form-horizontal col-md-12">
-    <div ng-controller="DMVietTatController">
+    <div ng-controller="DMVietTatController"
+         ng-init="GetData(true,loaiSL,sheetName,minDimensions, footers,genesisColumn,genesisData)">
         <div id="{{sheetName}}"></div>
         <div>
             <a class="btn btn-success btn-sm action-btn"

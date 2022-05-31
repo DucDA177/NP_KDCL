@@ -4,7 +4,7 @@
 
         $http({
             method: 'GET',
-            url: 'api/MoDauKetLuanTC/LoadTCTCByUser'
+            url: 'api/DanhMucTieuChuan/LoadTCTCByUser'
         }).then(function successCallback(response) {
 
             $scope.TieuChuan = response.data;
@@ -14,7 +14,7 @@
                 $scope.IdTieuChuan = '';
             }
             else {
-                $scope.IdTieuChuan = $scope.TieuChuan[0][0].tchuan.Id;
+                $scope.IdTieuChuan = $scope.TieuChuan[0].tchuan.Id;
                 $scope.LoadMDKLTieuChuan();
             }
             

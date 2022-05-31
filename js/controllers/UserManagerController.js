@@ -201,7 +201,6 @@ angular.module('WebApiApp').controller('UserManagerController', ['$rootScope', '
             method: 'GET',
             url: 'api/UserProfile/GetUsers?pageNumber=' + $scope.Paging.currentPage + '&pageSize=' + $scope.Paging.pageSize + '&searchKey=' + $scope.Paging.searchKey + '&maDV=' + $scope.Paging.maDV
         }).then(function successCallback(response) {
-            console.log(response.data)
             $scope.Users = response.data.dt;
             $scope.Paging.totalCount = response.data.totalCount;
             $scope.Paging.pageStart = response.data.pageStart;
