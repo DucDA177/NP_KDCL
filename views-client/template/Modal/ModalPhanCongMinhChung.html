@@ -64,7 +64,7 @@
                                                     <th> <div style="text-align:center">Người thu thập</div> </th>
                                                     <th> <div style="text-align:center">Từ ngày</div> </th>
                                                     <th> <div style="text-align:center">Đến ngày</div> </th>
-                                                    <th> <div style="text-align:center">Trạng thái</div> </th>
+                                                    <th width="140px"> <div style="text-align:center">Trạng thái</div> </th>
                                                     <th> <div style="text-align:center">Ghi chú</div> </th>
                                                     <th width="1px"><div style="text-align:center">#</div> </th>
                                                 </tr>
@@ -76,7 +76,7 @@
                                                     <td align="center" width="1px"> {{$index + 1}} </td>
                                                     <td> {{dm.mc.TenMinhChung}} </td>
                                                     <td>
-                                                        <select ng-model="dm.pcmc.NguoiLuuGiu" class="form-control input-sm " select2>
+                                                        <select multiple ng-model="dm.pcmc.NguoiLuuGiu" class="form-control input-sm " select2>
                                                             <option ng-repeat="nl in Users"
                                                                     value={{nl.Username}}>
                                                                 {{nl.HoTen}}
@@ -84,7 +84,7 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <select ng-model="dm.pcmc.NguoiThuThap" class="form-control input-sm " select2>
+                                                        <select multiple ng-model="dm.pcmc.NguoiThuThap" class="form-control input-sm " select2>
                                                             <option ng-repeat="nl in Users"
                                                                     value={{nl.Username}}>
                                                                 {{nl.HoTen}}
@@ -115,7 +115,7 @@
                                                             </option>
                                                         </select>
                                                     </td>
-                                                    <td><input ng-model="dm.pcmc.GhiChu" class="form-control input-sm" /></td>
+                                                    <td><textarea ng-model="dm.pcmc.GhiChu" class="form-control input-sm include-thuthap" /></td>
                                                     <td><a ng-click="Delete(dm.pcmc.Id)" title="Xóa"
                                                            ng-hide="ChiThuThap"
                                                            ><i class="fa fa-trash font-red"></i></a></td>

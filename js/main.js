@@ -157,7 +157,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 method: 'GET',
                 url: 'api/MinhChung/LoadMinhChungById?IdMinhChung=' + IdMinhChung
             }).then(function successCallback(response) {
-                $scope.openModal(response.data, 'MinhChung', true);
+                $scope.openModalSmall(response.data, 'FileMinhChung', true);
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });

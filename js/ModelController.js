@@ -1615,11 +1615,16 @@ angular.module('WebApiApp').controller("ModalPhanCongMinhChungHandlerController"
         }).then(function successCallback(response) {
 
             $scope.PCMC = response.data.map(function (t) {
-                if (t.pcmc && t.pcmc.TuNgay)
-                    t.pcmc.TuNgay = new Date(t.pcmc.TuNgay)
-                if (t.pcmc && t.pcmc.DenNgay)
-                    t.pcmc.DenNgay = new Date(t.pcmc.DenNgay)
-
+                if (t.pcmc) {
+                    if (t.pcmc.TuNgay)
+                        t.pcmc.TuNgay = new Date(t.pcmc.TuNgay)
+                    if (t.pcmc.DenNgay)
+                        t.pcmc.DenNgay = new Date(t.pcmc.DenNgay)
+                    if (t.pcmc.NguoiLuuGiu)
+                        t.pcmc.NguoiLuuGiu = JSON.parse(t.pcmc.NguoiLuuGiu)
+                    if (t.pcmc.NguoiThuThap)
+                        t.pcmc.NguoiThuThap = JSON.parse(t.pcmc.NguoiThuThap)
+                }
                 return t;
             });
             $scope.LoadUserByTieuChi();
@@ -1660,7 +1665,8 @@ angular.module('WebApiApp').controller("ModalPhanCongMinhChungHandlerController"
                 t.pcmc.IdTieuChi = $scope.IdTieuChi
                 t.pcmc.IdMinhChung = t.mc.Id
                 t.pcmc.Muc = t.mc.ChiSo == 'A' ? 1 : t.mc.ChiSo == 'B' ? 2 : 3
-
+                t.pcmc.NguoiLuuGiu = JSON.stringify(t.pcmc.NguoiLuuGiu)
+                t.pcmc.NguoiThuThap = JSON.stringify(t.pcmc.NguoiThuThap)
                 data.push(t.pcmc);
             }
 
@@ -1729,10 +1735,10 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
             ['FontSize'],
             ['Bold', 'Italic', 'Underline', 'Strike'],
             ['Table', 'HorizontalRule', 'SpecialChar'],
-            ["InsertMinhChung"]
+            ["InsertMinhChung","SetReadOnly"]
         ],
         removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord',
-        extraPlugins: 'insert-minhchung',
+        extraPlugins: 'insert-minhchung,set-readonly',
         readOnly: $rootScope.checkCapTren,
     }
 
@@ -1806,6 +1812,35 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
 
     $scope.LoadUserByTieuChi = function () {
         $scope.UserInNhom = JSON.parse(localStorage.getItem('UserInNhom'));
+    }();
+
+});
+
+//Xem file minh chứng
+angular.module('WebApiApp').controller("ModalFileMinhChungHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+
+    $scope.LoadFileUpload = function () {
+        
+            $http({
+                method: "GET",
+                url:
+                    "api/MinhChung/LoadFileMinhChung?IdMinhChung=" + $scope.item.Id,
+            }).then(
+                function successCallback(response) {
+                    $scope.ListFileUpLoad = response.data;
+                },
+                function errorCallback(response) {
+                    toastr.error("Có lỗi trong quá trình tải dữ liệu !", "Thông báo");
+                }
+            );
+        
     }();
 
 });

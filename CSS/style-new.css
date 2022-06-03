@@ -404,3 +404,10 @@
     .table > tbody > tr > td {
         border: solid 1px
     }
+
+.select2-search--inline, .select2-selection__clear {
+    display: none
+}
+.select2-container{
+    width:auto
+}

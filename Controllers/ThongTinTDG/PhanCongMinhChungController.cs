@@ -36,7 +36,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
                 var rs = from mc in data
                          join pcmc in db.tblPhanCongMinhChungs
                          on mc.mc.Id equals pcmc.IdMinhChung
-                         where pcmc.NguoiThuThap == username
+                         where pcmc.NguoiThuThap.Contains(username)
                          select mc;
                 return Ok(rs);
             };

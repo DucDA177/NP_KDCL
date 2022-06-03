@@ -13,6 +13,7 @@ CKEDITOR.plugins.add(pluginName,
                     label: 'Chọn MC', // The text that appears in the richcombo when nothing is selected
 
                     title: 'Thêm đường dẫn minh chứng', // The control's tooltip
+                    toolbar: 'insert',
 
                     multiSelect: false, // Only one item can be selected at a time
 
@@ -40,7 +41,7 @@ CKEDITOR.plugins.add(pluginName,
                         var item = value.split(delim);
                         var id = item[0];
                         var name = item[1];
-                        var v = "<a class='link-minhchung' href='javascript:void(0);' onclick='angular.element(document.body).scope().OpenViewMinhChung(" + id + ")' >[" + name + "]</a>";
+                        var v = "<a class='link-minhchung' href='javascript:void(0);' onclick='angular.element(document.body).scope().OpenViewMinhChung(" + id + ")' id = '"+id+ "' >[" + name + "]</a>";
 
                         editor.fire('saveSnapshot');
                         editor.insertHtml(v);

@@ -42,13 +42,15 @@
     <div class="form-group">
         <div class="col-md-4 text-left">
             <a class="btn btn-primary btn-sm action-button except-thuthap"
+               ng-if="!ChiThuThap"
                ng-click="openModal('','MinhChung')">
                 <i class="fa fa-plus-circle"></i> Thêm minh chứng
             </a>
 
             <a class="btn btn-primary btn-sm action-button"
                ng-click="openModal('','PhanCongMinhChung')">
-                <i class="fa fa-users"></i> Gợi ý và phân công
+                <span ng-if="!ChiThuThap"><i class="fa fa-users"></i> Gợi ý và phân công</span>
+                <span ng-if="ChiThuThap"><i class="fa fa-lightbulb-o"></i> Cập nhật trạng thái minh chứng</span>
             </a>
         </div>
     </div>

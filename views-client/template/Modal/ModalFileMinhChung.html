@@ -1,0 +1,49 @@
+﻿<style>
+    .modal-md{
+        width:fit-content !important
+    }
+</style>
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Minh chứng {{item.Ma}} </label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal ">
+        <div class="row margin-bottom-5">
+            <center><h4>{{item.TenMinhChung}}</h4></center>
+            <center ng-if="ListFileUpLoad.length == 0"><i class="font-red">Không có tệp đính kèm nào cho minh chứng {{item.Ma}}</i></center>
+
+            <center>
+                <table width="50%">
+                    <tbody>
+                        <tr ng-repeat="f in ListFileUpLoad">
+                            <td width="1px">
+                                <h4> {{$index + 1}}. </h4>
+                            </td>
+                            <td>
+                                <h4>
+                                    <a href="{{f.filename}}" target="_blank">{{f.FName}}</a>
+                                    <a href="{{f.filename}}" target="_blank"><i class="fa fa-cloud-download"></i></a>
+                                </h4>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </center>
+        </div>
+      
+    </div>
+</div>
+
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>
