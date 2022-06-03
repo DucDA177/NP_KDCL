@@ -6,7 +6,6 @@
                 var link = new CKEDITOR.dom.elementPath(evt.data.getTarget(), this).contains('a');
                 if (link && evt.data.$.button != 2 && link.isReadOnly()) {
                     let id = link.getAttribute('id');
-                    console.log(id)
                     angular.element(document.body).scope().OpenViewMinhChung(id)
                     //window.open(link.getAttribute('href'));
                 }
