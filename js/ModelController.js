@@ -1735,9 +1735,9 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
             ['FontSize'],
             ['Bold', 'Italic', 'Underline', 'Strike'],
             ['Table', 'HorizontalRule', 'SpecialChar'],
-            ["InsertMinhChung","SetReadOnly"]
+            ["InsertMinhChung", "SetReadOnly"]
         ],
-        removeButtons: 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord',
+        removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
         extraPlugins: 'insert-minhchung,set-readonly',
         readOnly: $rootScope.checkCapTren,
     }
@@ -1755,6 +1755,9 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
     ]
 
     $scope.cancelModal = function () {
+        for (name in CKEDITOR.instances) {
+            CKEDITOR.instances[name].destroy(true);
+        }
         $uibModalInstance.dismiss('close');
     }
 
