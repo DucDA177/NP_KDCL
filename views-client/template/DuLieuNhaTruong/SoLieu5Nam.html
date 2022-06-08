@@ -30,9 +30,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLCoCauCongTrinhController"
-         ng-click="GetData('', loaiSL, sheetName, minDimensions, footers,genesisColumn, genesisData, updateSettings)">
-        <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
+    <div ng-controller="SLCoCauCongTrinhController">
+        <h5 ng-click="show = !show;GetData('', loaiSL, sheetName, minDimensions, footers,genesisColumn, genesisData, updateSettings)" title="Click để ẩn/hiện dữ liệu">
             <b>
                 2. Cơ cấu khối công trình của nhà trường
                 <i class="{{show ? 'fa fa-angle-up':'fa fa-angle-down'}}"></i>
@@ -49,9 +48,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLCanBoController"
-         ng-click="GetData('', loaiSL, sheetName, minDimensions, footers,genesisColumn, genesisData)">
-        <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
+    <div ng-controller="SLCanBoController">
+        <h5 ng-click="show = !show;GetData('', loaiSL, sheetName, minDimensions, footers,genesisColumn, genesisData)" title="Click để ẩn/hiện dữ liệu">
             <b>
                 3. Cán bộ quản lý, giáo viên, nhân viên
                 <i class="{{show ? 'fa fa-angle-up':'fa fa-angle-down'}}"></i>
@@ -68,9 +66,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLHocSinhController"
-         ng-click="GetData('',loaiSL,sheetName,minDimensions, footers,genesisColumn, genesisData)">
-        <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
+    <div ng-controller="SLHocSinhController">
+        <h5 ng-click="show = !show;GetData('',loaiSL,sheetName,minDimensions, footers,genesisColumn, genesisData)" title="Click để ẩn/hiện dữ liệu">
             <b>
                 4.a. Học sinh - Số liệu chung
                 <i class="{{show ? 'fa fa-angle-up':'fa fa-angle-down'}}"></i>
@@ -87,9 +84,8 @@
         </div>
     </div>
 
-    <div ng-controller="SLKQGiaoDucController"
-         ng-click="GetData('',loaiSL, sheetName, minDimensions,footers,genesisColumn, genesisData)">
-        <h5 ng-click="show = !show" title="Click để ẩn/hiện dữ liệu">
+    <div ng-controller="SLKQGiaoDucController">
+        <h5 ng-click="show = !show;GetData('',loaiSL, sheetName, minDimensions,footers,genesisColumn, genesisData)" title="Click để ẩn/hiện dữ liệu">
             <b>
                 4.b. Học sinh - Kết quả giáo dục (đối với trường THCS, THPT và trường phổ thông có nhiều cấp học)
                 <i class="{{show ? 'fa fa-angle-up':'fa fa-angle-down'}}"></i>
