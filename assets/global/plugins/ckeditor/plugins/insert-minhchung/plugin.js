@@ -3,11 +3,19 @@ var menuName = 'InsertMinhChung';
 var minhchungURL = '/api/MinhChung/LoadFileMinhChung';
 var delim = '~';
 
+
 CKEDITOR.plugins.add(pluginName,
     {
         requires: ['richcombo'],
 
         init: function (editor) {
+            editor.on('contentDom', function () {
+               
+                var editable = editor.editable();
+                editable.attachListener(editable, 'click', function () {
+                    $(".cke_combopanel").css({ "display": "none" });
+                });
+            });
             editor.ui.addRichCombo(menuName,
                 {
                     label: 'Chọn minh chứng', // The text that appears in the richcombo when nothing is selected
@@ -23,6 +31,7 @@ CKEDITOR.plugins.add(pluginName,
                     },
 
                     init: function () { // Called only on the first drop-down
+                 
 
                         let DSMinhChung = JSON.parse(localStorage.getItem('DSMinhChung'))
 
@@ -33,6 +42,8 @@ CKEDITOR.plugins.add(pluginName,
                                     DSMinhChung[i].TenMinhChung);
                             }
                         }
+
+                        
                         
                     },
                     onClick: function (value) {
@@ -48,6 +59,7 @@ CKEDITOR.plugins.add(pluginName,
                         editor.fire('saveSnapshot');
 
                         $(".cke_combopanel").css({ "display": "" });
+                        
                     }
                 })
         }

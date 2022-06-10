@@ -1730,9 +1730,7 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['Link', 'Unlink'],
             ['Undo', 'Redo'],
-            ['Spellchecker', 'Scayt'],
             ['Find', 'Replace'],
-            ['FontSize'],
             ['Bold', 'Italic', 'Underline', 'Strike'],
             ['Table', 'HorizontalRule', 'SpecialChar'],
             ["InsertMinhChung", "SetReadOnly"]
@@ -1816,6 +1814,10 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
     $scope.LoadUserByTieuChi = function () {
         $scope.UserInNhom = JSON.parse(localStorage.getItem('UserInNhom'));
     }();
+
+    $scope.initCKEDIOTR = function ($event) {
+        console.log($event)
+    }
 
 });
 

@@ -9,7 +9,11 @@
     .modal-dialog {
         width: 90%
     }
-    .cke_combo_text, .cke_combopanel {  width: auto !important; }
+
+    .cke_combo_text, .cke_combopanel {
+        width: auto !important;
+    }
+   
 </style>
 <div class="modal-header bg-color" style="background-color:#ccc">
     <div class="modal-title">
@@ -74,17 +78,17 @@
                                                 <b>Mô tả hiện trạng: <span class="font-red">*</span></b>
                                             </div>
                                             <div class="col-md-6 text-right">
-                                                <input type="checkbox" ng-model="item.dgtc['KQDat'+tab.Code]" 
+                                                <input type="checkbox" ng-model="item.dgtc['KQDat'+tab.Code]"
                                                        ng-disabled="checkCapTren"
                                                        value="{{tab.Id}}" /> Kết quả đạt
-                                              
+
                                             </div>
                                         </div>
                                         <div class="row">
 
                                             <ng-ckeditor ng-model="item.dgtc[tab.Model]"
                                                          ng-config="config"></ng-ckeditor>
-                                           
+
                                         </div>
 
                                     </div>
@@ -98,7 +102,7 @@
                                 <div class="portlet light " style="margin-bottom:0">
                                     <div class="form-body form-horizontal">
                                         <div class="col-md-12">
-                                            
+
                                             <div class="form-group">
                                                 <label class="control-label col-md-1">Điểm mạnh: </label>
                                                 <div class="col-md-11">
@@ -229,7 +233,7 @@
         <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
             <div class="text-left"><label class="control-label col-md-4"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></label></div>
             <div class="col-md-8 clearfix text-right">
-            
+
                 <a class="btn btn-sm btn-success btn-outline sbold"
                    ng-click="Save()">
                     <i class="fa fa-save"></i> Lưu
@@ -245,12 +249,26 @@
 </div>
 
 
-
 <script>
 
+
     jQuery(document).ready(function () {
-        
+
         ComponentsSelect2.init();
-       
+
+        setTimeout(function () {
+            
+            $('body').click(function (event) {
+                $(".cke_combopanel").css({ "display": "none" });
+            });
+
+            $(".cke_combo").click(function (event) {
+                event.stopPropagation();
+            });
+
+
+        }, 500)
     });
+
+
 </script>
