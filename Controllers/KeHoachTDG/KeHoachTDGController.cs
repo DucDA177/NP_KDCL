@@ -65,7 +65,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
 
             if (data.Id == null || data.Id == 0)
             {
-                var checkKHTDG = db.tblKeHoachTDGs.Where(t => t.NamHocBD <= data.NamHocBD && t.NamHocKT >= data.NamHocKT).Any();
+                var checkKHTDG = db.tblKeHoachTDGs.Where(t => t.IdDonVi == data.IdDonVi && t.NamHocBD <= data.NamHocBD && t.NamHocKT >= data.NamHocKT).Any();
                 if (checkKHTDG)
                     return BadRequest("Giai đoạn " + data.NamHocBD + " - " + data.NamHocKT + " đã tồn tại kế hoạch tự đánh giá");
 
