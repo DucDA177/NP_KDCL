@@ -37,6 +37,9 @@ namespace WebApiCore.Controllers.DuLieuNhaTruong
             var kHGanNhat = db.tblKeHoachTDGs.Where(t => t.IdDonVi == IdDonVi && t.Id != IdKeHoachTDG)
                 .OrderByDescending(t => t.NamHocKT).FirstOrDefault();
 
+            if(kHGanNhat == null)
+                return null;
+
             var data = db.tblDuLieuNhaTruongs.Where(t => t.IdDonVi == IdDonVi && t.IdKeHoachTDG == kHGanNhat.Id
             && t.TaiTDDG == TaiTDDG && t.Loai == Loai).FirstOrDefault();
 

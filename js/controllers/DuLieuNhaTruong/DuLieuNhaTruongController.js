@@ -132,8 +132,8 @@
 
             if (genesisColumn.length > 0 || genesisData.length > 0)
                 $scope['table' + sheetName] = jspreadsheet(document.getElementById(sheetName), {
-                    columns: $scope[sheetName] ? JSON.parse($scope[sheetName].CacCot) : genesisColumn,
-                    data: $scope[sheetName] ? JSON.parse($scope[sheetName].DuLieu) : genesisData,
+                    columns: response.data ? JSON.parse($scope[sheetName].CacCot) : genesisColumn,
+                    data: response.data ? JSON.parse($scope[sheetName].DuLieu) : genesisData,
                     minDimensions: minDimensions,
                     columnDrag: true,
                     footers: footers,
