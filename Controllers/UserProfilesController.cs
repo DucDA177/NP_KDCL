@@ -463,14 +463,18 @@ namespace WebApiCore.Controllers
 
         [HttpGet]
         [Route("api/UserProfile/LoadTieuChuanTieuChi")]
-        public IHttpActionResult LoadTieuChuanTieuChi(int idQuyDinh, int userId)
+        public IHttpActionResult LoadTieuChuanTieuChi(int idQuyDinh, int userId, int idKeHoachTDG)
         {
             var result = new List<DSTieuChuanTieuChiClient>();
             var user = db.UserProfiles.Find(userId);
-            var listTieuChiId = JsonConvert.DeserializeObject<List<int>>
-                (string.IsNullOrEmpty(user.TieuChi) ? "[]" : user.TieuChi);
+            var dv = db.DMDonVis.Find(user.IDDonVi);
 
-            var dsTieuChuan = db.DMTieuChuans.Where(x => x.IdQuyDinh == idQuyDinh).OrderBy(t => t.STT);
+            var listTieuChiId = db.tblPhanCongTCs.Where(t => 
+            t.IdDonVi == user.IDDonVi && t.IdKeHoachTDG == idKeHoachTDG && t.Username == user.UserName)
+                .Select(t => t.IdTieuChi).ToList();
+
+            var dsTieuChuan = db.DMTieuChuans
+                .Where(x => x.IdQuyDinh == idQuyDinh && x.NhomLoai.Contains(dv.NhomLoai)).OrderBy(t => t.STT);
             int index = 1;
             foreach(var item in dsTieuChuan)
             {

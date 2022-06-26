@@ -32,6 +32,8 @@
                 toastr.error('Thời điểm hiện tại không nằm trong thời gian kế hoạch diễn ra', 'Thông báo');
                 return;
             }
+            $cookies.put('IdKeHoachTDG', item.Id);
+            $rootScope.KeHoachTDG = item;
         }
         item.TrangThai = TrangThai
 

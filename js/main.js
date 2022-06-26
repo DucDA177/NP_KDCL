@@ -85,7 +85,8 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             { Code: 'MN', Name: 'Mầm non(MN)' },
             { Code: 'TH', Name: 'Tiểu học(TH)' },
             { Code: 'THCS', Name: 'Trung học cơ sở(THCS)' },
-            { Code: 'THPT', Name: 'Trung học phổ thông(THPT)' }
+            { Code: 'THPT', Name: 'Trung học phổ thông(THPT)' },
+            { Code: 'LC', Name: 'Liên cấp(LC)' }
         ];
         $scope.LoaiHinh = ['Công lập', 'Bán công', 'Dân lập', 'Tư thục'];
         $scope.LoaiDonVi = [
@@ -164,6 +165,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
         }
 
         $scope.exportBaoCao = function (printDivId, fileName, mineType) {
+            
             let innerHtml = document.getElementById(printDivId).innerHTML;
             var jHtmlObject = jQuery(innerHtml);
             var editor = jQuery("<p>").append(jHtmlObject);
@@ -533,8 +535,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         }
 
-        $scope.openModal = function (item, type, check, other) {
-
+        $scope.iniModal = function (item, type, check, other, size) {
             $scope.modalInstance = $uibModal.open({
                 ariaLabelledBy: 'modal-title',
                 animation: true,
@@ -544,7 +545,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 controllerAs: 'vm',
                 scope: $scope,
                 backdrop: 'static',
-                size: 'lg',
+                size: size,
                 resolve: {
                     item: function () { return item },
                     check: function () { return check },
@@ -554,23 +555,12 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         }
 
-        $scope.openModalSmall = function (item, type, check) {
-            $scope.modalInstance = $uibModal.open({
-                ariaLabelledBy: 'modal-title',
-                animation: false,
-                ariaDescribedBy: 'modal-body',
-                templateUrl: 'views-client/template/Modal/Modal' + type + '.html?bust=' + Math.random().toString(36).slice(2),
-                controller: 'Modal' + type + 'HandlerController',
-                controllerAs: 'vm',
-                scope: $scope,
-                backdrop: 'static',
-                size: 'md',
-                index: 10000,
-                resolve: {
-                    item: function () { return item },
-                    check: function () { return check }
-                }
-            });
+        $scope.openModal = function (item, type, check, other) {
+            $scope.iniModal(item, type, check, other, 'lg')
+        }
+
+        $scope.openModalSmall = function (item, type, check, other) {
+            $scope.iniModal(item, type, check, other, 'md')
         }
 
 
@@ -936,27 +926,7 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', funct
                 }]
             }
         })
-        .state('ListInfo', {
-
-            url: "/ListInfo?Id" + "&eraseCache=true",
-            templateUrl: function ($stateParams) {
-                return "views-client/template/ListInfo.html?Id=" + $stateParams.Id
-                    + "&bust=" + Math.random().toString(36).slice(2)
-            },
-            data: { pageTitle: 'QUẢN LÝ HỒ SƠ NENKIN' },
-            controller: "ListInfoController",
-            resolve: {
-                deps: ['$ocLazyLoad', function ($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'WebApiApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/ListInfoController.js',
-                        ]
-                    });
-                }]
-            }
-        })
+        
 
 }]);
 WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies', "$state", "$stateParams",
@@ -970,6 +940,31 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
         $rootScope.$settings = $settings; // state to be accessed from view
         $rootScope.$stateParams = $stateParams;
         $rootScope.avatar = [];
+
+        onStartInterceptor = function (data, headersGetter) {
+            App.startPageLoading({
+                animate: true,
+            });
+
+            $('body').addClass('no-pointer');
+
+
+            return data;
+        }
+        onCompleteInterceptor = function (data, headersGetter) {
+
+            App.stopPageLoading();
+
+            $('body').removeClass('no-pointer');
+
+            return data;
+        }
+
+        $http.defaults.transformRequest.push(onStartInterceptor);
+        $http.defaults.transformResponse.push(onCompleteInterceptor);
+
+        if (window.location.href.includes('kqdg.html'))
+            return;
 
         if ($cookies.get('username') == 'undefined' || $cookies.get('username') == null)
             window.location.assign('/login.html');
@@ -992,28 +987,6 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
 
             $rootScope.setIdleTime($rootScope.user.LockScreenTime * 60, $rootScope.user.UserName)
 
-            onStartInterceptor = function (data, headersGetter) {
-                App.startPageLoading({
-                    animate: true,
-                });
-
-                $('body').addClass('no-pointer');
-
-
-                return data;
-            }
-            onCompleteInterceptor = function (data, headersGetter) {
-
-                App.stopPageLoading();
-
-                $('body').removeClass('no-pointer');
-
-                return data;
-            }
-
-            $http.defaults.transformRequest.push(onStartInterceptor);
-            $http.defaults.transformResponse.push(onCompleteInterceptor);
-
             $cookies.put('DonVi', response.data.IDDonVi);
 
             if ($cookies.get('DonVi') != null)
@@ -1029,6 +1002,12 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                             + '&NamHoc=' + localStorage.getItem('NamHoc'),
                     }).then(function successCallback(response) {
                         $rootScope.KeHoachTDG = response.data;
+                        if (!$rootScope.KeHoachTDG)
+                            $rootScope.KeHoachTDG = {
+                                Id: 0,
+                                IdQuyDinhTC: 0
+                            }
+                        $cookies.put('IdKeHoachTDG', $rootScope.KeHoachTDG.Id);
                         $rootScope.LoadThongBao();
                         $rootScope.LoadMenu();
 

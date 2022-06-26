@@ -7,17 +7,29 @@
         font-weight: bold
     }
 </style>
-<div class="col-md-6">
-    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> BÁO CÁO TỰ ĐÁNH GIÁ </label></h4>
+<div class="col-md-8">
+    <h4>
+        <label class=" uppercase font-green">
+            <i class="fa fa-list"></i>
+            BÁO CÁO TỰ ĐÁNH GIÁ
+            <span ng-if="CurDonVi && KeHoachTDG">{{CurDonVi.TenDonVi}} NĂM HỌC {{KeHoachTDG.NamHocBD}} - {{KeHoachTDG.NamHocKT}}</span>
+        </label>
+    </h4>
 </div>
-<div class="col-md-6 text-right margin-top-10">
+<div class="col-md-4 text-right margin-top-10" ng-if="CurDonVi && KeHoachTDG">
     <a class="btn btn-sm btn-primary"
        ng-click="exportBaoCao('PrintDiv','Báo cáo tự đánh giá.doc','application/vnd.ms-word')">
         <i class="fa fa-file-word-o"></i> Xuất báo cáo
     </a>
-
+    <a class="btn btn-sm btn-primary"
+       ng-click="openModalSmall('','GenerateLinkBaoCao')">
+        <i class="fa fa-share"></i> Chia sẻ báo cáo
+    </a>
 </div>
-<div class="form-body form-horizontal col-md-12" id="PrintDiv">
+<div class="col-md-12 margin-top-10" ng-if="!CurDonVi || !KeHoachTDG">
+    <center><i class="font-red bold"> Không tìm thấy báo cáo nào hoặc báo cáo chưa được phép hiển thị. Vui lòng thử lại! </i></center>
+</div>
+<div class="form-body form-horizontal col-md-12" ng-if="CurDonVi && KeHoachTDG" id="PrintDiv">
     <div class="form-group">
         <div class="col-md-12">
             <center><h4> DANH SÁCH VÀ CHỮ KÝ THÀNH VIÊN HỘI ĐỒNG TỰ ĐÁNH GIÁ</h4></center>

@@ -633,6 +633,9 @@
     <Compile Include="Models\tblPhanCongMinhChung.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblPhanCongTC.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ThongBao.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
@@ -3075,6 +3078,7 @@
     <Content Include="js\controllers\AccountController.js" />
     <Content Include="js\controllers\AreasController.js" />
     <Content Include="js\controllers\BaoCao\BaoCaoTDGController.js" />
+    <Content Include="js\controllers\BaoCao\ThongKeMinhChungController.js" />
     <Content Include="js\controllers\BaoCao\TongHopKQDGController.js" />
     <Content Include="js\controllers\DanhMuc\DMTieuChiController.js" />
     <Content Include="js\controllers\DanhMuc\DMTieuChuanController.js" />
@@ -3108,6 +3112,7 @@
     <Content Include="js\customjs\ngStorage.js" />
     <Content Include="js\customjs\ngStorage.min.js" />
     <Content Include="js\customjs\select2.multi-checkboxes.js" />
+    <Content Include="js\kqdg.js" />
     <Content Include="js\ModelController.js" />
     <Content Include="js\controllers\UserManagerController.js" />
     <Content Include="js\directives.js" />
@@ -3154,6 +3159,7 @@
     <Content Include="js\scripts\vendor\jquery.ui.widget.js" />
     <Content Include="js\tempPagination\dirPagination.js" />
     <Content Include="js\tempPagination\dirPagination.tpl.html" />
+    <Content Include="KQDG.html" />
     <Content Include="login.html" />
     <Content Include="home.html" />
     <Content Include="logo.jpg" />
@@ -3832,6 +3838,7 @@
     <Content Include="views-client\profile\account.html" />
     <Content Include="views-client\template\Areas.html" />
     <Content Include="views-client\template\BaoCao\BaoCaoTDG.html" />
+    <Content Include="views-client\template\BaoCao\ThongKeMinhChung.html" />
     <Content Include="views-client\template\BaoCao\TongHopKQDG.html" />
     <Content Include="views-client\template\DanhMuc\DMTieuChi.html" />
     <Content Include="views-client\template\DanhMuc\DMTieuChuan.html" />
@@ -3858,6 +3865,8 @@
     <Content Include="views-client\template\Modal\ModalCreateData.html" />
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
+    <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
+    <Content Include="views-client\template\Modal\ModalInPhieuDanhGia.html" />
     <Content Include="views-client\template\Modal\ModalMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalPhanCongMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalPhanQuyenTC.html" />

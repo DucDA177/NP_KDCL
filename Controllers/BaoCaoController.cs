@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApiCore.Controllers.ThongTinTDG;
 using WebApiCore.Models;
 
 namespace WebApiCore.Controllers
 {
-    [Authorize]
+  
     public class BaoCaoController : ApiController
     {
         private WebApiDataEntities db = new WebApiDataEntities();
@@ -59,12 +60,19 @@ namespace WebApiCore.Controllers
             var data = (from dv in db.DMDonVis
                         join dvc in db.DMDonVis
                         on dv.IDDVCha equals dvc.Id
-                        join tinh in db.Areas.Where(t => t.Type == "TINH" && t.FInUse == true)
-                        on dv.IDTinh equals tinh.FCode
-                        join huyen in db.Areas.Where(t => t.Type == "HUYEN" && t.FInUse == true)
-                        on dv.IDHuyen equals huyen.FCode
-                        join xa in db.Areas.Where(t => t.Type == "XA" && t.FInUse == true)
-                        on dv.IDXa equals xa.FCode
+
+                        join _tinh in db.Areas.Where(t => t.Type == "TINH" && t.FInUse == true)
+                        on dv.IDTinh equals _tinh.FCode into grTinh
+                        from tinh in grTinh.DefaultIfEmpty()
+
+                        join _huyen in db.Areas.Where(t => t.Type == "HUYEN" && t.FInUse == true)
+                        on dv.IDHuyen equals _huyen.FCode into grHuyen
+                        from huyen in grHuyen.DefaultIfEmpty()
+
+                        join _xa in db.Areas.Where(t => t.Type == "XA" && t.FInUse == true)
+                        on dv.IDXa equals _xa.FCode into grXa
+                        from xa in grXa.DefaultIfEmpty()
+
                         where dv.FInUse == true && dv.Id == IdDonVi
                         select new
                         {
@@ -87,11 +95,27 @@ namespace WebApiCore.Controllers
 
         [HttpGet]
         [Route("api/BaoCao/LoadPhuLucMinhChung")]
-        public IHttpActionResult LoadPhuLucMinhChung(int IdDonVi, int IdKeHoachTDG)
+        public IHttpActionResult LoadPhuLucMinhChung(int IdDonVi, int IdKeHoachTDG, bool RequiredFile)
         {
             var result = db.tblMinhChungs.Where(t => t.IdDonVi == IdDonVi && t.IdKeHoachTDG == IdKeHoachTDG
-           && t.FInUse == true).OrderBy(t => t.Ma);
-
+           && t.FInUse == true).OrderBy(t => t.Ma).ToList();
+            var mcController = new MinhChungController();
+            if (RequiredFile)
+            {
+                foreach(var item in result)
+                {
+                    item.DuongDanFile = "";
+                    var listFile = mcController.LoadFileMinhChung(item.Id);
+                    if (listFile.Any())
+                    {
+                        foreach(var file in listFile)
+                        {
+                            item.DuongDanFile += string.Format("<a target='_blank' href='{0}'>{1}</a> </br>"
+                                , file.filename, file.FName); 
+                        }
+                    }
+                }
+            }
             return Ok(result);
         }
 
@@ -106,6 +130,7 @@ namespace WebApiCore.Controllers
             foreach (var tchuan in lsTieuChuan)
             {
                 BaoCaoTieuChuan bctchuan = new BaoCaoTieuChuan();
+                bctchuan.Id = tchuan.Id;
                 bctchuan.ThuTu = tchuan.ThuTu;
                 bctchuan.TenTieuChuan = tchuan.NoiDung;
                 bctchuan.MoDau = db.tblMoDauKetLuanTCs.Where(t => t.IdDonVi == IdDonVi
@@ -122,6 +147,7 @@ namespace WebApiCore.Controllers
                 foreach (var tchi in lsTieuChi)
                 {
                     BaoCaoTieuChi bctchi = new BaoCaoTieuChi();
+                    bctchi.Id = tchi.Id;
                     bctchi.ThuTu = tchi.ThuTu;
                     bctchi.TenTieuChi = tchi.NoiDung;
                     bctchi.NoiDung1 = tchi.NoiDungA;
@@ -159,6 +185,7 @@ namespace WebApiCore.Controllers
         }
         public class BaoCaoTieuChuan
         {
+            public int Id { get; set; }
             public int ThuTu { get; set; }
             public string TenTieuChuan { get; set; }
             public string MoDau { get; set; }
@@ -171,6 +198,7 @@ namespace WebApiCore.Controllers
         }
         public class BaoCaoTieuChi
         {
+            public int Id { get; set; }
             public int ThuTu { get; set; }
             public string TenTieuChi { get; set; }
             public string NoiDung1 { get; set; }

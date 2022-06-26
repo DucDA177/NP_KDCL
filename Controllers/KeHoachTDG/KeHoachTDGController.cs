@@ -9,6 +9,7 @@ using WebApiCore.Models;
 
 namespace WebApiCore.Controllers.KeHoachTDG
 {
+    [Authorize]
     public class KeHoachTDGController : ApiController
     {
         private WebApiDataEntities db = new WebApiDataEntities();
@@ -45,7 +46,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
             var NamHocKT = Convert.ToInt32(NamHoc.Split('-').Last());
 
             var data = db.tblKeHoachTDGs.Where(t => t.IdDonVi == IdDonVi
-            && t.NamHocBD <= NamHocBD && t.NamHocKT >= NamHocKT)
+            && t.NamHocBD <= NamHocBD && t.NamHocKT >= NamHocKT && t.TrangThai == "DTH")
                 .OrderByDescending(t => t.NamHocKT)
                 .FirstOrDefault();
 
@@ -118,6 +119,25 @@ namespace WebApiCore.Controllers.KeHoachTDG
             db.tblKeHoachTDGs.Remove(dt);
             db.SaveChanges();
             return Ok(dt);
+
+        }
+
+        [HttpGet]
+        [Route("api/KeHoachTDG/GetDonViVaKeHoachTDG")]
+        [AllowAnonymous]
+        public IHttpActionResult GetDonViVaKeHoachTDG(string MaDonVi)
+        {
+            var dv = db.DMDonVis.Where(t => t.MaDonVi == MaDonVi).FirstOrDefault();
+            var kh = new tblKeHoachTDG();
+
+            if (dv != null)
+            {
+                kh = db.tblKeHoachTDGs.Where(t => t.IdDonVi == dv.Id && t.TrangThai == "DTH")
+                .OrderByDescending(t => t.NamHocKT)
+                .FirstOrDefault();
+            }
+
+            return Ok(new {dv,kh});
 
         }
     }

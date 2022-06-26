@@ -1,0 +1,30 @@
+﻿
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Chia sẻ báo cáo tự đánh giá </label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal margin-top-10">
+        <div class="row margin-bottom-5">
+            <center>
+                <div id="qrlinkbaocao"></div>
+            </center>
+        </div>
+        <div class="row margin-bottom-5">
+            <center>
+                <a href="{{link}}" target="_blank">{{link}}</a>
+            </center>
+        </div>
+        <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

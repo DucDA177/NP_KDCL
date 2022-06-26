@@ -28,6 +28,7 @@
                             <th width="1px"> <div style="text-align:center">Hiệu lực</div></th>
                             <th width="1px"><div style="text-align:center">#</div>  </th>
                             <th width="1px"><div style="text-align:center">#</div> </th>
+                            <th width="1px"><div style="text-align:center">#</div> </th>
 
                         </tr>
                     </thead>
@@ -43,6 +44,13 @@
                             </td>
                             <td align="center">
                                 <i class="fa fa-check" ng-if="dm.hd.FInUse"></i>
+                            </td>
+                            <td align="center" width="1px">
+                                <a tooltip title="Phân quyền tiêu chuẩn, tiêu chí"
+                                   class="action-btn"
+                                   ng-click="openModal(dm.us,'PhanQuyenTC')">
+                                    <i class="fa icon-settings"></i>
+                                </a>
                             </td>
                             <td><a class="action-btn" ng-click="openModal(dm.hd,'HoiDong')" title="Sửa"><i class="fa fa-edit"></i></a></td>
                             <td><a class="action-btn" ng-click="Del(dm.hd)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>

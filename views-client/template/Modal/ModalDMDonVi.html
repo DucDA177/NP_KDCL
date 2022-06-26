@@ -49,13 +49,15 @@
 
             </div>
             <div class="row  margin-bottom-5">
-                <label class="control-label col-md-2">Nhóm loại trường: </label>
-                <div class="col-md-4">
-
-                    <select ng-disabled="item.LoaiDonVi != 'TRUONG' && item.LoaiDonVi != 'DIEMTRUONG'" ng-model="item.NhomLoai" class="form-control input-sm select2">
-                        <option ng-repeat="nl in NhomLoai" value="{{nl.Code}}">{{nl.Name}}</option>
-                    </select>
+                <div class="{{itemError.ModelState.NhomLoai[1]}}">
+                    <label class="control-label col-md-2">Nhóm loại trường <span ng-hide="item.LoaiDonVi != 'TRUONG' && item.LoaiDonVi != 'DIEMTRUONG'" style="color:red">*</span>: </label>
+                    <div class="col-md-4">
+                        <select ng-disabled="item.LoaiDonVi != 'TRUONG' && item.LoaiDonVi != 'DIEMTRUONG'" ng-model="item.NhomLoai" class="form-control input-sm select2">
+                            <option ng-repeat="nl in NhomLoai" value="{{nl.Code}}">{{nl.Name}}</option>
+                        </select>
+                    </div>
                 </div>
+                
                 <label class="control-label col-md-2">Tên lãnh đạo: </label>
                 <div class="col-md-4">
 
@@ -209,7 +211,7 @@
                 <label class="control-label col-md-2"></label>
                 <div class="col-md-10 clearfix">
                     <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
-                    <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveAndNew()"><i class="fa fa-save"></i> Lưu và thêm </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold" ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
                     <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
                 </div>
 

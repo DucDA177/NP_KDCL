@@ -1,0 +1,71 @@
+﻿<style>
+    table {
+        width: 100% !important
+    }
+
+    h4, h5 {
+        font-weight: bold
+    }
+</style>
+<div class="col-md-6">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> THỐNG KÊ DANH MỤC MÃ HÓA MINH CHỨNG  </label></h4>
+</div>
+<div class="col-md-6 text-right margin-top-10">
+    <a class="btn btn-sm btn-primary"
+       ng-click="exportBaoCao('PrintDiv','Thống kê mã hóa minh chứng.doc','application/vnd.ms-word')">
+        <i class="fa fa-file-word-o"></i> Xuất dạng Word
+    </a>
+
+</div>
+<div class="form-body form-horizontal col-md-12" id="PrintDiv">
+    <div class="form-group">
+        <div class="col-md-12">
+            <center>
+                <h4>
+                    BẢNG THỐNG KÊ DANH MỤC MÃ HÓA MINH CHỨNG
+                </h4>
+            </center>
+        </div>
+        <div class="col-md-12">
+            <div class="table-scrollable ">
+                <!-- BEGIN FORM-->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th width="1px" align="center"> STT </th>
+                            <th> <div style="text-align:center">Mã minh chứng</div></th>
+                            <th> <div style="text-align:center">Tên minh chứng</div> </th>
+                            <th> <div style="text-align:center">Số, ngày ban hành, hoặc thời điểm khảo sát, điều tra, phỏng vấn, quan sát</div></th>
+                            <th> <div style="text-align:center">Nơi ban hành hoặc nhóm, cá nhân thực hiện</div></th>
+                            <th> <div style="text-align:center">Tệp minh chứng</div></th>
+                            <th> <div style="text-align:center">Ghi chú</div></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="odd gradeX" ng-repeat="dm in PhuLucMC">
+                            <td align="center" width="1px"> {{$index + 1}} </td>
+                            <td>  [{{dm.Ma}}] </td>
+                            <td>
+                                {{dm.TenMinhChung}}
+                            </td>
+                            <td>
+                                {{dm.SoNgayBanHanh}}
+                            </td>
+                            <td>
+                                {{dm.NoiBanHanh}}
+                            </td>
+                            <td>
+                                <div compile="dm.DuongDanFile"></div>
+                            </td>
+                            <td>
+                                {{dm.GhiChu}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

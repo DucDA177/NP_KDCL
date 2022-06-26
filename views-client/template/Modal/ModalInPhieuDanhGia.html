@@ -1,0 +1,112 @@
+﻿
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Phiếu đánh giá tiêu chuẩn {{BCTieuChuan.ThuTu}} - tiêu chí {{BCTieuChi.ThuTu}}</label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row" style="max-height:450px;overflow-y:scroll" id="PrintDiv">
+            
+                <div class="col-md-12"><table></table></div>
+                <div class="col-md-12">
+                    <center><h4> PHIẾU ĐÁNH GIÁ TIÊU CHUẨN {{BCTieuChuan.ThuTu}} - TIÊU CHÍ {{BCTieuChi.ThuTu}}</h4></center>
+                </div>
+                <div class="col-md-12">
+                    <h5> Tiêu chuẩn {{BCTieuChuan.ThuTu}}: {{BCTieuChuan.TenTieuChuan}} </h5>
+                    <h5> Mở đầu </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChuan.MoDau"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Tiêu chí {{BCTieuChuan.ThuTu}}.{{BCTieuChi.ThuTu}}: {{BCTieuChi.TenTieuChi}} </h5>
+                    <h5> Mức 1 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChi.NoiDung1" style="font-style:italic"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 2 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChi.NoiDung2" style="font-style:italic"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 3 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChi.NoiDung3" style="font-style:italic"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 1. Mô tả hiện trạng </h5>
+                    <h5> Mức 1 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div compile="BCTieuChi.Mota1"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 2 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div compile="BCTieuChi.Mota2"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Mức 3 </h5>
+                </div>
+                <div class="col-md-12">
+                    <div compile="BCTieuChi.Mota3"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 2. Điểm mạnh </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChi.DiemManh"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 3. Điểm yếu </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChi.DiemYeu"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> 4. Kế hoạch cải tiến chất lượng </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChi.KHCaiTienChatLuong"></div>
+                </div>
+                <div class="col-md-12">
+                    <b> 5. Tự đánh giá: </b> Đạt mức {{BCTieuChi.KQDatMuc}}
+                </div>
+                <div class="col-md-12">
+                    <h5> Kết luận về Tiêu chuẩn {{BCTieuChuan.ThuTu}}: </h5>
+                </div>
+                <div class="col-md-12">
+                    <div ng-bind-html="BCTieuChuan.KetLuan"></div>
+                </div>
+                <div class="col-md-12">
+                    <h5> Kết quả tự đánh giá Tiêu chuẩn {{BCTieuChuan.ThuTu}}: </h5>
+                </div>
+                <div class="col-md-12">
+                    <p>Tiêu chí đạt mức 1: {{BCTieuChuan.TchiDatMuc1}}/{{BCTieuChuan.TongTieuChi}}</p>
+                    <p>Tiêu chí đạt mức 2: {{BCTieuChuan.TchiDatMuc2}}/{{BCTieuChuan.TongTieuChi}}</p>
+                    <p>Tiêu chí đạt mức 3: {{BCTieuChuan.TchiDatMuc3}}/{{BCTieuChuan.TongTieuChi}}</p>
+                </div>
+            
+        </div>
+        <div class="form-group margin-top-10" style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                   ng-click="exportBaoCao('PrintDiv','Phiếu đánh giá tiêu chí.doc','application/vnd.ms-word')">
+                    <i class="fa fa-file-word-o"></i> Xuất phiếu đánh giá
+                </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

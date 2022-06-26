@@ -61,6 +61,15 @@ namespace WebApiCore.Controllers
                 ModelState.AddModelError("LoaiDonVi", "Loại đơn vị bắt buộc chọn");
                 ModelState.AddModelError("LoaiDonVi", "has-error");
             }
+            if (item.LoaiDonVi == "TRUONG" || item.LoaiDonVi == "DIEMTRUONG")
+            {
+                if (string.IsNullOrEmpty(item.NhomLoai))
+                {
+                    ModelState.AddModelError("NhomLoai", "Nhóm loại trường bắt buộc chọn");
+                    ModelState.AddModelError("NhomLoai", "has-error");
+                }
+                
+            }
 
         }
         [HttpGet]

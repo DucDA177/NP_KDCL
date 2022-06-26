@@ -53,8 +53,8 @@
                                 <a ng-if="dm.TrangThai == 'CTH'" title="Tiến hành" ng-click="DoiTrangThai(dm,'DTH')"><i class="font-green fa fa-play"></i></a>
                                 <a ng-if="dm.TrangThai == 'DTH'" title="Tạm dừng" ng-click="DoiTrangThai(dm,'CTH')"><i class="font-red fa fa-stop"></i></a>
                             </td>
-                            <td><a ng-click="openModal(dm,'KeHoachTDG')" title="Sửa"><i class="fa fa-edit"></i></a></td>
-                            <td><a ng-click="Del(dm)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
+                            <td><a ng-hide="dm.TrangThai == 'DTH'" ng-click="openModal(dm,'KeHoachTDG')" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                            <td><a ng-hide="dm.TrangThai == 'DTH'" ng-click="Del(dm)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
 
                         </tr>
 

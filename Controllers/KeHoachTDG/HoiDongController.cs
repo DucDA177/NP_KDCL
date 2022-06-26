@@ -9,10 +9,12 @@ using WebApiCore.Models;
 
 namespace WebApiCore.Controllers.KeHoachTDG
 {
+    [Authorize]
     public class HoiDongController : ApiController
     {
         private WebApiDataEntities db = new WebApiDataEntities();
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/HoiDong/GetAll")]
         public IHttpActionResult GetAll(int IdDonVi, int IdKeHoachTDG)
@@ -79,6 +81,17 @@ namespace WebApiCore.Controllers.KeHoachTDG
         {
             var dt = db.tblHoiDongs.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
             db.tblHoiDongs.Remove(dt);
+            if(dt != null)
+            {
+                var dataTC = db.tblPhanCongTCs.Where(
+                t => t.IdDonVi == dt.IdDonVi
+                && t.IdKeHoachTDG == dt.IdKeHoachTDG
+                && t.Username == dt.Username
+                );
+                if (dataTC.Any())
+                    db.tblPhanCongTCs.RemoveRange(dataTC);
+            }
+            
             db.SaveChanges();
             return Ok(dt);
 

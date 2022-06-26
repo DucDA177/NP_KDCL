@@ -164,5 +164,40 @@ namespace WebApiCore.Controllers.DanhMuc
                 ModelState.AddModelError("GoiYC", "has-error");
             }
         }
+
+        [HttpPost]
+        [Route("api/DanhMucTieuChi/SavePhanCongTC")]
+        public IHttpActionResult SavePhanCongTC(PhanCongTC PhanCongTC)
+        {
+            var check = db.tblPhanCongTCs
+                .Where(x => x.Username == PhanCongTC.Username
+                && x.IdDonVi == PhanCongTC.IdDonVi
+                && x.IdKeHoachTDG == PhanCongTC.IdKeHoachTDG);
+            if (check.Any())
+            {
+                db.tblPhanCongTCs.RemoveRange(check);
+            }
+
+            foreach(var item in PhanCongTC.ListIdTieuChi)
+            {
+                tblPhanCongTC pctc = new tblPhanCongTC();
+                pctc.Username = PhanCongTC.Username;
+                pctc.IdDonVi = PhanCongTC.IdDonVi;
+                pctc.IdKeHoachTDG = PhanCongTC.IdKeHoachTDG;
+                pctc.IdTieuChi = item;
+                db.tblPhanCongTCs.Add(pctc);
+            }
+
+            db.SaveChanges();
+
+            return Ok(PhanCongTC);
+        }
+        public class PhanCongTC
+        {
+            public int IdDonVi { get; set; }
+            public int IdKeHoachTDG { get; set; }
+            public List<int> ListIdTieuChi { get; set; }
+            public string Username { get; set; }
+        }
     }
 }

@@ -206,6 +206,7 @@ function saveContent(href, fileName) {
 }
 
 function exportFromHtml(base64InnerHtml, fileName, mineType, isHaveUTF8) {
+    
     var tab_text = "";
     if (isHaveUTF8) {
         tab_text = decodeURIComponent(escape(window.atob(base64InnerHtml)));

@@ -22,7 +22,7 @@
     }
 
 
-    $scope.SaveModal = function () {
+    $scope.SaveModal = function (isNew) {
         $scope.item.ThongTinKhac = JSON.stringify($scope.item.ThongTinKhac)
 
         $http({
@@ -36,6 +36,10 @@
             //$rootScope.$emit("LoadDMDonVi", {});
             $rootScope.LoadDMDonVi();
             $scope.cancelModal();
+
+            if (isNew)
+                $scope.openModal('', 'DMDonVi');
+
         }, function errorCallback(response) {
             $scope.itemError = response.data;
 
@@ -43,26 +47,7 @@
         });
 
     }
-    $scope.SaveAndNew = function () {
-        $scope.item.ThongTinKhac = JSON.stringify($scope.item.ThongTinKhac)
 
-        $http({
-            method: 'POST',
-            url: 'api/DonVi/Save',
-            data: $scope.item
-        }).then(function successCallback(response) {
-
-            toastr.success('Đã lưu dữ liệu thành công !', 'Thông báo');
-            $rootScope.LoadDMDonVi();
-            $scope.item = '';
-            $scope.itemError = "";
-        }, function errorCallback(response) {
-            $scope.itemError = response.data;
-
-            toastr.error('Vui lòng điền đầy đủ các trường bắt buộc !', 'Thông báo');
-        });
-
-    }
     $scope.ValidMaDv = function () {
 
         $http({
@@ -945,6 +930,14 @@ angular.module('WebApiApp').controller("ModalDMTieuChuanHandlerController", func
             "IdQuyDinh": $rootScope.IdQuyDinh
         }
     }
+    else {
+        try {
+            if ($scope.item.NhomLoai)
+                $scope.item.NhomLoai = JSON.parse($scope.item.NhomLoai)
+        }
+        catch { }
+
+    }
 
     // Load lên STT
     $scope.LoadSTT = function () {
@@ -963,6 +956,10 @@ angular.module('WebApiApp').controller("ModalDMTieuChuanHandlerController", func
 
     // Lưu dữ liệu
     $scope.Save = function (isNew) {
+        if ($scope.item.NhomLoai && $scope.item.NhomLoai.length > 0)
+            $scope.item.NhomLoai = JSON.stringify($scope.item.NhomLoai)
+        else
+            $scope.item.NhomLoai = null;
 
         $http({
             method: "POST",
@@ -1175,17 +1172,23 @@ angular.module('WebApiApp').controller("ModalPhanQuyenTCHandlerController", func
     }
 
     $scope.SaveModal = function () {
-        $scope.MenuArr = [];
-        $scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IsCheck == true).forEach(t => {
-            $scope.MenuArr.push(t.Id);
-        });
+        //$scope.MenuArr = [];
+        //$scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IsCheck == true).forEach(t => {
+        //    $scope.MenuArr.push(t.Id);
+        //});
 
-        $scope.$resolve.item.TieuChi = JSON.stringify($scope.MenuArr);
-
+        //$scope.$resolve.item.TieuChi = JSON.stringify($scope.MenuArr);
+        let data = {
+            IdDonVi: $rootScope.CurDonVi.Id,
+            IdKeHoachTDG: $rootScope.KeHoachTDG.Id,
+            Username: $scope.itemGroup.UserName,
+            ListIdTieuChi: $scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IsCheck == true).map(t => t.Id)
+        };
+        console.log(data)
         $http({
             method: 'POST',
-            url: '/api/UserProfiles/',
-            data: $scope.$resolve.item
+            url: '/api/DanhMucTieuChi/SavePhanCongTC',
+            data: data
         }).then(function successCallback(response) {
             toastr.success('Cập nhật dữ liệu thành công !', 'Thông báo');
             $scope.cancelModal();
@@ -1257,6 +1260,7 @@ angular.module('WebApiApp').controller("ModalPhanQuyenTCHandlerController", func
             method: 'GET',
             url: '/api/UserProfile/LoadTieuChuanTieuChi?idQuyDinh=' + $rootScope.IdQuyDinh
                 + '&userId=' + $scope.$resolve.item.Id
+                + '&idKeHoachTDG=' + $rootScope.KeHoachTDG.Id
         }).then(function successCallback(response) {
             $scope.MenuDrop = response.data;
         }, function errorCallback(response) {
@@ -1339,7 +1343,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
             .filter(x => x.tchuan.Id == $scope.IdTieuChuan)
             .map(t => t.tchi)[0];
 
-        if ($scope.DsTieuChi.length > 0 && !$scope.item.IdTieuChi) {
+        if ($scope.DsTieuChi.length > 0) {
             $scope.item.IdTieuChi = $scope.DsTieuChi[0].Id;
         }
         $scope.renderHeThongMa();
@@ -1365,7 +1369,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
     }
 
     $scope.renderMa = function () {
-        
+
         if ($scope.item.Id)
             return;
         // Load lên số minh chứng trước khi gen mã
@@ -1378,7 +1382,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
                     + '&heThongMa=' + $scope.item.HeThongMa
                     + '&ChiThuThap=' + $rootScope.ChiThuThap
             }).then(function successCallback(response) {
-                
+
                 if (response.data.length > 0) {
                     let latestMa = response.data[response.data.length - 1].Ma;
                     $scope.item.SoMinhChung = parseInt(latestMa.split('-')[2]) + 1;
@@ -1389,7 +1393,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
                 if ($scope.item.SoMinhChung) {
                     // Nếu có id tiêu chí thì tiếp tục gen mã
                     if ($scope.item.IdTieuChi && $scope.IdTieuChuan) {
-
+                        debugger
                         var thuTuTieuChuan = $scope.DSTieuChuan.filter(x => x.Id == $scope.IdTieuChuan)[0].ThuTu;
                         var thuTuTieuChi = $scope.DsTieuChi.filter(x => x.Id == $scope.item.IdTieuChi)[0].ThuTu;
 
@@ -1434,7 +1438,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
 
 
     $scope.LoadDMTieuChuan();
-    
+
     $scope.LoadFileUpload = function () {
         //debugger
         if ($scope.item.Id)
@@ -1832,20 +1836,83 @@ angular.module('WebApiApp').controller("ModalFileMinhChungHandlerController", fu
     }
 
     $scope.LoadFileUpload = function () {
-        
-            $http({
-                method: "GET",
-                url:
-                    "api/MinhChung/LoadFileMinhChung?IdMinhChung=" + $scope.item.Id,
-            }).then(
-                function successCallback(response) {
-                    $scope.ListFileUpLoad = response.data;
-                },
-                function errorCallback(response) {
-                    toastr.error("Có lỗi trong quá trình tải dữ liệu !", "Thông báo");
-                }
-            );
-        
+
+        $http({
+            method: "GET",
+            url:
+                "api/MinhChung/LoadFileMinhChung?IdMinhChung=" + $scope.item.Id,
+        }).then(
+            function successCallback(response) {
+                $scope.ListFileUpLoad = response.data;
+            },
+            function errorCallback(response) {
+                toastr.error("Có lỗi trong quá trình tải dữ liệu !", "Thông báo");
+            }
+        );
+
     }();
 
+});
+
+//In phiếu đánh giá tiêu chí
+angular.module('WebApiApp').controller("ModalInPhieuDanhGiaHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    $scope.LoadBaoCaoTCTC = function () {
+        $http({
+            method: 'GET',
+            url: 'api/BaoCao/LoadBaoCaoTCTC?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                + '&IdQuyDinh=' + $rootScope.KeHoachTDG.IdQuyDinhTC
+        }).then(function successCallback(response) {
+
+            $scope.BaoCaoTCTC = response.data;
+            let checkbctchuan = $scope.BaoCaoTCTC.filter(t => t.Id == $scope.item.tchi.IdTieuChuan);
+            if (checkbctchuan.length > 0) {
+                $scope.BCTieuChuan = checkbctchuan[0]
+                let checkbctchi = $scope.BCTieuChuan.ListTieuChi.filter(t => t.Id == $scope.item.tchi.Id);
+                if (checkbctchi.length > 0)
+                    $scope.BCTieuChi = checkbctchi[0]
+            }
+
+            console.log($scope.BCTieuChuan, $scope.BCTieuChi)
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+    console.log($scope.item)
+});
+
+//Generate link báo cáo
+angular.module('WebApiApp').controller("ModalGenerateLinkBaoCaoHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+   
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    let originUrl = window.location.protocol + '//' + window.location.host + '/kqdg.html?'
+    $scope.link = originUrl + $rootScope.CurDonVi.MaDonVi
+
+    $scope.generateQR = function (text) {
+        console.log(text)
+        $('#qrlinkbaocao').empty();
+        const qrcode = new QRCode(document.getElementById('qrlinkbaocao'), {
+            text: text,
+            width: 300,
+            height: 300,
+            colorDark: '#000',
+            colorLight: '#fff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    };
+    setTimeout(function () {
+        $scope.generateQR($scope.link);
+    },500)
+    
+   
 });

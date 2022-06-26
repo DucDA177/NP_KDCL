@@ -126,6 +126,11 @@ namespace WebApiCore.Controllers.DanhMuc
                 ModelState.AddModelError("NoiDung", "Nội dung tiêu chuẩn bắt buộc nhập");
                 ModelState.AddModelError("NoiDung", "has-error");
             }
+            if (string.IsNullOrEmpty(data.NhomLoai))
+            {
+                ModelState.AddModelError("NhomLoai", "Nhóm loại trường bắt buộc chọn");
+                ModelState.AddModelError("NhomLoai", "has-error");
+            }
         }
 
 
@@ -136,9 +141,17 @@ namespace WebApiCore.Controllers.DanhMuc
             string userName = HttpContext.Current.User.Identity.Name;
             var user = db.UserProfiles.Where(x => x.UserName == userName && x.FInUse == true).FirstOrDefault();
 
-            if (user != null && !string.IsNullOrEmpty(user.TieuChi))
+            int IdKeHoachTDG;
+            int.TryParse( HttpContext.Current.Request.Cookies.Get("IdKeHoachTDG").Value, out IdKeHoachTDG );
+            if(IdKeHoachTDG == 0)
+                return Ok();
+
+            var listTieuChiId = db.tblPhanCongTCs.Where(t =>
+            t.IdDonVi == user.IDDonVi && t.IdKeHoachTDG == IdKeHoachTDG && t.Username == user.UserName)
+                .Select(t => t.IdTieuChi).ToList();
+
+            if (user != null && listTieuChiId.Any())
             {
-                var listTieuChiId = JsonConvert.DeserializeObject<List<int>>(user.TieuChi);
                 var listTCTC = from tcId in listTieuChiId
                                join tchi in db.DMTieuChis on tcId equals tchi.Id
                                join tchuan in db.DMTieuChuans on tchi.IdTieuChuan equals tchuan.Id

@@ -145,6 +145,7 @@
           <Property Name="ThuTu" Type="int" Nullable="false" />
           <Property Name="IdQuyDinh" Type="int" Nullable="false" />
           <Property Name="NoiDung" Type="nvarchar(max)" />
+          <Property Name="NhomLoai" Type="nvarchar(max)" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
           <Property Name="YCDanhGia" Type="bit" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -478,6 +479,21 @@
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="500" />
           <Property Name="FInUse" Type="bit" />
         </EntityType>
+        <EntityType Name="tblPhanCongTC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdDonVi" Type="int" Nullable="false" />
+          <Property Name="IdKeHoachTDG" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdTieuChi" Type="int" />
+          <Property Name="CreatedAt" Type="datetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="UpdatedAt" Type="datetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="500" />
+          <Property Name="FInUse" Type="bit" />
+        </EntityType>
         <EntityType Name="ThongBao">
           <Key>
             <PropertyRef Name="Id" />
@@ -572,6 +588,7 @@
           <EntitySet Name="tblMinhChung" EntityType="Self.tblMinhChung" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMoDauKetLuanTC" EntityType="Self.tblMoDauKetLuanTC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblPhanCongMinhChung" EntityType="Self.tblPhanCongMinhChung" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPhanCongTC" EntityType="Self.tblPhanCongTC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThongBao" EntityType="Self.ThongBao" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnreadMes" EntityType="Self.UnreadMes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
@@ -1267,6 +1284,7 @@
           <EntitySet Name="tblDanhGiaTieuChis" EntityType="WebApiDataModel.tblDanhGiaTieuChi" />
           <EntitySet Name="DMTieuChis" EntityType="WebApiDataModel.DMTieuChi" />
           <EntitySet Name="DMTieuChuans" EntityType="WebApiDataModel.DMTieuChuan" />
+          <EntitySet Name="tblPhanCongTCs" EntityType="WebApiDataModel.tblPhanCongTC" />
           </EntityContainer>
         <ComplexType Name="CountInspectByStatus_Result">
           <Property Type="String" Name="FName" Nullable="true" MaxLength="200" />
@@ -2376,8 +2394,24 @@
           <Property Name="ThuTu" Type="Int32" Nullable="false" />
           <Property Name="IdQuyDinh" Type="Int32" Nullable="false" />
           <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NhomLoai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="YCDanhGia" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="FInUse" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tblPhanCongTC">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdDonVi" Type="Int32" Nullable="false" />
+          <Property Name="IdKeHoachTDG" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdTieuChi" Type="Int32" />
           <Property Name="CreatedAt" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
@@ -2971,10 +3005,27 @@
                 <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="YCDanhGia" ColumnName="YCDanhGia" />
                 <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="NhomLoai" ColumnName="NhomLoai" />
                 <ScalarProperty Name="NoiDung" ColumnName="NoiDung" />
                 <ScalarProperty Name="IdQuyDinh" ColumnName="IdQuyDinh" />
                 <ScalarProperty Name="ThuTu" ColumnName="ThuTu" />
                 <ScalarProperty Name="STT" ColumnName="STT" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPhanCongTCs">
+            <EntityTypeMapping TypeName="WebApiDataModel.tblPhanCongTC">
+              <MappingFragment StoreEntitySet="tblPhanCongTC">
+                <ScalarProperty Name="FInUse" ColumnName="FInUse" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="IdTieuChi" ColumnName="IdTieuChi" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="IdKeHoachTDG" ColumnName="IdKeHoachTDG" />
+                <ScalarProperty Name="IdDonVi" ColumnName="IdDonVi" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
