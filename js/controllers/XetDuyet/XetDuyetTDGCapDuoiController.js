@@ -13,7 +13,8 @@
         }
         $http({
             method: 'GET',
-            url: 'api/DanhMucTieuChuan/LoadTieuChuanDanhGia?IdQuyDinh=' + $scope.IdQuyDinh
+            url: 'api/DanhMucTieuChuan/LoadTieuChuanByDonVi?IdQuyDinh=' + $scope.IdQuyDinh
+                + '&IdDonVi=' + $scope.IdDonVi
         }).then(function successCallback(response) {
             $rootScope.DsTieuChuan = response.data;
             if ($rootScope.DsTieuChuan.length > 0) {

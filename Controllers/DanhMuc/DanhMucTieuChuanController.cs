@@ -168,5 +168,18 @@ namespace WebApiCore.Controllers.DanhMuc
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("api/DanhMucTieuChuan/LoadTieuChuanByDonVi")]
+        public IHttpActionResult LoadTieuChuanByDonVi(int IdQuyDinh, int IdDonVi )
+        {
+            var dv = db.DMDonVis.Find(IdDonVi);
+            if (dv == null) return Ok();
+
+            return Ok(db.DMTieuChuans.Where(t => t.FInUse == true
+            && t.IdQuyDinh == IdQuyDinh && t.YCDanhGia == true
+            && t.NhomLoai.Contains(dv.NhomLoai))
+                .OrderBy(t => t.STT).ToList());
+        }
     }
 }
