@@ -1740,7 +1740,7 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
             ["InsertMinhChung", "SetReadOnly"]
         ],
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
-        extraPlugins: 'insert-minhchung,set-readonly',
+        extraPlugins: $rootScope.checkCapTren ? '' : 'insert-minhchung,set-readonly',
         readOnly: $rootScope.checkCapTren,
     }
 
@@ -1819,9 +1819,6 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
         $scope.UserInNhom = JSON.parse(localStorage.getItem('UserInNhom'));
     }();
 
-    $scope.initCKEDIOTR = function ($event) {
-        console.log($event)
-    }
 
 });
 

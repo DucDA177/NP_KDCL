@@ -5,6 +5,12 @@
     $scope.IdKeHoachTDG = 0;
     //Xử lý load danh mục tiêu chuẩn
     $scope.LoadDMTieuChuan = function () {
+        if (!$scope.IdQuyDinh) {
+            $rootScope.IdTieuChuan = 0;
+            $scope.DGTC = [];
+            $rootScope.DsTieuChuan = []
+            return;
+        }
         $http({
             method: 'GET',
             url: 'api/DanhMucTieuChuan/LoadTieuChuanDanhGia?IdQuyDinh=' + $scope.IdQuyDinh

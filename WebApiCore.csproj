@@ -3112,7 +3112,6 @@
     <Content Include="js\customjs\ngStorage.js" />
     <Content Include="js\customjs\ngStorage.min.js" />
     <Content Include="js\customjs\select2.multi-checkboxes.js" />
-    <Content Include="js\kqdg.js" />
     <Content Include="js\ModelController.js" />
     <Content Include="js\controllers\UserManagerController.js" />
     <Content Include="js\directives.js" />
