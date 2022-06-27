@@ -67,6 +67,9 @@ CKEDITOR.plugins.add(pluginName, {
                         this._.editor.insertHtml(v);
                     }
 
+                },
+                onShow: function () {
+                    listSelectedCkb = [];
                 }
             };
 
