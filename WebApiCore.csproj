@@ -1833,9 +1833,9 @@
     <Content Include="assets\global\plugins\ckeditor\plugins\iframe\images\placeholder.png" />
     <Content Include="assets\global\plugins\ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung\icons\add-new.jpg" />
     <Content Include="assets\global\plugins\ckeditor\plugins\set-readonly\icons\set-readonly.png" />
     <Content Include="assets\global\plugins\ckeditor\plugins\set-readonly\plugin.js" />
-    <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung\icons\insert-minhchung.png" />
     <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung\plugin.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\link\dialogs\anchor.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\link\dialogs\link.js" />

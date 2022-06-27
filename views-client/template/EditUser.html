@@ -90,7 +90,7 @@
 
                 <div class="col-md-4">
                     <select ng-model="itemGroup" 
-                            class="form-control  select-checkbox-fa"
+                            class="form-control input-sm" select2
                             multiple ng-disabled="checkDisable">
                         <option ng-repeat="c in Group" value="{{c.FCode}}" 
                                 ng-hide="c.FCode=='ADMIN' && CurDonVi.LoaiDonVi != 'ADMIN'">

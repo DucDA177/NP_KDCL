@@ -116,52 +116,11 @@ namespace WebApiCore.Controllers.DanhMuc
                 ModelState.AddModelError("NoiDung", "Nội dung tiêu chí bắt buộc nhập");
                 ModelState.AddModelError("NoiDung", "has-error");
             }
-            if (string.IsNullOrEmpty(data.NoiDungA))
-            {
-                ModelState.AddModelError("NoiDungA", "Nội dung chỉ số A bắt buộc nhập");
-                ModelState.AddModelError("NoiDungA", "has-error");
-            }
-            if (string.IsNullOrEmpty(data.NoiDungB))
-            {
-                ModelState.AddModelError("NoiDungB", "Nội dung chỉ số B bắt buộc nhập");
-                ModelState.AddModelError("NoiDungB", "has-error");
-            }
-            if (string.IsNullOrEmpty(data.NoiDungC))
-            {
-                ModelState.AddModelError("NoiDungC", "Nội dung chỉ số C bắt buộc nhập");
-                ModelState.AddModelError("NoiDungC", "has-error");
-            }
 
-            if (string.IsNullOrEmpty(data.YeuCauA))
+            if ( data.ThuTu == 0)
             {
-                ModelState.AddModelError("YeuCauA", "Yêu cầu chỉ số A bắt buộc nhập");
-                ModelState.AddModelError("YeuCauA", "has-error");
-            }
-            if (string.IsNullOrEmpty(data.YeuCauB))
-            {
-                ModelState.AddModelError("YeuCauB", "Yêu cầu chỉ số B bắt buộc nhập");
-                ModelState.AddModelError("YeuCauB", "has-error");
-            }
-            if (string.IsNullOrEmpty(data.YeuCauC))
-            {
-                ModelState.AddModelError("YeuCauC", "Yêu cầu chỉ số C bắt buộc nhập");
-                ModelState.AddModelError("YeuCauC", "has-error");
-            }
-
-            if (string.IsNullOrEmpty(data.GoiYA))
-            {
-                ModelState.AddModelError("GoiYA", "Gợi ý chỉ số A bắt buộc nhập");
-                ModelState.AddModelError("GoiYA", "has-error");
-            }
-            if (string.IsNullOrEmpty(data.GoiYB))
-            {
-                ModelState.AddModelError("GoiYB", "Gợi ý chỉ số B bắt buộc nhập");
-                ModelState.AddModelError("GoiYB", "has-error");
-            }
-            if (string.IsNullOrEmpty(data.GoiYC))
-            {
-                ModelState.AddModelError("GoiYC", "Gợi ý chỉ số C bắt buộc nhập");
-                ModelState.AddModelError("GoiYC", "has-error");
+                ModelState.AddModelError("ThuTu", "Thứ tự tiêu chí bắt buộc nhập");
+                ModelState.AddModelError("ThuTu", "has-error");
             }
         }
 
