@@ -8,16 +8,16 @@
 
 <div class="page-header-inner">
     <div class="row">
-        <div class="col-md-4" style="vertical-align: middle">
+        <div class="col-md-6" style="vertical-align: middle">
             <a ui-sref="dashboard">
                 <label style="color:black; font-size: 20px;font-weight: bold; margin-top:8px">
-                &nbsp;&nbsp;{{CurDonVi.TenDonVi}}
+                    &nbsp;&nbsp;{{CurDonVi.TenDonVi}} | Năm học {{CurNamHoc}}
                 </label>
                 
             </a>
 
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <marquee style="margin-top:10px" direction="left" scrollamount="5">
                 <a ng-repeat="u in ThongBao | orderBy:'-Id'"
                    ng-click="CheckReadTB(u)"

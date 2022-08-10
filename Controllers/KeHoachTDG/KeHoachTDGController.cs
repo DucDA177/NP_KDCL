@@ -25,12 +25,17 @@ namespace WebApiCore.Controllers.KeHoachTDG
 
         [HttpGet]
         [Route("api/KeHoachTDG/LoadListNamHoc")]
+        [AllowAnonymous]
         public IHttpActionResult LoadListNamHoc()
         {
-            var data = db.tblKeHoachTDGs.GroupBy(t => new { t.NamHocBD, t.NamHocKT })
-                .Select(t => t.FirstOrDefault())
-                .OrderByDescending(t => t.NamHocKT)
-                .Select(t => t.NamHocBD + "-" + t.NamHocKT);
+            var maxNamHocKT = db.tblKeHoachTDGs.Max(t => t.NamHocKT);
+            var minNamHocBD = db.tblKeHoachTDGs.Min(t => t.NamHocBD);
+            List<string> data = new List<string>();
+            for(int i = maxNamHocKT; i >= minNamHocBD - 20; i--)
+            {
+                string namHoc = (i - 1) + " - " + i ;
+                data.Add(namHoc);
+            }
 
             return Ok(data);
         }

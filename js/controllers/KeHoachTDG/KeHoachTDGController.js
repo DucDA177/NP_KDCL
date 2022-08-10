@@ -22,16 +22,16 @@
 
     $scope.DoiTrangThai = function (item, TrangThai) {
         if (TrangThai == 'DTH') {
-            let curDate = new Date();
-            let curYear = curDate.getFullYear();
-            if (curYear < item.NamHocBD || curYear > item.NamHocKT) {
+            //let curDate = new Date();
+            let curYear = localStorage.getItem('NamHoc').split('-'); //curDate.getFullYear();
+            if (curYear[0] < item.NamHocBD || curYear[1] > item.NamHocKT) {
                 toastr.error('Năm hiện tại không thuộc giai đoạn ' + item.NamHocBD + ' - ' + item.NamHocKT, 'Thông báo');
                 return;
             }
-            if (curDate < new Date(item.NgayBD) || curDate > new Date(item.NgayKT)) {
-                toastr.error('Thời điểm hiện tại không nằm trong thời gian kế hoạch diễn ra', 'Thông báo');
-                return;
-            }
+            //if (curDate < new Date(item.NgayBD) || curDate > new Date(item.NgayKT)) {
+            //    toastr.error('Thời điểm hiện tại không nằm trong thời gian kế hoạch diễn ra', 'Thông báo');
+            //    return;
+            //}
             $cookies.put('IdKeHoachTDG', item.Id);
             $rootScope.KeHoachTDG = item;
         }

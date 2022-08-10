@@ -8,14 +8,32 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
     $scope.ListNamHoc = [];
     let NamHocIfNull = (new Date().getFullYear() - 1) + '-' + (new Date().getFullYear())
     $scope.NamHoc = localStorage.getItem('NamHoc') ? localStorage.getItem('NamHoc') : NamHocIfNull;
-    $scope.LoadListNamHoc = function () {
+
+    var generateNamHoc = function () {
         $scope.ListNamHoc.push(NamHocIfNull);
         let curYear = new Date().getFullYear();
         for (let i = curYear - 1; i >= curYear - 20; i--) {
             let NamHoc = (i - 1) + '-' + i
             $scope.ListNamHoc.push(NamHoc)
         }
+    }
+
+    $scope.LoadListNamHoc = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/KeHoachTDG/LoadListNamHoc'
+        }).then(function successCallback(response) {
+            if (response.data && response.data.length > 0)
+                $scope.ListNamHoc = response.data;
+            else
+                generateNamHoc();
+        }, function errorCallback(response) {
+            generateNamHoc();
+        });
+
     }();
+
 
     $scope.fnLogin = function (obj) {
         $scope.show = 1;

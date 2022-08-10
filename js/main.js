@@ -981,8 +981,8 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
         }).then(function successCallback(response) {
             //console.log(response.data)
             $rootScope.user = response.data;
-            $rootScope.CurYear = $cookies.get('Nam');
-
+            $rootScope.CurNamHoc = localStorage.getItem('NamHoc');
+            
             if ($rootScope.user.LockScreenTime == null) $rootScope.user.LockScreenTime = 10;
 
             $rootScope.setIdleTime($rootScope.user.LockScreenTime * 60, $rootScope.user.UserName)
@@ -999,7 +999,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                     $http({
                         method: 'GET',
                         url: 'api/KeHoachTDG/LoadKeHoachTDGHienTai?IdDonVi=' + $rootScope.CurDonVi.Id
-                            + '&NamHoc=' + localStorage.getItem('NamHoc'),
+                            + '&NamHoc=' + $rootScope.CurNamHoc,
                     }).then(function successCallback(response) {
                         $rootScope.KeHoachTDG = response.data;
                         if (!$rootScope.KeHoachTDG)
