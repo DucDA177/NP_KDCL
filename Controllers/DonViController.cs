@@ -177,6 +177,18 @@ namespace WebApiCore.Controllers
 
         }
         [HttpGet]
+        [Route("api/DonVi/GetAllDonViGoc")]
+        public IHttpActionResult GetAllDonViGoc()
+        {
+            var dt = from dvcon in db.DMDonVis 
+                     join dvcha in db.DMDonVis
+                     on dvcon.IDDVCha equals dvcha.Id
+                     where dvcha.MaDonVi == "NPS"
+                     select dvcon;
+            return Ok(dt);
+
+        }
+        [HttpGet]
         [Route("api/DonVi/GetDonVi")]
         public List GetDonVi(int pageNumber, int pageSize, string searchKey, string LoaiDonVi, string DVCha, string LoaiTruong)//, string year, string plan, string FInspection, string Org, string TypeTT, string KieuTT)
         {

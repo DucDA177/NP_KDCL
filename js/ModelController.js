@@ -82,6 +82,21 @@
 
     }
 
+    $scope.LoadAllDonViGoc = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/DonVi/GetAllDonViGoc',
+        }).then(function successCallback(response) {
+            $scope.DonViGoc = response.data;
+
+        }, function errorCallback(response) {
+            //$scope.itemError = response.data;
+            toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+        });
+
+    }
+
     $scope.ValidOnlyCode = function (FCode) {
         if (typeof $scope.item == 'undefined') {
             $scope.item = {};
@@ -114,6 +129,7 @@
     $scope.LoadLoaiTruong();
 
     $scope.LoadAllDonVi();
+    $scope.LoadAllDonViGoc();
 });
 
 angular.module('WebApiApp').controller("ModalDMChungHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {

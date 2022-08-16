@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="WebApiDataModel.Area" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.AspNetUser" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.AutoID" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.DMDonVi" Width="1.5" PointX="4.75" PointY="5.75" />
         <EntityTypeShape EntityType="WebApiDataModel.FILE_DINH_KEM" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="WebApiDataModel.Group_Menu" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.Group_User" Width="1.5" PointX="8.75" PointY="3.75" />
@@ -31,6 +30,7 @@
         <EntityTypeShape EntityType="WebApiDataModel.DMTieuChi" Width="1.5" PointX="15.375" PointY="14.75" />
         <EntityTypeShape EntityType="WebApiDataModel.DMTieuChuan" Width="1.5" PointX="17.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblPhanCongTC" Width="1.5" PointX="3.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.DMDonVi" Width="1.5" PointX="5.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

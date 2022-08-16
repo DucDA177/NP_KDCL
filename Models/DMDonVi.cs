@@ -38,5 +38,6 @@ namespace WebApiCore.Models
         public string ThongTinKhac { get; set; }
         public Nullable<bool> FInUse { get; set; }
         public string TTGui { get; set; }
+        public Nullable<int> IdDonViGoc { get; set; }
     }
 }

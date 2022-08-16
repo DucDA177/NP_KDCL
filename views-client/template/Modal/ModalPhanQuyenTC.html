@@ -34,9 +34,9 @@
                             <tbody>
                                 <tr class="odd gradeX" ng-repeat="Menu in MenuDrop">
 
-                                    <td nowrap><i class="icon-arrow-right"></i></td>
-                                    <td nowrap> <div ng-class="Menu.LoaiDuLieu == 2 ? '':'bold'">{{Menu.LoaiDuLieu == 2 ? " |--" + Menu.NoiDung : Menu.NoiDung }}</div> </td>
-                                    <td nowrap><input type="checkbox" ng-model="Menu.IsCheck" ng-change="OnCheck(Menu)" /></td>
+                                    <td ><i class="icon-arrow-right"></i></td>
+                                    <td > <div ng-class="Menu.LoaiDuLieu == 2 ? '':'bold'">{{Menu.LoaiDuLieu == 2 ? " |--" + Menu.NoiDung : Menu.NoiDung }}</div> </td>
+                                    <td ><input type="checkbox" ng-model="Menu.IsCheck" ng-change="OnCheck(Menu)" /></td>
                                 </tr>
                             </tbody>
                         </table>

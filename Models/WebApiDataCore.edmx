@@ -109,6 +109,7 @@
           <Property Name="ThongTinKhac" Type="nvarchar(max)" />
           <Property Name="FInUse" Type="bit" />
           <Property Name="TTGui" Type="nvarchar(max)" />
+          <Property Name="IdDonViGoc" Type="int" />
         </EntityType>
         <EntityType Name="DMTieuChi">
           <Key>
@@ -1262,7 +1263,6 @@
           <EntitySet Name="Areas" EntityType="WebApiDataModel.Area" />
           <EntitySet Name="AspNetUsers" EntityType="WebApiDataModel.AspNetUser" />
           <EntitySet Name="AutoIDs" EntityType="WebApiDataModel.AutoID" />
-          <EntitySet Name="DMDonVis" EntityType="WebApiDataModel.DMDonVi" />
           <EntitySet Name="FILE_DINH_KEM" EntityType="WebApiDataModel.FILE_DINH_KEM" />
           <EntitySet Name="Group_Menu" EntityType="WebApiDataModel.Group_Menu" />
           <EntitySet Name="Group_User" EntityType="WebApiDataModel.Group_User" />
@@ -1285,6 +1285,7 @@
           <EntitySet Name="DMTieuChis" EntityType="WebApiDataModel.DMTieuChi" />
           <EntitySet Name="DMTieuChuans" EntityType="WebApiDataModel.DMTieuChuan" />
           <EntitySet Name="tblPhanCongTCs" EntityType="WebApiDataModel.tblPhanCongTC" />
+          <EntitySet Name="DMDonVis" EntityType="WebApiDataModel.DMDonVi" />
           </EntityContainer>
         <ComplexType Name="CountInspectByStatus_Result">
           <Property Type="String" Name="FName" Nullable="true" MaxLength="200" />
@@ -1954,35 +1955,6 @@
           <Property Name="Counter" Type="Int64" />
           <Property Name="FUserUpdate" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="DMDonVi">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="STT" Type="Int32" Nullable="false" />
-          <Property Name="MaDonVi" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TenDonVi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LoaiDonVi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IDDVCha" Type="Int32" />
-          <Property Name="IDDVQuanLy" Type="Int32" />
-          <Property Name="NhomLoai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SoDiemTruong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TenLanhDao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IDTinh" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IDHuyen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IDXa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DienThoai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Fax" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Website" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LoaiHinh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IDLoaiTruong" Type="Int32" />
-          <Property Name="ThongTinKhac" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="FInUse" Type="Boolean" />
-          <Property Name="TTGui" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="FILE_DINH_KEM">
           <Key>
             <PropertyRef Name="Id" />
@@ -2418,6 +2390,36 @@
           <Property Name="UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FInUse" Type="Boolean" />
         </EntityType>
+        <EntityType Name="DMDonVi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="STT" Type="Int32" Nullable="false" />
+          <Property Name="MaDonVi" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenDonVi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LoaiDonVi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDDVCha" Type="Int32" />
+          <Property Name="IDDVQuanLy" Type="Int32" />
+          <Property Name="NhomLoai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SoDiemTruong" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TenLanhDao" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDTinh" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IDHuyen" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IDXa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DienThoai" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Website" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LoaiHinh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IDLoaiTruong" Type="Int32" />
+          <Property Name="ThongTinKhac" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FInUse" Type="Boolean" />
+          <Property Name="TTGui" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdDonViGoc" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2539,36 +2541,6 @@
                 <ScalarProperty Name="FDescription" ColumnName="FDescription" />
                 <ScalarProperty Name="FName" ColumnName="FName" />
                 <ScalarProperty Name="FCode" ColumnName="FCode" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DMDonVis">
-            <EntityTypeMapping TypeName="WebApiDataModel.DMDonVi">
-              <MappingFragment StoreEntitySet="DMDonVi">
-                <ScalarProperty Name="TTGui" ColumnName="TTGui" />
-                <ScalarProperty Name="FInUse" ColumnName="FInUse" />
-                <ScalarProperty Name="ThongTinKhac" ColumnName="ThongTinKhac" />
-                <ScalarProperty Name="IDLoaiTruong" ColumnName="IDLoaiTruong" />
-                <ScalarProperty Name="LoaiHinh" ColumnName="LoaiHinh" />
-                <ScalarProperty Name="Website" ColumnName="Website" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="IDXa" ColumnName="IDXa" />
-                <ScalarProperty Name="IDHuyen" ColumnName="IDHuyen" />
-                <ScalarProperty Name="IDTinh" ColumnName="IDTinh" />
-                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
-                <ScalarProperty Name="TenLanhDao" ColumnName="TenLanhDao" />
-                <ScalarProperty Name="SoDiemTruong" ColumnName="SoDiemTruong" />
-                <ScalarProperty Name="NhomLoai" ColumnName="NhomLoai" />
-                <ScalarProperty Name="IDDVQuanLy" ColumnName="IDDVQuanLy" />
-                <ScalarProperty Name="IDDVCha" ColumnName="IDDVCha" />
-                <ScalarProperty Name="LoaiDonVi" ColumnName="LoaiDonVi" />
-                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
-                <ScalarProperty Name="TenDonVi" ColumnName="TenDonVi" />
-                <ScalarProperty Name="MaDonVi" ColumnName="MaDonVi" />
-                <ScalarProperty Name="STT" ColumnName="STT" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3026,6 +2998,37 @@
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="IdKeHoachTDG" ColumnName="IdKeHoachTDG" />
                 <ScalarProperty Name="IdDonVi" ColumnName="IdDonVi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DMDonVis">
+            <EntityTypeMapping TypeName="WebApiDataModel.DMDonVi">
+              <MappingFragment StoreEntitySet="DMDonVi">
+                <ScalarProperty Name="IdDonViGoc" ColumnName="IdDonViGoc" />
+                <ScalarProperty Name="TTGui" ColumnName="TTGui" />
+                <ScalarProperty Name="FInUse" ColumnName="FInUse" />
+                <ScalarProperty Name="ThongTinKhac" ColumnName="ThongTinKhac" />
+                <ScalarProperty Name="IDLoaiTruong" ColumnName="IDLoaiTruong" />
+                <ScalarProperty Name="LoaiHinh" ColumnName="LoaiHinh" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="DienThoai" ColumnName="DienThoai" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IDXa" ColumnName="IDXa" />
+                <ScalarProperty Name="IDHuyen" ColumnName="IDHuyen" />
+                <ScalarProperty Name="IDTinh" ColumnName="IDTinh" />
+                <ScalarProperty Name="DiaChi" ColumnName="DiaChi" />
+                <ScalarProperty Name="TenLanhDao" ColumnName="TenLanhDao" />
+                <ScalarProperty Name="SoDiemTruong" ColumnName="SoDiemTruong" />
+                <ScalarProperty Name="NhomLoai" ColumnName="NhomLoai" />
+                <ScalarProperty Name="IDDVQuanLy" ColumnName="IDDVQuanLy" />
+                <ScalarProperty Name="IDDVCha" ColumnName="IDDVCha" />
+                <ScalarProperty Name="LoaiDonVi" ColumnName="LoaiDonVi" />
+                <ScalarProperty Name="GhiChu" ColumnName="GhiChu" />
+                <ScalarProperty Name="TenDonVi" ColumnName="TenDonVi" />
+                <ScalarProperty Name="MaDonVi" ColumnName="MaDonVi" />
+                <ScalarProperty Name="STT" ColumnName="STT" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

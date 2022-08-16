@@ -124,10 +124,10 @@ namespace WebApiCore.Models
             }
         }
 
+
         public virtual DbSet<Area> Areas { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AutoID> AutoIDs { get; set; }
-        public virtual DbSet<DMDonVi> DMDonVis { get; set; }
         public virtual DbSet<FILE_DINH_KEM> FILE_DINH_KEM { get; set; }
         public virtual DbSet<Group_Menu> Group_Menu { get; set; }
         public virtual DbSet<Group_User> Group_User { get; set; }
@@ -150,6 +150,7 @@ namespace WebApiCore.Models
         public virtual DbSet<DMTieuChi> DMTieuChis { get; set; }
         public virtual DbSet<DMTieuChuan> DMTieuChuans { get; set; }
         public virtual DbSet<tblPhanCongTC> tblPhanCongTCs { get; set; }
+        public virtual DbSet<DMDonVi> DMDonVis { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

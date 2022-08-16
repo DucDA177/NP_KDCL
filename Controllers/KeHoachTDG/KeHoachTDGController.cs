@@ -80,12 +80,66 @@ namespace WebApiCore.Controllers.KeHoachTDG
             }
             else
             {
+                if(data.TrangThai == "DTH")
+                    CloneDataForDonVi(data);
+
                 db.Entry(data).State = EntityState.Modified;
                 db.SaveChanges();
 
             }
             return Ok(data);
 
+        }
+        private void CloneDataForDonVi(tblKeHoachTDG data)
+        {
+            var dvHienTai = db.DMDonVis.Find(data.IdDonVi);
+            var dvGoc = db.DMDonVis.FirstOrDefault(x => x.Id == dvHienTai.IdDonViGoc);
+            if (dvGoc == null)
+                return;
+
+            //Clone DanhGiaTieuChi
+            var listDGTC = db.tblDanhGiaTieuChis.Where(x => x.IdDonVi == dvGoc.Id)
+                .AsEnumerable().Select(x =>
+                {
+                    x.Id = 0;
+                    x.IdDonVi = dvHienTai.Id;
+                    x.IdKeHoachTDG = data.Id;
+                    return x;
+                });
+            db.tblDanhGiaTieuChis.AddRange(listDGTC);
+
+            //Clone DuLieuNhaTruong
+            var listDLNT = db.tblDuLieuNhaTruongs.Where(x => x.IdDonVi == dvGoc.Id)
+                .AsEnumerable().Select(x =>
+                {
+                    x.Id = 0;
+                    x.IdDonVi = dvHienTai.Id;
+                    x.IdKeHoachTDG = data.Id;
+                    return x;
+                });
+            db.tblDuLieuNhaTruongs.AddRange(listDLNT);
+
+            //Clone MinhChung
+            var listMC = db.tblMinhChungs.Where(x => x.IdDonVi == dvGoc.Id)
+               .AsEnumerable().Select(x =>
+               {
+                   x.Id = 0;
+                   x.IdDonVi = dvHienTai.Id;
+                   x.IdKeHoachTDG = data.Id;
+                   return x;
+               });
+            db.tblMinhChungs.AddRange(listMC);
+
+            //Clone MoDauKetLuanTC
+            var listKLTC = db.tblMoDauKetLuanTCs.Where(x => x.IdDonVi == dvGoc.Id)
+               .AsEnumerable().Select(x =>
+               {
+                   x.Id = 0;
+                   x.IdDonVi = dvHienTai.Id;
+                   x.IdKeHoachTDG = data.Id;
+                   return x;
+               });
+            db.tblMoDauKetLuanTCs.AddRange(listKLTC);
         }
         private void Validate(tblKeHoachTDG item)
         {
