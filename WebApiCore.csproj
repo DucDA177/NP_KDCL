@@ -456,6 +456,7 @@
     <Compile Include="Controllers\ThongTinTDG\MinhChungController.cs" />
     <Compile Include="Controllers\ThongTinTDG\MoDauKetLuanTCController.cs" />
     <Compile Include="Controllers\ThongTinTDG\PhanCongMinhChungController.cs" />
+    <Compile Include="Controllers\ThuVienTaiLieuController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -634,6 +635,9 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblPhanCongTC.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblThuVienTaiLieu.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongBao.cs">
@@ -3101,6 +3105,7 @@
     <Content Include="js\controllers\TienIch\HDSDController.js" />
     <Content Include="js\controllers\TienIch\HoTroController.js" />
     <Content Include="js\controllers\TienIch\ThongBaoController.js" />
+    <Content Include="js\controllers\TienIch\ThuVienTaiLieuController.js" />
     <Content Include="js\controllers\XetDuyet\XetDuyetTDGCapDuoiController.js" />
     <Content Include="js\controllers\XuLyYeuCauController.js" />
     <Content Include="js\customjs\angular-datetime.js" />
@@ -3880,6 +3885,7 @@
     <Content Include="views-client\template\Modal\ModalRestoreLog.html" />
     <Content Include="views-client\template\Modal\ModalSetBackupConfig.html" />
     <Content Include="views-client\template\Modal\ModalThongBao.html" />
+    <Content Include="views-client\template\Modal\ModalThuVienTaiLieu.html" />
     <Content Include="views-client\template\Modal\ModalViewPDF.html" />
     <Content Include="views-client\template\NhatKySuDung.html" />
     <Content Include="views-client\template\SaoLuuPhucHoi.html" />
@@ -3890,6 +3896,7 @@
     <Content Include="views-client\template\ThongTinTDG\MoDauKetLuanTC.html" />
     <Content Include="views-client\template\TienIch\HDSD.html" />
     <Content Include="views-client\template\TienIch\HoTro.html" />
+    <Content Include="views-client\template\TienIch\ThuVienTaiLieu.html" />
     <Content Include="views-client\template\TienIch\ThongBao.html" />
     <Content Include="views-client\template\User.html" />
     <Content Include="views-client\template\UserGroup.html" />

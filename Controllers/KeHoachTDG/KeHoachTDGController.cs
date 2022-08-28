@@ -31,7 +31,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
             var maxNamHocKT = db.tblKeHoachTDGs.Max(t => t.NamHocKT);
             var minNamHocBD = db.tblKeHoachTDGs.Min(t => t.NamHocBD);
             List<string> data = new List<string>();
-            for(int i = maxNamHocKT; i >= minNamHocBD - 20; i--)
+            for(int i = maxNamHocKT; i >= minNamHocBD - 2; i--)
             {
                 string namHoc = (i - 1) + " - " + i ;
                 data.Add(namHoc);

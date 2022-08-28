@@ -1929,3 +1929,79 @@ angular.module('WebApiApp').controller("ModalGenerateLinkBaoCaoHandlerController
     
    
 });
+
+//Thư viện tài liệu
+angular.module('WebApiApp').controller("ModalThuVienTaiLieuHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.check = $scope.$resolve.check;
+    $scope.type = $scope.$resolve.type;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    if (!$scope.item) {
+        $scope.item = {
+            "FInUse": true
+        }
+    }
+    else {
+        try {
+            if ($scope.item.DonVi)
+                $scope.item.DonVi = JSON.parse($scope.item.DonVi)
+        }
+        catch { }
+
+    }
+
+    $scope.LoadAllDonVi = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/DonVi/LoadAllDonVi',
+        }).then(function successCallback(response) {
+            $scope.ListDonVi = response.data.filter(x => x.Id != $rootScope.CurDonVi.Id);
+
+        }, function errorCallback(response) {
+            //$scope.itemError = response.data;
+            toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+        });
+
+    }();
+
+    // Lưu dữ liệu
+    $scope.Save = function (isNew) {
+        if ($scope.item.DonVi && $scope.item.DonVi.length > 0)
+            $scope.item.DonVi = JSON.stringify($scope.item.DonVi)
+        else
+            $scope.item.DonVi = null;
+
+        var formData = new FormData();
+        var file = document.querySelector('#file');
+
+        formData.append("file", file.files[0]);
+        formData.append("tblThuVienTaiLieu", JSON.stringify($scope.item));
+
+        $http({
+            method: "POST",
+            url: "api/ThuVienTaiLieu/Save",
+            data: formData,
+            headers: {
+                "Content-Type": undefined,
+            }
+        }).then(function successCallback(response) {
+            toastr.success('Lưu dữ liệu thành công!', 'Thông báo');
+            $scope.item = response.data;
+            $scope.itemError = ''
+            $rootScope.LoadTaiLieu();
+            $scope.cancelModal()
+            if (isNew)
+                $scope.openModal('', 'ThuVienTaiLieu');
+
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            toastr.warning('Có lỗi trong quá trình lưu dữ liệu hoặc chưa điền các trường bắt buộc!', 'Thông báo');
+        });
+    }
+
+
+});
