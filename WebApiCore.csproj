@@ -448,6 +448,7 @@
     <Compile Include="Controllers\HubStore\UserActivityHub.cs" />
     <Compile Include="Controllers\KeHoachTDG\HoiDongController.cs" />
     <Compile Include="Controllers\KeHoachTDG\KeHoachTDGController.cs" />
+    <Compile Include="Controllers\KeHoachTDG\NhomCongTacController.cs" />
     <Compile Include="Controllers\MainMenusController.cs" />
     <Compile Include="Controllers\MenusController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -631,10 +632,16 @@
     <Compile Include="Models\tblMoDauKetLuanTC.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblNhomCongTac.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblPhanCongMinhChung.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblPhanCongTC.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblThanhVienNhom.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblThuVienTaiLieu.cs">
@@ -3102,6 +3109,7 @@
     <Content Include="js\controllers\ThongTinTDG\DanhGiaTieuChiController.js" />
     <Content Include="js\controllers\ThongTinTDG\MinhChungController.js" />
     <Content Include="js\controllers\ThongTinTDG\MoDauKetLuanTCController.js" />
+    <Content Include="js\controllers\ThongTinTDG\XacDinhNoiHamController.js" />
     <Content Include="js\controllers\TienIch\HDSDController.js" />
     <Content Include="js\controllers\TienIch\HoTroController.js" />
     <Content Include="js\controllers\TienIch\ThongBaoController.js" />
@@ -3871,7 +3879,9 @@
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuDanhGia.html" />
+    <Content Include="views-client\template\Modal\ModalInPhieuNoiHam.html" />
     <Content Include="views-client\template\Modal\ModalMinhChung.html" />
+    <Content Include="views-client\template\Modal\ModalNhomCongTac.html" />
     <Content Include="views-client\template\Modal\ModalPhanCongMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalPhanQuyenTC.html" />
     <Content Include="views-client\template\Modal\ModalDMTieuChi.html" />
@@ -3894,6 +3904,7 @@
     <Content Include="views-client\template\ThongTinTDG\DMVietTat.html" />
     <Content Include="views-client\template\ThongTinTDG\MinhChung.html" />
     <Content Include="views-client\template\ThongTinTDG\MoDauKetLuanTC.html" />
+    <Content Include="views-client\template\ThongTinTDG\XacDinhNoiHam.html" />
     <Content Include="views-client\template\TienIch\HDSD.html" />
     <Content Include="views-client\template\TienIch\HoTro.html" />
     <Content Include="views-client\template\TienIch\ThuVienTaiLieu.html" />

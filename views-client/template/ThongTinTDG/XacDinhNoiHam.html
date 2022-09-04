@@ -1,0 +1,236 @@
+﻿<div class="col-md-12">
+    <h4> <label class="uppercase font-green"><i class="fa fa-list"></i> XÁC ĐỊNH NỘI HÀM, PHÂN TÍCH TIÊU CHÍ VÀ TÌM MINH CHỨNG TIÊU CHÍ</label></h4>
+</div>
+<div class="form-body form-horizontal col-md-12">
+    <div class="form-group ">
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Tiêu chuẩn</span>
+                <select ng-model="Paging.idTieuChuan"
+                        class="form-control input-sm select2" convert-to-number
+                        ng-change="LoadTieuChi()">
+                    <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Tiêu chí</span>
+                <select ng-model="Paging.idTieuChi"
+                        class="form-control input-sm select2"
+                        convert-to-number
+                        ng-change="LoadNoiHam()">
+                    <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+
+        </div>
+        
+    </div>
+    
+    <div class="form-group" ng-if="Paging.idTieuChi">
+        <div class="col-md-12">
+            <ng-ckeditor ng-model="DataIn.NoiHam"
+                         ng-config="config"></ng-ckeditor>
+            <div class="margin-top-10">
+                <a class="btn btn-success btn-sm action-btn"
+                   ng-click="SaveNoiHam()">
+                    <i class="fa fa-save"></i> Lưu
+                </a>
+                <a class="btn btn-primary btn-sm action-btn"
+                   ng-click="ExportPhieuNoiHam()">
+                    <i class="fa fa-file-word-o"></i> In phiếu xác định nội hàm
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div hidden id="hiddenTemplateNoiHam">
+    <table cellspacing="0" class="Table" style="border-collapse:collapse; border:none; width:100%">
+        <tbody>
+            <tr>
+                <td rowspan="2" style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:76px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Ti&ecirc;u ch&iacute;</span></strong></span></span></p>
+
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">...</span></strong></span></span></p>
+                </td>
+                <td rowspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:93px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Nội h&agrave;m</span></strong></span></span></p>
+                </td>
+                <td rowspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:191px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">C&aacute;c c&acirc;u hỏi đặt ra </span></strong></span></span></p>
+
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">(ứng với mỗi nội h&agrave;m)</span></strong></span></span></p>
+                </td>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:161px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Minh chứng</span></strong></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:88px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Ghi ch&uacute;</span></strong></span></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Cần thu thập </span></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Nơi thu thập</span></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Mức 1</span></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+            </tr>
+            <tr ng-repeat="cbA in checkDGTC.tchi.ChiBaoA">
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center">
+                    <span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif">
+                        <span style="font-size:13.0pt">{{cbA.STT}}</span></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+            </tr>
+         
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Mức 2 </span></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+            </tr>
+            <tr ng-repeat="cbB in checkDGTC.tchi.ChiBaoB">
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center">
+                        <span style="font-size:14pt">
+                            <span style="font-family:&quot;Times New Roman&quot;,serif">
+                                <span style="font-size:13.0pt">{{cbB.STT}}</span>
+                            </span>
+                        </span>
+                    </p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+            </tr>
+           
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Mức 3<strong> </strong></span></span></span></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+            </tr>
+            <tr ng-repeat="cbC in checkDGTC.tchi.ChiBaoC" on-finish-render="ngRepeatFinished">
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:center">
+                        <span style="font-size:14pt">
+                            <span style="font-family:&quot;Times New Roman&quot;,serif">
+                                <span style="font-size:13.0pt">{{cbC.STT}}</span>
+                            </span>
+                        </span>
+                    </p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:85px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:88px">
+                    <p style="text-align:justify">&nbsp;</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<script>
+    $(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+
+</script>
+
+
+
+
+

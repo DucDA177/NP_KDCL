@@ -46,6 +46,21 @@
                 </div>
             </div>
             <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Thuộc nhóm thư ký:</label>
+                <div class="col-md-3">
+                    <input type="checkbox" class="input-sm" ng-model="item.ThuKy">
+                </div>
+                <div ng-if="item.ThuKy" class="{{itemError.ModelState.IdNhiemVuThuKy[1]}}">
+                    <label class="control-label col-md-3">Nhiệm vụ thư ký<span style="color:red">*</span>:</label>
+                    <div class="col-md-4">
+                        <select ng-model="item.IdNhiemVuThuKy" class="form-control input-sm select2" convert-to-number>
+                            <option  value="1">Trưởng nhóm</option>
+                            <option  value="2">Thành viên</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
                 <label class="control-label col-md-2">Hiệu lực:</label>
                 <div class="col-md-1">
                     <input type="checkbox" class="input-sm" ng-model="item.FInUse">

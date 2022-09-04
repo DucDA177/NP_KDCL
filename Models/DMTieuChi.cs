@@ -22,12 +22,18 @@ namespace WebApiCore.Models
         public string NoiDungA { get; set; }
         public string YeuCauA { get; set; }
         public string GoiYA { get; set; }
+        public string NoiThuThapA { get; set; }
+        public string ChiBaoA { get; set; }
         public string NoiDungB { get; set; }
         public string YeuCauB { get; set; }
         public string GoiYB { get; set; }
+        public string NoiThuThapB { get; set; }
+        public string ChiBaoB { get; set; }
         public string NoiDungC { get; set; }
         public string YeuCauC { get; set; }
         public string GoiYC { get; set; }
+        public string NoiThuThapC { get; set; }
+        public string ChiBaoC { get; set; }
         public string GhiChu { get; set; }
         public Nullable<bool> YCDanhGia { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }

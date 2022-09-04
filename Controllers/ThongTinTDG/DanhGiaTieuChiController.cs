@@ -32,6 +32,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
             return Ok(data);
         }
 
+
         [HttpPost]
         [Route("api/DanhGiaTieuChi/Save")]
         public IHttpActionResult Save([FromBody] tblDanhGiaTieuChi data)
@@ -108,6 +109,41 @@ namespace WebApiCore.Controllers.ThongTinTDG
 
             return Ok(data);
 
+        }
+
+        [HttpPost]
+        [Route("api/DanhGiaTieuChi/SaveNoiHam")]
+        public IHttpActionResult SaveNoiHam([FromBody] NoiHamGDTC data)
+        {
+            var dgtc = db.tblDanhGiaTieuChis.Where(x => x.IdDonVi == data.IdDonVi 
+            && x.IdKeHoachTDG == data.IdKeHoachTDG && x.IdTieuChi == data.IdTieuChi)
+                .AsNoTracking().FirstOrDefault();
+
+            if(dgtc == null)
+            {
+                dgtc = new tblDanhGiaTieuChi();
+                dgtc.IdDonVi = data.IdDonVi;
+                dgtc.IdKeHoachTDG = data.IdKeHoachTDG;
+                dgtc.IdTieuChi = data.IdTieuChi;
+                dgtc.NoiHam = data.NoiHam;
+            }
+            else
+            {
+                dgtc.NoiHam = data.NoiHam;
+            }
+
+            Save(dgtc);
+
+            return Ok(data);
+
+        }
+
+        public class NoiHamGDTC
+        {
+            public string NoiHam { get; set; }
+            public int IdDonVi { get; set; }
+            public int IdKeHoachTDG { get; set; }
+            public int IdTieuChi { get; set; }
         }
     }
 }

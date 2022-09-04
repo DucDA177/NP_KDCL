@@ -333,16 +333,25 @@
                     <h5> Mức 1 </h5>
                 </div>
                 <div class="col-md-12">
+                    <p ng-repeat="chibao in bctchi.ChiBao1">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                </div>
+                <div class="col-md-12">
                     <div ng-bind-html="bctchi.NoiDung1" style="font-style:italic"></div>
                 </div>
                 <div class="col-md-12">
                     <h5> Mức 2 </h5>
                 </div>
                 <div class="col-md-12">
+                    <p ng-repeat="chibao in bctchi.ChiBao2">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                </div>
+                <div class="col-md-12">
                     <div ng-bind-html="bctchi.NoiDung2" style="font-style:italic"></div>
                 </div>
                 <div class="col-md-12">
                     <h5> Mức 3 </h5>
+                </div>
+                <div class="col-md-12">
+                    <p ng-repeat="chibao in bctchi.ChiBao3">{{chibao.STT}}) {{chibao.NoiDung}}</p>
                 </div>
                 <div class="col-md-12">
                     <div ng-bind-html="bctchi.NoiDung3" style="font-style:italic"></div>
@@ -386,9 +395,11 @@
                     <div ng-bind-html="bctchi.KHCaiTienChatLuong"></div>
                 </div>
                 <div class="col-md-12">
-                    <b> 5. Tự đánh giá: </b> Đạt mức {{bctchi.KQDatMuc}}
+                    <b> 5. Tự đánh giá: </b> Đạt mức {{bctchi.DatMuc3 ? '3' : bctchi.DatMuc2 ? '2' :  bctchi.DatMuc1 ? '1' : ''}}
                 </div>
-
+                <div class="col-md-12">
+                    <div compile="bctchi.KQChiBao"></div>
+                </div>
             </div>
 
             <div class="col-md-12">

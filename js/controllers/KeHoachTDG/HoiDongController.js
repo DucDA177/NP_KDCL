@@ -24,7 +24,7 @@
                 + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
         }).then(function successCallback(response) {
 
-            $scope.HoiDong = response.data;
+            $rootScope.HoiDong = response.data;
 
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
@@ -32,4 +32,36 @@
     }
 
     $rootScope.LoadHoiDong();
+}]);
+
+angular.module('WebApiApp').controller('NhomCongTacController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
+    
+    $rootScope.LoadNhomCongTac = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/NhomCongTac/Get?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+        }).then(function successCallback(response) {
+
+            $scope.NhomCongTac = response.data;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    $rootScope.LoadNhomCongTac();
+    $scope.DelNhomCongTac = function (Id) {
+        $http({
+            method: 'GET',
+            url: 'api/NhomCongTac/Del?IdNhom=' + Id
+        }).then(function successCallback(response) {
+            $rootScope.LoadNhomCongTac();
+            toastr.success('Xóa nhóm thành công!', 'Thông báo');
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
 }]);

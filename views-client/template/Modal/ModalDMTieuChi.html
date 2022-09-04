@@ -88,6 +88,34 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="control-label col-md-2">Chỉ báo: </label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control input-sm" placeholder="TT alphabet" ng-model="cbBanDauA.STT" />
+                                                </div>
+                                                <div class="col-md-8 ">
+                                                    <div class="input-group">
+                                                        <input type="text" ng-model="cbBanDauA.NoiDung" class="form-control input-sm" placeholder="Nội dung chỉ báo">
+                                                        <span class="input-group-btn">
+                                                            <a class="btn btn-default input-sm" ng-click="AddChiBao(cbBanDauA,'ChiBaoA')">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" ng-repeat="cb in item.ChiBaoA">
+                                                <label class="control-label col-md-2"></label>
+                                                <div class="col-md-2">
+                                                    {{cb.STT}}
+                                                </div>
+                                                <div class="col-md-8">
+                                                    {{cb.NoiDung}} <a ng-click="DelChiBao(cb,'ChiBaoA')"><i class="fa fa-times font-red"></i></a>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <div class="{{itemError.ModelState.YeuCauA[1]}}">
                                                     <label class="control-label col-md-2">Yêu cầu: </label>
                                                     <div class="col-md-10">
@@ -101,6 +129,12 @@
                                                     <div class="col-md-10">
                                                         <textarea rows="2" class="form-control input-sm" ng-model="item.GoiYA"></textarea>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Nơi thu thập: </label>
+                                                <div class="col-md-10">
+                                                    <textarea rows="2" class="form-control input-sm" ng-model="item.NoiThuThapA"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,6 +164,33 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="control-label col-md-2">Chỉ báo: </label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control input-sm" placeholder="TT alphabet" ng-model="cbBanDauB.STT" />
+                                                </div>
+                                                <div class="col-md-8 ">
+                                                    <div class="input-group">
+                                                        <input type="text" ng-model="cbBanDauB.NoiDung" class="form-control input-sm" placeholder="Nội dung chỉ báo">
+                                                        <span class="input-group-btn">
+                                                            <a class="btn btn-default input-sm" ng-click="AddChiBao(cbBanDauB,'ChiBaoB')">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" ng-repeat="cb in item.ChiBaoB">
+                                                <label class="control-label col-md-2"></label>
+                                                <div class="col-md-2">
+                                                    {{cb.STT}}
+                                                </div>
+                                                <div class="col-md-8">
+                                                    {{cb.NoiDung}} <a ng-click="DelChiBao(cb,'ChiBaoB')"><i class="fa fa-times font-red"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <div class="{{itemError.ModelState.YeuCauB[1]}}">
                                                     <label class="control-label col-md-2">Yêu cầu: </label>
                                                     <div class="col-md-10">
@@ -143,6 +204,12 @@
                                                     <div class="col-md-10">
                                                         <textarea rows="2" class="form-control input-sm" ng-model="item.GoiYB"></textarea>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Nơi thu thập: </label>
+                                                <div class="col-md-10">
+                                                    <textarea rows="2" class="form-control input-sm" ng-model="item.NoiThuThapB"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -172,6 +239,33 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="control-label col-md-2">Chỉ báo: </label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control input-sm" placeholder="TT alphabet" ng-model="cbBanDauC.STT" />
+                                                </div>
+                                                <div class="col-md-8 ">
+                                                    <div class="input-group">
+                                                        <input type="text" ng-model="cbBanDauC.NoiDung" class="form-control input-sm" placeholder="Nội dung chỉ báo">
+                                                        <span class="input-group-btn">
+                                                            <a class="btn btn-default input-sm" ng-click="AddChiBao(cbBanDauC,'ChiBaoC')">
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+                                                        </span>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" ng-repeat="cb in item.ChiBaoC">
+                                                <label class="control-label col-md-2"></label>
+                                                <div class="col-md-2">
+                                                    {{cb.STT}}
+                                                </div>
+                                                <div class="col-md-8">
+                                                    {{cb.NoiDung}} <a ng-click="DelChiBao(cb,'ChiBaoC')"><i class="fa fa-times font-red"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <div class="{{itemError.ModelState.YeuCauC[1]}}">
                                                     <label class="control-label col-md-2">Yêu cầu: </label>
                                                     <div class="col-md-10">
@@ -185,6 +279,12 @@
                                                     <div class="col-md-10">
                                                         <textarea rows="2" class="form-control input-sm" ng-model="item.GoiYC"></textarea>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Nơi thu thập: </label>
+                                                <div class="col-md-10">
+                                                    <textarea rows="2" class="form-control input-sm" ng-model="item.NoiThuThapC"></textarea>
                                                 </div>
                                             </div>
                                         </div>

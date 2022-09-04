@@ -54,16 +54,21 @@
                         </li>
                         <li>
                             <a data-target="#tab_4" data-toggle="tab" aria-expanded="true" class="bold">
-                                Đánh giá
+                                Đánh giá chung
                             </a>
                         </li>
                         <li>
                             <a data-target="#tab_5" data-toggle="tab" aria-expanded="true" class="bold">
-                                Kế hoạch cải tiến
+                                Đánh giá theo chỉ báo
                             </a>
                         </li>
                         <li>
                             <a data-target="#tab_6" data-toggle="tab" aria-expanded="true" class="bold">
+                                Kế hoạch cải tiến
+                            </a>
+                        </li>
+                        <li>
+                            <a data-target="#tab_7" data-toggle="tab" aria-expanded="true" class="bold">
                                 Nhóm
                             </a>
                         </li>
@@ -161,6 +166,24 @@
                                     <div class="form-body form-horizontal">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <ng-ckeditor ng-model="item.dgtc.KQChiBao"
+                                                             ng-config="config"></ng-ckeditor>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane " id="tab_6">
+                            <div class="row">
+                                <div class="portlet light " style="margin-bottom:0">
+                                    <div class="form-body form-horizontal">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                                 <label class="control-label col-md-1">Kế hoạch cải tiến: </label>
                                                 <div class="col-md-11">
                                                     <ng-ckeditor ng-model="item.dgtc.KeHoachCaiTien"
@@ -185,7 +208,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane " id="tab_6">
+                        <div class="tab-pane " id="tab_7">
                             <div class="row">
                                 <div class="portlet light " style="margin-bottom:0">
                                     <div class="form-body form-horizontal">
@@ -247,8 +270,120 @@
         </div>
     </div>
 </div>
+<div hidden id="TemplateDanhGiaChiBao">
+    <table cellspacing="0" class="Table" style="border-collapse:collapse; border:none; width:100%">
+        <tbody>
+            <tr>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:187px">
+                    <p style="text-align:center">Mức 1</p>
+                </td>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:215px">
+                    <p style="text-align:center">Mức 2</p>
+                </td>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:251px">
+                    <p style="text-align:center">Mức 3</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:70px">
+                    <p style="text-align:center">Chỉ báo</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">Đạt/</p>
 
+                    <p style="text-align:center">Kh&ocirc;ng đạt</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:102px">
+                    <p style="text-align:center">Chỉ báo</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:113px">
+                    <p style="text-align:center">Đạt/</p>
 
+                    <p style="text-align:center">Kh&ocirc;ng đạt</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">Chỉ báo</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:134px">
+                    <p style="text-align:center">Đạt/</p>
+
+                    <p style="text-align:center">Kh&ocirc;ng đạt</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:70px">
+                    <p style="text-align:center">{{item.tchi.ChiBaoA[0] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:102px">
+                    <p style="text-align:center">&nbsp;{{item.tchi.ChiBaoB[0] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:113px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">&nbsp;{{item.tchi.ChiBaoC[0] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:134px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:70px">
+                    <p style="text-align:center">{{item.tchi.ChiBaoA[1] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:102px">
+                    <p style="text-align:center">&nbsp;{{item.tchi.ChiBaoB[1] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:113px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">&nbsp;{{item.tchi.ChiBaoC[1] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:134px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:70px">
+                    <p style="text-align:center">{{item.tchi.ChiBaoA[2] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:102px">
+                    <p style="text-align:center">&nbsp;{{item.tchi.ChiBaoB[2] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:113px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:117px">
+                    <p style="text-align:center">&nbsp;{{item.tchi.ChiBaoC[2] || '-'}}</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:134px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:187px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:215px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:251px">
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <script>
 
 

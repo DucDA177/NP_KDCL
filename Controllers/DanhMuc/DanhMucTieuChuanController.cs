@@ -139,18 +139,33 @@ namespace WebApiCore.Controllers.DanhMuc
         public IHttpActionResult LoadTCTCByUser()
         {
             string userName = HttpContext.Current.User.Identity.Name;
-            var user = db.UserProfiles.Where(x => x.UserName == userName && x.FInUse == true).FirstOrDefault();
-
+            
             int IdKeHoachTDG;
             int.TryParse( HttpContext.Current.Request.Cookies.Get("IdKeHoachTDG").Value, out IdKeHoachTDG );
             if(IdKeHoachTDG == 0)
                 return Ok();
 
-            var listTieuChiId = db.tblPhanCongTCs.Where(t =>
-            t.IdDonVi == user.IDDonVi && t.IdKeHoachTDG == IdKeHoachTDG && t.Username == user.UserName)
-                .Select(t => t.IdTieuChi).ToList();
+            int IdDonVi;
+            int.TryParse(HttpContext.Current.Request.Cookies.Get("DonVi").Value, out IdDonVi);
+            if (IdDonVi == 0)
+                return Ok();
 
-            if (user != null && listTieuChiId.Any())
+            var userInHd = db.tblHoiDongs.Where(x => x.Username == userName && x.FInUse == true
+            && x.IdKeHoachTDG == IdKeHoachTDG && x.IdDonVi == IdDonVi
+            ).FirstOrDefault();
+            if (userInHd == null)
+                return Ok();
+
+            var userInNhom = db.tblThanhVienNhoms.Where(x => x.IdHoiDong == userInHd.Id && x.FInUse == true)
+                .Select(x => x.IdNhom).ToList();
+            if (userInNhom == null || !userInNhom.Any())
+                return Ok();
+
+            var listTieuChiId = db.tblPhanCongTCs.Where(t =>
+            t.IdDonVi == IdDonVi && t.IdKeHoachTDG == IdKeHoachTDG && userInNhom.Contains(t.IdNhom.Value))
+                .Select(t => t.IdTieuChi).Distinct().ToList();
+
+            if (listTieuChiId.Any())
             {
                 var listTCTC = from tcId in listTieuChiId
                                join tchi in db.DMTieuChis on tcId equals tchi.Id

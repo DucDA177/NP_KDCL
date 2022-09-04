@@ -73,6 +73,11 @@ namespace WebApiCore.Controllers.KeHoachTDG
                 ModelState.AddModelError("IdNhiemVu", "Nhiệm vụ bắt buộc nhập");
                 ModelState.AddModelError("IdNhiemVu", "has-error");
             }
+            if (item.ThuKy == true && (item.IdNhiemVuThuKy == null || item.IdNhiemVuThuKy == 0))
+            {
+                ModelState.AddModelError("IdNhiemVuThuKy", "Nhiệm vụ thư ký bắt buộc nhập");
+                ModelState.AddModelError("IdNhiemVuThuKy", "has-error");
+            }
         }
 
         [HttpGet]

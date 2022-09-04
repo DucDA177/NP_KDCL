@@ -23,6 +23,9 @@ namespace WebApiCore.Models
         public Nullable<int> IdChucVu { get; set; }
         public Nullable<int> IdNhiemVu { get; set; }
         public string ChuKy { get; set; }
+        public Nullable<bool> ThuKy { get; set; }
+        public Nullable<int> IdChucVuThuKy { get; set; }
+        public Nullable<int> IdNhiemVuThuKy { get; set; }
         public string GhiChu { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }

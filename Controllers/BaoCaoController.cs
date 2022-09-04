@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,7 +10,7 @@ using WebApiCore.Models;
 
 namespace WebApiCore.Controllers
 {
-  
+
     public class BaoCaoController : ApiController
     {
         private WebApiDataEntities db = new WebApiDataEntities();
@@ -102,16 +103,16 @@ namespace WebApiCore.Controllers
             var mcController = new MinhChungController();
             if (RequiredFile)
             {
-                foreach(var item in result)
+                foreach (var item in result)
                 {
                     item.DuongDanFile = "";
                     var listFile = mcController.LoadFileMinhChung(item.Id);
                     if (listFile.Any())
                     {
-                        foreach(var file in listFile)
+                        foreach (var file in listFile)
                         {
                             item.DuongDanFile += string.Format("<a target='_blank' href='{0}'>{1}</a> </br>"
-                                , file.filename, file.FName); 
+                                , file.filename, file.FName);
                         }
                     }
                 }
@@ -153,6 +154,9 @@ namespace WebApiCore.Controllers
                     bctchi.NoiDung1 = tchi.NoiDungA;
                     bctchi.NoiDung2 = tchi.NoiDungB;
                     bctchi.NoiDung3 = tchi.NoiDungC;
+                    bctchi.ChiBao1 = JsonConvert.DeserializeObject(tchi.ChiBaoA);
+                    bctchi.ChiBao2 = JsonConvert.DeserializeObject(tchi.ChiBaoB);
+                    bctchi.ChiBao3 = JsonConvert.DeserializeObject(tchi.ChiBaoC);
 
                     var dgtc = db.tblDanhGiaTieuChis.Where(t => t.IdDonVi == IdDonVi && t.IdKeHoachTDG == IdKeHoachTDG
                     && t.IdTieuChi == tchi.Id && t.FInUse == true).FirstOrDefault();
@@ -168,6 +172,7 @@ namespace WebApiCore.Controllers
                         bctchi.DatMuc1 = dgtc.KQDatA;
                         bctchi.DatMuc2 = dgtc.KQDatB;
                         bctchi.DatMuc3 = dgtc.KQDatC;
+                        bctchi.KQChiBao = dgtc.KQChiBao;
                     }
                     resultTieuChi.Add(bctchi);
                 }
@@ -204,6 +209,9 @@ namespace WebApiCore.Controllers
             public string NoiDung1 { get; set; }
             public string NoiDung2 { get; set; }
             public string NoiDung3 { get; set; }
+            public object ChiBao1 { get; set; }
+            public object ChiBao2 { get; set; }
+            public object ChiBao3 { get; set; }
             public string Mota1 { get; set; }
             public string Mota2 { get; set; }
             public string Mota3 { get; set; }
@@ -214,6 +222,7 @@ namespace WebApiCore.Controllers
             public bool? DatMuc1 { get; set; }
             public bool? DatMuc2 { get; set; }
             public bool? DatMuc3 { get; set; }
+            public string KQChiBao { get; set; }
         }
 
         [HttpGet]

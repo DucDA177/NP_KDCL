@@ -19,6 +19,7 @@ namespace WebApiCore.Models
         public int IdDonVi { get; set; }
         public int IdKeHoachTDG { get; set; }
         public Nullable<int> IdTieuChi { get; set; }
+        public string NoiHam { get; set; }
         public string YeuCauA { get; set; }
         public string GoiYA { get; set; }
         public string MoTaA { get; set; }
@@ -34,6 +35,7 @@ namespace WebApiCore.Models
         public string MoTaC { get; set; }
         public string MinhChungC { get; set; }
         public Nullable<bool> KQDatC { get; set; }
+        public string KQChiBao { get; set; }
         public string DiemManh { get; set; }
         public string DiemYeu { get; set; }
         public string YKienLanhDao { get; set; }

@@ -176,7 +176,8 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             editor.find("th,td").css('border-collapse', 'collapse');
             editor.find(".table-from-db td:first-child").remove();
             editor.find(".table-from-db th:first-child").remove();
-
+            editor.find(".td-no-border").css('border', 'none');
+            editor.find(".th-no-border").css('border', 'none');
             var newHtml = editor.html();
             exportFromHtml(btoa(unescape(encodeURIComponent(newHtml))), fileName, mineType, true);
         }
