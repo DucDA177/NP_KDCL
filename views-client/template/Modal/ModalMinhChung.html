@@ -86,7 +86,7 @@
             </div>
         </div>
         <div class="row margin-bottom-5">
-            <div class="except-thuthap">
+            <div>
                 <label class="control-label col-md-2">Mức độ:</label>
                 <div class="col-md-2" style="margin-top:7px">
                     <input type="radio" ng-model="item.ChiSo" value="A" ng-change="RenderNoiDungChiSo()" /> 1
@@ -124,8 +124,8 @@
         <div class="row margin-bottom-5">
             <div class="col-md-2"></div>
             <div class="col-md-6">
-                <div style="white-space: pre; overflow-y:scroll;max-height:150px">
-                    {{NoiDungChiSo}}
+                <div style="overflow-y:scroll;max-height:150px">
+                    <p compile="NoiDungChiSo"></p>
                 </div>
             </div>
         </div>

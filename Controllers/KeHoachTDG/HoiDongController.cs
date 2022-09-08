@@ -19,7 +19,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
         [Route("api/HoiDong/GetAll")]
         public IHttpActionResult GetAll(int IdDonVi, int IdKeHoachTDG)
         {
-            var data = from hd in db.tblHoiDongs
+            var data = (from hd in db.tblHoiDongs
                        join cv in db.tblDanhmucs.Where(t => t.Maloai == "CHUCVU") 
                        on hd.IdChucVu equals cv.Id
                        join nv in db.tblDanhmucs.Where(t => t.Maloai == "NHIEMVU")
@@ -27,7 +27,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
                        join us in db.UserProfiles 
                        on hd.Username equals us.UserName
                        where hd.IdDonVi == IdDonVi && hd.IdKeHoachTDG == IdKeHoachTDG
-                       select new {hd, cv, nv, us};
+                       select new {hd, cv, nv, us}).OrderBy(x => x.hd.STT);
             return Ok(data);
         }
 
@@ -40,6 +40,16 @@ namespace WebApiCore.Controllers.KeHoachTDG
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (data.STT == 0 )
+            {
+                var dt = db.tblHoiDongs.Where(t => t.FInUse == true && t.IdDonVi == data.IdDonVi 
+                && t.IdKeHoachTDG == data.IdKeHoachTDG);
+                if (dt != null && dt.Count() > 0)
+                    data.STT = dt.Max(t => t.STT) + 1;
+                else data.STT = 1;
+
             }
 
             if ( data.Id == 0)

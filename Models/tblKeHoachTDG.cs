@@ -24,6 +24,14 @@ namespace WebApiCore.Models
         public int NamHocKT { get; set; }
         public string NoiDung { get; set; }
         public string TrangThai { get; set; }
+        public string MucDich { get; set; }
+        public string PhamVi { get; set; }
+        public string CongCu { get; set; }
+        public string TapHuanNghiepVu { get; set; }
+        public string NguonLuc { get; set; }
+        public string ThueChuyenGia { get; set; }
+        public string BangDanhMuc { get; set; }
+        public string ThoiGianHoatDong { get; set; }
         public string GhiChu { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }

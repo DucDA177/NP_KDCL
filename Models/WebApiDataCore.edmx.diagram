@@ -20,7 +20,6 @@
         <EntityTypeShape EntityType="WebApiDataModel.NhatKySuDung" Width="1.5" PointX="12.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblDanhmuc" Width="1.5" PointX="12.75" PointY="4.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblDuLieuNhaTruong" Width="1.5" PointX="4.75" PointY="12.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachTDG" Width="1.5" PointX="14.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblMinhChung" Width="1.5" PointX="14.75" PointY="5.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblMoDauKetLuanTC" Width="1.5" PointX="6.75" PointY="14.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblPhanCongMinhChung" Width="1.5" PointX="10.75" PointY="14.75" />
@@ -34,6 +33,7 @@
         <EntityTypeShape EntityType="WebApiDataModel.tblNhomCongTac" Width="1.5" PointX="19.375" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.DMTieuChi" Width="1.5" PointX="19.375" PointY="5.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblDanhGiaTieuChi" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachTDG" Width="1.5" PointX="3.375" PointY="17.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using WebApiCore.Controllers.DanhMuc;
 using WebApiCore.Models;
 
 namespace WebApiCore.Controllers.ThongTinTDG
@@ -19,16 +20,17 @@ namespace WebApiCore.Controllers.ThongTinTDG
         [Route("api/PhanCongMinhChung/GetPCMC")]
         public IHttpActionResult GetPCMC(int IdDonVi, int IdKeHoachTDG, int IdTieuChi, bool ChiThuThap)
         {
-            var data = from mc in db.tblMinhChungs
-                       .Where(x => x.IdTieuChi == IdTieuChi)
+            var data = (from mc in db.tblMinhChungs
+                       .Where(x => x.IdTieuChi == IdTieuChi && x.IdDonVi == IdDonVi
+                       && x.IdKeHoachTDG == IdKeHoachTDG)
                        join pcmc in db.tblPhanCongMinhChungs
-                       .Where(x => x.IdDonVi == IdDonVi 
+                       .Where(x => x.IdDonVi == IdDonVi
                        && x.IdKeHoachTDG == IdKeHoachTDG)
                        on mc.Id equals pcmc.IdMinhChung
                        into _pcmc
                        from pcmc in _pcmc.DefaultIfEmpty()
-                       select new { pcmc, mc };
-
+                       select new { pcmc, mc });
+            
 
             if (ChiThuThap)
             {
@@ -86,17 +88,20 @@ namespace WebApiCore.Controllers.ThongTinTDG
         [Route("api/PhanCongMinhChung/LoadUserByTieuChi")]
         public IHttpActionResult LoadUserByTieuChi(int IdDonVi, int IdKeHoachTDG ,int IdTieuChi)
         {
-            string _IdTieuChi = IdTieuChi.ToString();
-            var dt = from hd in db.tblHoiDongs
+            var dt = from pctc in db.tblPhanCongTCs
+                     join tvn in db.tblThanhVienNhoms
+                     on pctc.IdNhom equals tvn.IdNhom
+                     join hd in db.tblHoiDongs
+                     on tvn.IdHoiDong equals hd.Id
                      join user in db.UserProfiles
                      on hd.Username equals user.UserName
                      join cv in db.tblDanhmucs
                      on hd.IdChucVu equals cv.Id
                      join nv in db.tblDanhmucs
                      on hd.IdNhiemVu equals nv.Id
-                     where hd.FInUse == true && user.FInUse == true
+                     where pctc.IdTieuChi == IdTieuChi
+                     && pctc.IdDonVi == IdDonVi && pctc.IdKeHoachTDG == IdKeHoachTDG
                      && hd.IdDonVi == IdDonVi && hd.IdKeHoachTDG == IdKeHoachTDG
-                     && user.TieuChi.Contains(_IdTieuChi)
                      select new
                      {
                          Username = user.UserName,

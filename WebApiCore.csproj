@@ -3870,6 +3870,7 @@
     <Content Include="views-client\template\KeHoachTDG\KeHoachTDG.html" />
     <Content Include="views-client\template\MainMenu.html" />
     <Content Include="views-client\template\Menu.html" />
+    <Content Include="views-client\template\Modal\ModalChiBao.html" />
     <Content Include="views-client\template\Modal\ModalChonOCung.html" />
     <Content Include="views-client\template\Modal\ModalConfig.html" />
     <Content Include="views-client\template\Modal\ModalDanhGiaTieuChi.html" />
@@ -3878,6 +3879,7 @@
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
+    <Content Include="views-client\template\Modal\ModalInKeHoachTDG.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuDanhGia.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuNoiHam.html" />
     <Content Include="views-client\template\Modal\ModalMinhChung.html" />

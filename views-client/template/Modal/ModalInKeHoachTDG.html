@@ -1,0 +1,296 @@
+﻿
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4>
+            <label class=" uppercase font-white">
+                <i class="fa fa-list"></i> Kế hoạch tự đánh giá
+            </label>
+        </h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row" style="max-height:450px;overflow-y:scroll" id="PrintDiv">
+
+            <div class="col-md-12">
+                <table width="100%">
+                    <tr>
+                        <td align="center" class="td-no-border">{{CurDonVi.TenDonVi | uppercase}}</td>
+                        <td align="center" class="td-no-border">
+                            <b>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="td-no-border">
+                            <b>HỘI ĐỒNG TỰ ĐÁNH GIÁ</b>
+                        </td>
+                        <td align="center" class="td-no-border">
+                            <b>Độc lập - Tự do - Hạnh phúc</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="td-no-border">
+                            Số:..../KH......
+                        </td>
+                        <td align="center" class="td-no-border">
+                            <i>…, ngày ... tháng ... năm ......</i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <center>
+                    <h4>
+                        <b>
+                            KẾ HOẠCH TỰ ĐÁNH GIÁ
+                        </b>
+                    </h4>
+                </center>
+            </div>
+            <div class="col-md-12">
+                <h5><b> I. Mục đích tự đánh giá </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.MucDich"></div>
+            </div>
+            <div class="col-md-12">
+                <h5><b> II. Phạm vi tự đánh giá </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.PhamVi"></div>
+            </div>
+            <div class="col-md-12">
+                <h5><b> III. Công cụ tự đánh giá </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.CongCu"></div>
+            </div>
+            <div class="col-md-12">
+                <h5><b> IV. Hội đồng tự đánh giá </b></h5>
+            </div>
+            <div class="col-md-12">
+                <p>
+                    <i>1.Thành phần Hội đồng TĐG</i><br />
+                    Hội đồng TĐG được thành lập theo Quyết định số…../QĐ- ….ngày ... tháng ... năm ... của …,
+                    Hội đồng gồm có {{HoiDong.length}} thành viên.
+                </p>
+                <p>
+                    <div class="table table-scrollable ">
+                        <!-- BEGIN FORM-->
+                        <table class="table"
+                               id="fixTable">
+                            <thead>
+                                <tr>
+                                    <th width="1px" align="center"> STT </th>
+                                    <th> <div style="text-align:center">Họ và tên</div></th>
+                                    <th> <div style="text-align:center">Chức vụ, chức danh</div> </th>
+                                    <th> <div style="text-align:center">Nhiệm vụ</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd gradeX" ng-repeat="dm in HoiDong">
+                                    <td align="center" width="1px"> {{$index + 1}} </td>
+                                    <td>  <b> {{dm.us.HoTen}}</b> </td>
+                                    <td>
+                                        {{dm.cv.Ten}}
+                                    </td>
+                                    <td>
+                                        {{dm.nv.Ten}}
+                                    </td>
+                                  
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </p>
+                <p>
+                    <i>2. Nhóm thư ký và các nhóm công tác.</i><br />
+                    a) Nhóm thư ký
+                </p>
+                <p>
+                    <table class="table"
+                           id="fixTable">
+                        <thead>
+                            <tr>
+                                <th width="1px" align="center"> STT </th>
+                                <th> <div style="text-align:center">Họ và tên</div></th>
+                                <th> <div style="text-align:center">Chức vụ, chức danh</div> </th>
+                                <th> <div style="text-align:center">Nhiệm vụ</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd gradeX" ng-repeat="dm in ThuKyHD">
+                                <td align="center" width="1px"> {{$index + 1}} </td>
+                                <td>  <b> {{dm.us.HoTen}}</b> </td>
+                                <td>
+                                    {{dm.cv.Ten}}
+                                </td>
+                                <td>
+                                    {{dm.hd.IdNhiemVuThuKy == 1 ? 'Trưởng nhóm' : 'Thành viên'}}
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    b) Nhóm công tác
+                </p>
+                <p>
+                    <table class="table table-scrollable table-striped" id="tableTVNhom">
+                        <tbody>
+                            <tr>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Nhóm</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Họ và tên</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Chức vụ, chức danh</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Nhiệm vụ</b>
+                                </td>
+                                
+                            </tr>
+                            <tr ng-repeat="tc in ListTVNhom" on-finish-render="ngRepeatFinished">
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>{{tc.TenNhom}}</b>
+                                </td>
+                                <td>
+                                    {{tc.HoTen}}
+                                </td>
+                                <td>
+                                    {{tc.ChucVu}}
+                                </td>
+                                <td>
+                                    {{tc.NhiemVu}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+                <p>
+                    <i>3. Phân công nhiệm vụ</i><br />
+                    a) Nhóm thư ký: <br />
+                    ......................................................<br />
+                    b) Các nhóm công tác, cá nhân (Có thể bao gồm: 
+                    các thành viên trong Hội đồng TĐG, cán bộ, giáo viên, nhân viên,...):<br />
+
+                </p>
+                <p>
+                    <table class="table table-scrollable table-striped">
+                        <tbody>
+                            <tr>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>STT</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Tiêu chí</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Nhóm công tác, cá nhân chịu trách nhiệm</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Ghi chú</b>
+                                </td>
+
+                            </tr>
+                            <tr ng-repeat="tc in ListTieuChiNhom">
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>{{$index + 1}}</b>
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    {{tc.TTTieuChuan}}.{{tc.TTTieuChi}} {{tc.TenTieuChi}}
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <div compile="tc.TenNhom"> </div>
+                                </td>
+                                <td>
+                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+            </div>
+            <div class="col-md-12">
+                <h5><b> V. Tập huấn nghiệp vụ tự đánh giá (nếu có) </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.TapHuanNghiepVu"></div>
+            </div>
+            <div class="col-md-12">
+                <h5><b> VI. Dự kiến các nguồn lực (nhân lực, tài chính,...) và thời điểm cần huy động/cung cấp </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.NguonLuc"></div>
+            </div>
+            <div class="col-md-12">
+                <h5><b> VII. Dự kiến thuê chuyên gia tư vấn để giúp Hội đồng triển khai TĐG </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.ThueChuyenGia"></div>
+            </div>
+            <div class="col-md-12">
+                <h5><b> VIII. Lập Bảng danh mục mã minh chứng </b></h5>
+            </div>
+            <div class="col-md-12">
+                <p>
+                    Sau khi các nhóm công tác, cá nhân thực hiện xác định nội hàm, phân tích tiêu chí
+                    tìm minh chứng cho từng tiêu chí; phân loại và mã hoá các minh chứng thu được.
+                    Hội đồng TĐG thảo luận các minh chứng cho từng tiêu chí đã thu thập được và
+                    lập Bảng danh mục mã minh chứng.<br />
+                    Bảng danh mục mã minh chứng được trình bày bảng theo chiều ngang của khổ A4 (có thể để riêng và sau đó để ở phần Phụ lục của báo cáo TĐG).
+
+                </p>
+            </div>
+            <div class="col-md-12">
+                <h5><b> IX. Thời gian và nội dung hoạt động </b></h5>
+            </div>
+            <div class="col-md-12">
+                <div compile="item.ThoiGianHoatDong"></div>
+            </div>
+            <div class="col-md-12">
+                <p>
+                    <table width="100%">
+                        <tr>
+                            <td class="td-no-border">
+                                <b><i>Nơi nhận:</i></b><br />
+                                - Cơ quan chủ quản (để b/c);<br />
+                                - Hội đồng TĐG (để th/h);<br />
+                                - Cán bộ, giáo viên, nhân viên nhà trường (để th/h);<br />
+                                - Lưu: ...........................….
+                            </td>
+                            <td align="center" class="td-no-border">
+                                <b>
+                                    TM. HỘI ĐỒNG<br />
+                                    CHỦ TỊCH
+                                </b>
+                            </td>
+                        </tr>
+                        
+                    </table>
+                </p>
+            </div>
+        </div>
+        <div class="form-group margin-top-10" style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                   ng-click="exportBaoCao('PrintDiv','Kế hoạch tự đánh giá.doc','application/vnd.ms-word')">
+                    <i class="fa fa-file-word-o"></i> Xuất kế hoạch tự đánh giá
+                </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

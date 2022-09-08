@@ -1,0 +1,68 @@
+﻿<div ng-init="OnLoad()">
+    <div class="modal-header bg-color" style="background-color:#ccc">
+        <div class="modal-title">
+            <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+            <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật chỉ báo </label></h4>
+
+        </div>
+    </div>
+    <div class="modal-body form">
+        <div class="form-body form-horizontal margin-top-10">
+            <div class="row margin-bottom-5">
+
+                <label class="control-label col-md-3">STT alphabet<span style="color:red">*</span>: </label>
+                <div class="col-md-9">
+                    <input type="text" class="form-control input-sm" ng-model="item.STT" style="width:15%" />
+                </div>
+
+            </div>
+            <div class="row margin-bottom-5">
+
+                <label class="control-label col-md-3">Nội dung<span style="color:red">*</span>: </label>
+                <div class="col-md-9">
+                    <textarea rows="2" class="form-control input-sm" ng-model="item.NoiDung"></textarea>
+                </div>
+
+            </div>
+            <div class="row margin-bottom-5">
+
+                <label class="control-label col-md-3">Yêu cầu: </label>
+                <div class="col-md-9">
+                    <textarea rows="2" class="form-control input-sm" ng-model="item.YeuCau"></textarea>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+
+                <label class="control-label col-md-3">Gợi ý: </label>
+                <div class="col-md-9">
+                    <textarea rows="2" class="form-control input-sm" ng-model="item.GoiY"></textarea>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+
+                <label class="control-label col-md-3">Nơi thu thập: </label>
+                <div class="col-md-9">
+                    <textarea rows="2" class="form-control input-sm" ng-model="item.NoiThuThap"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+                <div class="text-left"><label class="control-label col-md-4"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></label></div>
+                <div class="col-md-8 clearfix text-right">
+                    <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save()"><i class="fa fa-save"></i> Lưu </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold" ng-click="Save(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                    <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

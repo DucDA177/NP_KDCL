@@ -43,12 +43,12 @@
         <div class="col-md-4 text-left">
             <a class="btn btn-primary btn-sm action-button except-thuthap"
                ng-if="!ChiThuThap"
-               ng-click="openModal('','MinhChung')">
+               ng-click="openModal('','MinhChung',Paging)">
                 <i class="fa fa-plus-circle"></i> Thêm minh chứng
             </a>
 
             <a class="btn btn-primary btn-sm action-button"
-               ng-click="openModal('','PhanCongMinhChung')">
+               ng-click="openModal('','PhanCongMinhChung',Paging)">
                 <span ng-if="!ChiThuThap"><i class="fa fa-users"></i> Gợi ý và phân công</span>
                 <span ng-if="ChiThuThap"><i class="fa fa-lightbulb-o"></i> Cập nhật trạng thái minh chứng</span>
             </a>
@@ -78,13 +78,13 @@
                     <tbody>
                         <tr class="odd gradeX" ng-repeat="dm in DSMinhChung" on-finish-render="ngRepeatFinished">
                             <td align="center" width="1px"> {{$index + 1}} </td>
-                            <td style="text-transform: uppercase"> <a ng-click="openModal(dm,'MinhChung')"> {{dm.Ma}}</a> </td>
+                            <td style="text-transform: uppercase"> <a ng-click="openModal(dm,'MinhChung',Paging)"> {{dm.Ma}}</a> </td>
                             <td>{{dm.TenMinhChung}}</td>
                             <td>{{dm.SoNgayBanHanh}}</td>
                             <td>{{dm.NoiBanHanh}}</td>
                             <td>{{dm.Ma.split('-')[1]}}</td>
                             <td align="center"><i ng-if="dm.HasFile" class="fa fa-check"></i></td>
-                            <td><a ng-click="openModal(dm,'MinhChung')" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                            <td><a ng-click="openModal(dm,'MinhChung',Paging)" title="Sửa"><i class="fa fa-edit"></i></a></td>
                             <td><a ng-click="Delete(dm.Id)" title="Xóa" class="except-thuthap"><i class="fa fa-trash font-red"></i></a></td>
                         </tr>
                     </tbody>

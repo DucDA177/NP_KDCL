@@ -25,7 +25,7 @@
             //let curDate = new Date();
             let curYear = localStorage.getItem('NamHoc').split('-'); //curDate.getFullYear();
             if (curYear[0] < item.NamHocBD || curYear[1] > item.NamHocKT) {
-                toastr.error('Năm hiện tại không thuộc giai đoạn ' + item.NamHocBD + ' - ' + item.NamHocKT, 'Thông báo');
+                toastr.error('Năm học hiện tại không thuộc giai đoạn ' + item.NamHocBD + ' - ' + item.NamHocKT, 'Thông báo');
                 return;
             }
             //if (curDate < new Date(item.NgayBD) || curDate > new Date(item.NgayKT)) {

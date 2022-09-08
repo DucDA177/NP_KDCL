@@ -136,30 +136,30 @@ namespace WebApiCore.Controllers.DanhMuc
 
         [HttpGet]
         [Route("api/DanhMucTieuChuan/LoadTCTCByUser")]
-        public IHttpActionResult LoadTCTCByUser()
+        public List<TCTCUser> LoadTCTCByUser()
         {
             string userName = HttpContext.Current.User.Identity.Name;
             
             int IdKeHoachTDG;
             int.TryParse( HttpContext.Current.Request.Cookies.Get("IdKeHoachTDG").Value, out IdKeHoachTDG );
             if(IdKeHoachTDG == 0)
-                return Ok();
+                return null;
 
             int IdDonVi;
             int.TryParse(HttpContext.Current.Request.Cookies.Get("DonVi").Value, out IdDonVi);
             if (IdDonVi == 0)
-                return Ok();
+                return null;
 
             var userInHd = db.tblHoiDongs.Where(x => x.Username == userName && x.FInUse == true
             && x.IdKeHoachTDG == IdKeHoachTDG && x.IdDonVi == IdDonVi
             ).FirstOrDefault();
             if (userInHd == null)
-                return Ok();
+                return null;
 
             var userInNhom = db.tblThanhVienNhoms.Where(x => x.IdHoiDong == userInHd.Id && x.FInUse == true)
                 .Select(x => x.IdNhom).ToList();
             if (userInNhom == null || !userInNhom.Any())
-                return Ok();
+                return null;
 
             var listTieuChiId = db.tblPhanCongTCs.Where(t =>
             t.IdDonVi == IdDonVi && t.IdKeHoachTDG == IdKeHoachTDG && userInNhom.Contains(t.IdNhom.Value))
@@ -172,16 +172,21 @@ namespace WebApiCore.Controllers.DanhMuc
                                join tchuan in db.DMTieuChuans on tchi.IdTieuChuan equals tchuan.Id
                                select new { tchi, tchuan };
                 var result = listTCTC.GroupBy(t => t.tchuan)
-                    .Select(t => new
-                    {
+                    .Select(t => new TCTCUser
+                    { 
                         tchuan = t.FirstOrDefault()?.tchuan,
                         tchi = t.Select(x => x.tchi)
                     }).ToList();
 
-                return Ok(result);
+                return result;
             }
 
-            return Ok();
+            return null;
+        }
+        public class TCTCUser
+        {
+            public DMTieuChuan tchuan { get; set; }
+            public IEnumerable<DMTieuChi> tchi { get; set; }
         }
 
         [HttpGet]

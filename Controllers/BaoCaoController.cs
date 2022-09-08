@@ -166,7 +166,7 @@ namespace WebApiCore.Controllers
                         bctchi.Mota2 = dgtc.MoTaB;
                         bctchi.Mota3 = dgtc.MoTaC;
                         bctchi.DiemManh = dgtc.DiemManh;
-                        bctchi.Diemyeu = dgtc.DiemYeu;
+                        bctchi.DiemYeu = dgtc.DiemYeu;
                         bctchi.KHCaiTienChatLuong = dgtc.KeHoachCaiTien;
                         bctchi.KQDatMuc = dgtc.KQDatMuc;
                         bctchi.DatMuc1 = dgtc.KQDatA;
@@ -216,7 +216,7 @@ namespace WebApiCore.Controllers
             public string Mota2 { get; set; }
             public string Mota3 { get; set; }
             public string DiemManh { get; set; }
-            public string Diemyeu { get; set; }
+            public string DiemYeu { get; set; }
             public string KHCaiTienChatLuong { get; set; }
             public int? KQDatMuc { get; set; }
             public bool? DatMuc1 { get; set; }

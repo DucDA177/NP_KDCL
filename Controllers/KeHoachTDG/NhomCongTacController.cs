@@ -19,7 +19,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
         [Route("api/NhomCongTac/Get")]
         public IHttpActionResult Get(int IdDonVi, int IdKeHoachTDG)
         {
-            var data = db.tblNhomCongTacs.Where(x => x.IdDonVi == IdDonVi 
+            var data = db.tblNhomCongTacs.Where(x => x.IdDonVi == IdDonVi
             && x.IdKeHoachTDG == IdKeHoachTDG);
             return Ok(data);
         }
@@ -29,6 +29,65 @@ namespace WebApiCore.Controllers.KeHoachTDG
         public IHttpActionResult GetThanhVien(int IdNhom)
         {
             var data = db.tblThanhVienNhoms.Where(x => x.IdNhom == IdNhom);
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("api/NhomCongTac/GetAllThanhVienNhiemVu")]
+        public IHttpActionResult GetAllThanhVienNhiemVu(int IdDonVi, int IdKeHoachTDG)
+        {
+            var data = (from tv in db.tblThanhVienNhoms
+                       join nhom in db.tblNhomCongTacs
+                       on tv.IdNhom equals nhom.Id
+                       join hd in db.tblHoiDongs
+                       on tv.IdHoiDong equals hd.Id
+                       join user in db.UserProfiles
+                       on hd.Username equals user.UserName
+                       where nhom.IdDonVi == IdDonVi && nhom.IdKeHoachTDG == IdKeHoachTDG
+                       && hd.FInUse == true && user.FInUse == true
+                       select new
+                       {
+                           IdNhom = nhom.Id,
+                           TenNhom = nhom.TenNhom,
+                           HoTen = user.HoTen,
+                           ChucVu = tv.IdChucVu == 1 ? "Nhóm trưởng" : "Thành viên",
+                           NhiemVu = nhom.NhiemVu
+                       }).OrderBy(t => t.TenNhom).
+                       ThenBy(x => x.ChucVu).
+                       ThenBy(x => x.HoTen);
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        [Route("api/NhomCongTac/GetTieuChiCacNhom")]
+        public IHttpActionResult GetTieuChiCacNhom(int IdDonVi, int IdKeHoachTDG)
+        {
+            var data = (from pctc in db.tblPhanCongTCs
+                       join nhom in db.tblNhomCongTacs
+                       on pctc.IdNhom equals nhom.Id
+                       join tc in db.DMTieuChis
+                       on pctc.IdTieuChi equals tc.Id
+                       join tchuan in db.DMTieuChuans
+                       on tc.IdTieuChuan equals tchuan.Id
+                       where pctc.IdDonVi == IdDonVi && pctc.IdKeHoachTDG == IdKeHoachTDG
+                       select new
+                       {
+                           TTTieuChuan = tchuan.ThuTu,
+                           TTTieuChi = tc.ThuTu,
+                           IdTieuChi = pctc.IdTieuChi,
+                           TenTieuChi = tc.NoiDung,
+                           IdNhom = nhom.Id,
+                           TenNhom = nhom.TenNhom
+                       }).GroupBy(x => x.IdTieuChi)
+                       .ToList().Select(x => new
+                       {
+                           TTTieuChuan = x.FirstOrDefault().TTTieuChuan,
+                           TTTieuChi = x.FirstOrDefault().TTTieuChi,
+                           TenTieuChi = x.FirstOrDefault().TenTieuChi,
+                           TenNhom = x.Select(c =>c.TenNhom).Aggregate((i, j) => i + "</br>" + j)
+                       });
+
             return Ok(data);
         }
 
@@ -103,7 +162,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
             db.tblNhomCongTacs.Remove(data);
 
             var listTv = db.tblThanhVienNhoms.Where(x => x.IdNhom == IdNhom);
-            if(listTv.Any())
+            if (listTv.Any())
                 db.tblThanhVienNhoms.RemoveRange(listTv);
 
             return Ok(db.SaveChanges());
@@ -142,19 +201,23 @@ namespace WebApiCore.Controllers.KeHoachTDG
                 .Select(t => t.IdTieuChi).ToList();
 
             var dsTieuChuan = db.DMTieuChuans
-                .Where(x => x.IdQuyDinh == idQuyDinh && x.NhomLoai.Contains(dv.NhomLoai)).OrderBy(t => t.STT);
+                .Where(x => x.IdQuyDinh == idQuyDinh && x.NhomLoai.Contains(dv.NhomLoai)).OrderBy(t => t.ThuTu);
             int index = 1;
             foreach (var item in dsTieuChuan)
             {
+                var tchis = db.DMTieuChis.Where(x => x.IdTieuChuan == item.Id).OrderBy(t => t.ThuTu);
+
                 DSTieuChuanTieuChiClient tchuan = new DSTieuChuanTieuChiClient();
                 tchuan.DuLieuCha = true;
                 tchuan.Id = item.Id;
                 tchuan.Index = index;
                 tchuan.LoaiDuLieu = 1;
                 tchuan.NoiDung = item.NoiDung;
+                tchuan.SLTieuChi = tchis.Count();
+                tchuan.ThuTu = item.ThuTu.ToString();
                 index++;
 
-                var tchis = db.DMTieuChis.Where(x => x.IdTieuChuan == item.Id);
+
                 if (!tchis.Any())
                     continue;
 
@@ -168,6 +231,10 @@ namespace WebApiCore.Controllers.KeHoachTDG
                     tc.IsCheck = listTieuChiId.Contains(tchi.Id);
                     tc.LoaiDuLieu = 2;
                     tc.NoiDung = tchi.NoiDung;
+                    tc.ThuTu = item.ThuTu.ToString() + "." + tchi.ThuTu.ToString();
+
+                    if (tchi.ThuTu == 1)
+                        tc.SLTieuChi = tchuan.SLTieuChi;
 
                     result.Add(tc);
                     index++;
