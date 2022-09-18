@@ -1,13 +1,13 @@
 ﻿angular.module('WebApiApp').controller('MinhChungController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
-    
+
     $rootScope.ChiThuThap = false;
     if (!$rootScope.checkAdmin && !$rootScope.checkTongHop)
         $rootScope.ChiThuThap = true;
 
     $scope.Paging = {
         "idTieuChuan": '0',
-        "idTieuChi": "0",
-        "heThongMa": ''
+        "idTieuChi": '0',
+        "heThongMa": '0'
     };
     $scope.LoadDMTieuChuan = function () {
         $http({
@@ -18,13 +18,12 @@
             $scope.DSTieuChuan = $scope.DSTCTC.map(t => t.tchuan);
 
             if ($scope.DSTieuChuan.length > 0) {
-                $scope.Paging.idTieuChuan = $scope.DSTieuChuan[0].Id;
                 $scope.LoadTieuChi();
             }
             else {
-                $scope.Paging.idTieuChuan = '';
+                $scope.Paging.idTieuChuan = '0';
                 $scope.DsTieuChi = []
-                $scope.Paging.idTieuChi =  ''
+                $scope.Paging.idTieuChi = '0'
             }
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
@@ -33,18 +32,18 @@
 
     $scope.LoadTieuChi = function () {
         
-        $scope.DsTieuChi = $scope.DSTCTC
-            .filter(x => x.tchuan.Id == $scope.Paging.idTieuChuan)
-            .map(t => t.tchi)[0];
-
-        if ($scope.DsTieuChi.length > 0) {
-            $scope.Paging.idTieuChi = $scope.DsTieuChi[0].Id;
-
-            $rootScope.LoadMinhChung();
-        } else {
-            $scope.Paging.idTieuChi = null;
-            $scope.DSMinhChung = []
+        if ($scope.Paging.idTieuChuan == '0') {
+            $scope.DsTieuChi = mergeArrays($scope.DSTCTC.map(t => t.tchi));
         }
+        else {
+            $scope.DsTieuChi = $scope.DSTCTC
+                .filter(x => x.tchuan.Id == $scope.Paging.idTieuChuan)
+                .map(t => t.tchi)[0];
+        }
+
+        $scope.Paging.idTieuChi = '0';
+        //$('#selecTieuChi').val('0').trigger('change');
+        $rootScope.LoadMinhChung();
 
     }
 
@@ -55,40 +54,35 @@
             url: 'api/MinhChung/LoadHeThongMa'
         }).then(function successCallback(response) {
             $scope.DSHeThongMa = response.data;
-            if ($scope.DSHeThongMa.length > 0) {
-                $scope.Paging.heThongMa = $scope.DSHeThongMa[0];
-
-                $rootScope.LoadMinhChung();
-            } else {
-                $scope.Paging.heThongMa = "";
-            }
+            $rootScope.LoadMinhChung();
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });
     }
 
     $rootScope.LoadMinhChung = function () {
-        
-            $http({
-                method: 'GET',
-                url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + $rootScope.CurDonVi.Id
-                    + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
-                    + '&idTieuChi=' + $scope.Paging.idTieuChi
-                    + '&heThongMa=' + $scope.Paging.heThongMa
-                    + '&ChiThuThap=' + $rootScope.ChiThuThap
-            }).then(function successCallback(response) {
-                $scope.DSMinhChung = response.data;
-            }, function errorCallback(response) {
-                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
-            });
-        
+
+        $http({
+            method: 'GET',
+            url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                + '&idTieuChuan=' + $scope.Paging.idTieuChuan
+                + '&idTieuChi=' + $scope.Paging.idTieuChi
+                + '&heThongMa=' + $scope.Paging.heThongMa
+                + '&ChiThuThap=' + $rootScope.ChiThuThap
+        }).then(function successCallback(response) {
+            $scope.DSMinhChung = response.data;
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+
     }
 
     $scope.LoadDMTieuChuan();
     $scope.RenderHeThongMa();
 
     $scope.Delete = function (Id) {
-        
+
         if (confirm('Bạn có chắc chắn muốn xóa đối tượng này ?'))
             $http({
                 method: 'GET',

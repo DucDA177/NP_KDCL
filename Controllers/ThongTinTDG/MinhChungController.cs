@@ -21,21 +21,26 @@ namespace WebApiCore.Controllers.ThongTinTDG
         [Route("api/MinhChung/LoadMinhChungById")]
         public IHttpActionResult LoadDSMinhChung(int IdMinhChung)
         {
-            
+
             return Ok(db.tblMinhChungs.Find(IdMinhChung));
         }
 
         [HttpGet]
         [Route("api/MinhChung/LoadDSMinhChung")]
-        public IHttpActionResult LoadDSMinhChung(int IdDonVi, int IdKeHoachTDG ,int idTieuChi, string heThongMa, bool ChiThuThap)
+        public IHttpActionResult LoadDSMinhChung(int IdDonVi, int IdKeHoachTDG, int idTieuChuan, int idTieuChi, string heThongMa, bool ChiThuThap)
         {
-            var result = db.tblMinhChungs.Where(x => x.IdDonVi == IdDonVi
-            && x.IdKeHoachTDG == IdKeHoachTDG
-            && (x.HeThongMa == heThongMa || string.IsNullOrEmpty(heThongMa) )
-            && (x.IdTieuChi == idTieuChi || idTieuChi == 0))
-                .OrderBy(t => t.Ma);
+            var result = from mc in db.tblMinhChungs
+                         join tchi in db.DMTieuChis
+                         on mc.IdTieuChi equals tchi.Id
+                         where mc.IdDonVi == IdDonVi
+                            && mc.IdKeHoachTDG == IdKeHoachTDG
+                            && (mc.HeThongMa == heThongMa || string.IsNullOrEmpty(heThongMa) || heThongMa == "0")
+                            && (mc.IdTieuChi == idTieuChi || idTieuChi == 0)
+                            && (tchi.IdTieuChuan == idTieuChuan || idTieuChuan == 0)
+                         orderby mc.Ma ascending
+                         select mc;
 
-            if(ChiThuThap)
+            if (ChiThuThap)
             {
                 var username = HttpContext.Current.User.Identity.Name;
                 var rs = from mc in result
@@ -58,7 +63,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
         public IHttpActionResult LoadHeThongMa()
         {
             var result = new List<string>();
-            for(int i = 1; i<100; i++)
+            for (int i = 1; i < 100; i++)
             {
                 result.Add(("H" + i));
             }
@@ -152,9 +157,9 @@ namespace WebApiCore.Controllers.ThongTinTDG
 
             var mc = db.tblMinhChungs.Find(IdMinhChung);
 
-            if(mc == null || mc.HasFile != true || string.IsNullOrEmpty(mc.DuongDanFile))
+            if (mc == null || mc.HasFile != true || string.IsNullOrEmpty(mc.DuongDanFile))
                 return ls;
-           
+
             string folderPath = HttpContext.Current.Server.MapPath(mc.DuongDanFile);
             bool exists = Directory.Exists(folderPath);
             if (exists)
@@ -207,7 +212,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
                 if (postedfile.ContentLength > 0)
                 {
                     var extension = Path.GetExtension(postedfile.FileName);
-                    var fileName = mc.Ma + (i+ countFileExist + 1).ToString() + extension;
+                    var fileName = mc.Ma + (i + countFileExist + 1).ToString() + extension;
                     var fileSavePath = Path.Combine(folderpath, fileName);
                     if (File.Exists(fileSavePath))
                     {
@@ -225,7 +230,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
                 mc.DuongDanFile = null;
 
             db.SaveChanges();
-            
+
             return Ok();
         }
 

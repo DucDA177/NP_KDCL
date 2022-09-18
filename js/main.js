@@ -126,6 +126,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 method: 'GET',
                 url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + IdDonVi
                     + '&IdKeHoachTDG=' + IdKeHoachTDG
+                    + '&idTieuChuan=0'
                     + '&idTieuChi=' + item.tchi.Id
                     + '&heThongMa='
                     + '&ChiThuThap=false'

@@ -270,3 +270,6 @@ function download(strData, strFileName, strMimeType) {
     return true;
 }
 
+function mergeArrays(arr){
+    return [...new Set([].concat(...arr))];
+}

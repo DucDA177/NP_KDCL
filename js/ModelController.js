@@ -1335,7 +1335,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
 
     if (!$scope.item) {
         $scope.item = {
-            "IdTieuChi": $scope.check.idTieuChi,
+            "IdTieuChi": $scope.check.idTieuChi != "0" ? $scope.check.idTieuChi : "0",
             "HeThongMa": '',
             "IdDonVi": $rootScope.CurDonVi.Id,
             "IdKeHoachTDG": $rootScope.KeHoachTDG.Id,
@@ -1382,8 +1382,9 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
             $scope.DSTieuChuan = $scope.DSTCTC.map(t => t.tchuan);
 
             if ($scope.DSTieuChuan.length > 0) {
+                
                 $scope.IdTieuChuan = $scope.DSTieuChuan[0].Id;
-                if ($scope.check.idTieuChuan)
+                if ($scope.check.idTieuChuan != "0")
                     $scope.IdTieuChuan = $scope.check.idTieuChuan;
 
                 $scope.LoadTieuChi();
@@ -1394,7 +1395,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
     }
 
     $scope.LoadTieuChi = function () {
-
+        
         $scope.DsTieuChi = $scope.DSTCTC
             .filter(x => x.tchuan.Id == $scope.IdTieuChuan)
             .map(t => t.tchi)[0];
@@ -1402,8 +1403,6 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
         if ($scope.DsTieuChi.length > 0) {
             $scope.item.IdTieuChi = $scope.DsTieuChi[0].Id;
 
-            if ($scope.check.idTieuChi)
-                $scope.item.IdTieuChi = $scope.check.idTieuChi;
         }
         $scope.renderHeThongMa();
         $scope.renderMa();
@@ -1413,6 +1412,10 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
 
 
     $scope.renderHeThongMa = function () {
+        if ($scope.item.HeThongMa) {
+            $scope.renderMa();
+            return;
+        }
         $http({
             method: 'GET',
             url: 'api/MinhChung/LoadHeThongMa'
@@ -1420,6 +1423,9 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
             $scope.DSHeThongMa = response.data;
             if ($scope.DSHeThongMa.length > 0) {
                 $scope.item.HeThongMa = $scope.DSHeThongMa[0];
+                if ($scope.check.heThongMa != '0')
+                    $scope.item.HeThongMa = $scope.check.heThongMa
+
                 $scope.renderMa();
             }
         }, function errorCallback(response) {
@@ -1437,6 +1443,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
                 method: 'GET',
                 url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + $rootScope.CurDonVi.Id
                     + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                    + '&idTieuChuan=0'
                     + '&idTieuChi=' + $scope.item.IdTieuChi
                     + '&heThongMa=' + $scope.item.HeThongMa
                     + '&ChiThuThap=' + $rootScope.ChiThuThap
@@ -1452,7 +1459,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
                 if ($scope.item.SoMinhChung) {
                     // Nếu có id tiêu chí thì tiếp tục gen mã
                     if ($scope.item.IdTieuChi && $scope.IdTieuChuan) {
-                        debugger
+                        
                         var thuTuTieuChuan = $scope.DSTieuChuan.filter(x => x.Id == $scope.IdTieuChuan)[0].ThuTu;
                         var thuTuTieuChi = $scope.DsTieuChi.filter(x => x.Id == $scope.item.IdTieuChi)[0].ThuTu;
 
@@ -1573,9 +1580,13 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
                 formdata = new FormData();
 
                 $rootScope.LoadMinhChung();
-                $scope.cancelModal()
+                $scope.cancelModal();
                 if (isNew)
-                    $scope.openModal('', 'MinhChung', $scope.check);
+                    $scope.openModal('', 'MinhChung', {
+                        idTieuChuan: $scope.IdTieuChuan,
+                        idTieuChi: $scope.item.IdTieuChi,
+                        heThongMa: $scope.item.HeThongMa
+                    });
 
             })
             .error(function () {
@@ -1789,12 +1800,15 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
     $scope.type = $scope.$resolve.type;
     $scope.check = $scope.$resolve.check;
 
-    if ($scope.item.tchi.ChiBaoA)
-        $scope.item.tchi.ChiBaoA = JSON.parse($scope.item.tchi.ChiBaoA).map(x => x.STT).sort()
-    if ($scope.item.tchi.ChiBaoB)
-        $scope.item.tchi.ChiBaoB = JSON.parse($scope.item.tchi.ChiBaoB).map(x => x.STT).sort()
-    if ($scope.item.tchi.ChiBaoC)
-        $scope.item.tchi.ChiBaoC = JSON.parse($scope.item.tchi.ChiBaoC).map(x => x.STT).sort()
+    try {
+        if ($scope.item.tchi.ChiBaoA)
+            $scope.item.tchi.ChiBaoA = JSON.parse($scope.item.tchi.ChiBaoA).map(x => x.STT).sort()
+        if ($scope.item.tchi.ChiBaoB)
+            $scope.item.tchi.ChiBaoB = JSON.parse($scope.item.tchi.ChiBaoB).map(x => x.STT).sort()
+        if ($scope.item.tchi.ChiBaoC)
+            $scope.item.tchi.ChiBaoC = JSON.parse($scope.item.tchi.ChiBaoC).map(x => x.STT).sort()
+    }
+    catch {}
 
     $scope.config = {
         height: '300px',

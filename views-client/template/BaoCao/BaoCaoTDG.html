@@ -333,30 +333,29 @@
                     <h5> Mức 1 </h5>
                 </div>
                 <div class="col-md-12">
-                    <p ng-repeat="chibao in bctchi.ChiBao1">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                    <p ng-repeat="chibao in bctchi.ChiBao1" style="font-style:italic">
+                        <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                    </p>
                 </div>
-                <div class="col-md-12">
-                    <div ng-bind-html="bctchi.NoiDung1" style="font-style:italic"></div>
-                </div>
+               
                 <div class="col-md-12">
                     <h5> Mức 2 </h5>
                 </div>
                 <div class="col-md-12">
-                    <p ng-repeat="chibao in bctchi.ChiBao2">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                    <p ng-repeat="chibao in bctchi.ChiBao2" style="font-style:italic">
+                        <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                    </p>
                 </div>
-                <div class="col-md-12">
-                    <div ng-bind-html="bctchi.NoiDung2" style="font-style:italic"></div>
-                </div>
+           
                 <div class="col-md-12">
                     <h5> Mức 3 </h5>
                 </div>
                 <div class="col-md-12">
-                    <p ng-repeat="chibao in bctchi.ChiBao3">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                    <p ng-repeat="chibao in bctchi.ChiBao3" style="font-style:italic">
+                        <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                    </p>
                 </div>
-                <div class="col-md-12">
-                    <div ng-bind-html="bctchi.NoiDung3" style="font-style:italic"></div>
-                </div>
-
+               
                 <div class="col-md-12">
                     <h5> 1. Mô tả hiện trạng </h5>
                     <h5> Mức 1 </h5>

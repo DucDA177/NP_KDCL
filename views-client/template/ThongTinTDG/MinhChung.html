@@ -9,8 +9,9 @@
             <div class="input-group">
                 <span class="input-group-addon">Tiêu chuẩn</span>
                 <select ng-model="Paging.idTieuChuan"
-                        class="form-control input-sm select2" convert-to-number
+                        class="form-control"  
                         ng-change="LoadTieuChi()">
+                    <option value=0>---Tất cả---</option>
                     <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
                 </select>
             </div>
@@ -19,9 +20,10 @@
             <div class="input-group">
                 <span class="input-group-addon">Tiêu chí</span>
                 <select ng-model="Paging.idTieuChi"
-                        class="form-control input-sm select2"
-                        convert-to-number
+                        id="selecTieuChi"
+                        class="form-control" 
                         ng-change="LoadMinhChung()">
+                    <option value=0>---Tất cả---</option>
                     <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
                 </select>
             </div>
@@ -31,8 +33,9 @@
             <div class="input-group">
                 <span class="input-group-addon">Hệ thống mã</span>
                 <select ng-model="Paging.heThongMa"
-                        class="form-control input-sm select2"
+                        class="form-control" 
                         ng-change="LoadMinhChung()">
+                    <option value=0>---Tất cả---</option>
                     <option ng-repeat="nl in DSHeThongMa" value={{nl}}>{{nl}}</option>
                 </select>
             </div>
@@ -95,12 +98,6 @@
 
 </div>
 
-<script>
-    $(document).ready(function () {
-        ComponentsSelect2.init();
-    });
-    
-</script>
 
 
 

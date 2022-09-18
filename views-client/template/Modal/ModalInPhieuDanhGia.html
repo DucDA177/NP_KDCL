@@ -30,29 +30,29 @@
                 <h5> Mức 1 </h5>
             </div>
             <div class="col-md-12">
-                <p ng-repeat="chibao in BCTieuChi.ChiBao1">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                <p ng-repeat="chibao in BCTieuChi.ChiBao1" style="font-style:italic">
+                    <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                </p>
             </div>
-            <div class="col-md-12">
-                <div ng-bind-html="BCTieuChi.NoiDung1" style="font-style:italic"></div>
-            </div>
+
             <div class="col-md-12">
                 <h5> Mức 2 </h5>
             </div>
             <div class="col-md-12">
-                <p ng-repeat="chibao in BCTieuChi.ChiBao2">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                <p ng-repeat="chibao in BCTieuChi.ChiBao2" style="font-style:italic">
+                    <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                </p>
             </div>
-            <div class="col-md-12">
-                <div ng-bind-html="BCTieuChi.NoiDung2" style="font-style:italic"></div>
-            </div>
+
             <div class="col-md-12">
                 <h5> Mức 3 </h5>
             </div>
             <div class="col-md-12">
-                <p ng-repeat="chibao in BCTieuChi.ChiBao3">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                <p ng-repeat="chibao in BCTieuChi.ChiBao3" style="font-style:italic">
+                    <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                </p>
             </div>
-            <div class="col-md-12">
-                <div ng-bind-html="BCTieuChi.NoiDung3" style="font-style:italic"></div>
-            </div>
+
             <div class="col-md-12">
                 <h5> 1. Mô tả hiện trạng </h5>
                 <h5> Mức 1 </h5>
@@ -91,7 +91,7 @@
                 <div ng-bind-html="BCTieuChi.KHCaiTienChatLuong"></div>
             </div>
             <div class="col-md-12">
-                <b> 5. Tự đánh giá: </b> Đạt mức {{BCTieuChi.KQDatMuc}}
+                <b> 5. Tự đánh giá: </b> Đạt mức {{BCTieuChi.DatMuc3 ? '3' : BCTieuChi.DatMuc2 ? '2' :  BCTieuChi.DatMuc1 ? '1' : ''}}
             </div>
             <div class="col-md-12">
                 <div compile="BCTieuChi.KQChiBao"></div>

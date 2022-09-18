@@ -38,7 +38,7 @@ namespace WebApiCore.Controllers.DanhMuc
         [Route("api/DanhMucTieuChuan/LayDuLieuBang")]
         public IHttpActionResult LayDuLieuBang(int IdQuyDinh)
         {
-            return Ok(db.DMTieuChuans.Where(x => x.IdQuyDinh == IdQuyDinh).OrderBy(t => t.STT).ToList());
+            return Ok(db.DMTieuChuans.Where(x => x.IdQuyDinh == IdQuyDinh).OrderBy(t => t.ThuTu).ToList());
         }
 
         /// <summary>
@@ -56,12 +56,13 @@ namespace WebApiCore.Controllers.DanhMuc
                 return BadRequest(ModelState);
             }
 
-            if (data.STT == 0 || string.IsNullOrEmpty(data.STT.ToString().Trim()))
+            if (data.ThuTu == 0 || string.IsNullOrEmpty(data.ThuTu.ToString().Trim()))
             {
                 var dt = db.DMTieuChuans.Where(t => t.IdQuyDinh == data.IdQuyDinh);
                 if (dt != null && dt.Count() > 0)
-                    data.STT = dt.Max(t => t.STT) + 1;
-                else data.STT = 1;
+                    data.ThuTu = dt.Max(t => t.ThuTu) + 1;
+                else data.ThuTu = 1;
+                data.STT = data.ThuTu;
 
             }
             if (data.Id == null || data.Id == 0)
