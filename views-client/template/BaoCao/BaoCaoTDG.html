@@ -330,32 +330,41 @@
             <div ng-repeat="bctchi in bctchuan.ListTieuChi">
                 <div class="col-md-12">
                     <h5> Tiêu chí {{bctchuan.ThuTu}}.{{bctchi.ThuTu}}: {{bctchi.TenTieuChi}} </h5>
-                    <h5> Mức 1 </h5>
                 </div>
-                <div class="col-md-12">
-                    <p ng-repeat="chibao in bctchi.ChiBao1" style="font-style:italic">
-                        <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
-                    </p>
+
+                <div ng-if="bctchi.ChiBao1.length > 0">
+                    <div class="col-md-12">
+                        <h5> Mức 1 </h5>
+                    </div>
+                    <div class="col-md-12">
+                        <p ng-repeat="chibao in bctchi.ChiBao1" style="font-style:italic">
+                            <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                        </p>
+                    </div>
                 </div>
-               
-                <div class="col-md-12">
-                    <h5> Mức 2 </h5>
+
+                <div ng-if="bctchi.ChiBao2.length > 0">
+                    <div class="col-md-12">
+                        <h5> Mức 2 </h5>
+                    </div>
+                    <div class="col-md-12">
+                        <p ng-repeat="chibao in bctchi.ChiBao2" style="font-style:italic">
+                            <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    <p ng-repeat="chibao in bctchi.ChiBao2" style="font-style:italic">
-                        <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
-                    </p>
+
+                <div ng-if="bctchi.ChiBao3.length > 0">
+                    <div class="col-md-12">
+                        <h5> Mức 3 </h5>
+                    </div>
+                    <div class="col-md-12">
+                        <p ng-repeat="chibao in bctchi.ChiBao3" style="font-style:italic">
+                            <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
+                        </p>
+                    </div>
                 </div>
-           
-                <div class="col-md-12">
-                    <h5> Mức 3 </h5>
-                </div>
-                <div class="col-md-12">
-                    <p ng-repeat="chibao in bctchi.ChiBao3" style="font-style:italic">
-                        <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}
-                    </p>
-                </div>
-               
+
                 <div class="col-md-12">
                     <h5> 1. Mô tả hiện trạng </h5>
                     <h5> Mức 1 </h5>
