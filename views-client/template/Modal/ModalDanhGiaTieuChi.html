@@ -92,8 +92,14 @@
                                         <div class="row">
 
                                             <ng-ckeditor ng-model="item.dgtc[tab.Model]"
+                                                         ng-if="!checkCapTren"
                                                          ng-config="config"></ng-ckeditor>
 
+                                            <div style="max-height:450px;overflow-y:scroll"
+                                                 compile="item.dgtc[tab.Model]"
+                                                 ng-if="checkCapTren">
+
+                                            </div>
                                         </div>
 
                                     </div>
@@ -167,7 +173,15 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <ng-ckeditor ng-model="item.dgtc.KQChiBao"
-                                                             ng-config="config"></ng-ckeditor>
+                                                             ng-config="config"
+                                                             ng-if="!checkCapTren"
+                                                             ></ng-ckeditor>
+
+                                                <div style="max-height:450px;overflow-y:scroll"
+                                                     compile="item.dgtc.KQChiBao"
+                                                     ng-if="checkCapTren">
+
+                                                </div>
                                             </div>
 
                                         </div>
@@ -187,7 +201,13 @@
                                                 <label class="control-label col-md-1">Kế hoạch cải tiến: </label>
                                                 <div class="col-md-11">
                                                     <ng-ckeditor ng-model="item.dgtc.KeHoachCaiTien"
+                                                                 ng-if="!checkCapTren"
                                                                  ng-config="config"></ng-ckeditor>
+                                                    <div style="max-height:450px;overflow-y:scroll"
+                                                         compile="item.dgtc.KeHoachCaiTien"
+                                                         ng-if="checkCapTren">
+
+                                                    </div>
                                                 </div>
                                             </div>
 

@@ -244,8 +244,8 @@ namespace WebApiCore.Controllers
                                where dgtc.IdDonVi == IdDonVi && dgtc.IdKeHoachTDG == IdKeHoachTDG
                                && tchi.IdTieuChuan == item.Id
                                select dgtc;
-                tchuan.first = itemTchi.Where(x => x.KQDatA == true).Count();
-                tchuan.second = itemTchi.Where(x => x.KQDatB == true).Count();
+                tchuan.first = itemTchi.Where(x => x.KQDatA == true && x.KQDatB != true && x.KQDatC != true).Count();
+                tchuan.second = itemTchi.Where(x => x.KQDatB == true && x.KQDatC != true).Count();
                 tchuan.third = itemTchi.Where(x => x.KQDatC == true).Count();
 
                 result.Add(tchuan);

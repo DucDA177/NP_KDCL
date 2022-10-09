@@ -18,6 +18,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
         private WebApiDataEntities db = new WebApiDataEntities();
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("api/MinhChung/LoadMinhChungById")]
         public IHttpActionResult LoadDSMinhChung(int IdMinhChung)
         {
@@ -148,6 +149,7 @@ namespace WebApiCore.Controllers.ThongTinTDG
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("api/MinhChung/LoadFileMinhChung")]
         public List<FileToUpload> LoadFileMinhChung(int IdMinhChung)
         {

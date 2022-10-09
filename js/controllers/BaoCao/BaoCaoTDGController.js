@@ -83,7 +83,7 @@
                 method: 'GET',
                 url: 'api/BaoCao/GetThongTinDonVi?IdDonVi=' + $rootScope.CurDonVi.Id
             }).then(function successCallback(response) {
-                console.log(response.data)
+
                 $scope.TTDonVi = response.data;
                 $scope.TTDonVi.ThongTinKhac = $scope.TTDonVi.ThongTinKhac ? JSON.parse($scope.TTDonVi.ThongTinKhac) : [];
 

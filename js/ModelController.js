@@ -1335,7 +1335,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
 
     if (!$scope.item) {
         $scope.item = {
-            "IdTieuChi": $scope.check.idTieuChi != "0" ? $scope.check.idTieuChi : "0",
+            "IdTieuChi": $scope.check.idTieuChi != 0 ? $scope.check.idTieuChi : 0,
             "HeThongMa": '',
             "IdDonVi": $rootScope.CurDonVi.Id,
             "IdKeHoachTDG": $rootScope.KeHoachTDG.Id,
@@ -1404,6 +1404,10 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
             $scope.item.IdTieuChi = $scope.DsTieuChi[0].Id;
 
         }
+
+        if ($scope.check.idTieuChi)
+            $scope.item.IdTieuChi = $scope.check.idTieuChi;
+
         $scope.renderHeThongMa();
         $scope.renderMa();
         $scope.RenderNoiDungChiSo();
@@ -1826,7 +1830,7 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
             ["InsertMinhChung", "SetReadOnly"]
         ],
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
-        extraPlugins: $rootScope.checkCapTren ? '' : 'insert-minhchung,set-readonly',
+        extraPlugins: $rootScope.checkCapTren ? 'set-readonly' : 'insert-minhchung,set-readonly',
         readOnly: $rootScope.checkCapTren,
     }
 

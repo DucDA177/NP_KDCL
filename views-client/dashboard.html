@@ -15,20 +15,20 @@
     <center ng-if="checkCapTren">
         <div class="input-group" style="width:30%">
             <span class="input-group-addon">Đơn vị</span>
-            <select ng-model="IdDonVi" class="form-control input-sm select2"
-                    ng-change="OnChangeDonVi()" convert-to-number>
+            <select ng-model="Params.IdDonVi" class="form-control input-sm select2"
+                    ng-change="OnChangeDonVi()" convert-to-number >
                 <option ng-repeat="nl in TDGDonVi" value={{nl.dv.Id}}>{{nl.dv.TenDonVi}}</option>
             </select>
         </div>
     </center>
     <div id="chartdiv"></div>
 
-    <div class="col-md-6">
+    <!--<div class="col-md-6">
         <div class="input-group">
             <input type="text" class="form-control input-sm" ng-model="QRText" />
             <a class="input-group-addon btn btn-primary btn-sm" ng-click="generateQR(QRText)"><i class="fa fa-qrcode"></i> Tạo mã QR</a>
         </div>
         <div id="qrcode"></div>
-    </div>
+    </div>-->
 
 </div>

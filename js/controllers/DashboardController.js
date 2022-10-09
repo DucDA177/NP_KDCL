@@ -1,5 +1,8 @@
 ﻿angular.module('WebApiApp').controller('DashboardController', function ($rootScope, $scope, $http, $timeout, $cookies) {
-   
+    $scope.Params = {
+        IdDonVi : 0
+    }
+
     $scope.LoadDonViCapDuoi = function () {
 
         $http({
@@ -7,9 +10,10 @@
             url: 'api/DanhGiaTieuChi/LoadKHTDGCapDuoi?IdDonViCapTren=' + $rootScope.CurDonVi.Id
                 + '&NamHoc=' + localStorage.getItem('NamHoc').toString()
         }).then(function successCallback(response) {
+            
             $scope.TDGDonVi = response.data;
             if ($scope.TDGDonVi.length > 0) {
-                $scope.IdDonVi = $scope.TDGDonVi[0].dv.Id;
+                $scope.Params.IdDonVi = $scope.TDGDonVi[0].dv.Id;
                 $scope.IdKeHoachTDG = $scope.TDGDonVi[0].tdg?.Id;
                 $scope.IdQuyDinh = $scope.TDGDonVi[0].tdg?.IdQuyDinhTC;
                 $scope.LoadBieuDoTCTCDatMuc();
@@ -24,18 +28,20 @@
     
 
     $scope.OnChangeDonVi = function () {
-        let selectedTDGDV = $scope.TDGDonVi.filter(t => t.dv.Id == $scope.IdDonVi)[0];
+        
+        let selectedTDGDV = $scope.TDGDonVi.filter(t => t.dv.Id == $scope.Params.IdDonVi)[0];
         $scope.IdKeHoachTDG = selectedTDGDV.tdg?.Id;
         $scope.IdQuyDinh = selectedTDGDV.tdg?.IdQuyDinhTC;
         $scope.LoadBieuDoTCTCDatMuc();
     }
 
     $scope.LoadBieuDoTCTCDatMuc = function () {
+        
         $http({
             method: 'GET',
-            url: 'api/BaoCao/LoadBieuDoTCTCDatMuc?IdDonVi=' + $scope.IdDonVi
-                + '&IdKeHoachTDG=' + $scope.IdKeHoachTDG
-                + '&IdQuyDinh=' + $scope.IdQuyDinh
+            url: 'api/BaoCao/LoadBieuDoTCTCDatMuc?IdDonVi=' + $scope.Params.IdDonVi
+                + '&IdKeHoachTDG=' + ($scope.IdKeHoachTDG || 0)
+                + '&IdQuyDinh=' + ($scope.IdQuyDinh || 0)
         }).then(function successCallback(response) {
             
             $scope.generateChart(response.data);
@@ -134,7 +140,7 @@
     if ($rootScope.checkCapTren)
         $scope.LoadDonViCapDuoi();
     else {
-        $scope.IdDonVi = $rootScope.CurDonVi.Id;
+        $scope.Params.IdDonVi = $rootScope.CurDonVi.Id;
         $scope.IdKeHoachTDG = $rootScope.KeHoachTDG.Id;
         $scope.IdQuyDinh = $rootScope.KeHoachTDG.IdQuyDinhTC;
         $scope.LoadBieuDoTCTCDatMuc();

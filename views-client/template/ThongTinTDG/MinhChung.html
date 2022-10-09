@@ -10,7 +10,8 @@
                 <span class="input-group-addon">Tiêu chuẩn</span>
                 <select ng-model="Paging.idTieuChuan"
                         class="form-control"  
-                        ng-change="LoadTieuChi()">
+                        ng-change="LoadTieuChi()"
+                        convert-to-number>
                     <option value=0>---Tất cả---</option>
                     <option ng-repeat="nl in DSTieuChuan" value={{nl.Id}}>{{nl.NoiDung}}</option>
                 </select>
@@ -22,7 +23,8 @@
                 <select ng-model="Paging.idTieuChi"
                         id="selecTieuChi"
                         class="form-control" 
-                        ng-change="LoadMinhChung()">
+                        ng-change="LoadMinhChung()"
+                        convert-to-number>
                     <option value=0>---Tất cả---</option>
                     <option ng-repeat="nl in DsTieuChi" value={{nl.Id}}>{{nl.NoiDung}}</option>
                 </select>
