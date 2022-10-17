@@ -1416,10 +1416,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
 
 
     $scope.renderHeThongMa = function () {
-        if ($scope.item.HeThongMa) {
-            $scope.renderMa();
-            return;
-        }
+      
         $http({
             method: 'GET',
             url: 'api/MinhChung/LoadHeThongMa'
@@ -1462,7 +1459,7 @@ angular.module('WebApiApp').controller("ModalMinhChungHandlerController", functi
 
                 if ($scope.item.SoMinhChung) {
                     // Nếu có id tiêu chí thì tiếp tục gen mã
-                    if ($scope.item.IdTieuChi && $scope.IdTieuChuan) {
+                    if ($scope.item.IdTieuChi && $scope.item.IdTieuChi !== '0' && $scope.IdTieuChuan) {
                         
                         var thuTuTieuChuan = $scope.DSTieuChuan.filter(x => x.Id == $scope.IdTieuChuan)[0].ThuTu;
                         var thuTuTieuChi = $scope.DsTieuChi.filter(x => x.Id == $scope.item.IdTieuChi)[0].ThuTu;

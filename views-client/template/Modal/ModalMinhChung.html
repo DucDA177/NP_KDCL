@@ -153,10 +153,12 @@
 </div>
 <script>
     jQuery(document).ready(function () {
-        ComponentsSelect2.init();
+        
         let rootScope = angular.element(document.body).scope().$root;
         if (rootScope.ChiThuThap) {
             $(".except-thuthap :input").attr("disabled", true);
         }
+
+        ComponentsSelect2.init();
     });
 </script>

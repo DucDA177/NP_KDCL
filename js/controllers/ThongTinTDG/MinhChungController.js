@@ -96,6 +96,18 @@
             });
 
     }
+
+    $scope.UpdateMC = function (item) {
+        let ThuTuTieuChuan = item.Ma.split('-')[1].split('.')[0]
+        let itemPaging = {
+            "idTieuChuan": $scope.Paging.idTieuChuan !== '0' ? $scope.Paging.idTieuChuan : $scope.DSTieuChuan.filter(x => x.ThuTu == ThuTuTieuChuan)[0].Id,
+            "idTieuChi": item.IdTieuChi,
+            "heThongMa": item.HeThongMa
+        }
+        $scope.openModal(item, 'MinhChung', itemPaging);
+
+    }
+
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
         if ($rootScope.ChiThuThap) {
             $('.except-thuthap').hide();
