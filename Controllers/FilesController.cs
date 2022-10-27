@@ -20,7 +20,7 @@ using System.Text;
 
 namespace WebApiCore.Controllers
 {
-    
+
     public class FilesController : ApiController
     {
 
@@ -152,7 +152,7 @@ namespace WebApiCore.Controllers
             public string filename { get; set; }
             public bool isSaved { get; set; }
         }
-      
+
         [HttpGet]
         [Route("api/Files/RemoveTempFolder")]
         public IHttpActionResult RemoveTempFolder(string tempFolder)
@@ -169,7 +169,7 @@ namespace WebApiCore.Controllers
 
             return Ok();
         }
-        
+
         [HttpGet]
         [Route("api/Files/DeleteFile")]
         public IHttpActionResult DeleteFile(string link)
@@ -278,9 +278,27 @@ namespace WebApiCore.Controllers
                 return Ok("Incorrect!");
             }
 
-            
+
         }
 
-       
+        //[HttpGet]
+        //[Route("api/Files/ChinhSuaMinhChung")]
+        //[AllowAnonymous]
+        //public IHttpActionResult ChinhSuaMinhChung()
+        //{
+        //    var listMC = db.tblMinhChungs.ToList();
+        //    foreach (var mc in listMC)
+        //    {
+        //        var KHTDG = db.tblKeHoachTDGs.Find(mc.IdKeHoachTDG);
+        //        var tctc = mc.Ma.Split('-')[1];
+        //        var ttTChuan = Convert.ToInt32(tctc.Split('.')[0]);
+        //        var ttTChi = Convert.ToInt32(tctc.Split('.')[1]);
+        //        var idTieuChuan = db.DMTieuChuans.Where(x => x.ThuTu == ttTChuan && x.IdQuyDinh == KHTDG.IdQuyDinhTC).FirstOrDefault().Id;
+        //        var idTieuChi = db.DMTieuChis.Where(x => x.ThuTu == ttTChi && x.IdTieuChuan == idTieuChuan).FirstOrDefault().Id;
+        //        mc.IdTieuChi = idTieuChi;
+        //    }
+        //    return Ok(db.SaveChanges());
+        //}
+
     }
 }
