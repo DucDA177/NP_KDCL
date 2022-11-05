@@ -60,7 +60,7 @@
                                 <a ng-if="dm.TrangThai == 'CTH'" tooltip title="Tiến hành" ng-click="DoiTrangThai(dm,'DTH')"><i class="font-green fa fa-play"></i></a>
                                 <a ng-if="dm.TrangThai == 'DTH'" tooltip title="Tạm dừng" ng-click="DoiTrangThai(dm,'CTH')"><i class="font-red fa fa-stop"></i></a>
                             </td>
-                            <td><a ng-hide="dm.TrangThai == 'DTH'" tooltip ng-click="openModal(dm,'KeHoachTDG')" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                            <td><a tooltip ng-click="openModal(dm,'KeHoachTDG')" title="Sửa"><i class="fa fa-edit"></i></a></td>
                             <td><a ng-hide="dm.TrangThai == 'DTH'" tooltip ng-click="Del(dm)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
 
                         </tr>
@@ -73,7 +73,249 @@
 
 </div>
 
+<div hidden id="TemplateMucDich">
+    1. Xác định cơ sở giáo dục phổ thông đáp ứng mục tiêu giáo dục trong từng giai đoạn;
+    lập kế hoạch cải tiến chất lượng, duy trì và nâng cao chất lượng các hoạt động của
+    nhà trường; thông báo công khai với các cơ quan quản lý nhà nước và xã hội về thực trạng
+    chất lượng của nhà trường; để cơ quan quản lý nhà nước đánh giá, công nhận
+    hoặc không công nhận cơ sở giáo dục phổ thông đạt kiểm định chất lượng giáo dục. <br />
+    2. Khuyến khích đầu tư và huy động các nguồn lực cho giáo dục, góp phần tạo điều kiện
+    đảm bảo cho nhà trường không ngừng nâng cao chất lượng, hiệu quả giáo dục; để cơ quan
+    quản lý nhà nước đánh giá, công nhận hoặc không công nhận cơ sở giáo dục phổ thông đạt
+    chuẩn quốc gia. <br />
+    3. Các mục đích cụ thể khác (nếu có).
+</div>
 
+<div hidden id="TemplatePhamVi">
+    <i>1. Đối với các trường tiểu học</i> <br />
+    Nhà trường triển khai hoạt động TĐG được quy định tại Thông tư số 17/2018/TT-BGDĐT. <br />
+    <i>2. Đối với các trường THCS, THPT và trường phổ thông có nhiều cấp học</i><br />
+    Nhà trường triển khai hoạt động TĐG được quy định tại Thông tư số 18/2018/TT-BGDĐT.
 
+</div>
 
+<div hidden id="TemplateCongCu">
+    <i>1. Đối với các trường tiểu học</i> <br />
+    Công cụ TĐG là tiêu chuẩn đánh giá trường tiểu học ban hành kèm theo
+    Thông tư số 17/2018/TT- BGDĐT và các tài liệu hướng dẫn. <br />
+    <i>2. Đối với các trường THCS, THPT và trường phổ thông có nhiều cấp học</i><br />
+    Công cụ TĐG là tiêu chuẩn đánh giá trường THCS, THPT và trường phổ thông có nhiều cấp học
+    ban hành kèm theo Thông tư số 18/2018/TT-BGDĐT và các tài liệu hướng dẫn.
 
+</div>
+
+<div hidden id="TemplateTapHuanNghiepVu">
+    <i>1. Thời gian: .....................................................</i><br />
+    <i>2. Thành phần: ....................................................</i><br />
+    <i>3. Nội dung, chương trình tập huấn,…: .............................</i><br />
+
+</div>
+
+<div hidden id="TemplateNguonLuc" class="row">
+    <table class="table table-scrollable table-striped" style="width:100%">
+        <tbody>
+            <tr>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Tiêu chuẩn</b>
+                </td>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Tiêu chí</b>
+                </td>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Các nguồn lực cần huy động/cung cấp</b>
+                </td>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Thời điểm cần huy động</b>
+                </td>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Ghi chú</b>
+                </td>
+            </tr>
+            <tr ng-repeat="tc in ListTCTC" on-finish-render="ngRepeatFinished">
+                <td rowspan="{{tc.SLTieuChi}}" ng-if="tc.SLTieuChi"
+                    style="vertical-align:middle; text-align:center">
+                    {{tc.ThuTu.split('.')[0]}}
+                </td>
+                <td>
+                    Tiêu chí {{tc.ThuTu}}
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div hidden id="TemplateThueChuyenGia">
+    Xác định các lĩnh vực cần thuê chuyên gia,
+    mục đích thuê chuyên gia, vai trò của chuyên gia,
+    số lượng chuyên gia, thời gian cần thuê chuyên gia, kinh phí thuê chuyên gia,...
+</div>
+
+<div hidden id="TemplateThoiGianHoatDong">
+    <p>Tuỳ theo từng điều kiện cụ thể, mỗi trường x&aacute;c định thời gian thực hiện ph&ugrave; hợp để ho&agrave;n th&agrave;nh hoạt động TĐG. Sau đ&acirc;y l&agrave; v&iacute; dụ minh họa về thời gian v&agrave; nội dung hoạt động triển khai thực hiện hoạt động TĐG:</p>
+
+    <p>&nbsp;</p>
+
+    <table cellspacing="0" class="Table" style="border-collapse:collapse; border:none; width:100%">
+        <tbody>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:1px solid black; width:121px">
+                    <p>&nbsp;</p>
+
+                    <p style="text-align:center"><strong>Thời gian</strong></p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:494px">
+                    <p>&nbsp;</p>
+
+                    <p style="text-align:center"><strong>Nội dung hoạt động</strong></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 1</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; width:494px">
+                    <p style="text-align:justify">1. Họp l&atilde;nh đạo nh&agrave; trường để thảo luận dự kiến c&aacute;c th&agrave;nh vi&ecirc;n Hội đồng TĐG v&agrave; c&aacute;c vấn đề li&ecirc;n quan đến triển khai hoạt động TĐG.</p>
+
+                    <p style="text-align:justify">2. Hiệu trưởng ra quyết định th&agrave;nh lập Hội đồng TĐG.</p>
+
+                    <p style="text-align:justify">3. Họp Hội đồng TĐG để:</p>
+
+                    <p style="text-align:justify">- C&ocirc;ng bố quyết định th&agrave;nh lập Hội đồng TĐG;</p>
+
+                    <p style="text-align:justify">- Thảo luận về nhiệm vụ cụ thể cho từng th&agrave;nh vi&ecirc;n Hội đồng TĐG; ph&acirc;n c&ocirc;ng nhiệm vụ cụ thể cho c&aacute;c nh&oacute;m c&ocirc;ng t&aacute;c v&agrave; c&aacute; nh&acirc;n;</p>
+
+                    <p style="text-align:justify">- Dự kiến thu&ecirc; chuy&ecirc;n gia tư vấn để gi&uacute;p Hội đồng TĐG triển khai hoạt động TĐG (nếu c&oacute;);</p>
+
+                    <p style="text-align:justify">- Dự thảo v&agrave; ban h&agrave;nh Kế hoạch TĐG.</p>
+
+                    <p style="text-align:justify">4. Phổ biến Kế hoạch TĐG đến to&agrave;n thể c&aacute;n bộ, gi&aacute;o vi&ecirc;n, nh&acirc;n vi&ecirc;n của nh&agrave; trường v&agrave; c&aacute;c b&ecirc;n li&ecirc;n quan.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 2</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:494px">
+                    <p style="text-align:justify">1. Tổ chức hội thảo/tập huấn/hội nghị về nghiệp vụ TĐG cho to&agrave;n thể c&aacute;n bộ, gi&aacute;o vi&ecirc;n, nh&acirc;n vi&ecirc;n của trường v&agrave; c&aacute;c b&ecirc;n li&ecirc;n quan.</p>
+
+                    <p style="text-align:justify">2. C&aacute;c nh&oacute;m c&ocirc;ng t&aacute;c, c&aacute; nh&acirc;n thực hiện x&aacute;c định nội h&agrave;m, ph&acirc;n t&iacute;ch ti&ecirc;u ch&iacute; t&igrave;m minh chứng cho từng ti&ecirc;u ch&iacute;.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 3 - 5</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:494px">
+                    <p style="text-align:justify">1. C&aacute;c nh&oacute;m c&ocirc;ng t&aacute;c, c&aacute; nh&acirc;n thực hiện:</p>
+
+                    <p style="text-align:justify">- X&aacute;c định nội h&agrave;m, ph&acirc;n t&iacute;ch ti&ecirc;u ch&iacute; t&igrave;m minh chứng cho từng ti&ecirc;u ch&iacute; (tiếp theo việc tuần 2);</p>
+
+                    <p style="text-align:justify">- Ph&acirc;n loại v&agrave; m&atilde; ho&aacute; c&aacute;c minh chứng thu được.</p>
+
+                    <p style="text-align:justify">2. Hội đồng TĐG thảo luận c&aacute;c minh chứng cho từng ti&ecirc;u ch&iacute; đ&atilde; thu thập được v&agrave; lập Bảng danh mục m&atilde; minh chứng.</p>
+
+                    <p style="text-align:justify">3. C&aacute;c nh&oacute;m chuy&ecirc;n tr&aacute;ch, c&aacute; nh&acirc;n viết c&aacute;c Phiếu đ&aacute;nh gi&aacute; ti&ecirc;u ch&iacute;.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 6 - 7</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:494px">
+                    <p style="text-align:justify">C&aacute;c nh&oacute;m chuy&ecirc;n tr&aacute;ch, c&aacute; nh&acirc;n viết c&aacute;c Phiếu đ&aacute;nh gi&aacute; ti&ecirc;u ch&iacute; (tiếp theo việc tuần 3 - 5).</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 8 - 9</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:494px">
+                    <p style="text-align:justify">Họp hội đồng TĐG để:</p>
+
+                    <p style="text-align:justify">- Thảo luận về những vấn đề ph&aacute;t sinh từ c&aacute;c minh chứng thu được, những minh chứng cần thu thập bổ sung v&agrave; c&aacute;c vấn đề li&ecirc;n quan đến hoạt động TĐG (nếu c&oacute;);</p>
+
+                    <p style="text-align:justify">- C&aacute;c nh&oacute;m chuy&ecirc;n tr&aacute;ch, c&aacute; nh&acirc;n b&aacute;o c&aacute;o nội dung của từng Phiếu đ&aacute;nh gi&aacute; ti&ecirc;u ch&iacute; với Hội đồng TĐG;</p>
+
+                    <p style="text-align:justify">- Chỉnh sửa, bổ sung c&aacute;c nội dung của Phiếu đ&aacute;nh gi&aacute; ti&ecirc;u ch&iacute; (trong đ&oacute; đặc biệt ch&uacute; &yacute; đến kế hoạch cải tiến chất lượng);</p>
+
+                    <p style="text-align:justify">- Thu thập, xử l&yacute; minh chứng bổ sung (nếu c&oacute;);</p>
+
+                    <p style="text-align:justify">- Dự thảo b&aacute;o c&aacute;o TĐG.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; height:214px; width:121px">
+                    <p style="text-align:center"><strong>Tuần 10 - 12</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; height:214px; vertical-align:top; width:494px">
+                    <p style="text-align:justify">Họp Hội đồng TĐG để:</p>
+
+                    <p style="text-align:justify">- Kiểm tra lại minh chứng được sử dụng trong b&aacute;o c&aacute;o TĐG v&agrave; c&aacute;c nội dung li&ecirc;n quan (nếu c&oacute;);</p>
+
+                    <p style="text-align:justify">- Tiếp tục chỉnh sửa, bổ sung dự thảo b&aacute;o c&aacute;o TĐG;</p>
+
+                    <p style="text-align:justify">- Th&ocirc;ng qua b&aacute;o c&aacute;o TĐG đ&atilde; chỉnh sửa, bổ sung;</p>
+
+                    <p style="text-align:justify">- C&ocirc;ng bố dự thảo b&aacute;o c&aacute;o TĐG trong nội bộ trường;</p>
+
+                    <p style="text-align:justify">- Thu thập c&aacute;c &yacute; kiến đ&oacute;ng g&oacute;p dự thảo b&aacute;o c&aacute;o TĐG;</p>
+
+                    <p style="text-align:justify">- Bổ sung v&agrave; ho&agrave;n thiện b&aacute;o c&aacute;o TĐG sau khi c&oacute; c&aacute;c &yacute; kiến g&oacute;p &yacute;;</p>
+
+                    <p style="text-align:justify">- Tiếp tục chỉnh sửa, bổ sung v&agrave; đề xuất những kế hoạch cải tiến chất lượng (nếu c&oacute;).</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 13 - 14</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; width:494px">
+                    <p style="text-align:justify">1. C&aacute;c th&agrave;nh vi&ecirc;n của Hội đồng TĐG k&yacute; t&ecirc;n v&agrave;o danh s&aacute;ch trong b&aacute;o c&aacute;o TĐG. Hiệu trưởng k&yacute; t&ecirc;n, đ&oacute;ng dấu v&agrave; ban h&agrave;nh.</p>
+
+                    <p style="text-align:justify">2. Gửi b&aacute;o c&aacute;o TĐG v&agrave; c&ocirc;ng văn trong đ&oacute; c&oacute; nội dung đ&atilde; ho&agrave;n th&agrave;nh hoạt động TĐG cho cơ quan quản l&yacute; trực tiếp để lấy &yacute; kiến.</p>
+
+                    <p style="text-align:justify">3. Chỉnh sửa, bổ sung c&aacute;c &yacute; kiến của cơ quan quản l&yacute; trực tiếp (nếu c&oacute;).</p>
+
+                    <p style="text-align:justify">4. C&ocirc;ng bố bản b&aacute;o c&aacute;o TĐG đ&atilde; ho&agrave;n thiện (trong nội bộ nh&agrave; trường).</p>
+
+                    <p style="text-align:justify">5. Lưu trữ b&aacute;o c&aacute;o TĐG, c&aacute;c minh chứng v&agrave; c&aacute;c t&agrave;i liệu li&ecirc;n quan theo quy định.</p>
+                </td>
+            </tr>
+            <tr>
+                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; width:121px">
+                    <p style="text-align:center"><strong>Tuần 15 - 16</strong></p>
+
+                    <p style="text-align:center">&nbsp;</p>
+                </td>
+                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; width:494px">
+                    <p style="text-align:justify">1. Tổ chức thực hiện c&aacute;c kế hoạch cải tiến chất lượng theo từng giai đoạn.</p>
+
+                    <p style="text-align:justify">2. Cập nhật lại b&aacute;o c&aacute;o TĐG (nếu cần) trước khi thực hiện việc đăng k&yacute; ĐGN với cơ quan c&oacute; thẩm quyền.</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>&nbsp;</p>
+
+</div>

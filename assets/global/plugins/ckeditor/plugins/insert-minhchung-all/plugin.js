@@ -1,23 +1,23 @@
-﻿var pluginName = 'insert-minhchung';
+﻿var pluginName = 'insert-minhchung-all';
 CKEDITOR.plugins.add(pluginName, {
     init: function (editor) {
-        editor.addCommand('insertMinhChung', new CKEDITOR.dialogCommand('insertMinhChung'));
+        editor.addCommand('insertMinhChungAll', new CKEDITOR.dialogCommand('insertMinhChungAll'));
 
-        editor.ui.addButton('InsertMinhChung', {
-            label: 'Thêm minh chứng của tiêu chí hiện tại',
-            title: 'Thêm minh chứng của tiêu chí hiện tại',
-            command: 'insertMinhChung',
+        editor.ui.addButton('InsertMinhChungAll', {
+            label: 'Thêm minh chứng từ tiêu chí khác',
+            title: 'Thêm minh chứng từ tiêu chí khác',
+            command: 'insertMinhChungAll',
             toolbar: 'insert',
             icon: this.path + 'icons/add-new.jpg',
         });
 
-        CKEDITOR.dialog.add('insertMinhChung', function (api) {
+        CKEDITOR.dialog.add('insertMinhChungAll', function (api) {
             let listCkb = [{
                 type: 'html',
                 html: '<p>Vui lòng chọn một hoặc nhiều minh chứng và nhấn Đồng ý</p>'
             }]
             let listSelectedCkb = []
-            let DSMinhChung = JSON.parse(localStorage.getItem('DSMinhChung'))
+            let DSMinhChung = JSON.parse(localStorage.getItem('DSMinhChungAll'))
             if (DSMinhChung) {
                 for (let i = 0; i < DSMinhChung.length; i++) {
 

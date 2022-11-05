@@ -33,7 +33,7 @@
                 </center>
             </div>
             <div class="col-md-12">
-                <h5><b> Nhóm công tác hoặc cá nhân: ..... </b></h5>
+                <h5><b> Nhóm công tác hoặc cá nhân: {{NhomCongTac.TenNhom}} </b></h5>
             </div>
             <div class="col-md-12">
                 <h5><b> Tiêu chuẩn: {{item.TieuChuan.NoiDung}} </b></h5>
@@ -43,19 +43,19 @@
                 <h5> Mức 1 </h5>
             </div>
             <div class="col-md-12">
-                <p ng-repeat="chibao in item.TieuChi.ChiBaoA">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                <p ng-repeat="chibao in item.TieuChi.ChiBaoA"> <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}</p>
             </div>
             <div class="col-md-12">
                 <h5> Mức 2 </h5>
             </div>
             <div class="col-md-12">
-                <p ng-repeat="chibao in item.TieuChi.ChiBaoB">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                <p ng-repeat="chibao in item.TieuChi.ChiBaoB"> <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}</p>
             </div>
             <div class="col-md-12">
                 <h5> Mức 3 </h5>
             </div>
             <div class="col-md-12">
-                <p ng-repeat="chibao in item.TieuChi.ChiBaoC">{{chibao.STT}}) {{chibao.NoiDung}}</p>
+                <p ng-repeat="chibao in item.TieuChi.ChiBaoC"> <span ng-if="chibao.STT != '.'">{{chibao.STT}})</span> {{chibao.NoiDung}}</p>
             </div>
             <div class="col-md-12">
                 <div compile="item.NoiHam"></div>

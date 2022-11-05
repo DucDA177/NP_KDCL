@@ -1,0 +1,241 @@
+﻿
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4>
+            <label class=" uppercase font-white">
+                <i class="fa fa-list"></i> Quyết định thành lập hội đồng tự đánh giá
+            </label>
+        </h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row" style="max-height:450px;overflow-y:scroll" id="PrintDiv">
+
+            <div class="col-md-12">
+                <table width="100%">
+                    <tr>
+                        <td align="center" class="td-no-border">UỶ BAN NHÂN...</td>
+                        <td align="center" class="td-no-border">
+                            <b>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="td-no-border">
+                            <b>{{CurDonVi.TenDonVi | uppercase}}</b>
+                        </td>
+                        <td align="center" class="td-no-border">
+                            <b>Độc lập - Tự do - Hạnh phúc</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" class="td-no-border">
+                            Số:..../......
+                        </td>
+                        <td align="center" class="td-no-border">
+                            <i>…, ngày ... tháng ... năm ......</i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <center>
+                    <h4>
+                        <b>
+                            QUYẾT ĐỊNH <br />
+                            Về việc thành lập Hội đồng tự đánh giá
+                        </b>
+                    </h4>
+                </center>
+            </div>
+            <div class="col-md-12">
+                <center>
+                    <h4>
+                        <b>
+                            HIỆU TRƯỞNG {{CurDonVi.TenDonVi | uppercase}}
+                        </b>
+                    </h4>
+                </center>
+            </div>
+            <div class="col-md-12">
+                <p style="text-align:justify">&nbsp; &nbsp; &nbsp;Căn cứ Th&ocirc;ng tư số 18/2018/TT-BGDĐT ng&agrave;y 22 th&aacute;ng 8 năm 2018 của Bộ trưởng Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo ban h&agrave;nh Quy định về kiểm định chất lượng gi&aacute;o dục v&agrave; c&ocirc;ng nhận đạt chuẩn quốc gia đối với trường trung học cơ sở, trường trung học phổ th&ocirc;ng v&agrave; trường phổ th&ocirc;ng c&oacute; nhiều cấp học;</p>
+
+                <p style="text-align:justify">&nbsp; &nbsp; &nbsp; Căn cứ Quyết định số &nbsp;&nbsp;/QĐ-UBND ng&agrave;y .../.../... của UBND ... về việc th&agrave;nh lập {{CurDonVi.TenDonVi}};</p>
+
+                <p style="text-align:justify">&nbsp; &nbsp; &nbsp; X&eacute;t đề nghị của Hội đồng trường,</p>
+
+                <p style="text-align:center"><strong>QUYẾT ĐỊNH:</strong></p>
+
+                <p style="text-align:justify"><strong>&nbsp; &nbsp; &nbsp; Điều 1</strong>. Th&agrave;nh lập Hội đồng tự đ&aacute;nh gi&aacute; {{CurDonVi.TenDonVi}} gồm c&aacute;c &ocirc;ng (b&agrave;) c&oacute; t&ecirc;n trong danh s&aacute;ch k&egrave;m theo.</p>
+
+                <p style="text-align:justify">Gi&uacute;p việc cho Hội đồng c&oacute; nh&oacute;m thư k&yacute; v&agrave; c&aacute;c nh&oacute;m c&ocirc;ng t&aacute;c gồm c&aacute;c &ocirc;ng (b&agrave;) c&oacute; t&ecirc;n trong danh s&aacute;ch k&egrave;m theo</p>
+
+                <p style="text-align:justify"><strong>&nbsp; &nbsp; &nbsp; Điều 2</strong>. Hội đồng tự đ&aacute;nh gi&aacute; c&oacute; tr&aacute;ch nhiệm triển khai c&ocirc;ng t&aacute;c tự đ&aacute;nh gi&aacute; {{CurDonVi.TenDonVi}} theo quy định của Bộ Gi&aacute;o dục v&agrave; Đ&agrave;o tạo.</p>
+
+                <p style="text-align:justify"><strong>&nbsp; &nbsp; &nbsp; Điều 3</strong>. C&aacute;c &ocirc;ng (b&agrave;) c&oacute; t&ecirc;n tại Điều 1 chịu tr&aacute;ch nhiệm thi h&agrave;nh Quyết định n&agrave;y./.</p>
+
+            </div>
+            <div class="col-md-12">
+                <p>
+                    <table width="100%">
+                        <tr>
+                            <td class="td-no-border">
+                                <b><i>Nơi nhận:</i></b><br />
+                                - Như Điều 3;<br />
+                                - Cơ quan chủ quản (để b/c);;<br />
+                                - Lưu: TV;<br />
+                            </td>
+                            <td align="center" class="td-no-border">
+                                <b>
+                                    HIỆU TRƯỞNG
+                                </b><br />
+                                <i>(Ký tên và đóng dấu)</i>
+                            </td>
+                        </tr>
+
+                    </table>
+                </p>
+            </div>
+            <p style="text-align:justify">&nbsp;</p>
+            <p style="text-align:justify">&nbsp;</p>
+            <p style="text-align:justify">&nbsp;</p>
+            <div class="col-md-12">
+                <center>
+                    <h4>
+                        <b>
+                            DANH SÁCH THÀNH VIÊN HỘI ĐỒNG TỰ ĐÁNH GIÁ {{CurDonVi.TenDonVi | uppercase}}
+                        </b><br />
+                        <i>
+                            (Kèm theo Quyết định số .../... ngày ... tháng ... năm ... của {{CurDonVi.TenDonVi}})
+                        </i>
+                    </h4>
+                </center>
+                <p>
+                    <div class="table table-scrollable ">
+                        <!-- BEGIN FORM-->
+                        <table class="table"
+                               id="fixTable">
+                            <thead>
+                                <tr>
+                                    <th width="1px" align="center"> STT </th>
+                                    <th> <div style="text-align:center">Họ và tên</div></th>
+                                    <th> <div style="text-align:center">Chức vụ, chức danh</div> </th>
+                                    <th> <div style="text-align:center">Nhiệm vụ</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd gradeX" ng-repeat="dm in HoiDong">
+                                    <td align="center" width="1px"> {{$index + 1}} </td>
+                                    <td>  <b> {{dm.us.HoTen}}</b> </td>
+                                    <td>
+                                        {{dm.cv.Ten}}
+                                    </td>
+                                    <td>
+                                        {{dm.nv.Ten}}
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <center><i>(Danh sách gồm có {{HoiDong.length}} người).</i></center>
+                </p>
+                <center>
+                    <h4>
+                        <b>
+                            DANH SÁCH NHÓM THƯ KÝ
+                        </b>
+                    </h4>
+                </center>
+                <p>
+                    <table class="table"
+                           id="fixTable">
+                        <thead>
+                            <tr>
+                                <th width="1px" align="center"> STT </th>
+                                <th> <div style="text-align:center">Họ và tên</div></th>
+                                <th> <div style="text-align:center">Chức vụ, chức danh</div> </th>
+                                <th> <div style="text-align:center">Nhiệm vụ</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="odd gradeX" ng-repeat="dm in ThuKyHD">
+                                <td align="center" width="1px"> {{$index + 1}} </td>
+                                <td>  <b> {{dm.us.HoTen}}</b> </td>
+                                <td>
+                                    {{dm.cv.Ten}}
+                                </td>
+                                <td>
+                                    {{dm.hd.IdNhiemVuThuKy == 1 ? 'Trưởng nhóm' : 'Thành viên'}}
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </p>
+                <center>
+                    <h4>
+                        <b>
+                            DANH SÁCH NHÓM CÔNG TÁC
+                        </b>
+                    </h4>
+                </center>
+                <p>
+                    <table class="table table-scrollable table-striped" id="tableTVNhom">
+                        <tbody>
+                            <tr>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Nhóm</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Họ và tên</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Chức vụ, chức danh</b>
+                                </td>
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>Nhiệm vụ</b>
+                                </td>
+
+                            </tr>
+                            <tr ng-repeat="tc in ListTVNhom" on-finish-render="ngRepeatFinished">
+                                <td style="vertical-align:middle; text-align:center">
+                                    <b>{{tc.TenNhom}}</b>
+                                </td>
+                                <td>
+                                    {{tc.HoTen}}
+                                </td>
+                                <td>
+                                    {{tc.ChucVu}}
+                                </td>
+                                <td>
+                                    {{tc.NhiemVu}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+
+            </div>
+
+        </div>
+        <div class="form-group margin-top-10" style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                   ng-click="exportBaoCao('PrintDiv','Quyết định thành lập hội đồng.doc','application/vnd.ms-word')">
+                    <i class="fa fa-file-word-o"></i> Xuất quyết định thành lập hội đồng
+                </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

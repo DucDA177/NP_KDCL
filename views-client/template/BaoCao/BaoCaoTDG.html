@@ -462,7 +462,14 @@
                     <tbody>
                         <tr class="odd gradeX" ng-repeat="dm in PhuLucMC">
                             <td align="center" width="1px"> {{$index + 1}} </td>
-                            <td>  [{{dm.Ma}}] </td>
+                            <td>
+                                <a class="link-minhchung"
+                                   href="javascript:void(0);"
+                                   id="{{dm.Id}}"
+                                   ng-click="OpenViewMinhChung(dm.Id)">
+                                    [{{dm.Ma}}]
+                                </a>
+                            </td>
                             <td>
                                 {{dm.TenMinhChung}}
                             </td>

@@ -39,7 +39,7 @@
 
         $http({
             method: 'POST',
-            url: 'api/KeHoachTDG/Save',
+            url: 'api/KeHoachTDG/Save?isTrangThaiChange=true',
             data: item
         }).then(function successCallback(response) {
             item = response.data;

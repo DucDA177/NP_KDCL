@@ -127,7 +127,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 url: 'api/MinhChung/LoadDSMinhChung?IdDonVi=' + IdDonVi
                     + '&IdKeHoachTDG=' + IdKeHoachTDG
                     + '&idTieuChuan=0'
-                    + '&idTieuChi=' + item.tchi.Id
+                    + '&idTieuChi=0' //+ item.tchi.Id
                     + '&heThongMa='
                     + '&ChiThuThap=false'
             }).then(function successCallback(dgtc) {
@@ -138,8 +138,8 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                         + '&IdKeHoachTDG=' + IdKeHoachTDG
                         + '&IdTieuChi=' + item.tchi.Id
                 }).then(function successCallback(userInNhom) {
-
-                    localStorage.setItem('DSMinhChung', JSON.stringify(dgtc.data));
+                    localStorage.setItem('DSMinhChungAll', JSON.stringify(dgtc.data));
+                    localStorage.setItem('DSMinhChung', JSON.stringify(dgtc.data.filter(x => x.IdTieuChi == item.tchi.Id)));
                     localStorage.setItem('UserInNhom', JSON.stringify(userInNhom.data));
                     $scope.openModal(item, 'DanhGiaTieuChi');
 

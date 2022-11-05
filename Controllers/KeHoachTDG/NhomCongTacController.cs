@@ -250,5 +250,18 @@ namespace WebApiCore.Controllers.KeHoachTDG
             return Ok(result.OrderBy(x => x.Index).ThenBy(x => x.LoaiDuLieu).ThenBy(x => x.NoiDung));
         }
 
+        [HttpGet]
+        [Route("api/NhomCongTac/GetNhomByTieuChi")]
+        public IHttpActionResult GetNhomByTieuChi(int IdDonVi, int IdKeHoachTDG, int IdTieuChi)
+        {
+           var data = (from pctc in db.tblPhanCongTCs
+                      join nhom in db.tblNhomCongTacs 
+                      on pctc.IdNhom equals nhom.Id
+                      where pctc.IdDonVi == IdDonVi && pctc.IdKeHoachTDG == IdKeHoachTDG
+                      && pctc.IdTieuChi == IdTieuChi
+                      select nhom).FirstOrDefault();
+
+            return Ok(data);
+        }
     }
 }

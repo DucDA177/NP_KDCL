@@ -1844,6 +1844,8 @@
     <Content Include="assets\global\plugins\ckeditor\plugins\iframe\images\placeholder.png" />
     <Content Include="assets\global\plugins\ckeditor\plugins\image\dialogs\image.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\image\images\noimage.png" />
+    <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung-all\icons\add-new.jpg" />
+    <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung-all\plugin.js" />
     <Content Include="assets\global\plugins\ckeditor\plugins\insert-minhchung\icons\add-new.jpg" />
     <Content Include="assets\global\plugins\ckeditor\plugins\set-readonly\icons\set-readonly.png" />
     <Content Include="assets\global\plugins\ckeditor\plugins\set-readonly\plugin.js" />
@@ -3879,6 +3881,7 @@
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
+    <Content Include="views-client\template\Modal\ModalInQuyetDinhHoiDong.html" />
     <Content Include="views-client\template\Modal\ModalInKeHoachTDG.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuDanhGia.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuNoiHam.html" />

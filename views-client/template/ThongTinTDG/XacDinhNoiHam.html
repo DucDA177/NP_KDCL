@@ -26,9 +26,9 @@
             </div>
 
         </div>
-        
+
     </div>
-    
+
     <div class="form-group" ng-if="Paging.idTieuChi">
         <div class="col-md-12">
             <ng-ckeditor ng-model="DataIn.NoiHam"
@@ -52,9 +52,7 @@
         <tbody>
             <tr>
                 <td rowspan="2" style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:76px">
-                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Ti&ecirc;u ch&iacute;</span></strong></span></span></p>
-
-                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">...</span></strong></span></span></p>
+                    <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Chỉ báo</span></strong></span></span></p>
                 </td>
                 <td rowspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:93px">
                     <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><strong><span style="font-size:13.0pt">Nội h&agrave;m</span></strong></span></span></p>
@@ -83,7 +81,7 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr ng-if="checkDGTC.tchi.ChiBaoA.length > 0">
                 <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
                     <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Mức 1</span></span></span></p>
                 </td>
@@ -106,8 +104,12 @@
             <tr ng-repeat="cbA in checkDGTC.tchi.ChiBaoA" on-finish-render="ngRepeatFinished">
                 <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
                     <p style="text-align:center">
-                    <span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif">
-                        <span style="font-size:13.0pt">{{cbA.STT}}</span></span></span></p>
+                        <span style="font-size:14pt">
+                            <span style="font-family:&quot;Times New Roman&quot;,serif">
+                                <span style="font-size:13.0pt">{{cbA.STT == '.' ? '': cbA.STT}}</span>
+                            </span>
+                        </span>
+                    </p>
                 </td>
                 <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
                     <p style="text-align:justify">{{cbA.NoiDung}}</p>
@@ -125,8 +127,8 @@
                     <p style="text-align:justify">&nbsp;</p>
                 </td>
             </tr>
-         
-            <tr>
+
+            <tr ng-if="checkDGTC.tchi.ChiBaoB.length > 0">
                 <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
                     <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Mức 2 </span></span></span></p>
                 </td>
@@ -151,7 +153,7 @@
                     <p style="text-align:center">
                         <span style="font-size:14pt">
                             <span style="font-family:&quot;Times New Roman&quot;,serif">
-                                <span style="font-size:13.0pt">{{cbB.STT}}</span>
+                                <span style="font-size:13.0pt">{{cbB.STT == '.' ? '': cbB.STT}}</span>
                             </span>
                         </span>
                     </p>
@@ -172,8 +174,8 @@
                     <p style="text-align:justify">&nbsp;</p>
                 </td>
             </tr>
-           
-            <tr>
+
+            <tr ng-if="checkDGTC.tchi.ChiBaoC.length > 0">
                 <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
                     <p style="text-align:center"><span style="font-size:14pt"><span style="font-family:&quot;Times New Roman&quot;,serif"><span style="font-size:13.0pt">Mức 3<strong> </strong></span></span></span></p>
                 </td>
@@ -193,12 +195,12 @@
                     <p style="text-align:justify">&nbsp;</p>
                 </td>
             </tr>
-            <tr ng-repeat="cbC in checkDGTC.tchi.ChiBaoC" on-finish-render="ngRepeatFinished">
+            <tr ng-repeat="cbC in checkDGTC.tchi.ChiBaoC"  on-finish-render="ngRepeatFinished">
                 <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:76px">
                     <p style="text-align:center">
                         <span style="font-size:14pt">
                             <span style="font-family:&quot;Times New Roman&quot;,serif">
-                                <span style="font-size:13.0pt">{{cbC.STT}}</span>
+                                <span style="font-size:13.0pt">{{cbC.STT == '.' ? '': cbC.STT}}</span>
                             </span>
                         </span>
                     </p>

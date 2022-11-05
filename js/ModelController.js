@@ -1219,7 +1219,7 @@ angular.module('WebApiApp').controller("ModalKeHoachTDGHandlerController", funct
 
         $http({
             method: 'POST',
-            url: 'api/KeHoachTDG/Save',
+            url: 'api/KeHoachTDG/Save?isTrangThaiChange=false',
             data: $scope.item
         }).then(function successCallback(response) {
             $scope.item = response.data;
@@ -1824,10 +1824,10 @@ angular.module('WebApiApp').controller("ModalDanhGiaTieuChiHandlerController", f
             ['Find', 'Replace'],
             ['Bold', 'Italic', 'Underline', 'Strike'],
             ['Table', 'HorizontalRule', 'SpecialChar'],
-            ["InsertMinhChung", "SetReadOnly"]
+            ["InsertMinhChung","InsertMinhChungAll", "SetReadOnly"]
         ],
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
-        extraPlugins: $rootScope.checkCapTren ? 'set-readonly' : 'insert-minhchung,set-readonly',
+        extraPlugins: $rootScope.checkCapTren ? 'set-readonly' : 'insert-minhchung,insert-minhchung-all,set-readonly',
         readOnly: $rootScope.checkCapTren,
     }
 
@@ -1973,6 +1973,21 @@ angular.module('WebApiApp').controller("ModalInPhieuDanhGiaHandlerController", f
         });
     }();
 
+    $scope.LoadNhomCongTacByTieuChi = function () {
+        $http({
+            method: 'GET',
+            url: 'api/NhomCongTac/GetNhomByTieuChi?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                + '&IdTieuChi=' + $scope.item.tchi.Id
+        }).then(function successCallback(response) {
+            $scope.NhomCongTac = response.data;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+
 });
 
 //In phiếu nội hàm
@@ -1991,7 +2006,19 @@ angular.module('WebApiApp').controller("ModalInPhieuNoiHamHandlerController", fu
     }
     catch { }
 
-    console.log($scope.item)
+    $scope.LoadNhomCongTacByTieuChi = function () {
+        $http({
+            method: 'GET',
+            url: 'api/NhomCongTac/GetNhomByTieuChi?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+                + '&IdTieuChi=' + $scope.item.TieuChi.Id
+        }).then(function successCallback(response) {
+            $scope.NhomCongTac = response.data;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
 });
 
 //In kế hoạch tự đánh giá
@@ -2052,6 +2079,32 @@ angular.module('WebApiApp').controller("ModalInKeHoachTDGHandlerController", fun
         });
     }();
 
+    $scope.LoadTemplate = function () {
+        setTimeout(function () {
+
+            if (!$scope.item.MucDich)
+                $scope.item.MucDich = $('#TemplateMucDich').html();
+            if (!$scope.item.PhamVi)
+                $scope.item.PhamVi = $('#TemplatePhamVi').html();
+            if (!$scope.item.CongCu)
+                $scope.item.CongCu = $('#TemplateCongCu').html();
+            if (!$scope.item.TapHuanNghiepVu)
+                $scope.item.TapHuanNghiepVu = $('#TemplateTapHuanNghiepVu').html();
+            if (!$scope.item.ThueChuyenGia)
+                $scope.item.ThueChuyenGia = $('#TemplateThueChuyenGia').html();
+            if (!$scope.item.ThoiGianHoatDong)
+                $scope.item.ThoiGianHoatDong = $('#TemplateThoiGianHoatDong').html();
+
+            $scope.item.NguonLuc = $('#TemplateNguonLuc').html();
+            if ($scope.item.IdQuyDinhTC == $scope.IdQuyDinhDB && $scope.NguonLucDB)
+                $scope.item.NguonLuc = $scope.NguonLucDB
+
+            $scope.$apply();
+
+        }, 500)
+
+    };
+
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
 
         const table = document.getElementById('tableTVNhom');
@@ -2069,8 +2122,70 @@ angular.module('WebApiApp').controller("ModalInKeHoachTDGHandlerController", fun
             }
         }
 
+        $scope.LoadTemplate();
     });
 });
+
+//In quyết định thành lập hội đồng
+angular.module('WebApiApp').controller("ModalInQuyetDinhHoiDongHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+
+    $scope.LoadHoiDong = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/HoiDong/GetAll?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+        }).then(function successCallback(response) {
+
+            $scope.HoiDong = response.data;
+            $scope.ThuKyHD = response.data.filter(x => x.hd.ThuKy);
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+    $scope.ListTVNhom = [];
+
+    $scope.LoadAllThanhVienNhiemVu = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/NhomCongTac/GetAllThanhVienNhiemVu?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+        }).then(function successCallback(response) {
+
+            $scope.ListTVNhom = response.data
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+    $scope.LoadTieuChiCacNhom = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/NhomCongTac/GetTieuChiCacNhom?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachTDG=' + $rootScope.KeHoachTDG.Id
+        }).then(function successCallback(response) {
+
+            $scope.ListTieuChiNhom = response.data
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+});
+
 
 //Generate link báo cáo
 angular.module('WebApiApp').controller("ModalGenerateLinkBaoCaoHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {

@@ -60,7 +60,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
 
         [HttpPost]
         [Route("api/KeHoachTDG/Save")]
-        public IHttpActionResult Save([FromBody] tblKeHoachTDG data)
+        public IHttpActionResult Save([FromBody] tblKeHoachTDG data, bool? isTrangThaiChange)
         {
 
             Validate(data);
@@ -80,7 +80,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
             }
             else
             {
-                if(data.TrangThai == "DTH")
+                if(data.TrangThai == "DTH" && isTrangThaiChange == true)
                     CloneDataForDonVi(data);
 
                 db.Entry(data).State = EntityState.Modified;
