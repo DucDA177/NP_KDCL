@@ -154,6 +154,8 @@ namespace WebApiCore.Models
         public virtual DbSet<DMTieuChi> DMTieuChis { get; set; }
         public virtual DbSet<tblDanhGiaTieuChi> tblDanhGiaTieuChis { get; set; }
         public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
+        public virtual DbSet<tblHoiDongDGN> tblHoiDongDGNs { get; set; }
+        public virtual DbSet<tblKeHoachDGN> tblKeHoachDGNs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

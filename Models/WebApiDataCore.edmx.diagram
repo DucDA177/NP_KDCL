@@ -34,6 +34,8 @@
         <EntityTypeShape EntityType="WebApiDataModel.DMTieuChi" Width="1.5" PointX="19.375" PointY="5.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblDanhGiaTieuChi" Width="1.5" PointX="0.75" PointY="13.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachTDG" Width="1.5" PointX="3.375" PointY="17.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblHoiDongDGN" Width="1.5" PointX="5.375" PointY="19.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachDGN" Width="1.5" PointX="7.375" PointY="19.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

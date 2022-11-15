@@ -447,6 +447,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HubStore\UserActivityHub.cs" />
     <Compile Include="Controllers\KeHoachTDG\HoiDongController.cs" />
+    <Compile Include="Controllers\KeHoachTDG\KeHoachDGNController.cs" />
     <Compile Include="Controllers\KeHoachTDG\KeHoachTDGController.cs" />
     <Compile Include="Controllers\KeHoachTDG\NhomCongTacController.cs" />
     <Compile Include="Controllers\MainMenusController.cs" />
@@ -621,6 +622,12 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblHoiDong.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblHoiDongDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblKeHoachDGN.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblKeHoachTDG.cs">
