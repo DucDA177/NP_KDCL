@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApiCore.Models;
 
-namespace WebApiCore.Controllers.KeHoachTDG
+namespace WebApiCore.Controllers.KeHoachDGN
 {
     public class KeHoachDGNController : ApiController
     {
