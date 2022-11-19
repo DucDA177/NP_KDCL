@@ -61,7 +61,11 @@
                                 <a ng-if="dm.TrangThai == 'DTH'" tooltip title="Tạm dừng" ng-click="DoiTrangThai(dm,'CTH')"><i class="font-red fa fa-stop"></i></a>
                             </td>
                             <td><a tooltip ng-click="openModal(dm,'KeHoachTDG')" title="Sửa"><i class="fa fa-edit"></i></a></td>
-                            <td><a ng-hide="dm.TrangThai == 'DTH'" tooltip ng-click="Del(dm)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
+                            <td>
+                                <a ng-hide="dm.TrangThai == 'DTH'" tooltip ng-click="Del(dm)" title="Xóa"><i class="fa fa-trash font-red"></i></a>
+                                <a tooltip ng-click="ChuyenKeHoachTDG(dm,'CHUYEN')" title="Chuyển kế hoạch"><i class="fa fa-share "></i></a>
+                                <a tooltip ng-click="ChuyenKeHoachTDG(dm,'THUHOI')" title="Thu hồi kế hoạch"><i class="fa fa-refresh "></i></a>
+                            </td>
 
                         </tr>
 

@@ -33,6 +33,7 @@ namespace WebApiCore.Models
         public string BangDanhMuc { get; set; }
         public string ThoiGianHoatDong { get; set; }
         public string GhiChu { get; set; }
+        public Nullable<bool> ChuyenKeHoach { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
