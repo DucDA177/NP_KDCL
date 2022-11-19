@@ -45,12 +45,12 @@
             item = response.data;
             toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
             $rootScope.LoadKeHoachTDG();
-          
+
         }, function errorCallback(response) {
             toastr.error('Có lỗi trong quá trình lưu dữ liệu !', 'Thông báo');
         });
     }
-    
+
     $rootScope.LoadKeHoachTDG = function () {
 
         $http({
@@ -66,4 +66,35 @@
     }
 
     $rootScope.LoadKeHoachTDG();
+
+
+
+    $scope.ChuyenKeHoachTDG = function (KeHoach, TypeCapNhat) {
+        if (TypeCapNhat == "CHUYEN") {
+            if (!confirm("Bạn có chắc chắn hoàn thành kế hoạch và chuyển cho sở?")) {
+                return;
+            }
+            KeHoach.ChuyenKeHoach = true;
+        }
+        if (TypeCapNhat == "THUHOI") {
+            if (!confirm("Bạn có chắc chắn muốn thu hồi kế hoạch?")) {
+                return;
+            }
+            KeHoach.ChuyenKeHoach = false;
+        }
+        $http({
+            method: 'POST',
+            url: 'api/KeHoachTDG/Save?isTrangThaiChange=false',
+            data: KeHoach
+        }).then(function successCallback(response) {
+            toastr.success('Cập nhật thành công !', 'Thông báo');
+            $rootScope.LoadKeHoachTDG();
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            if ($scope.itemError.ModelState)
+                toastr.error('Có lỗi xảy ra trong quá trình cập nhật !', 'Thông báo');
+            else
+                toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
+        });
+    }
 }]);
