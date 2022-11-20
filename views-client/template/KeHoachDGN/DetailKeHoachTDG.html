@@ -14,12 +14,19 @@
     <div class="modal-title">
         <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
 
-        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin kế hoạch tự đánh giá</label></h4>
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Thông tin kế hoạch tự đánh giá {{item.DonViName}}</label></h4>
 
     </div>
 </div>
-<div class="modal-body form" ng-init="config.readOnly=!CheckView(item,'EDIT')">
+<div class="modal-body form">
     <div class="form-body form-horizontal margin-top-10">
+        <div class="row text-center uppercase">
+            <h3>{{item.DonViName}} </h3>
+            <!--<div style="display:flex;flex-direction:row ;align-items:center;justify-content:center">
+
+                <h3> Năm</h3> <div class="col-md-2"><input class="form-control" ng-model="item.Nam" /></div>
+            </div>-->
+        </div>
         <div class="row margin-bottom-5">
             <div class="col-md-12">
                 <div class="tabbable-custom portlet box">
@@ -76,7 +83,7 @@
                                             <div class="{{itemError.ModelState.NoiDung[1]}}">
                                                 <label class="control-label col-md-2">Nội dung<span style="color:red">*</span>:</label>
                                                 <div class="col-md-4">
-                                                    <input ng-disabled="!CheckView(item,'EDIT')" id="NoiDung" type="text" class="form-control input-sm" ng-model="item.NoiDung">
+                                                    <input disabled id="NoiDung" type="text" class="form-control input-sm" ng-model="item.NoiDung">
                                                 </div>
 
                                             </div>
@@ -84,9 +91,9 @@
                                             <div class="{{itemError.ModelState.NamHoc[1]}}">
                                                 <label class="control-label col-md-2">Giai đoạn<span style="color:red">*</span>:</label>
                                                 <div class="col-md-4" style="display:inline-flex">
-                                                    <input ng-disabled="!CheckView(item,'EDIT')" id="NamHocBD" type="number" class="form-control input-sm" ng-model="item.NamHocBD">
+                                                    <input disabled id="NamHocBD" type="number" class="form-control input-sm" ng-model="item.NamHocBD">
                                                     -
-                                                    <input ng-disabled="!CheckView(item,'EDIT')" id="NamHocKT" type="number" class="form-control input-sm" ng-model="item.NamHocKT">
+                                                    <input disabled id="NamHocKT" type="number" class="form-control input-sm" ng-model="item.NamHocKT">
                                                 </div>
                                             </div>
 
@@ -95,7 +102,7 @@
                                             <div class="{{itemError.ModelState.NgayBD[1]}}">
                                                 <label class="control-label col-md-2">Ngày bắt đầu<span style="color:red">*</span>:</label>
                                                 <div class="col-md-4">
-                                                    <input ng-disabled="!CheckView(item,'EDIT')" type="text"
+                                                    <input disabled type="text"
                                                            placeholder="dd/MM/yyyy"
                                                            datetime="dd/MM/yyyy"
                                                            class="form-control input-sm"
@@ -107,7 +114,7 @@
                                             <div class="{{itemError.ModelState.NgayKT[1]}}">
                                                 <label class="control-label col-md-2">Ngày kết thúc<span style="color:red">*</span>:</label>
                                                 <div class="col-md-4">
-                                                    <input ng-disabled="!CheckView(item,'EDIT')" type="text"
+                                                    <input disabled type="text"
                                                            placeholder="dd/MM/yyyy"
                                                            datetime="dd/MM/yyyy"
                                                            class="form-control input-sm"
@@ -122,7 +129,7 @@
                                             <div class="{{itemError.ModelState.IdQuyDinhTC[1]}}">
                                                 <label class="control-label col-md-2">Quy định về tiêu chuẩn đánh giá<span style="color:red">*</span>:</label>
                                                 <div class="col-md-4">
-                                                    <select ng-disabled="!CheckView(item,'EDIT')" ng-model="item.IdQuyDinhTC" class="form-control input-sm select2"
+                                                    <select disabled ng-model="item.IdQuyDinhTC" class="form-control input-sm select2"
                                                             convert-to-number ng-change="LoadListTCTC()">
                                                         <option ng-repeat="nl in QuyDinh" value={{nl.Id}}>{{nl.Ten}}</option>
                                                     </select>
@@ -131,7 +138,7 @@
                                             </div>
                                             <label class="control-label col-md-2">Ghi chú:</label>
                                             <div class="col-md-4">
-                                                <input ng-disabled="!CheckView(item,'EDIT')" type="text" class="form-control input-sm" ng-model="item.GhiChu">
+                                                <input disabled type="text" class="form-control input-sm" ng-model="item.GhiChu">
                                             </div>
                                         </div>
 
@@ -146,13 +153,14 @@
                             <div class="row">
                                 <div class="portlet light " style="margin-bottom:0">
                                     <div class="form-body form-horizontal">
+                                        <!--<div class="row" ng-init="config.readOnly = true">-->
                                         <div class="row">
 
                                             <ng-ckeditor ng-model="item.MucDich"
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +175,7 @@
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -182,7 +190,7 @@
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                       
+
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +205,7 @@
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +220,7 @@
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +235,7 @@
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +251,7 @@
                                                          ng-config="config"></ng-ckeditor>
 
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -253,22 +261,20 @@
             </div>
         </div>
 
-        <div class="form-group " 
-             
+        <div class="form-group "
              style="position: sticky;bottom: 10px;z-index:500;background-color:white">
-            <label class="control-label col-md-2">Hiển thị:</label>
-            <div class="col-md-1">
-                <input type="checkbox" ng-disabled="!CheckView(item,'EDIT')" class="input-sm" ng-model="item.FInUse">
-            </div>
+            <div class="col-md-3"></div>
 
             <div class="col-md-4">
-                <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
+                <!--<div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>-->
             </div>
             <div class="col-md-5 clearfix text-right">
-                <a ng-if="CheckView(item,'EDIT')" class="btn btn-sm btn-success btn-outline sbold"
-                   ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
-                <a ng-if="CheckView(item,'EDIT')" class="btn btn-sm btn-success btn-outline sbold"
-                   ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'TAOKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-share"></i>Tạo kế hoạch đánh giá ngoài</a>
+                <a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'VIEWKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Xem kế hoạch đánh giá ngoài"><i class="fa fa-eye"></i>Xem kế hoạch đánh giá ngoài</a>
+
+                <!--<a class="btn btn-sm btn-success btn-outline sbold"
+               ng-click="OpenDetailKeHoachTDG(dm,'KeHoachTDG')"><i class="fa fa-save"></i> Tạo kế hoạch đánh giá ngoài </a>-->
+
                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
             </div>
 

@@ -437,6 +437,7 @@
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\AutoIDsController.cs" />
     <Compile Include="Controllers\BaoCaoController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChiController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChuanController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucChungController.cs" />
@@ -461,6 +462,7 @@
     <Compile Include="Controllers\ThuVienTaiLieuController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Controller\Models\ConfigEntity.cs" />
+    <Compile Include="Controller\Models\FilterModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3022,6 +3024,7 @@
     <Content Include="js\controllers\DanhMuc\DMDonViController.js" />
     <Content Include="js\controllers\DuLieuNhaTruong\DuLieuNhaTruongController.js" />
     <Content Include="js\controllers\GroupController.js" />
+    <Content Include="js\controllers\KeHoachDGN\KeHoachDGNController.js" />
     <Content Include="js\controllers\KeHoachTDG\HoiDongController.js" />
     <Content Include="js\controllers\KeHoachTDG\KeHoachTDGController.js" />
     <Content Include="js\controllers\LoginController.js" />
@@ -3790,6 +3793,9 @@
     <Content Include="views-client\template\EditPassword.html" />
     <Content Include="views-client\template\EditUser.html" />
     <Content Include="views-client\template\Group.html" />
+    <Content Include="views-client\template\KeHoachDGN\DetailKeHoachTDG.html" />
+    <Content Include="views-client\template\KeHoachDGN\KeHoachDGN.html" />
+    <Content Include="views-client\template\KeHoachDGN\ModalKeHoachDGN.html" />
     <Content Include="views-client\template\KeHoachTDG\HoiDong.html" />
     <Content Include="views-client\template\KeHoachTDG\KeHoachTDG.html" />
     <Content Include="views-client\template\MainMenu.html" />
@@ -3862,9 +3868,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="assets\global\plugins\angularjs\plugins\angular-file-upload\uploads\" />
-    <Folder Include="js\controllers\DanhGiaNgoai\" />
     <Folder Include="Uploads\" />
-    <Folder Include="views-client\template\DanhGiaNgoai\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Project_Readme.html" />

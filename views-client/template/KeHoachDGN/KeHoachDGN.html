@@ -1,145 +1,268 @@
 ﻿
-
-<div class="col-md-12">
-    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> LẬP KẾ HOẠCH TỰ ĐÁNH GIÁ </label></h4>
-</div>
-<div class="form-body form-horizontal col-md-12">
-    <div class="form-group ">
-
-        <div class="col-md-4">
-            <a class="btn btn-primary btn-sm" ng-click="openModal('','KeHoachTDG')"><i class="fa fa-plus-circle"></i> Thêm mới</a>
-
-        </div>
-
+<div ng-controller="KeHoachDGNController">
+    <div class="col-md-12">
+        <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> LẬP KẾ HOẠCH ĐÁNH GIÁ NGOÀI </label></h4>
     </div>
-    <br />
+    <div class="form-body form-horizontal ">
+        <div class="tabbable-line ">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a id="KHTDG" data-target="#tab_1" data-toggle="tab" aria-expanded="true" class=" bold">
+                        Kế hoạch tự đánh giá của đơn vị
 
-    <div class="row">
-        <div class="col-md-3">
-            <div class="input-group">
-                <input type="text" ng-model="filterKeHoachTDG.SearchKey"
-                       class="form-control " placeholder="Tìm kiếm theo nội dung kế hoạch...">
-                <div class="input-group-btn">
-                    <a class="btn btn-default " ng-click="onSearchKeHoachTDG()">
-                        <i class="fa fa-search"></i>
                     </a>
+                </li>
+                <li>
+                    <a id="KHDGN" data-target="#tab_2" data-toggle="tab" aria-expanded="true" class=" bold">
+                        Kế hoạch đánh giá ngoài
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                    <div class="row ">
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Đơn vị</span>
+                                <select class="form-control select2 filter-select " ng-model="filterKeHoachTDG.IdTruong" ng-change="onSearchKeHoachTDG()">
+                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input type="text" ng-model="filterKeHoachTDG.SearchKey"
+                                       class="form-control " placeholder="Tìm kiếm theo nội dung kế hoạch...">
+                                <div class="input-group-btn">
+                                    <a class="btn btn-default " ng-click="onSearchKeHoachTDG()">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Năm học từ</span>
+                                <input type="text" ng-model="filterKeHoachTDG.NamTu"
+                                       class="form-control ">
+                                <span class="input-group-addon">Năm học đến</span>
+                                <input type="text" ng-model="filterKeHoachTDG.NamDen"
+                                       class="form-control ">
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row text-center">
+                        <a class="btn btn-primary btn-" ng-click="onSearchKeHoachTDG()"><i class="fa fa-search"></i> Tìm</a>
+                        <a class="btn btn-default btn-" ng-click="onCancelKeHoachTDG()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-scrollable ">
+                                <!-- BEGIN FORM-->
+                                <table class="table table-striped table-bordered table-hover"
+                                       id="fixTable">
+                                    <thead>
+                                        <tr>
+                                            <!--<th width="1px" align="center"> # </th>-->
+                                            <th width="1px" align="center"> STT </th>
+                                            <th> <div style="text-align:center">Nội dung</div></th>
+                                            <th> <div style="text-align:center">Giai đoạn</div> </th>
+                                            <th> <div style="text-align:center">Ngày bắt đầu</div></th>
+                                            <th> <div style="text-align:center">Ngày kết thúc</div> </th>
+                                            <th> <div style="text-align:center">Trạng thái</div> </th>
+                                            <th width="1px"><div style="text-align:center">#</div>  </th>
+                                            <!--<th width="1px"><div style="text-align:center">#</div>  </th>-->
+                                            <th width="1px"><div style="text-align:center">#</div>  </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd gradeX" ng-repeat="dm in KeHoachTDG">
+                                            <!--<td align="center" width="1px">
+                                                <a tooltip title="Tạo kế hoạch đánh giá ngoài" ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')"><i class="font-green fa fa-play"></i></a>-->
+                                                <!--<input type="checkbox" ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" />-->
+                                            <!--</td>-->
+                                            <td align="center" width="1px"> {{$index + 1}} </td>
+                                            <td>  <a ng-click="OpenDetailKeHoachTDG(dm,'KeHoachTDG')"> {{dm.NoiDung}}</a> </td>
+                                            <td align="center">
+                                                {{dm.NamHocBD}} - {{dm.NamHocKT}}
+                                            </td>
+                                            <td align="center">
+                                                {{dm.NgayBD | date:'dd/MM/yyyy'}}
+                                            </td>
+                                            <td align="center">
+                                                {{dm.NgayKT | date:'dd/MM/yyyy'}}
+                                            </td>
+
+                                            <td align="center">
+                                                <span ng-repeat="tt in TTKeHoachTDG | filter : {Code : dm.TrangThai}"> {{tt.Name}}</span>
+                                            </td>
+                                            <td>
+                                                <a tooltip title="In kế hoạch đánh giá" ng-click="openModal(dm,'InKeHoachTDG')">
+                                                    <i class="fa fa-file-word-o"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a ng-if="CheckView(dm,'TAOKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-share"></i></a>
+                                                <a ng-if="CheckView(dm,'VIEWKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" title="Xem kế hoạch đánh giá ngoài"><i class="fa fa-eye"></i></a>
+                                            </td>
+                                           
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+                <div class="tab-pane " id="tab_2">
+                    <div class="row ">
 
-        </div>
-        <div class="col-md-3">
-            <div class="input-group">
-                <span class="input-group-addon">Năm học từ</span>
-                <input type="text" ng-model="filterKeHoachTDG.NamTu"
-                       class="form-control ">
-                <span class="input-group-addon">Năm học đến</span>
-                <input type="text" ng-model="filterKeHoachTDG.NamDen"
-                       class="form-control ">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Đơn vị</span>
+                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
+                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Kế hoạch năm</span>
+                                <input type="text" ng-model="filterKeHoachDGN.Nam"
+                                       class="form-control ">
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Trạng thái</span>
+                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.TrangThai" ng-change="onSearchKeHoachDGN()">
+                                    <option ng-repeat="tt in TrangThaiKHDGNs" value="{{tt.FCode}}">{{tt.FName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--TrangThaiKHDGNs-->
+                    </div>
+                    <br />
+
+                    <div class="row text-center">
+                        <a class="btn btn-primary btn-" ng-click="onSearchKeHoachDGN()"><i class="fa fa-search"></i> Tìm</a>
+                        <a class="btn btn-default btn-" ng-click="onCancelKeHoachDGN()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-scrollable ">
+                                <!-- BEGIN FORM-->
+                                <table class="table table-striped table-bordered table-hover"
+                                       id="fixTable">
+                                    <thead>
+                                        <tr>
+                                            <th width="1px" align="center"> STT </th>
+                                            <th> <div style="text-align:center">Nội dung</div></th>
+                                            <th> <div style="text-align:center">Năm</div> </th>
+                                            <th> <div style="text-align:center">Trạng thái</div> </th>
+                                            <th width="1px"><div style="text-align:center">#</div>  </th>
+                                            <th width="1px"><div style="text-align:center">#</div>  </th>
+                                            <th width="1px"><div style="text-align:center">#</div>  </th>
+                                            <th width="1px"><div style="text-align:center">#</div> </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd gradeX" ng-repeat="dm in KeHoachDGN">
+                                            <td align="center" width="1px"> {{$index + 1}} </td>
+                                            <td>  <a ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')"> {{dm.NoiDung}}</a> </td>
+                                            <td align="center">
+                                                {{dm.Nam}}
+                                            </td>
+                                            <td align="center">
+                                                <span ng-repeat="tt in TrangThaiKHDGNs | filter : {FCode : dm.TrangThai}"> {{tt.FName}}</span>
+                                            </td>
+                                            <td>
+                                                <a tooltip title="In kế hoạch đánh giá" ng-click="openModal(dm,'InKeHoachTDG')">
+                                                    <i class="fa fa-file-word-o"></i>
+                                                </a>
+                                            </td>
+                                            <td nowrap>
+                                                <a ng-if="CheckView(dm,'BATDAUKHDGN')" tooltip title="Tiến hành kế hoạch" ng-click="UpdateTrangThaiKH(dm,'BATDAU')"><i class="font-green fa fa-play"></i></a>
+                                                <a ng-if="CheckView(dm,'TAMDUNGKHDGN')" tooltip title="Dừng kế hoạch" ng-click="UpdateTrangThaiKH(dm,'TAMDUNG')"><i class="font-red fa fa-stop"></i></a>&nbsp;
+                                                <a ng-if="CheckView(dm,'HOANTHANHKHDGN')" tooltip title="Hoàn thành kế hoạch" ng-click="UpdateTrangThaiKH(dm,'HOANTHANH')"><i class="font-green fa fa-check-circle"></i></a>
+                                            </td>
+                                            <td><a ng-if="CheckView(dm,'EDITKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                                            <td>
+                                                <a ng-if="CheckView(dm,'EDITKHDGN')" tooltip ng-click="Del(dm)" title="Xóa kế hoạch"><i class="fa fa-trash font-red "></i></a>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="input-group">
-                <span class="input-group-addon">Chuyển kế hoạch</span>
-                <select class="form-control " ng-model="filterKeHoachTDG.ChuyenKeHoach" ng-change="onSearchKeHoachTDG()">
-                    <option value="true">Đã chuyển</option>
-                    <option value="false">Chưa chuyển</option>
-                </select>
-            </div>
-        </div>
+
+        <br />
     </div>
-    <br />
-    <div class="row text-center">
-        <a class="btn btn-primary btn-" ng-click="onSearchKeHoachTDG()"><i class="fa fa-search"></i> Tìm</a>
-        <a class="btn btn-default btn-" ng-click="onCancelKeHoachTDG()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
-    </div>
-    <br />
-    <div class="form-group">
-        <div class="col-md-12">
-            <div class="table-scrollable ">
-                <!-- BEGIN FORM-->
-                <table class="table table-striped table-bordered table-hover"
-                       id="fixTable">
-                    <thead>
-                        <tr>
-                            <th width="1px" align="center"> STT </th>
-                            <th> <div style="text-align:center">Nội dung</div></th>
-                            <th> <div style="text-align:center">Giai đoạn</div> </th>
-                            <th> <div style="text-align:center">Ngày bắt đầu</div></th>
-                            <th> <div style="text-align:center">Ngày kết thúc</div> </th>
-                            <th> <div style="text-align:center">Trạng thái</div> </th>
-                            <th> <div style="text-align:center">Chuyển kế hoạch</div> </th>
-                            <th width="1px"><div style="text-align:center">#</div>  </th>
-                            <th width="1px"><div style="text-align:center">#</div>  </th>
-                            <th width="1px"><div style="text-align:center">#</div>  </th>
-                            <th width="1px"><div style="text-align:center">#</div> </th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="odd gradeX" ng-repeat="dm in KeHoachTDG">
-                            <td align="center" width="1px"> {{$index + 1}} </td>
-                            <td>  <a ng-click="openModal(dm,'KeHoachTDG')"> {{dm.NoiDung}}</a> </td>
-                            <td align="center">
-                                {{dm.NamHocBD}} - {{dm.NamHocKT}}
-                            </td>
-                            <td align="center">
-                                {{dm.NgayBD | date:'dd/MM/yyyy'}}
-                            </td>
-                            <td align="center">
-                                {{dm.NgayKT | date:'dd/MM/yyyy'}}
-                            </td>
 
-                            <td align="center">
-                                <span ng-repeat="tt in TTKeHoachTDG | filter : {Code : dm.TrangThai}"> {{tt.Name}}</span>
-                            </td>
-                            <td align="center">
-                                <span ng-if="dm.ChuyenKeHoach">Đã chuyển kế hoạch cho sở</span>
-                                <span ng-if="!dm.ChuyenKeHoach">Chưa chuyển kế hoạch cho sở</span>
-                            </td>
-                            <td>
-                                <a  tooltip title="In kế hoạch đánh giá" ng-click="openModal(dm,'InKeHoachTDG')">
-                                    <i class="fa fa-file-word-o"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <a ng-if="dm.TrangThai == 'CTH'" tooltip title="Tiến hành" ng-click="DoiTrangThai(dm,'DTH')"><i class="font-green fa fa-play"></i></a>
-                                <a ng-if="dm.TrangThai == 'DTH'" tooltip title="Tạm dừng" ng-click="DoiTrangThai(dm,'CTH')"><i class="font-red fa fa-stop"></i></a>
-                            </td>
-                            <td><a ng-if="CheckView(dm,'EDIT')" tooltip ng-click="openModal(dm,'KeHoachTDG')" title="Sửa"><i class="fa fa-edit"></i></a></td>
-                            <td>
-                                <a ng-if="CheckView(dm,'DELETE')" tooltip ng-click="Del(dm)" title="Xóa"><i class="fa fa-trash font-red"></i></a>
-                                <a ng-if="CheckView(dm,'CHUYEN')" tooltip ng-click="UpdateTrangThaiKH(dm,'CHUYEN')" title="Chuyển kế hoạch"><i class="fa fa-share "></i></a>
-                                <a ng-if="CheckView(dm,'THUHOI')" tooltip ng-click="UpdateTrangThaiKH(dm,'THUHOI')" title="Thu hồi kế hoạch"><i class="fa fa-refresh "></i></a>
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
 </div>
 
 <div hidden id="TemplateMucDich">
-    1. Xác định cơ sở giáo dục phổ thông đáp ứng mục tiêu giáo dục trong từng giai đoạn;
-    lập kế hoạch cải tiến chất lượng, duy trì và nâng cao chất lượng các hoạt động của
-    nhà trường; thông báo công khai với các cơ quan quản lý nhà nước và xã hội về thực trạng
-    chất lượng của nhà trường; để cơ quan quản lý nhà nước đánh giá, công nhận
-    hoặc không công nhận cơ sở giáo dục phổ thông đạt kiểm định chất lượng giáo dục. <br />
-    2. Khuyến khích đầu tư và huy động các nguồn lực cho giáo dục, góp phần tạo điều kiện
-    đảm bảo cho nhà trường không ngừng nâng cao chất lượng, hiệu quả giáo dục; để cơ quan
-    quản lý nhà nước đánh giá, công nhận hoặc không công nhận cơ sở giáo dục phổ thông đạt
-    chuẩn quốc gia. <br />
-    3. Các mục đích cụ thể khác (nếu có).
+    1. Xác định các mức đạt được tiêu chuẩn đánh giá của nhà trường. <br />
+    2. Tư vấn, khuyến nghị các biện pháp bảo đảm và nâng cao chất lượng giáo dục đối với nhà trường. <br />
+    3. Đề nghị công nhận hoặc không công nhận nhà trường đạt kiểm định chất lượng giáo dục và đạt chuẩn quốc gia.
 </div>
 
-<div hidden id="TemplatePhamVi">
-    <i>1. Đối với các trường tiểu học</i> <br />
-    Nhà trường triển khai hoạt động TĐG được quy định tại Thông tư số 17/2018/TT-BGDĐT. <br />
-    <i>2. Đối với các trường THCS, THPT và trường phổ thông có nhiều cấp học</i><br />
-    Nhà trường triển khai hoạt động TĐG được quy định tại Thông tư số 18/2018/TT-BGDĐT.
+<div hidden id="TemplateNoiDung">
+    <table class="table table-scrollable table-striped" style="width:100%">
+        <tbody>
+            <tr>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Thời gian<br /> (Ngày, tháng, năm)</b>
+                </td>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Nội dung</b>
+                </td>
+                <td style="vertical-align:middle; text-align:center">
+                    <b>Người thục hiện</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 </div>
 
