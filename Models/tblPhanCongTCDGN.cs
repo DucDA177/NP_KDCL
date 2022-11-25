@@ -12,20 +12,11 @@ namespace WebApiCore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblHoiDongDGN
+    public partial class tblPhanCongTCDGN
     {
         public int Id { get; set; }
-        public int STT { get; set; }
-        public int IdDonVi { get; set; }
-        public int IdKeHoachDGN { get; set; }
-        public string Username { get; set; }
-        public string HoVaTen { get; set; }
-        public Nullable<int> IdChucVu { get; set; }
-        public Nullable<bool> VietBCSoBo { get; set; }
-        public Nullable<int> IdNhiemVuDGN { get; set; }
-        public string ChuKy { get; set; }
-        public Nullable<bool> ThuKy { get; set; }
-        public string GhiChu { get; set; }
+        public int IdHoiDongDGN { get; set; }
+        public Nullable<int> IdTieuChi { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }

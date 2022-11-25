@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebApiCore</RootNamespace>
     <AssemblyName>WebApiCore</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44316</IISExpressSSLPort>
@@ -450,6 +450,7 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HubStore\UserActivityHub.cs" />
+    <Compile Include="Controllers\KeHoachDGN\HoiDongDGNController.cs" />
     <Compile Include="Controllers\KeHoachDGN\KeHoachDGNController.cs" />
     <Compile Include="Controllers\KeHoachTDG\HoiDongController.cs" />
     <Compile Include="Controllers\KeHoachTDG\KeHoachTDGController.cs" />
@@ -574,6 +575,9 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblPhanCongTC.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPhanCongTCDGN.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblThanhVienNhom.cs">
@@ -3039,6 +3043,7 @@
     <Content Include="js\controllers\DanhMuc\DMDonViController.js" />
     <Content Include="js\controllers\DuLieuNhaTruong\DuLieuNhaTruongController.js" />
     <Content Include="js\controllers\GroupController.js" />
+    <Content Include="js\controllers\KeHoachDGN\HoiDongDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\KeHoachDGNController.js" />
     <Content Include="js\controllers\KeHoachTDG\HoiDongController.js" />
     <Content Include="js\controllers\KeHoachTDG\KeHoachTDGController.js" />
@@ -3815,6 +3820,7 @@
     <Content Include="views-client\template\EditUser.html" />
     <Content Include="views-client\template\Group.html" />
     <Content Include="views-client\template\KeHoachDGN\DetailKeHoachTDG.html" />
+    <Content Include="views-client\template\KeHoachDGN\HoiDongDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\KeHoachDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\ModalKeHoachDGN.html" />
     <Content Include="views-client\template\KeHoachTDG\HoiDong.html" />
