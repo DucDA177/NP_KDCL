@@ -92,16 +92,14 @@ namespace WebApiCore.Controllers.KeHoachDGN
         {
             var dt = db.tblHoiDongDGNs.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
             db.tblHoiDongDGNs.Remove(dt);
-            //if (dt != null)
-            //{
-            //    var dataTC = db.tblPhanCongTCs.Where(
-            //    t => t.IdDonVi == dt.IdDonVi
-            //    && t.IdKeHoachTDG == dt.IdKeHoachTDG
-            //    && t.Username == dt.Username
-            //    );
-            //    if (dataTC.Any())
-            //        db.tblPhanCongTCs.RemoveRange(dataTC);
-            //}
+            if (dt != null)
+            {
+                var dataTC = db.tblPhanCongTCDGNs.Where(
+                t => t.IdHoiDongDGN == Id
+                );
+                if (dataTC.Any())
+                    db.tblPhanCongTCDGNs.RemoveRange(dataTC);
+            }
 
             db.SaveChanges();
             return Ok(dt);
