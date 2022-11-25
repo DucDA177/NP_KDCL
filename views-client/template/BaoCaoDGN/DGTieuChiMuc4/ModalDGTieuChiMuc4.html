@@ -1,0 +1,294 @@
+﻿<style>
+    .text-multi-line {
+        overflow-y: scroll;
+        max-height: 100px;
+        white-space: pre;
+        background-color: antiquewhite
+    }
+
+    .modal-dialog {
+        width: 90%
+    }
+</style>
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Thông tin báo cáo sơ bộ</label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="portlet-body form-body ">
+
+        <div class="row text-center uppercase">
+            <h3>Báo cáo sơ bộ</h3>
+            <span>Theo {{item.KeHoachDGNName}}</span>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 ">
+
+                <div class="form-group ">
+                    <label class="control-label  bold">Người viết: </label>
+
+                    <input readonly type="text" class="form-control input-sm"
+                           ng-model="item.NguoiNhapName">
+
+                </div>
+            </div>
+            <div class="col-md-3 ">
+
+                <div class="form-group ">
+                    <label class="control-label  bold">Đơn vị: </label>
+
+                    <input readonly type="text" class="form-control input-sm"
+                           ng-model="item.DonViNguoiNhapName">
+
+                </div>
+            </div>
+            <div class="col-md-3 ">
+
+                <div class="form-group  {{itemError.DienThoai.class}}">
+                    <label class="control-label  bold">Điện thoại: </label>
+
+                    <input type="text" class="form-control input-sm"
+                           ng-model="item.DienThoai">
+
+                </div>
+                <span class="help-block  {{itemError.DienThoai.class}}"> {{itemError.DienThoai.err}} </span>
+            </div>
+            <div class="col-md-3 ">
+
+                <div class="form-group  {{itemError.Email.class}}">
+                    <label class="control-label  bold">Email: </label>
+
+                    <input type="text" class="form-control input-sm"
+                           ng-model="item.Email">
+
+                </div>
+                <span class="help-block  {{itemError.Email.class}}"> {{itemError.Email.err}} </span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-12 ">
+                <div class="form-group  ">
+                    <label class="control-label  bold">Trường được đánh giá ngoài: </label>
+                    <input readonly type="text" class="form-control input-sm"
+                           ng-model="item.DonViName">
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <label class="control-label  bold">Tiêu chuẩn: </label>
+                <select class="form-control input-sm" ng-change="OnChangeTieuChuan(item.IdTieuChuan)" ng-model="item.IdTieuChuan">
+                    <option ng-repeat="x in TieuChuans" value="{{x.Id}}">{{x.NoiDung}}</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label  bold">Tiêu chí: </label>
+                <select class="form-control input-sm"  ng-model="item.IdTieuChi">
+                    <option ng-repeat="x in TieuChis" value="{{x.Id}}">{{x.NoiDung}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="tabbable-custom portlet box margin-top-10">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <ul class="nav nav-tabs tabs-left">
+                                <li class="active">
+                                    <a data-target="#tab_1" data-toggle="tab" aria-expanded="true">
+                                        1. Nhận xét về hình thức trình bày
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
+                                        2. Nhận xét về nội dung
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
+                                        3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
+                                        4. Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_1">
+                                    <div class="row">
+                                        <div class="portlet light">
+                                            <div class="text-center">
+                                                <h3>Nhận xét về hình thức trình bày</h3>
+                                            </div>
+                                            <div class="form-body form-horizontal col-md-12">
+                                                <div>
+                                                    <ng-ckeditor ng-model="item.NhanXetHinhThuc"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane fade" id="tab_2">
+                                    <div class="row">
+                                        <div class="portlet light ">
+                                            <div class="text-center">
+                                                <h3>Nhận xét về nội dung</h3>
+                                            </div>
+                                            <div class="form-body form-horizontal col-md-12">
+                                                <div>
+                                                    <ng-ckeditor ng-model="item.NhanXetNoiDung"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab_3">
+                                    <div class="row">
+                                        <div class="portlet light ">
+                                            <div class="text-center">
+                                                <h3>Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</h3>
+                                            </div>
+                                            <div class="form-body form-horizontal col-md-12">
+                                                <div>
+                                                    <ng-ckeditor ng-model="item.TieuChiChuaDanhGia"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="tab_4">
+                                    <div class="row">
+                                        <div class="portlet light ">
+                                            <div class="text-center">
+                                                <h3>Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</h3>
+                                            </div>
+                                            <div class="form-body form-horizontal col-md-12">
+                                                <div>
+                                                    <ng-ckeditor ng-model="item.DeXuat"
+                                                                 ng-config="config"></ng-ckeditor>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row "
+             style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12">
+                <div class="col-md-3"></div>
+
+                <div class="col-md-4">
+                    <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
+                </div>
+                <div class="col-md-5 clearfix text-right">
+                    <a class="btn btn-sm btn-success btn-outline sbold"
+                       ng-click="exportBaoCao('PrintDiv','Phiếu đánh giá tiêu chí.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold"
+                       ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
+                    <a class="btn btn-sm green  sbold" title="Hoàn thành" ng-click="SaveModal('HOANTHANH')"><i class=" fa fa-check-circle">&nbsp;Hoàn thành</i></a>
+
+                    <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div hidden class="row" id="PrintDiv">
+
+    <div class="col-md-12">
+        <table>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <center><h4> Báo cáo sơ bộ</h4></center>
+    </div>
+    <div class="col-md-12">
+        <p>Người viết: {{item.NguoiNhapName}}</p>
+        <p>Đơn vị công tác: {{item.DonViNguoiNhapName}}</p>
+        <p>Điện thoại: {{item.DienThoai}}&nbsp;Email: {{item.Email}}</p>
+        <p>Trường được đánh giá ngoài: {{item.DonViName}}</p>
+    </div>
+
+    <div class="col-md-12">
+        <h5><b>1. Nhận xét về hình thức trình bày</b></h5>
+    </div>
+    <div class="col-md-12">
+        <div ng-bind-html="item.NhanXetHinhThuc"></div>
+    </div>
+
+    <div class="col-md-12">
+        <h5><b>2. Nhận xét về nội dung</b></h5>
+    </div>
+    <div class="col-md-12">
+        <div ng-bind-html="item.NhanXetNoiDung"></div>
+    </div>
+
+    <div class="col-md-12">
+        <h5><b>3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</b></h5>
+    </div>
+    <div class="col-md-12">
+        <div ng-bind-html="item.TieuChiChuaDanhGia"></div>
+    </div>
+
+    <div class="col-md-12">
+        <h5><b>4. Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</b></h5>
+    </div>
+    <div class="col-md-12">
+        <div ng-bind-html="item.DeXuat"></div>
+    </div>
+    <br />
+    <br />
+    <div class="col-md-12">
+        <table width="100%">
+            <tr>
+                <td align="center" class="td-no-border"></td>
+                <td align="center" class="td-no-border"><i>......., ngày...... tháng ....... năm ........</i></td>
+            </tr>
+            <tr>
+                <td align="center" width="40%" class="td-no-border">
+                    <!--<b>Xác nhận</b><br /><b>của trưởng nhóm công tác</b>-->
+                </td>
+                <td align="center" width="60%" class="td-no-border">
+                    <b>Người viết</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>
