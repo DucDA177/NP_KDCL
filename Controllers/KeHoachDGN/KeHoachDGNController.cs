@@ -4,8 +4,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using WebApiCore.Models;
+using static WebApiCore.Controllers.DanhMuc.DanhMucTieuChuanController;
 
 namespace WebApiCore.Controllers.KeHoachDGN
 {
@@ -115,6 +117,36 @@ namespace WebApiCore.Controllers.KeHoachDGN
             db.SaveChanges();
             return Ok(dt);
 
+        }
+        //[AllowAnonymous]
+        [HttpGet]
+        [Route("api/KeHoachDGN/GetTCTC")]
+        public IHttpActionResult GetTCTC(int IdKeHoach,string type)
+        {
+            int? IdKeHoachTDG = IdKeHoach;
+            if (type == "KHDGN")
+            {
+                var KH_DGN = db.tblKeHoachDGNs.Find(IdKeHoach);
+                IdKeHoachTDG = KH_DGN.IdKeHoachTDG;
+            }
+           
+            var KH_TDG = db.tblKeHoachTDGs.Find(IdKeHoachTDG);
+            var DonVi = db.DMDonVis.FirstOrDefault(s => s.Id == KH_TDG.IdDonVi);
+            if (KH_TDG.IdQuyDinhTC != null)
+            {
+                var listTCTC = from tchuan in db.DMTieuChuans
+                               join tchi in db.DMTieuChis on tchuan.Id equals tchi.IdTieuChuan
+                               where tchuan.IdQuyDinh == KH_TDG.IdQuyDinhTC && tchuan.NhomLoai.Contains(DonVi.NhomLoai) && tchuan.YCDanhGia==true
+                               select new { tchi, tchuan };
+                var result = listTCTC.OrderBy(s => s.tchuan.STT).ToList().GroupBy(t => t.tchuan)
+                    .Select(t => new
+                    {
+                        tchuan = t.FirstOrDefault()?.tchuan,
+                        tchi = t.Select(x => x.tchi)
+                    }).ToList();
+                return Ok(result);
+            }
+            return Ok();
         }
         [HttpPost]
         [Route("api/KeHoachDGN/Save")]

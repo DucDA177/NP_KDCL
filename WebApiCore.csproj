@@ -437,6 +437,9 @@
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\AutoIDsController.cs" />
     <Compile Include="Controllers\BaoCaoController.cs" />
+    <Compile Include="Controllers\BaoCaoDGN\DanhGiaTieuChiKHDGNController.cs" />
+    <Compile Include="Controllers\BaoCaoDGN\DanhGiaTCMuc4Controller.cs" />
+    <Compile Include="Controllers\BaoCaoDGN\BaoCaoSoBoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChiController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChuanController.cs" />
@@ -528,7 +531,16 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PagingList.cs" />
+    <Compile Include="Models\tblBaoCaoSoBoDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblDanhGiaTieuChi.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblDanhGiaTieuChiMuc4_KHDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblDanhGiaTieuChi_KHDGN.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblDanhmuc.cs">
@@ -3013,6 +3025,9 @@
     <Content Include="js\ckeditor.js" />
     <Content Include="js\controllers\AccountController.js" />
     <Content Include="js\controllers\AreasController.js" />
+    <Content Include="js\controllers\BaoCaoDGN\BaoCaoDanhGiaChiTieuController.js" />
+    <Content Include="js\controllers\BaoCaoDGN\DanhGiaTieuChiMuc4Controller.js" />
+    <Content Include="js\controllers\BaoCaoDGN\BaoCaoSoBoController.js" />
     <Content Include="js\controllers\BaoCao\BaoCaoTDGController.js" />
     <Content Include="js\controllers\BaoCao\ThongKeMinhChungController.js" />
     <Content Include="js\controllers\BaoCao\TongHopKQDGController.js" />
@@ -3776,6 +3791,12 @@
     <Content Include="views-client\dashboard.html" />
     <Content Include="views-client\profile\account.html" />
     <Content Include="views-client\template\Areas.html" />
+    <Content Include="views-client\template\BaoCaoDGN\DGChiTieu\DGChiTieu.html" />
+    <Content Include="views-client\template\BaoCaoDGN\DGChiTieu\ModalDGChiTieu.html" />
+    <Content Include="views-client\template\BaoCaoDGN\BaoCaoSoBo\BaoCaoSoBo.html" />
+    <Content Include="views-client\template\BaoCaoDGN\BaoCaoSoBo\ModalBCSoBo.html" />
+    <Content Include="views-client\template\BaoCaoDGN\DGTieuChiMuc4\DanhGiaTieuChiMuc4.html" />
+    <Content Include="views-client\template\BaoCaoDGN\DGTieuChiMuc4\ModalDGTieuChiMuc4.html" />
     <Content Include="views-client\template\BaoCao\BaoCaoTDG.html" />
     <Content Include="views-client\template\BaoCao\ThongKeMinhChung.html" />
     <Content Include="views-client\template\BaoCao\TongHopKQDG.html" />

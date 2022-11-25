@@ -41,7 +41,10 @@ namespace WebApiCore.Models
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<NhatKySuDung> NhatKySuDungs { get; set; }
+        public virtual DbSet<tblBaoCaoSoBoDGN> tblBaoCaoSoBoDGNs { get; set; }
         public virtual DbSet<tblDanhGiaTieuChi> tblDanhGiaTieuChis { get; set; }
+        public virtual DbSet<tblDanhGiaTieuChi_KHDGN> tblDanhGiaTieuChi_KHDGN { get; set; }
+        public virtual DbSet<tblDanhGiaTieuChiMuc4_KHDGN> tblDanhGiaTieuChiMuc4_KHDGN { get; set; }
         public virtual DbSet<tblDanhmuc> tblDanhmucs { get; set; }
         public virtual DbSet<tblDuLieuNhaTruong> tblDuLieuNhaTruongs { get; set; }
         public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }

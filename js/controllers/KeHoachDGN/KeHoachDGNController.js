@@ -251,7 +251,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
             if ($scope.item.IdKeHoachDGN == null) {
                 $scope.itemKHTDG = $scope.item;
                 $scope.item = {}
-                $scope.item.NoiDung = "Kế hoạch làm việc của đoàn đánh giá ngoài trường" + $scope.itemKHTDG.DonViName;
+                $scope.item.NoiDung = "Kế hoạch làm việc của đoàn đánh giá ngoài " + $scope.itemKHTDG.DonViName;
                 $scope.item.KeHoachTDGName = $scope.itemKHTDG.KeHoachTDGName;
                 $scope.item.DonViName = $scope.itemKHTDG.DonViName;
                 $scope.item.IdTruong = $scope.itemKHTDG.IdDonVi;
