@@ -67,32 +67,15 @@ namespace WebApiCore.Controllers
                                        IdKeHoachDGN = khdgn.Id,
                                        IdTieuChi = bc.IdTieuChi,
                                        IdTieuChuan = tchi.IdTieuChuan,
-                                       CapTrenDuyet = bc.CapTrenDuyet,
                                        DiemManh = bc.DiemManh,
                                        DiemYeu = bc.DiemYeu,
-                                       GoiYA = bc.GoiYA,
-                                       GoiYB = bc.GoiYA,
-                                       GoiYC = bc.GoiYC,
                                        KeHoachCaiTien = bc.KeHoachCaiTien,
                                        KQChiBao = bc.KQChiBao,
                                        KQDatA = bc.KQDatA,
                                        KQDatB = bc.KQDatB,
                                        KQDatC = bc.KQDatC,
                                        KQDatMuc = bc.KQDatMuc,
-                                       MinhChungA = bc.MinhChungA,
-                                       MinhChungB = bc.MinhChungB,
-                                       MinhChungC = bc.MinhChungC,
-                                       MoTaA = bc.MoTaA,
-                                       MoTaB = bc.MoTaB,
-                                       MoTaC = bc.MoTaC,
-                                       Nhom = bc.Nhom,
-                                       NoiHam = bc.NoiHam,
-                                       YeuCauA = bc.YeuCauA,
-                                       YeuCauB = bc.YeuCauC,
-                                       YeuCauC = bc.YeuCauC,
-                                       YKienCapTrenDG = bc.YKienCapTrenDG,
-                                       YKienCapTrenKHCT = bc.YKienCapTrenKHCT,
-                                       YKienLanhDao = bc.YKienLanhDao,
+                                      NoiDungCanBoSung=bc.NoiDungCanBoSung,
                                        CreatedAt = bc.CreatedAt,
                                        CreatedBy = bc.CreatedBy,
                                        UpdatedAt = bc.UpdatedAt,
@@ -178,32 +161,106 @@ namespace WebApiCore.Controllers
                                 IdKeHoachDGN = khdgn.Id,
                                 IdTieuChi = bc.IdTieuChi,
                                 IdTieuChuan = tchi.IdTieuChuan,
-                                CapTrenDuyet = bc.CapTrenDuyet,
                                 DiemManh = bc.DiemManh,
                                 DiemYeu = bc.DiemYeu,
-                                GoiYA = bc.GoiYA,
-                                GoiYB = bc.GoiYA,
-                                GoiYC = bc.GoiYC,
                                 KeHoachCaiTien = bc.KeHoachCaiTien,
                                 KQChiBao = bc.KQChiBao,
                                 KQDatA = bc.KQDatA,
                                 KQDatB = bc.KQDatB,
                                 KQDatC = bc.KQDatC,
                                 KQDatMuc = bc.KQDatMuc,
-                                MinhChungA = bc.MinhChungA,
-                                MinhChungB = bc.MinhChungB,
-                                MinhChungC = bc.MinhChungC,
-                                MoTaA = bc.MoTaA,
-                                MoTaB = bc.MoTaB,
-                                MoTaC = bc.MoTaC,
-                                Nhom = bc.Nhom,
-                                NoiHam = bc.NoiHam,
-                                YeuCauA = bc.YeuCauA,
-                                YeuCauB = bc.YeuCauC,
-                                YeuCauC = bc.YeuCauC,
-                                YKienCapTrenDG = bc.YKienCapTrenDG,
-                                YKienCapTrenKHCT = bc.YKienCapTrenKHCT,
-                                YKienLanhDao = bc.YKienLanhDao,
+                                NoiDungCanBoSung = bc.NoiDungCanBoSung,
+                                CreatedAt = bc.CreatedAt,
+                                CreatedBy = bc.CreatedBy,
+                                UpdatedAt = bc.UpdatedAt,
+                                UpdatedBy = bc.UpdatedBy,
+                                FInUse = bc.FInUse,
+                                DonViName = dv.TenDonVi,
+                                KeHoachTDGName = khtdg.NoiDung,
+                                NguoiNhapName = us.HoTen,
+                                DonViNguoiNhapName = dvUs.TenDonVi
+                            }
+                                   ).FirstOrDefault();
+                if (data == null)
+                {
+                    var UserNhap = (from u in db.UserProfiles
+                                    join dv in db.DMDonVis on u.IDDonVi equals dv.Id
+                                    where u.UserName == HttpContext.Current.User.Identity.Name
+                                    select new { u, dv }
+                                  ).FirstOrDefault();
+                    var KeHoachDGN = (from kh in db.tblKeHoachDGNs
+                                      join dv in db.DMDonVis on kh.IdTruong equals dv.Id
+                                      where kh.Id == IdKeHoach
+                                      select new { kh, dv }
+                                  ).FirstOrDefault();
+                    if (UserNhap != null)
+                    {
+                        var BaoCao = new BaoCaoDGTieuChiModel()
+                        {
+                            IdDonVi = (int)UserNhap.u.IDDonVi,
+                            NguoiNhapName = UserNhap.u.HoTen,
+                            DonViNguoiNhapName = UserNhap.dv.TenDonVi,
+                            CreatedBy = HttpContext.Current.User.Identity.Name,
+                            IdKeHoachDGN = IdKeHoach,
+                            KeHoachDGNName = KeHoachDGN.kh.NoiDung,
+                            DonViName = KeHoachDGN.dv.TenDonVi,
+                            Email = UserNhap.u.Email,
+                            DienThoai = UserNhap.u.Mobile,
+                            TrangThai = Commons.Constants.DANG_SOAN,
+                            IdTieuChi = IdTieuChi,
+                            IdTieuChuan = IdTieuChuan,
+                        };
+                        return Ok(BaoCao);
+                    }
+                }
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                Commons.Common.WriteLogToTextFile(ex.ToString());
+                return null;
+            }
+
+        }
+       [HttpGet]
+        [Route("GetTDGByIdKeHoach")]
+        public IHttpActionResult GetTDGByIdKeHoach(int IdKeHoach, int IdTieuChuan, int IdTieuChi)
+        {
+            try
+            {
+                var data = (from bc in db.tblDanhGiaTieuChi_KHDGN
+                            //join 
+                            join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
+                            join us in db.UserProfiles on bc.CreatedBy equals us.UserName
+                            join dvUs in db.DMDonVis on bc.IdDonVi equals dvUs.Id
+                            join dv in db.DMDonVis on khdgn.IdTruong equals dv.Id
+                            join khtdg in db.tblKeHoachTDGs on khdgn.IdKeHoachTDG equals khtdg.Id into tmpKHTDG
+                            from khtdg in tmpKHTDG.DefaultIfEmpty()
+                            join tchi in db.DMTieuChis on bc.IdTieuChi equals tchi.Id
+                            where khdgn.FInUse == true && bc.CreatedBy==HttpContext.Current.User.Identity.Name && khdgn.Id == IdKeHoach && tchi.IdTieuChuan == IdTieuChuan && bc.IdTieuChi == IdTieuChi
+                            select
+                            new BaoCaoDGTieuChiModel
+                            {
+                                Id = bc.Id,
+                                STT = bc.STT,
+                                IdDonVi = bc.IdDonVi,
+                                KeHoachDGNName = khdgn.NoiDung,
+                                TrangThai = bc.TrangThai,
+                                GhiChu = bc.GhiChu,
+                                DienThoai = us.Mobile,
+                                Email = us.Email,
+                                IdKeHoachDGN = khdgn.Id,
+                                IdTieuChi = bc.IdTieuChi,
+                                IdTieuChuan = tchi.IdTieuChuan,
+                                DiemManh = bc.DiemManh,
+                                DiemYeu = bc.DiemYeu,
+                                KeHoachCaiTien = bc.KeHoachCaiTien,
+                                KQChiBao = bc.KQChiBao,
+                                KQDatA = bc.KQDatA,
+                                KQDatB = bc.KQDatB,
+                                KQDatC = bc.KQDatC,
+                                KQDatMuc = bc.KQDatMuc,
+                                NoiDungCanBoSung = bc.NoiDungCanBoSung,
                                 CreatedAt = bc.CreatedAt,
                                 CreatedBy = bc.CreatedBy,
                                 UpdatedAt = bc.UpdatedAt,

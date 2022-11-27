@@ -55,6 +55,7 @@ namespace WebApiCore.Models
         public virtual DbSet<tblNhomCongTac> tblNhomCongTacs { get; set; }
         public virtual DbSet<tblPhanCongMinhChung> tblPhanCongMinhChungs { get; set; }
         public virtual DbSet<tblPhanCongTC> tblPhanCongTCs { get; set; }
+        public virtual DbSet<tblPhanCongTCDGN> tblPhanCongTCDGNs { get; set; }
         public virtual DbSet<tblThanhVienNhom> tblThanhVienNhoms { get; set; }
         public virtual DbSet<tblThuVienTaiLieu> tblThuVienTaiLieux { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }

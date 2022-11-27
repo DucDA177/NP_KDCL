@@ -9,433 +9,298 @@
     <div class="col-md-12">
         <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> LẬP ĐÁNH GIÁ TIÊU CHÍ </label></h4>
     </div>
+    <br />
     <div class="portlet  " style="margin-bottom:0">
-        <div class="portlet-body form">
-            <div class="form-body form-horizontal ">
-                <div class="tabbable-line ">
-                    <ul class="nav nav-tabs ">
-                        <li>
-                            <a id="KHDGN" data-target="#tab_1" data-toggle="tab" class=" bold">
-                                Kế hoạch đánh giá ngoài
-                            </a>
-                        </li>
 
-                        <li class="active">
-                            <a id="DGCT" data-target="#tab_2" data-toggle="tab" class=" bold">
-                                Đánh giá tiêu chí
-                            </a>
-                        </li>
+        <div class="portlet-body  form">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row ">
 
-                    </ul>
-                    <div class="tab-content">
-                        <div class="portlet-body  form">
-                            <!--<div class="tab-pane " id="tab_1">
-                                <div class="row ">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Đơn vị</span>
+                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
+                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                                </select>
+                            </div>
+                        </div>
 
-                                    <div class="col-md-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Đơn vị</span>
-                                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
-                                                <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
-                                            </select>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Kế hoạch </span>
+                                <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC();onChangeKeHoach(filterTCTC.IdKeHoach)">
+                                    <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tiêu chuẩn</span>
+                                <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChuan" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChuan,'TIEUCHUAN')">
+                                    <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">Tiêu chí</span>
+                                <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI');onSearchKeHoachDGN()">
+                                    <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+           
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="portlet light bordered">
+                        <div class="portlet-title">
+                            <div class="caption caption-md text-center">
+                                <!--<i class="icon-user font-green"></i>-->
+                                <span class="caption-subject font-green bold uppercase"> Đánh giá tiêu chí</span>
+                            </div>
+
+
+                        </div>
+                        <div ng-if="filterPhieuDG.IdTieuChi!=null" class="portlet-body form">
+                            <!--<div class="row">
+                                <div class="col-md-12">
+                                    <span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span><br />
+                                    <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span><br />
+                                    <div ng-if="ObjTieuChi.listChiBaoA.length>0">
+                                        <span>Mức 1:</span><br />
+                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                        </div>
+
+                                    </div>
+                                    <div ng-if="ObjTieuChi.listChiBaoB.length>0">
+                                        <span>Mức 2:</span><br />
+                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
+                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-md-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Kế hoạch năm</span>
-                                            <input type="text" ng-model="filterKeHoachDGN.Nam"
-                                                   class="form-control input-sm">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group">
-                                            <span class="input-group-addon">Trạng thái</span>
-                                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.TrangThai" ng-change="onSearchKeHoachDGN()">
-                                                <option ng-repeat="tt in TrangThaiKHDGNs" value="{{tt.FCode}}">{{tt.FName}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-
-                                <div class="row text-center">
-                                    <a class="btn btn-primary btn-" ng-click="onSearchKeHoachDGN()"><i class="fa fa-search"></i> Tìm</a>
-                                    <a class="btn btn-default btn-" ng-click="onCancelKeHoachDGN()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="table-scrollable ">
-                                            <table class="table table-striped table-bordered table-hover"
-                                                   id="fixTable">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="1px" align="center"> STT </th>
-                                                        <th> <div style="text-align:center">Nội dung</div></th>
-                                                        <th> <div style="text-align:center">Năm</div> </th>
-                                                        <th width="1px"><div style="text-align:center">#</div>  </th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="odd gradeX" ng-repeat="dm in KeHoachDGN">
-                                                        <td align="center" width="1px"> {{$index + 1}} </td>
-                                                        <td>  <a ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')"> {{dm.NoiDung}}</a> </td>
-                                                        <td align="center">
-                                                            {{dm.Nam}}
-                                                        </td>
-
-                                                        <td nowrap>
-                                                            <a tooltip title="Viết báo cáo sơ bộ" ng-click="OpenModalBaoCaoSoBo(dm,'BATDAU')"><i class="font-green fa fa-pencil"></i></a>
-                                                        </td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
+                                    <div ng-if="ObjTieuChi.listChiBaoC.length>0">
+                                        <span>Mức 3:</span><br />
+                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
+                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
+                            <hr />-->
 
-                            <div class="tab-pane active" id="tab_3">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="portlet light bordered">
-                                            <div class="portlet-title">
-                                                <div class="caption caption-md text-center">
-                                                    <!--<i class="icon-user font-green"></i>-->
-                                                    <span class="caption-subject font-green bold uppercase"> Đánh giá chỉ tiêu</span>
-                                                </div>
+                            <div class="row ">
+                                <div class="tabbable-custom portlet box margin-top-10">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <ul class="nav nav-tabs tabs-left">
+                                            <li class="active">
+                                                <a data-target="#tab_1" data-toggle="tab" aria-expanded="true">
+                                                    1. Điểm mạnh
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
+                                                    2. Điểm yếu
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
+                                                    3. Kế hoạch cải tiến
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
+                                                    4. Nội dung cần bổ sung
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_5" data-toggle="tab" aria-expanded="true">
+                                                    5. Đánh giá tiêu chi
+                                                </a>
+                                            </li>
 
-
-                                            </div>
-                                            <div class="portlet-body form">
-                                                <!--<div class="row">
-                                                    <div class="col-md-12">
-                                                        <span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span><br />
-                                                        <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span><br />
-                                                        <div ng-if="ObjTieuChi.listChiBaoA.length>0">
-                                                            <span>Mức 1:</span><br />
-                                                            <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
-                                                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                                                            </div>
-
-                                                        </div>
-                                                        <div ng-if="ObjTieuChi.listChiBaoB.length>0">
-                                                            <span>Mức 2:</span><br />
-                                                            <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
-                                                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div ng-if="ObjTieuChi.listChiBaoC.length>0">
-                                                            <span>Mức 3:</span><br />
-                                                            <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
-                                                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr />-->
-
-                                                <div class="row ">
-                                                    <div class="tabbable-custom portlet box margin-top-10">
-                                                        <div class="col-md-3 col-sm-3 col-xs-3">
-                                                            <ul class="nav nav-tabs tabs-left">
-                                                                <li class="active">
-                                                                    <a data-target="#tab_1" data-toggle="tab" aria-expanded="true">
-                                                                        1. Điểm mạnh
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
-                                                                        2. Điểm yếu
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
-                                                                        3. Kế hoạch cải tiến
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
-                                                                        4. Nội dung cần bổ sung
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a data-target="#tab_5" data-toggle="tab" aria-expanded="true">
-                                                                        5. Đánh giá tiêu chi
-                                                                    </a>
-                                                                </li>
-
-                                                            </ul>
-                                                        </div>
-                                                        <div class="col-md-9 col-sm-9 col-xs-9">
-                                                            <div class="tab-content">
-                                                                <div class="tab-pane active" id="tab_1">
-                                                                    <div class="row">
-                                                                        <div class="portlet light">
-                                                                            <div class="text-center">
-                                                                                <h3>Điểm mạnh</h3>
-                                                                            </div>
-                                                                            <div class="form-body form-horizontal col-md-12">
-                                                                                <div>
-                                                                                    <ng-ckeditor ng-model="item.NhanXetHinhThuc"
-                                                                                                 ng-config="config"></ng-ckeditor>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                </div>
-                                                                <div class="tab-pane fade" id="tab_2">
-                                                                    <div class="row">
-                                                                        <div class="portlet light ">
-                                                                            <div class="text-center">
-                                                                                <h3>Điểm yếu</h3>
-                                                                            </div>
-                                                                            <div class="form-body form-horizontal col-md-12">
-                                                                                <div>
-                                                                                    <ng-ckeditor ng-model="item.NhanXetNoiDung"
-                                                                                                 ng-config="config"></ng-ckeditor>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="tab-pane fade" id="tab_3">
-                                                                    <div class="row">
-                                                                        <div class="portlet light ">
-                                                                            <div class="text-center">
-                                                                                <h3>Kế hoạch cải tiến chất lượng</h3>
-                                                                            </div>
-                                                                            <div class="form-body form-horizontal col-md-12">
-                                                                                <div>
-                                                                                    <ng-ckeditor ng-model="item.TieuChiChuaDanhGia"
-                                                                                                 ng-config="config"></ng-ckeditor>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="tab-pane fade" id="tab_4">
-                                                                    <div class="row">
-                                                                        <div class="portlet light ">
-                                                                            <div class="text-center">
-                                                                                <h3>Kế hoạch cải tiến chất lượng</h3>
-                                                                            </div>
-                                                                            <div class="form-body form-horizontal col-md-12">
-                                                                                <div>
-                                                                                    <ng-ckeditor ng-model="item.TieuChiChuaDanhGia"
-                                                                                                 ng-config="config"></ng-ckeditor>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="tab-pane fade" id="tab_5">
-                                                                    <div class="row">
-                                                                        <div class="portlet light ">
-                                                                            <div class="text-center">
-                                                                                <h3>Đánh giá tiêu chí</h3>
-                                                                            </div>
-                                                                            <div class="form-body form-horizontal col-md-12">
-                                                                                <div ng-if="item.KQChiBao!=null">
-
-                                                                                </div>
-                                                                                <div ng-if="item.KQChiBao==null">
-                                                                                    <table cellspacing="0" class="Table" style="border-collapse:collapse; border:none; width:612px">
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td colspan="2" style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:214px">
-                                                                                                    <p style="text-align:center">Mức 1</p>
-                                                                                                </td>
-                                                                                                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:207px">
-                                                                                                    <p style="text-align:center">Mức 2</p>
-                                                                                                </td>
-                                                                                                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:1px solid black; vertical-align:top; width:191px">
-                                                                                                    <p style="text-align:center">Mức 3</p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:92px">
-                                                                                                    <p style="text-align:center">Chỉ b&aacute;o</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:122px">
-                                                                                                    <p style="text-align:center">Đạt/</p>
-
-                                                                                                    <p style="text-align:center">&nbsp;Kh&ocirc;ng đạt</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
-                                                                                                    <p style="text-align:center">Chỉ b&aacute;o</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:114px">
-                                                                                                    <p style="text-align:center">Đạt/</p>
-
-                                                                                                    <p style="text-align:center">Kh&ocirc;ng đạt</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:94px">
-                                                                                                    <p style="text-align:center">Chỉ b&aacute;o</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:97px">
-                                                                                                    <p style="text-align:center">Đạt/</p>
-
-                                                                                                    <p style="text-align:center">Kh&ocirc;ng đạt</p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:92px">
-                                                                                                    <p style="text-align:center">a</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:122px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
-                                                                                                    <p style="text-align:center">*</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:114px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:94px">
-                                                                                                    <p style="text-align:center">*</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:97px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:92px">
-                                                                                                    <p style="text-align:center">b</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:122px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:114px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:94px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:97px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:92px">
-                                                                                                    <p style="text-align:center">c</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:122px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:93px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:114px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:94px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                                <td style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:97px">
-                                                                                                    <p style="text-align:center">-</p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td colspan="2" style="border-bottom:1px solid black; border-left:1px solid black; border-right:1px solid black; border-top:none; vertical-align:top; width:214px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:207px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                                <td colspan="2" style="border-bottom:1px solid black; border-left:none; border-right:1px solid black; border-top:none; vertical-align:top; width:191px">
-                                                                                                    <p style="text-align:center">Đạt</p>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
+                                        </ul>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="portlet light bordered">
-                                            <div class="portlet-title">
-                                                <div class="caption caption-md text-center">
-                                                    <span class="caption-subject font-green bold uppercase"> Phiếu tự đánh giá</span>
-                                                </div>
-
-                                            </div>
-                                            <div class="portlet-body form">
-                                                <div class="row ">
-
-                                                    <div class="col-md-6">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">Đơn vị</span>
-                                                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
-                                                                <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">Kế hoạch </span>
-                                                            <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="LoadTCTC()">
-                                                                <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br />
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab_1">
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">Tiêu chuẩn</span>
-                                                            <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChuan" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChuan,'TIEUCHUAN')">
-                                                                <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                                            </select>
+                                                    <div class="portlet light">
+                                                        <div class="text-center">
+                                                            <h3>Điểm mạnh</h3>
+                                                        </div>
+                                                        <div class="form-body form-horizontal col-md-12">
+                                                            <div>
+                                                                <ng-ckeditor ng-model="item.DiemManh"
+                                                                             ng-config="config"></ng-ckeditor>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">Tiêu chí</span>
-                                                            <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI');onSearchKeHoachDGN()">
-                                                                <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                </div>
 
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_2">
+                                                <div class="row">
+                                                    <div class="portlet light ">
+                                                        <div class="text-center">
+                                                            <h3>Điểm yếu</h3>
+                                                        </div>
+                                                        <div class="form-body form-horizontal col-md-12">
+                                                            <div>
+                                                                <ng-ckeditor ng-model="item.DiemYeu"
+                                                                             ng-config="config"></ng-ckeditor>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="tab-pane fade" id="tab_3">
+                                                <div class="row">
+                                                    <div class="portlet light ">
+                                                        <div class="text-center">
+                                                            <h3>Kế hoạch cải tiến chất lượng</h3>
+                                                        </div>
+                                                        <div class="form-body form-horizontal col-md-12">
+                                                            <div>
+                                                                <ng-ckeditor ng-model="item.KeHoachCaiTien"
+                                                                             ng-config="config"></ng-ckeditor>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_4">
+                                                <div class="row">
+                                                    <div class="portlet light ">
+                                                        <div class="text-center">
+                                                            <h3>Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung chứng minh</h3>
+                                                        </div>
+                                                        <div class="form-body form-horizontal col-md-12">
+                                                            <div>
+                                                                <ng-ckeditor ng-model="item.NoiDungCanBoSung"
+                                                                             ng-config="config"></ng-ckeditor>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_5">
+                                                <div class="row">
+                                                    <div class="portlet light ">
+                                                        <div class="text-center">
+                                                            <h3>Đánh giá tiêu chí</h3>
+                                                        </div>
+                                                        <div class="form-body form-horizontal col-md-12">
+                                                            <div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <h3>Tiêu chí đạt mức {{checkKQDatMuc()==0?'Không đạt':checkKQDatMuc()}}</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table class="table table-bordered">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td align="center" colspan="2">Mức 1</td>
+                                                                                    <td align="center" colspan="2">Mức 2</td>
+                                                                                    <td align="center" colspan="2">Mức 3</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center">Chỉ báo</td>
+                                                                                    <td align="center">Đạt/Không đạt</td>
+                                                                                    <td align="center">Chỉ báo</td>
+                                                                                    <td align="center">Đạt/Không đạt</td>
+                                                                                    <td align="center">Chỉ báo</td>
+                                                                                    <td align="center">Đạt/Không đạt</td>
+                                                                                </tr>
+                                                                                <tr ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                                                                    <td align="center">
+                                                                                        <span ng-if="tc.NoiDung!=null"> {{tc.STT==null || tc.STT=='.'?'*':tc.STT}}</span>
+                                                                                        <span ng-if="tc.NoiDung==null">-</span>
+                                                                                    </td>
+                                                                                    <td align="center">
+                                                                                        <input ng-if="tc.NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoA_'+$index]">
+                                                                                    </td>
+                                                                                    <td align="center">
+                                                                                        <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoB[$index].STT==null || ObjTieuChi.listChiBaoB[$index].STT=='.'?'*':ObjTieuChi.listChiBaoB[$index].STT}}</span>
+                                                                                        <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
 
+                                                                                    </td>
+                                                                                    <td align="center">
+                                                                                        <input ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoB_'+$index]">
+                                                                                    </td>
+                                                                                    <td align="center">
+                                                                                        <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoC[$index].STT==null || ObjTieuChi.listChiBaoC[$index].STT=='.'?'*':ObjTieuChi.listChiBaoC[$index].STT}}</span>
+                                                                                        <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
+
+                                                                                    </td>
+                                                                                    <td align="center">
+                                                                                        <input ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoC_'+$index]">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td align="center" colspan="2">
+                                                                                        <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatA">
+                                                                                    </td>
+                                                                                    <td align="center" colspan="2">
+                                                                                        <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatB">
+                                                                                    </td>
+                                                                                    <td align="center" colspan="2">
+                                                                                        <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatC">
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
 
                             </div>
+                            <div ng-if="CheckView(null,'EDIT')" class="row">
+                                <div class="col-md-12">
+                                    <a class="btn btn-sm btn-success btn-outline sbold"
+                                       ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <br />
+                </div>
+                <div class="col-md-6">
+                    <div class="portlet light bordered">
+                        <div class="portlet-title">
+                            <div class="caption caption-md text-center">
+                                <span class="caption-subject font-green bold uppercase"> Phiếu tự đánh giá</span>
+                            </div>
+
+                        </div>
+                        <div class="portlet-body form">
+
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -443,21 +308,5 @@
 
 </div>
 
-<div hidden id="TemplateNhanXetHinhThuc">
-    a) Hình thức trình bày: <br />
-    b) Cấu trúc: <br />
-    c) Chính tả ngữ pháp: <br />
-    d) Các ý kiến khác (nếu có):
-</div>
 
-<div hidden id="TemplateNhanXetNoiDung">
-    a) Cơ sở dữ liệu, đặt vấn đề, kết luận chung và phần Phụ lục:<br />
-    b) Các tiêu chí:<br />
-    - Mô tả hiện trạng<br />
-    - Điểm mạnh<br />
-    - Điểm yếu<br />
-    - Kế hoạch cải tiến chất lượng<br />
-    - Kết quả tự đánh giá<br />
-    c) Việc sử dụng các minh chứng, tính trung thực và đúng, đủ của các minh chứng:<br />
-</div>
 

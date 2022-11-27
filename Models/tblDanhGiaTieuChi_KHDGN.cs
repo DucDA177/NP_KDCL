@@ -19,33 +19,16 @@ namespace WebApiCore.Models
         public int IdDonVi { get; set; }
         public int IdKeHoachDGN { get; set; }
         public Nullable<int> IdTieuChi { get; set; }
-        public string NoiHam { get; set; }
-        public string YeuCauA { get; set; }
-        public string GoiYA { get; set; }
-        public string MoTaA { get; set; }
-        public string MinhChungA { get; set; }
         public Nullable<bool> KQDatA { get; set; }
-        public string YeuCauB { get; set; }
-        public string GoiYB { get; set; }
-        public string MoTaB { get; set; }
-        public string MinhChungB { get; set; }
         public Nullable<bool> KQDatB { get; set; }
-        public string YeuCauC { get; set; }
-        public string GoiYC { get; set; }
-        public string MoTaC { get; set; }
-        public string MinhChungC { get; set; }
         public Nullable<bool> KQDatC { get; set; }
         public string KQChiBao { get; set; }
         public string DiemManh { get; set; }
         public string DiemYeu { get; set; }
-        public string YKienLanhDao { get; set; }
-        public string YKienCapTrenDG { get; set; }
         public Nullable<int> KQDatMuc { get; set; }
-        public Nullable<bool> CapTrenDuyet { get; set; }
         public string KeHoachCaiTien { get; set; }
-        public string YKienCapTrenKHCT { get; set; }
+        public string NoiDungCanBoSung { get; set; }
         public string TrangThai { get; set; }
-        public string Nhom { get; set; }
         public string GhiChu { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
