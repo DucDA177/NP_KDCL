@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApiCore.Models;
+using static WebApiCore.Controllers.UserProfilesController;
 
 namespace WebApiCore.Controllers.KeHoachDGN
 {
@@ -31,38 +32,46 @@ namespace WebApiCore.Controllers.KeHoachDGN
             return Ok(data);
         }
 
+        public class HoiDongDGNRequest
+        {
+            public tblHoiDongDGN hd { get; set; }
+            public List<int> listTC { get; set; }
+        }
         [HttpPost]
         [Route("api/HoiDongDGN/Save")]
-        public IHttpActionResult Save([FromBody] tblHoiDongDGN data)
+        public IHttpActionResult Save([FromBody] HoiDongDGNRequest data)
         {
 
-            Validate(data);
+            Validate(data.hd);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (data.STT == 0)
+            if (data.hd.STT == 0)
             {
-                var dt = db.tblHoiDongDGNs.Where(t => t.FInUse == true && t.IdDonVi == data.IdDonVi
-                && t.IdKeHoachDGN == data.IdKeHoachDGN);
+                var dt = db.tblHoiDongDGNs.Where(t => t.FInUse == true && t.IdDonVi == data.hd.IdDonVi
+                && t.IdKeHoachDGN == data.hd.IdKeHoachDGN);
                 if (dt != null && dt.Count() > 0)
-                    data.STT = dt.Max(t => t.STT) + 1;
-                else data.STT = 1;
+                    data.hd.STT = dt.Max(t => t.STT) + 1;
+                else data.hd.STT = 1;
 
             }
 
-            if (data.Id == 0)
+            if (data.hd.Id == 0)
             {
-                db.tblHoiDongDGNs.Add(data);
+                db.tblHoiDongDGNs.Add(data.hd);
                 db.SaveChanges();
             }
             else
             {
-                db.Entry(data).State = EntityState.Modified;
+                db.Entry(data.hd).State = EntityState.Modified;
                 db.SaveChanges();
 
             }
+
+            SavePhanCongTCDGN(data);
+
             return Ok(data);
 
         }
@@ -85,7 +94,21 @@ namespace WebApiCore.Controllers.KeHoachDGN
             }
             
         }
+        private void SavePhanCongTCDGN(HoiDongDGNRequest data)
+        {
+            var checkExistTC = db.tblPhanCongTCDGNs.Where(x => x.IdHoiDongDGN == data.hd.Id);
+            if (checkExistTC.Any())
+                db.tblPhanCongTCDGNs.RemoveRange(checkExistTC);
+            foreach (var item in data.listTC)
+            {
+                tblPhanCongTCDGN tblPhanCongTCDGN = new tblPhanCongTCDGN();
+                tblPhanCongTCDGN.IdHoiDongDGN = data.hd.Id;
+                tblPhanCongTCDGN.IdTieuChi = item;
+                db.tblPhanCongTCDGNs.Add(tblPhanCongTCDGN);
+            }
+            db.SaveChanges();
 
+        }
         [HttpGet]
         [Route("api/HoiDongDGN/Del")]
         public IHttpActionResult Del(int Id)
@@ -104,6 +127,99 @@ namespace WebApiCore.Controllers.KeHoachDGN
             db.SaveChanges();
             return Ok(dt);
 
+        }
+
+        [HttpGet]
+        [Route("api/HoiDongDGN/LoadTVByUsername")]
+        public IHttpActionResult LoadTVByUsername(string Username, int IdDonVi, int IdKeHoachDGN)
+        {
+            var dt = db.tblHoiDongDGNs
+                .Where(t => t.FInUse == true && t.Username == Username
+                && t.IdDonVi == IdDonVi && t.IdKeHoachDGN == IdKeHoachDGN)
+                .FirstOrDefault();
+           
+            return Ok(dt);
+
+        }
+
+        [HttpGet]
+        [Route("api/HoiDongDGN/LoadTieuChuanTieuChi")]
+        public IHttpActionResult LoadTieuChuanTieuChi(int IdHoiDongDGN, int IdKeHoachDGN)
+        {
+            var result = new List<DSTieuChuanTieuChiClient>();
+            var hdDGN = db.tblHoiDongDGNs.Find(IdHoiDongDGN);
+            var khTDG = (from tdg in db.tblKeHoachTDGs
+                        join dgn in db.tblKeHoachDGNs
+                        on tdg.Id equals dgn.IdKeHoachTDG
+                        select tdg).FirstOrDefault();
+
+            if (khTDG == null)
+                return NotFound();
+
+            var dvTDG = db.DMDonVis.Find(khTDG.IdDonVi);
+
+            var listTieuChiTaken = from pc in db.tblPhanCongTCDGNs
+                                   join hd in db.tblHoiDongDGNs
+                                   on pc.IdHoiDongDGN equals hd.Id
+                                   where hd.IdKeHoachDGN == IdKeHoachDGN
+                                   && pc.IdHoiDongDGN != IdHoiDongDGN
+                                   select pc.IdTieuChi;
+
+            var listTieuChiId = db.tblPhanCongTCDGNs.Where(t =>
+            t.IdHoiDongDGN == IdHoiDongDGN)
+                .Select(t => t.IdTieuChi).ToList();
+
+            var dsTieuChuan = db.DMTieuChuans
+                .Where(x => x.IdQuyDinh == khTDG.IdQuyDinhTC && x.NhomLoai.Contains(dvTDG.NhomLoai))
+                .OrderBy(t => t.ThuTu);
+
+            int index = 1;
+            foreach (var item in dsTieuChuan)
+            {
+                var tchis = db.DMTieuChis.Where(x => x.IdTieuChuan == item.Id).OrderBy(t => t.ThuTu);
+
+                DSTieuChuanTieuChiClient tchuan = new DSTieuChuanTieuChiClient();
+                tchuan.DuLieuCha = true;
+                tchuan.Id = item.Id;
+                tchuan.Index = index;
+                tchuan.LoaiDuLieu = 1;
+                tchuan.NoiDung = item.NoiDung;
+                tchuan.SLTieuChi = tchis.Count();
+                tchuan.ThuTu = item.ThuTu.ToString();
+                index++;
+
+
+                if (!tchis.Any())
+                    continue;
+
+                foreach (var tchi in tchis)
+                {
+                    DSTieuChuanTieuChiClient tc = new DSTieuChuanTieuChiClient();
+                    tc.DuLieuCha = false;
+                    tc.Id = tchi.Id;
+                    tc.IdChiTieuCha = item.Id;
+                    tc.Index = index;
+                    tc.IsCheck = listTieuChiId.Contains(tchi.Id) && !listTieuChiTaken.Contains(tchi.Id);
+                    tc.IsTaken = listTieuChiTaken.Contains(tchi.Id);
+                    tc.LoaiDuLieu = 2;
+                    tc.NoiDung = tchi.NoiDung;
+                    tc.ThuTu = item.ThuTu.ToString() + "." + tchi.ThuTu.ToString();
+
+                    if (tchi.ThuTu == 1)
+                        tc.SLTieuChi = tchuan.SLTieuChi;
+
+                    result.Add(tc);
+                    index++;
+
+                    if (tc.IsCheck)
+                        tchuan.IsCheck = true;
+                }
+
+                result.Add(tchuan);
+
+            }
+
+            return Ok(result.OrderBy(x => x.Index).ThenBy(x => x.LoaiDuLieu).ThenBy(x => x.NoiDung));
         }
     }
 }

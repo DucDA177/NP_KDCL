@@ -1,0 +1,125 @@
+﻿<div ng-init="OnLoad()">
+    <div class="modal-header bg-color" style="background-color:#ccc">
+        <div class="modal-title">
+            <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+            <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin thành viên hội đồng đánh giá ngoài </label></h4>
+
+        </div>
+    </div>
+    <div class="modal-body form">
+        <div class="form-body form-horizontal margin-top-10">
+            <div class="row margin-bottom-5">
+                <div class="{{itemError.ModelState.Username[1]}}">
+                    <label class="control-label col-md-2">Họ và tên<span style="color:red">*</span>: </label>
+                    <div class="col-md-10">
+                        <select ng-model="item.Username" class="form-control input-sm select2" ng-change="LoadThanhVienByUserName()">
+                            <option ng-repeat="nl in ListUsers" value={{nl.UserName}}>{{nl.HoTen}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+
+                <div class="{{itemError.ModelState.IdChucVu[1]}}">
+                    <label class="control-label col-md-2">Chức vụ<span style="color:red">*</span>: </label>
+                    <div class="col-md-4">
+                        <select ng-model="item.IdChucVu" class="form-control input-sm" convert-to-number>
+                            <option ng-repeat="nl in ChucVu" value={{nl.Id}}>{{nl.Ten}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="{{itemError.ModelState.IdNhiemVu[1]}}">
+                    <label class="control-label col-md-2">Nhiệm vụ<span style="color:red">*</span>: </label>
+                    <div class="col-md-4">
+                        <select ng-model="item.IdNhiemVuDGN" class="form-control input-sm" convert-to-number>
+                            <option ng-repeat="nl in NhiemVu" value={{nl.Id}}>{{nl.Ten}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Ghi chú: </label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control input-sm" ng-model="item.GhiChu">
+
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Thuộc nhóm thư ký:</label>
+                <div class="col-md-3">
+                    <input type="checkbox" class="input-sm" ng-model="item.ThuKy">
+                </div>
+                <label class="control-label col-md-3">Viết báo cáo sơ bộ:</label>
+                <div class="col-md-4">
+                    <input type="checkbox" class="input-sm" ng-model="item.VietBCSoBo">
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Phân công tiêu chí:</label>
+                <div class="col-md-10">
+                    <div class="table-scrollable">
+                        <!-- BEGIN FORM-->
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th align="center" width="1px"> # </th>
+                                    <th> Tên nội dung </th>
+                                    <th align="center" width="1px"> <input type="checkbox" ng-model="MenuDrop.Check" ng-change="CheckAll(MenuDrop)" /> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd gradeX" ng-repeat="Menu in MenuDrop">
+
+                                    <td><i class="icon-arrow-right"></i></td>
+                                    <td> <div ng-class="Menu.LoaiDuLieu == 2 ? '':'bold'">{{Menu.LoaiDuLieu == 2 ? " |--" + Menu.NoiDung : Menu.NoiDung }}</div> </td>
+                                    <td><input type="checkbox" 
+                                               ng-disabled="Menu.IsTaken"
+                                               tooltip
+                                               title="{{Menu.IsTaken ? 'Tiêu chí này đã được phân công cho thành viên khác': ''}}"
+                                               ng-model="Menu.IsCheck" 
+                                               ng-change="OnCheck(Menu)" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- END FORM-->
+
+
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row margin-bottom-5">
+                <label class="control-label col-md-2">Hiệu lực:</label>
+                <div class="col-md-4">
+                    <input type="checkbox" class="input-sm" ng-model="item.FInUse">
+                </div>
+                <label class="control-label col-md-2">STT:</label>
+                <div class="col-md-4">
+                    <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');" class="form-control input-sm" ng-model="item.STT">
+                </div>
+
+            </div>
+
+            <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+                <div class="col-md-4 text-right">
+                    <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
+                </div>
+                <div class="col-md-8 clearfix text-right">
+                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                    <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    jQuery(document).ready(function () {
+        ComponentsSelect2.init();
+    });
+</script>

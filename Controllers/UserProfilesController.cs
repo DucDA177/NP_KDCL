@@ -545,6 +545,7 @@ namespace WebApiCore.Controllers
             /// Đã được tích phân công hay chưa
             /// </summary>
             public bool IsCheck { get; set; }
+            public bool IsTaken { get; set; }
             public int SLTieuChi { get; set; }
             public string ThuTu { get; set; }
         }

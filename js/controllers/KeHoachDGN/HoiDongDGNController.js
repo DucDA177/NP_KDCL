@@ -57,7 +57,7 @@
 
         $http({
             method: 'GET',
-            url: 'api/HoiDongDGN/GetAll?IdDonVi=' + $scope.filterHoiDongDGN.IdTruong
+            url: 'api/HoiDongDGN/GetAll?IdDonVi=' + $rootScope.CurDonVi.Id
                 + '&IdKeHoachDGN=' + $scope.filterHoiDongDGN.IdKeHoachDGN
         }).then(function successCallback(response) {
 

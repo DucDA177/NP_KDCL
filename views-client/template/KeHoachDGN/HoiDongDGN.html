@@ -13,17 +13,18 @@
                 </select>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="input-group">
                 <span class="input-group-addon">Kế hoạch ĐGN</span>
-                <select class="form-control select2 filter-select " ng-model="filterHoiDongDGN.IdKeHoachDGN" ng-change="LoadHoiDongDGN()">
+                <select class="form-control select2 filter-select " ng-model="filterHoiDongDGN.IdKeHoachDGN"
+                        ng-change="LoadHoiDongDGN()">
                     <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
                 </select>
             </div>
         </div>
-        <div class="col-md-4 text-right" ng-if="filterHoiDongDGN.IdKeHoachDGN">
-            <a class="btn btn-primary input-sm action-btn" ng-click="openModal('','HoiDongDGN')"><i class="fa fa-plus-circle"></i> Thêm mới</a>
-            <a class="btn btn-primary input-sm action-btn" ng-click="openModal('','InQuyetDinhHoiDongDGN')"><i class="fa fa-file-excel-o"></i> Quyết định thành lập hội đồng</a>
+        <div class="col-md-2 text-right" ng-if="filterHoiDongDGN.IdKeHoachDGN">
+            <a class="btn btn-primary btn-sm action-btn" ng-click="openModal('','HoiDongDGN',filterHoiDongDGN)"><i class="fa fa-plus-circle"></i> Thêm mới</a>
+            <!--<a class="btn btn-primary input-sm action-btn" ng-click="openModal('','InQuyetDinhHoiDongDGN')"><i class="fa fa-file-excel-o"></i> Quyết định thành lập hội đồng</a>-->
 
         </div>
 
@@ -51,7 +52,7 @@
                     <tbody>
                         <tr class="odd gradeX" ng-repeat="dm in HoiDongDGN">
                             <td align="center" width="1px"> {{$index + 1}} </td>
-                            <td>  <a ng-click="openModal(dm.hd,'HoiDongDGN')"> {{dm.us.HoTen}}</a> </td>
+                            <td>  <a ng-click="openModal(dm.hd,'HoiDongDGN',filterHoiDongDGN)"> {{dm.us.HoTen}}</a> </td>
                             <td align="center">
                                 {{dm.cv.Ten}}
                             </td>
@@ -65,7 +66,7 @@
                                 <i class="fa fa-check" ng-if="dm.hd.FInUse"></i>
                             </td>
 
-                            <td><a class="action-btn" ng-click="openModal(dm.hd,'HoiDongDGN')" title="Sửa"><i class="fa fa-edit"></i></a></td>
+                            <td><a class="action-btn" ng-click="openModal(dm.hd,'HoiDongDGN',filterHoiDongDGN)" title="Sửa"><i class="fa fa-edit"></i></a></td>
                             <td><a class="action-btn" ng-click="Del(dm.hd)" title="Xóa"><i class="fa fa-trash font-red"></i></a></td>
 
                         </tr>

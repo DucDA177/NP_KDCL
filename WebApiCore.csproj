@@ -3836,6 +3836,7 @@
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
+    <Content Include="views-client\template\Modal\ModalHoiDongDGN.html" />
     <Content Include="views-client\template\Modal\ModalInQuyetDinhHoiDong.html" />
     <Content Include="views-client\template\Modal\ModalInKeHoachTDG.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuDanhGia.html" />
