@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebApiCore</RootNamespace>
     <AssemblyName>WebApiCore</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>44316</IISExpressSSLPort>
@@ -441,6 +441,8 @@
     <Compile Include="Controllers\BaoCaoDGN\DanhGiaTCMuc4Controller.cs" />
     <Compile Include="Controllers\BaoCaoDGN\BaoCaoSoBoController.cs" />
     <Compile Include="Controllers\BaoCaoDGN\BaoCaoDGNController.cs" />
+    <Compile Include="Controllers\BaoCaoDGN\KetQuaNghienCuuDGNController.cs" />
+    <Compile Include="Controllers\BaoCaoDGN\KhaoSatSoBoDGNController.cs" />
     <Compile Include="Controllers\BaoCaoDGN\KQKhaoSatController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DanhMuc\DanhMucTieuChiController.cs" />
@@ -469,6 +471,7 @@
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Controller\Models\ConfigEntity.cs" />
     <Compile Include="Controller\Models\FilterModel.cs" />
+    <Compile Include="Controller\Models\HoiDong.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -568,6 +571,15 @@
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblKetQuaKhaoSat_KHDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblKetQuaNghienCuuDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblKhaoSatSoBoDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblKQNghienCuuTieuChiDGN.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblMinhChung.cs">
@@ -3042,6 +3054,8 @@
     <Content Include="js\controllers\BaoCaoDGN\BaoCaoDanhGiaChiTieuController.js" />
     <Content Include="js\controllers\BaoCaoDGN\DanhGiaTieuChiMuc4Controller.js" />
     <Content Include="js\controllers\BaoCaoDGN\BaoCaoSoBoController.js" />
+    <Content Include="js\controllers\BaoCaoDGN\KetQuaNghienCuuDGNController.js" />
+    <Content Include="js\controllers\BaoCaoDGN\KhaoSatSoBoController.js" />
     <Content Include="js\controllers\BaoCao\BaoCaoTDGController.js" />
     <Content Include="js\controllers\BaoCao\ThongKeMinhChungController.js" />
     <Content Include="js\controllers\BaoCao\TongHopKQDGController.js" />
@@ -3812,8 +3826,10 @@
     <Content Include="views-client\template\BaoCaoDGN\BaoCaoSoBo\ModalBCSoBo.html" />
     <Content Include="views-client\template\BaoCaoDGN\DGTieuChiMuc4\DanhGiaTieuChiMuc4.html" />
     <Content Include="views-client\template\BaoCaoDGN\DGTieuChiMuc4\ModalDGTieuChiMuc4.html" />
+    <Content Include="views-client\template\BaoCaoDGN\KetQuaNghienCuuDGN.html" />
     <Content Include="views-client\template\BaoCaoDGN\KGKhaoSat\KQKhaoSat.html" />
     <Content Include="views-client\template\BaoCaoDGN\BaoCaoDGN.html" />
+    <Content Include="views-client\template\BaoCaoDGN\KhaoSatSoBo.html" />
     <Content Include="views-client\template\BaoCao\BaoCaoTDG.html" />
     <Content Include="views-client\template\BaoCao\ThongKeMinhChung.html" />
     <Content Include="views-client\template\BaoCao\TongHopKQDG.html" />
@@ -3849,6 +3865,7 @@
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
     <Content Include="views-client\template\Modal\ModalHoiDongDGN.html" />
+    <Content Include="views-client\template\Modal\ModalInKhaoSatSoBoDGN.html" />
     <Content Include="views-client\template\Modal\ModalInQuyetDinhHoiDong.html" />
     <Content Include="views-client\template\Modal\ModalInKeHoachTDG.html" />
     <Content Include="views-client\template\Modal\ModalInPhieuDanhGia.html" />

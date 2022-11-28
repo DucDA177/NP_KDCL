@@ -17,18 +17,24 @@ namespace WebApiCore.Controllers.KeHoachTDG
         [AllowAnonymous]
         [HttpGet]
         [Route("api/HoiDong/GetAll")]
-        public IHttpActionResult GetAll(int IdDonVi, int IdKeHoachTDG)
+        public IOrderedQueryable<HoiDongTDG> GetAll(int IdDonVi, int IdKeHoachTDG)
         {
             var data = (from hd in db.tblHoiDongs
-                       join cv in db.tblDanhmucs.Where(t => t.Maloai == "CHUCVU") 
-                       on hd.IdChucVu equals cv.Id
-                       join nv in db.tblDanhmucs.Where(t => t.Maloai == "NHIEMVU")
-                       on hd.IdNhiemVu equals nv.Id
-                       join us in db.UserProfiles 
-                       on hd.Username equals us.UserName
-                       where hd.IdDonVi == IdDonVi && hd.IdKeHoachTDG == IdKeHoachTDG
-                       select new {hd, cv, nv, us}).OrderBy(x => x.hd.STT);
-            return Ok(data);
+                        join cv in db.tblDanhmucs.Where(t => t.Maloai == "CHUCVU")
+                        on hd.IdChucVu equals cv.Id
+                        join nv in db.tblDanhmucs.Where(t => t.Maloai == "NHIEMVU")
+                        on hd.IdNhiemVu equals nv.Id
+                        join us in db.UserProfiles
+                        on hd.Username equals us.UserName
+                        where hd.IdDonVi == IdDonVi && hd.IdKeHoachTDG == IdKeHoachTDG
+                        select new HoiDongTDG
+                        {
+                            hd = hd,
+                            cv = cv,
+                            nv = nv,
+                            us = us
+                        }).OrderBy(x => x.hd.STT);
+            return data;
         }
 
         [HttpPost]
@@ -42,9 +48,9 @@ namespace WebApiCore.Controllers.KeHoachTDG
                 return BadRequest(ModelState);
             }
 
-            if (data.STT == 0 )
+            if (data.STT == 0)
             {
-                var dt = db.tblHoiDongs.Where(t => t.FInUse == true && t.IdDonVi == data.IdDonVi 
+                var dt = db.tblHoiDongs.Where(t => t.FInUse == true && t.IdDonVi == data.IdDonVi
                 && t.IdKeHoachTDG == data.IdKeHoachTDG);
                 if (dt != null && dt.Count() > 0)
                     data.STT = dt.Max(t => t.STT) + 1;
@@ -52,7 +58,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
 
             }
 
-            if ( data.Id == 0)
+            if (data.Id == 0)
             {
                 db.tblHoiDongs.Add(data);
                 db.SaveChanges();
@@ -96,7 +102,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
         {
             var dt = db.tblHoiDongs.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
             db.tblHoiDongs.Remove(dt);
-            if(dt != null)
+            if (dt != null)
             {
                 var dataTC = db.tblPhanCongTCs.Where(
                 t => t.IdDonVi == dt.IdDonVi
@@ -106,7 +112,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
                 if (dataTC.Any())
                     db.tblPhanCongTCs.RemoveRange(dataTC);
             }
-            
+
             db.SaveChanges();
             return Ok(dt);
 

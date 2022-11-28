@@ -9,7 +9,7 @@
             <div class="input-group">
                 <span class="input-group-addon">Đơn vị</span>
                 <select class="form-control select2 filter-select " ng-model="filterHoiDongDGN.IdTruong" ng-change="LoadKeHoachDGN()">
-                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                    <option ng-repeat="dv in DonVis" ng-disabled="dv.LoaiDonVi != 'TRUONG'" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
                 </select>
             </div>
         </div>

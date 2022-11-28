@@ -15,10 +15,9 @@ namespace WebApiCore.Controllers.KeHoachDGN
     {
         private WebApiDataEntities db = new WebApiDataEntities();
 
-        [AllowAnonymous]
         [HttpGet]
         [Route("api/HoiDongDGN/GetAll")]
-        public IHttpActionResult GetAll(int IdDonVi, int IdKeHoachDGN)
+        public IOrderedQueryable<HoiDongDGN> GetAll(int IdDonVi, int IdKeHoachDGN)
         {
             var data = (from hd in db.tblHoiDongDGNs
                         join cv in db.tblDanhmucs.Where(t => t.Maloai == "CHUCVU")
@@ -28,8 +27,12 @@ namespace WebApiCore.Controllers.KeHoachDGN
                         join us in db.UserProfiles
                         on hd.Username equals us.UserName
                         where hd.IdDonVi == IdDonVi && hd.IdKeHoachDGN == IdKeHoachDGN
-                        select new { hd, cv, nv, us }).OrderBy(x => x.hd.STT);
-            return Ok(data);
+                        select new HoiDongDGN 
+                        { 
+                            hd = hd, cv = cv, nv = nv, us  = us 
+                        })
+                        .OrderBy(x => x.hd.STT);
+            return data;
         }
 
         public class HoiDongDGNRequest
