@@ -32,8 +32,13 @@
             $scope.filterPhieuDG = {
                 PhanLoaiDanhGia: 'TIEUCHI'
             }
-            $scope.filterBaoCao = {}
-            $scope.ListPhieuTCTCKHTDG=[]
+            $scope.filterBaoCao = {
+                PhanLoaiDG: 'TIEUCHUAN'
+            }
+            $scope.ListPhieuTCTCKHTDG = []
+        }
+        $scope.filterBaoCao = {
+            PhanLoaiDG: 'TIEUCHUAN'
         }
         //Load hoi dong
         $scope.LoadHoiDongDGN = function (IdKeHoach) {
@@ -45,7 +50,7 @@
             }).then(function successCallback(response) {
 
                 $scope.HoiDongDGN = response.data;
-                
+
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
@@ -98,8 +103,8 @@
                 $scope.TieuChuans = rs.data.map(s => { return s.tchuan })
                 $scope.ListTieuChuanTieuChis = $scope.TieuChuanTieuChis.reduce(function (rs, obj, index) {
                     obj.tchi.map(s => {
-                        if (s.ChiBaoA != null) s.listChiBaoA= JSON.parse(s.ChiBaoA)
-                        if (s.ChiBaoB != null) s.listChiBaoB= JSON.parse(s.ChiBaoB)
+                        if (s.ChiBaoA != null) s.listChiBaoA = JSON.parse(s.ChiBaoA)
+                        if (s.ChiBaoB != null) s.listChiBaoB = JSON.parse(s.ChiBaoB)
                         if (s.ChiBaoC != null) s.listChiBaoC = JSON.parse(s.ChiBaoC)
                         return s;
                     })
@@ -110,7 +115,6 @@
                     rs = rs.concat(obj.tchi)
                     return rs;
                 }, []);
-              //  console.warn('$scope.ListTieuChuanTieuChis',$scope.ListTieuChuanTieuChis)
                 $scope.LoadKQKhaoSat();
                 $scope.LoadBaoCaoDGN();
             })
@@ -158,14 +162,14 @@
         }
         $scope.LoadPhieuDanhGia = function () {
             $scope.ItemPhieu = {}
-            if ($scope.filterPhieuDG.UserName == null  && $scope.filterPhieuDG.PhanLoaiDanhGia == 'SOBO')
+            if ($scope.filterPhieuDG.UserName == null && $scope.filterPhieuDG.PhanLoaiDanhGia == 'SOBO')
                 return;
 
             if (($scope.filterPhieuDG.UserName == null || $scope.filterPhieuDG.IdTieuChi == null) && $scope.filterPhieuDG.PhanLoaiDanhGia == 'TIEUCHI')
                 return;
 
             $scope.filterPhieuDG.IdKeHoach = $scope.ItemKeHoachDGN.Id
-           
+
             let api = ''
             if ($scope.filterPhieuDG.PhanLoaiDanhGia == 'TIEUCHI') {
                 api = 'api/DanhGiaTieuChiKHDGN/Filter'
@@ -259,6 +263,14 @@
                             Object.assign(s, objTieuChi)
                     })
                 }
+                if ($scope.item.DanhGiaTieuChuan != null) {
+                    let DanhGiaTieuChuanObj = JSON.parse($scope.item.DanhGiaTieuChuan)
+                    $scope.TieuChuans.map(s => {
+                        let objTieuChuan = DanhGiaTieuChuanObj.find(x => x.IdTieuChiuan == s.Id)
+                        if (objTieuChuan != null && s.objTieuChuan != null)
+                            Object.assign(s, objTieuChuan)
+                    })
+                }
             }, function errorCallback(response) {
                 toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
             });
@@ -323,8 +335,21 @@
                 return rs;
             }, []);
         }
+        $scope.InitSaveDanhGiaTieuChuan = function () {
+            return $scope.TieuChuans.reduce(function (rs, obj, index) {
+                let o = {
+                    IdTieuChuan: obj.Id,
+                    DiemManhCoBan: obj.DiemManhCoBan,
+                    DiemYeuCoBan: obj.DiemYeuCoBan,
+                    KienNghi: obj.KienNghi,
+                }
+                rs.push(o)
+                return rs;
+            }, []);
+        }
         $scope.SaveModal = function () {
             $scope.item.DanhGiaTieuChi = JSON.stringify($scope.InitSaveDanhGiaTieuChi())
+            $scope.item.DanhGiaTieuChuan = JSON.stringify($scope.InitSaveDanhGiaTieuChuan())
             $http({
                 method: 'POST',
                 url: 'api/BaoCaoDGN/Save',
@@ -359,12 +384,19 @@
 
         $scope.ReturnObjFromId = function (array, id, propFrom, propTo) {
             if (array == null)
-                return propTo!=null?'':{}
+                return propTo != null ? '' : {}
             let rs = array.find(s => s[propFrom] == id)
             if (rs == null)
                 return propTo != null ? '' : {}
-            
+
             return propTo != null ? rs[propTo] : rs;
+        }
+        $scope.CheckTieuChiThuTuCuoi = function ( IdTieuChuan, IdTieuChi) {
+
+            let rs = $scope.ListTieuChuanTieuChis.filter(s => s.IdTieuChuan == IdTieuChuan).sort((a, b) => {return b.ThuTu-a.ThuTu })
+            if (rs == null)
+                return false
+            return rs[0].Id == IdTieuChi
         }
 
         $scope.romanize = function (num) {
