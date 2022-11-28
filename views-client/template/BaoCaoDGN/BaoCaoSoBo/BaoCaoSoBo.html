@@ -10,102 +10,309 @@
         <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> LẬP BÁO CÁO SƠ BỘ </label></h4>
     </div>
     <div class="form-body form-horizontal ">
-        <div class="tabbable-line ">
-            <ul class="nav nav-tabs ">
-                <li class="active">
-                    <a id="KHDGN" data-target="#tab_1" data-toggle="tab" aria-expanded="true" class=" bold">
-                        Kế hoạch đánh giá ngoài
-                    </a>
-                </li>
-
-            </ul>
-            <div class="tab-content">
-                <div class="portlet-body light form">
-                    <div class="tab-pane active" id="tab_1">
-                        <div class="row ">
-
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Đơn vị</span>
-                                    <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
-                                        <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
-                                    </select>
+        <div class="portlet-body light form">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption caption-md text-center">
+                                    <span class="caption-subject font-green bold uppercase"> Kế hoạch đánh già ngoài</span>
                                 </div>
                             </div>
+                            <div class="portlet-body form">
+
+                                <div class="row ">
+
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Đơn vị</span>
+                                            <select class="form-control select2 filter-select input-sm " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
+                                                <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
+                                                    {{dv.TenDonVi}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
 
 
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Kế hoạch năm</span>
-                                    <input type="text" ng-model="filterKeHoachDGN.Nam"
-                                           class="form-control ">
+                                    <div class="col-md-5">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Năm</span>
+                                            <input type="text" ng-model="filterKeHoachDGN.Nam" ng-change="onSearchKeHoachDGN()"
+                                                   ng-model-options="{updateOn:'change'}"
+                                                   class="form-control input-sm">
+                                            <div class="input-group-btn ">
+                                                <a class="btn btn-default input-sm" ng-click="onSearchKeHoachDGN()">
+                                                    <i class="fa fa-search"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Trạng thái</span>
+                                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.TrangThai" ng-change="onSearchKeHoachDGN()">
+                                                <option ng-repeat="tt in TrangThaiKHDGNs" value="{{tt.FCode}}">{{tt.FName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>-->
+                                    <!--TrangThaiKHDGNs-->
+                                </div>
+                                <br />
 
+                                <!--<div class="row text-center">
+                                    <a class="btn btn-primary btn-" ng-click="onSearchKeHoachDGN()"><i class="fa fa-search"></i> Tìm</a>
+                                    <a class="btn btn-default btn-" ng-click="onCancelKeHoachDGN()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
+                                </div>
+                                <br />-->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-scrollable ">
+                                            <!-- BEGIN FORM-->
+                                            <table class="table table-striped table-bordered table-hover"
+                                                   id="fixTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="1px" align="center"> STT </th>
+                                                        <th> <div style="text-align:center">Nội dung</div></th>
+                                                        <th> <div style="text-align:center">Năm</div> </th>
+                                                        <!--<th width="1px"><div style="text-align:center">#</div>  </th>-->
+                                                        <th width="1px"><div style="text-align:center">#</div>  </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="dm in KeHoachDGN">
+                                                        <td align="center" width="1px"> {{$index + 1}} </td>
+                                                        <td>  <a ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')"> {{dm.NoiDung}}</a> </td>
+                                                        <td align="center">
+                                                            {{dm.Nam}}
+                                                        </td>
+                                                        <!--<td>
+                                                            <a tooltip title="In kế hoạch đánh giá" ng-click="openModal(dm,'InKeHoachTDG')">
+                                                                <i class="fa fa-file-word-o"></i>
+                                                            </a>
+                                                        </td>-->
+                                                        <td nowrap>
+                                                            <a tooltip title="Viết báo cáo sơ bộ" ng-click="LoadBaoCao(dm.Id)"><i class="font-green fa fa-pencil"></i></a>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Trạng thái</span>
-                                    <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.TrangThai" ng-change="onSearchKeHoachDGN()">
-                                        <option ng-repeat="tt in TrangThaiKHDGNs" value="{{tt.FCode}}">{{tt.FName}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <!--TrangThaiKHDGNs-->
                         </div>
-                        <br />
 
-                        <div class="row text-center">
-                            <a class="btn btn-primary btn-" ng-click="onSearchKeHoachDGN()"><i class="fa fa-search"></i> Tìm</a>
-                            <a class="btn btn-default btn-" ng-click="onCancelKeHoachDGN()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="table-scrollable ">
-                                    <!-- BEGIN FORM-->
-                                    <table class="table table-striped table-bordered table-hover"
-                                           id="fixTable">
-                                        <thead>
-                                            <tr>
-                                                <th width="1px" align="center"> STT </th>
-                                                <th> <div style="text-align:center">Nội dung</div></th>
-                                                <th> <div style="text-align:center">Năm</div> </th>
-                                                <!--<th width="1px"><div style="text-align:center">#</div>  </th>-->
-                                                <th width="1px"><div style="text-align:center">#</div>  </th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="odd gradeX" ng-repeat="dm in KeHoachDGN">
-                                                <td align="center" width="1px"> {{$index + 1}} </td>
-                                                <td>  <a ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')"> {{dm.NoiDung}}</a> </td>
-                                                <td align="center">
-                                                    {{dm.Nam}}
-                                                </td>
-                                                <!--<td>
-                                                    <a tooltip title="In kế hoạch đánh giá" ng-click="openModal(dm,'InKeHoachTDG')">
-                                                        <i class="fa fa-file-word-o"></i>
-                                                    </a>
-                                                </td>-->
-                                                <td nowrap>
-                                                    <a tooltip title="Viết báo cáo sơ bộ" ng-click="OpenModalBaoCaoSoBo(dm,'BATDAU')"><i class="font-green fa fa-pencil"></i></a>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    <div class="col-md-8">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title">
+                                <div class="caption caption-md text-center">
+                                    <span class="caption-subject font-green bold uppercase"> Lập báo cáo sơ bộ</span>
+                                </div>
 
 
+                            </div>
+                            <div class="portlet-body form">
+                                <div ng-if="item.IdKeHoachDGN!=null">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row ">
+                                                <div class="tabbable-custom portlet box margin-top-10">
+                                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                                        <ul class="nav nav-tabs tabs-left">
+                                                            <li class="active">
+                                                                <a data-target="#tab_1" data-toggle="tab" aria-expanded="true">
+                                                                    1. Hình thức trình bày
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
+                                                                    2.Nội dung
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
+                                                                    3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
+                                                                    4. Đề xuất
+                                                                </a>
+                                                            </li>
 
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="tab_1">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="text-center">
+                                                                            <h3>Nhận xét về hình thức trình bày</h3>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div>
+                                                                            <ng-ckeditor ng-model="item.NhanXetHinhThuc"
+                                                                                         ng-config="config"></ng-ckeditor>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab_2">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="text-center">
+                                                                            <h3>Nhận xét về nội dung</h3>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div>
+                                                                            <ng-ckeditor ng-model="item.NhanXetNoiDung"
+                                                                                         ng-config="config"></ng-ckeditor>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab_3">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="text-center">
+                                                                            <h3>Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</h3>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div>
+                                                                            <ng-ckeditor ng-model="item.TieuChiChuaDanhGia"
+                                                                                         ng-config="config"></ng-ckeditor>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane fade" id="tab_4">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="text-center">
+                                                                            <h3>Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</h3>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div>
+                                                                            <ng-ckeditor ng-model="item.DeXuat"
+                                                                                         ng-config="config"></ng-ckeditor>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a class="btn btn-sm btn-success btn-outline sbold"
+                                               ng-click="exportBaoCao('PrintDiv','Báo cáo sơ bộ.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
+                                            <a class="btn btn-sm btn-success btn-outline sbold"
+                                               ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
+                                            <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                              
+
+
+                                <div hidden class="row" id="PrintDiv">
+
+                                    <div class="col-md-12">
+                                        <table>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <center><h4> Báo cáo sơ bộ</h4></center>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p>Người viết: {{item.NguoiNhapName}}</p>
+                                        <p>Đơn vị công tác: {{item.DonViNguoiNhapName}}</p>
+                                        <p>Điện thoại: {{item.DienThoai}}&nbsp;Email: {{item.Email}}</p>
+                                        <p>Trường được đánh giá ngoài: {{item.DonViName}}</p>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <h5><b>1. Nhận xét về hình thức trình bày</b></h5>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div ng-bind-html="item.NhanXetHinhThuc"></div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <h5><b>2. Nhận xét về nội dung</b></h5>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div ng-bind-html="item.NhanXetNoiDung"></div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <h5><b>3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</b></h5>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div ng-bind-html="item.TieuChiChuaDanhGia"></div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <h5><b>4. Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</b></h5>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div ng-bind-html="item.DeXuat"></div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="col-md-12">
+                                        <table width="100%">
+                                            <tr>
+                                                <td align="center" class="td-no-border"></td>
+                                                <td align="center" class="td-no-border"><i>......., ngày...... tháng ....... năm ........</i></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" width="40%" class="td-no-border">
+                                                    <!--<b>Xác nhận</b><br /><b>của trưởng nhóm công tác</b>-->
+                                                </td>
+                                                <td align="center" width="60%" class="td-no-border">
+                                                    <b>Người viết</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
+
         </div>
 
-        <br />
     </div>
 
 

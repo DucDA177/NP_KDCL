@@ -292,7 +292,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
             ['Find', 'Replace'],
             ['Bold', 'Italic', 'Underline', 'Strike'],
             ['Table', 'HorizontalRule', 'SpecialChar'],
-            ["InsertMinhChung", "SetReadOnly"]
+            //["InsertMinhChung", "SetReadOnly"]
         ],
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
     }
@@ -369,7 +369,7 @@ angular.module('WebApiApp').controller("DetailKeHoachTDGHandlerController", func
             ['Find', 'Replace'],
             ['Bold', 'Italic', 'Underline', 'Strike'],
             ['Table', 'HorizontalRule', 'SpecialChar'],
-            ["InsertMinhChung", "SetReadOnly"]
+            //["InsertMinhChung", "SetReadOnly"]
         ],
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
     }

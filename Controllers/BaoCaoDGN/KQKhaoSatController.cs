@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.Style.XmlAccess;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,11 +11,11 @@ using WebApiCore.Models;
 namespace WebApiCore.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/DanhGiaTieuChiKHDGN")]
-    public class DanhGiaTieuChiKHDGNController : ApiController
+    [RoutePrefix("api/KQKhaoSat")]
+    public class KQKhaoSatController : ApiController
     {
         private WebApiDataEntities db = new WebApiDataEntities();
-        public class FilterDGTieuChi : FilterModel
+        public class FilterKQKS : FilterModel
         {
             public int? IdBaoCao { get; set; }
             public int? IdKeHoach { get; set; }
@@ -26,7 +25,7 @@ namespace WebApiCore.Controllers
             public string UserName { get; set; }
             public string TenNguoiNhap { get; set; }
         }
-        public class BaoCaoDGTieuChiModel : tblDanhGiaTieuChi_KHDGN
+        public class BaoCaoKQKSModel : tblKetQuaKhaoSat_KHDGN
         {
             public string DonViName { get; set; }
             public string KeHoachTDGName { get; set; }
@@ -35,26 +34,24 @@ namespace WebApiCore.Controllers
             public string DonViNguoiNhapName { get; set; }
             public string DienThoai { get; set; }
             public string Email { get; set; }
-            public int? IdTieuChuan { get; set; }
 
         }
         [HttpPost]
         [Route("Filter")]
-        public IHttpActionResult Filter(FilterDGTieuChi filter)
+        public IHttpActionResult Filter(FilterKQKS filter)
         {
             try
             {
-                var listKeHoach = (from bc in db.tblDanhGiaTieuChi_KHDGN
+                var listKeHoach = (from bc in db.tblKetQuaKhaoSat_KHDGN
                                    join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                                    join us in db.UserProfiles on bc.CreatedBy equals us.UserName
                                    join dvUs in db.DMDonVis on bc.IdDonVi equals dvUs.Id
                                    join dv in db.DMDonVis on khdgn.IdTruong equals dv.Id
                                    join khtdg in db.tblKeHoachTDGs on khdgn.IdKeHoachTDG equals khtdg.Id into tmpKHTDG
                                    from khtdg in tmpKHTDG.DefaultIfEmpty()
-                                   join tchi in db.DMTieuChis on bc.IdTieuChi equals tchi.Id
                                    where khdgn.FInUse == true
                                    select
-                                   new BaoCaoDGTieuChiModel
+                                   new BaoCaoKQKSModel
                                    {
                                        Id = bc.Id,
                                        STT = bc.STT,
@@ -65,10 +62,11 @@ namespace WebApiCore.Controllers
                                        DienThoai = us.Mobile,
                                        Email = us.Email,
                                        IdKeHoachDGN = khdgn.Id,
-                                       IdTieuChi = bc.IdTieuChi,
-                                       IdTieuChuan = tchi.IdTieuChuan,
                                        DiemManh = bc.DiemManh,
                                        DiemYeu = bc.DiemYeu,
+                                       GioiThieuChung=bc.GioiThieuChung,
+                                       KienNghi=bc.KienNghi,
+                                       Tomtat=bc.Tomtat,
                                        KeHoachCaiTien = bc.KeHoachCaiTien,
                                        KQChiBao = bc.KQChiBao,
                                        KQDatA = bc.KQDatA,
@@ -87,14 +85,8 @@ namespace WebApiCore.Controllers
                                        DonViNguoiNhapName = dvUs.TenDonVi
                                    }
                                    );
-                if (filter.IdTieuChuan.HasValue)
-                {
-                    listKeHoach = listKeHoach.Where(s => s.IdTieuChuan == filter.IdTieuChuan);
-                }
-                if (filter.IdTieuChi.HasValue)
-                {
-                    listKeHoach = listKeHoach.Where(s => s.IdTieuChi == filter.IdTieuChi);
-                }
+               
+               
                 if (filter.IdBaoCao.HasValue)
                 {
                     listKeHoach = listKeHoach.Where(s => s.Id == filter.IdBaoCao);
@@ -134,21 +126,20 @@ namespace WebApiCore.Controllers
         }
         [HttpGet]
         [Route("GetByIdKeHoach")]
-        public IHttpActionResult GetByIdKeHoach(int IdKeHoach, int IdTieuChuan, int IdTieuChi)
+        public IHttpActionResult GetByIdKeHoach(int IdKeHoach)
         {
             try
             {
-                var data = (from bc in db.tblDanhGiaTieuChi_KHDGN
+                var data = (from bc in db.tblKetQuaKhaoSat_KHDGN
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName
                             join dvUs in db.DMDonVis on bc.IdDonVi equals dvUs.Id
                             join dv in db.DMDonVis on khdgn.IdTruong equals dv.Id
                             join khtdg in db.tblKeHoachTDGs on khdgn.IdKeHoachTDG equals khtdg.Id into tmpKHTDG
                             from khtdg in tmpKHTDG.DefaultIfEmpty()
-                            join tchi in db.DMTieuChis on bc.IdTieuChi equals tchi.Id
-                            where khdgn.FInUse == true && bc.CreatedBy == HttpContext.Current.User.Identity.Name && khdgn.Id == IdKeHoach && tchi.IdTieuChuan == IdTieuChuan && bc.IdTieuChi == IdTieuChi
+                            where khdgn.FInUse == true  && khdgn.Id == IdKeHoach 
                             select
-                            new BaoCaoDGTieuChiModel
+                            new BaoCaoKQKSModel
                             {
                                 Id = bc.Id,
                                 STT = bc.STT,
@@ -159,10 +150,11 @@ namespace WebApiCore.Controllers
                                 DienThoai = us.Mobile,
                                 Email = us.Email,
                                 IdKeHoachDGN = khdgn.Id,
-                                IdTieuChi = bc.IdTieuChi,
-                                IdTieuChuan = tchi.IdTieuChuan,
                                 DiemManh = bc.DiemManh,
                                 DiemYeu = bc.DiemYeu,
+                                GioiThieuChung = bc.GioiThieuChung,
+                                KienNghi = bc.KienNghi,
+                                Tomtat = bc.Tomtat,
                                 KeHoachCaiTien = bc.KeHoachCaiTien,
                                 KQChiBao = bc.KQChiBao,
                                 KQDatA = bc.KQDatA,
@@ -195,7 +187,7 @@ namespace WebApiCore.Controllers
                                   ).FirstOrDefault();
                     if (UserNhap != null)
                     {
-                        var BaoCao = new BaoCaoDGTieuChiModel()
+                        var BaoCao = new BaoCaoKQKSModel()
                         {
                             IdDonVi = (int)UserNhap.u.IDDonVi,
                             NguoiNhapName = UserNhap.u.HoTen,
@@ -207,8 +199,6 @@ namespace WebApiCore.Controllers
                             Email = UserNhap.u.Email,
                             DienThoai = UserNhap.u.Mobile,
                             TrangThai = Commons.Constants.DANG_SOAN,
-                            IdTieuChi = IdTieuChi,
-                            IdTieuChuan = IdTieuChuan,
                         };
                         return Ok(BaoCao);
                     }
@@ -223,43 +213,25 @@ namespace WebApiCore.Controllers
 
         }
         [HttpGet]
-        [Route("GetDGTieuChiTDG")]
-        public IHttpActionResult GetTDGByIdKeHoach(int IdKeHoachTDG, int IdTieuChi)
-        {
-            try
-            {
-                var data = (from bc in db.tblDanhGiaTieuChis
-                            where bc.FInUse == true && (IdTieuChi == 0 || bc.IdTieuChi == IdTieuChi) && (bc.IdKeHoachTDG == IdKeHoachTDG)
-                            select bc);
-                return Ok(data);
-            }
-            catch (Exception ex)
-            {
-                Commons.Common.WriteLogToTextFile(ex.ToString());
-                return null;
-            }
-
-        }
-        [HttpGet]
         [Route("GetAll")]
         public IHttpActionResult GetAll(int IdDonVi)
         {
-            var data = db.tblDanhGiaTieuChi_KHDGN.Where(t => t.IdDonVi == IdDonVi);
+            var data = db.tblKetQuaKhaoSat_KHDGN.Where(t => t.IdDonVi == IdDonVi);
             return Ok(data);
         }
         [HttpGet]
         [Route("Del")]
         public IHttpActionResult Del(int Id)
         {
-            var dt = db.tblDanhGiaTieuChi_KHDGN.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
-            db.tblDanhGiaTieuChi_KHDGN.Remove(dt);
+            var dt = db.tblKetQuaKhaoSat_KHDGN.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
+            db.tblKetQuaKhaoSat_KHDGN.Remove(dt);
             db.SaveChanges();
             return Ok(dt);
 
         }
         [HttpPost]
         [Route("Save")]
-        public IHttpActionResult Save([FromBody] tblDanhGiaTieuChi_KHDGN data)
+        public IHttpActionResult Save([FromBody] tblKetQuaKhaoSat_KHDGN data)
         {
 
             try
@@ -271,7 +243,7 @@ namespace WebApiCore.Controllers
 
                 if (data.Id == null || data.Id == 0)
                 {
-                    db.tblDanhGiaTieuChi_KHDGN.Add(data);
+                    db.tblKetQuaKhaoSat_KHDGN.Add(data);
                     db.SaveChanges();
                 }
                 else

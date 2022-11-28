@@ -20,6 +20,7 @@ namespace WebApiCore.Controllers
             public int Id { get; set; }
             public string Ten { get; set; }
             public string Text { get; set; }
+            public string LoaiDonVi { get; set; }
             public int index { get; set; }
         }
         [HttpGet]
@@ -50,6 +51,8 @@ namespace WebApiCore.Controllers
                 FLevel = 0,
                 index = 1,
                 Text = "",
+                LoaiDonVi = DVSo.LoaiDonVi,
+
             };
             sTree.Push(item);
             while (sTree.Count > 0)
@@ -61,6 +64,7 @@ namespace WebApiCore.Controllers
                     Id = tmp.Id,
                     code = tmp.Id,
                     TenDonVi = Text+" " + tmp.Ten,
+                    LoaiDonVi = tmp.LoaiDonVi,
                 };
                 DonViList.Add(o);
                 var orgs = db.DMDonVis.Where(x => x.IDDVCha == tmp.Id).ToList();
@@ -74,6 +78,7 @@ namespace WebApiCore.Controllers
                         FLevel = tmp.FLevel + 1,
                         index = i + 1,
                         Text = Text,
+                        LoaiDonVi = orgs[i].LoaiDonVi,
                     };
                     sTree.Push(itemO);
                 }

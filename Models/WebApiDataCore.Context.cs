@@ -41,6 +41,7 @@ namespace WebApiCore.Models
         public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<NhatKySuDung> NhatKySuDungs { get; set; }
+        public virtual DbSet<tblBaoCaoDanhGia_KHDGN> tblBaoCaoDanhGia_KHDGN { get; set; }
         public virtual DbSet<tblBaoCaoSoBoDGN> tblBaoCaoSoBoDGNs { get; set; }
         public virtual DbSet<tblDanhGiaTieuChi> tblDanhGiaTieuChis { get; set; }
         public virtual DbSet<tblDanhGiaTieuChi_KHDGN> tblDanhGiaTieuChi_KHDGN { get; set; }
@@ -48,8 +49,10 @@ namespace WebApiCore.Models
         public virtual DbSet<tblDanhmuc> tblDanhmucs { get; set; }
         public virtual DbSet<tblDuLieuNhaTruong> tblDuLieuNhaTruongs { get; set; }
         public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }
+        public virtual DbSet<tblHoiDongDGN> tblHoiDongDGNs { get; set; }
         public virtual DbSet<tblKeHoachDGN> tblKeHoachDGNs { get; set; }
         public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
+        public virtual DbSet<tblKetQuaKhaoSat_KHDGN> tblKetQuaKhaoSat_KHDGN { get; set; }
         public virtual DbSet<tblMinhChung> tblMinhChungs { get; set; }
         public virtual DbSet<tblMoDauKetLuanTC> tblMoDauKetLuanTCs { get; set; }
         public virtual DbSet<tblNhomCongTac> tblNhomCongTacs { get; set; }
@@ -61,8 +64,6 @@ namespace WebApiCore.Models
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
-        public virtual DbSet<tblHoiDongDGN> tblHoiDongDGNs { get; set; }
-        public virtual DbSet<tblPhanCongTCDGN> tblPhanCongTCDGNs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

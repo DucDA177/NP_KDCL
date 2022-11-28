@@ -22,7 +22,7 @@
     <div class="form-body form-horizontal margin-top-10">
 
         <div class="row text-center uppercase">
-            <h3>{{item.NoiDung}} của {{item.DonViName}} </h3>
+            <h3>{{item.NoiDung}} </h3>
             <div style="display:flex;flex-direction:row ;align-items:center;justify-content:center">
 
                 <h3> Năm</h3> <div class="col-md-2"><input class="form-control" ng-model="item.Nam" ng-disabled="!CheckView(item,'EDITKHDGN')" /></div>
@@ -31,259 +31,224 @@
         <div class="row  col-md-12">
             <h4> Căn cứ theo <a title="Xem thông tin kế hoạch tự đánh giá" ng-click="OpenDetailKeHoachTDG({IdKeHoachTDG:item.IdKeHoachTDG},'KeHoachDGN')">{{item.KeHoachTDGName}} của {{item.DonViName}}</a></h4>
         </div>
-        
-        <div class="row margin-bottom-5">
+        <!---->
+        <!---->
+        <div class="row">
             <div class="col-md-12">
-                <div class="tabbable-custom portlet box">
-                    <ul class="nav nav-tabs ">
-                        <!--<li style="max-width:12%;text-align:center" class="active">
-                            <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
-                                Thông tin chung
-                            </a>
-                        </li>-->
-                        <li style="max-width:12%;text-align:center" class="active">
-                            <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
-                                Mục đích
-                            </a>
-                        </li>
-                        <li style="max-width:12%;text-align:center">
-                            <a data-target="#tab_3" data-toggle="tab" aria-expanded="true" class="bold">
-                                Nội dung <br />nghiên cứu hồ sơ đánh giá
-                            </a>
-                        </li>
-                        <li style="max-width:12%;text-align:center">
-                            <a data-target="#tab_4" data-toggle="tab" aria-expanded="true" class="bold">
-                                Nội dung <br />khảo sát sơ bộ tại cơ sở giáo dục phổ thông
-                            </a>
-                        </li>
-                        <li style="max-width:12%;text-align:center">
-                            <a data-target="#tab_5" data-toggle="tab" aria-expanded="true" class="bold">
-                                Nội dung <br />khảo sát chính thức tại cơ sở giáo dục phổ thông
-                            </a>
-                        </li>
-                        <li style="max-width:12%;text-align:center">
-                            <a data-target="#tab_6" data-toggle="tab" aria-expanded="true" class="bold">
-                                Nội dung <br />dự thảo báo cáo đánh giá ngoài
-                            </a>
-                        </li>
-                        <li style="max-width:12%;text-align:center">
-                            <a data-target="#tab_7" data-toggle="tab" aria-expanded="true" class="bold">
-                                Nội dung <br />Lấy ý kiến phản hồi về dự thảo báo cáo
-                            </a>
-                        </li>
+                <div class="row ">
+                    <div class="tabbable-custom portlet box margin-top-10">
+                        <div class="col-md-3 col-sm-3 col-xs-3">
+                            <ul class="nav nav-tabs tabs-left">
+                                <li class="active">
+                                    <a data-target="#tab_1" data-toggle="tab" aria-expanded="true">
+                                        Mục đích
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
+                                        Nội dung nghiên cứu
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
+                                        Nội dung khảo sát sơ bộ
+                                    </a>
+                                </li>
+                                <!--<li>
+                                    <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
+                                        Nội dung khảo sát chính thức tại cơ sở giáo dục phổ thông
+                                    </a>
+                                </li>-->
 
-                        <li style="max-width:12%;text-align:center">
-                            <a data-target="#tab_8" data-toggle="tab" aria-expanded="true" class="bold">
-                                Nội dung <br />Hoàn thiện báo cáo đánh giá ngoài
-                            </a>
-                        </li>
-                        <li style="max-width:12%;text-align:cánher">
-                            <a data-target="#tab_9" data-toggle="tab" aria-expanded="true" class="bold">
-                                Tổ chức thực hiện
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <!--<div class="tab-pane active " id="tab_1">
-                            <div class="row">
-                                <div class="portlet light " style="margin-top:-10px">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row margin-bottom-5">
+                                <li>
+                                    <a data-target="#tab_5" data-toggle="tab" aria-expanded="true">
+                                        Nội dung khảo sát chính thức
+                                    </a>
+                                </li>
 
-                                            <div class="{{itemError.ModelState.NoiDung[1]}}">
-                                                <label class="control-label col-md-2">Nội dung<span style="color:red">*</span>:</label>
-                                                <div class="col-md-4">
-                                                    <input id="NoiDung" type="text" class="form-control input-sm" ng-model="item.NoiDung">
+                                <li>
+                                    <a data-target="#tab_6" data-toggle="tab" aria-expanded="true">
+                                        Nội dung dự thảo báo cáo
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-target="#tab_7" data-toggle="tab" aria-expanded="true">
+                                        Nội dung lấy ý kiến phản hồi về dự thảo báo cáo
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-target="#tab_8" data-toggle="tab" aria-expanded="true">
+                                        Nội dung hoàn thiện báo cáo
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-target="#tab_9" data-toggle="tab" aria-expanded="true">
+                                        Tổ chức thực hiện
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-9">
+                            <div class="tab-content">
+                                <div class="tab-pane  active" id="tab_1">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Mục đích</h3>
+                                                </div>
+                                                <div class="row">
+
+                                                    <ng-ckeditor ng-model="item.MucDich"
+                                                                 ng-config="config"></ng-ckeditor>
+
                                                 </div>
 
                                             </div>
-
-                                            <div class="{{itemError.ModelState.NamHoc[1]}}">
-                                                <label class="control-label col-md-2">Giai đoạn<span style="color:red">*</span>:</label>
-                                                <div class="col-md-4" style="display:inline-flex">
-                                                    <input id="NamHocBD" type="number" class="form-control input-sm" ng-model="item.NamHocBD">
-                                                    -
-                                                    <input id="NamHocKT" type="number" class="form-control input-sm" ng-model="item.NamHocKT">
-                                                </div>
-                                            </div>
-
                                         </div>
-                                        <div class="row margin-bottom-5">
-                                            <div class="{{itemError.ModelState.NgayBD[1]}}">
-                                                <label class="control-label col-md-2">Ngày bắt đầu<span style="color:red">*</span>:</label>
-                                                <div class="col-md-4">
-                                                    <input type="text"
-                                                           placeholder="dd/MM/yyyy"
-                                                           datetime="dd/MM/yyyy"
-                                                           class="form-control input-sm"
-                                                           ng-model="item.NgayBD"
-                                                           datetime-separator=",.-/" />
-
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade " id="tab_3">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Nội dung nghiên cứu hồ sơ</h3>
                                                 </div>
-                                            </div>
-                                            <div class="{{itemError.ModelState.NgayKT[1]}}">
-                                                <label class="control-label col-md-2">Ngày kết thúc<span style="color:red">*</span>:</label>
-                                                <div class="col-md-4">
-                                                    <input type="text"
-                                                           placeholder="dd/MM/yyyy"
-                                                           datetime="dd/MM/yyyy"
-                                                           class="form-control input-sm"
-                                                           ng-model="item.NgayKT"
-                                                           datetime-separator=",.-/" />
+                                                <div class="row">
 
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    <ng-ckeditor ng-model="item.NghienCuuHSDG"
+                                                                 ng-config="config"></ng-ckeditor>
 
-                                        <div class="row margin-bottom-5">
-                                            <div class="{{itemError.ModelState.IdQuyDinhTC[1]}}">
-                                                <label class="control-label col-md-2">Quy định về tiêu chuẩn đánh giá<span style="color:red">*</span>:</label>
-                                                <div class="col-md-4">
-                                                    <select ng-model="item.IdQuyDinhTC" class="form-control input-sm select2"
-                                                            convert-to-number ng-change="LoadListTCTC()">
-                                                        <option ng-repeat="nl in QuyDinh" value={{nl.Id}}>{{nl.Ten}}</option>
-                                                    </select>
                                                 </div>
 
                                             </div>
-                                            <label class="control-label col-md-2">Ghi chú:</label>
-                                            <div class="col-md-4">
-                                                <input type="text" class="form-control input-sm" ng-model="item.GhiChu">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade " id="tab_4">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Nội dung khảo sát sơ bộ tại cơ sở giáo dục phổ thông</h3>
+                                                </div>
+                                                <div class="row">
+
+                                                    <ng-ckeditor ng-model="item.KhaoSatSoBo"
+                                                                 ng-config="config"></ng-ckeditor>
+
+                                                </div>
+
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
-                            </div>
+                                <div class="tab-pane fade " id="tab_5">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Nội dung khảo sát chính thức tại cơ sở giáo dục phổ thông</h3>
+                                                </div>
+                                                <div class="row">
 
-                        </div>-->
+                                                    <ng-ckeditor ng-model="item.KhaoSatChinhThuc"
+                                                                 ng-config="config"></ng-ckeditor>
 
-                        <div class="tab-pane active" id="tab_1">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
+                                                </div>
 
-                                            <ng-ckeditor ng-model="item.MucDich"
-                                                         ng-config="config"></ng-ckeditor>
-
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane " id="tab_3">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
+                                <div class="tab-pane fade " id="tab_6">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Nội dung dự thảo báo cáo đánh giá ngoài</h3>
+                                                </div>
+                                                <div class="row">
 
-                                            <ng-ckeditor ng-model="item.NghienCuuHSDG"
-                                                         ng-config="config"></ng-ckeditor>
+                                                    <ng-ckeditor ng-model="item.DuThaoBaoCao"
+                                                                 ng-config="config"></ng-ckeditor>
 
+                                                </div>
+
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane " id="tab_4">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
+                                <div class="tab-pane fade " id="tab_7">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Nội dung lấy ý kiến phản hồi về dự thảo báo cáo</h3>
+                                                </div>
+                                                <div class="row">
 
-                                            <ng-ckeditor ng-model="item.KhaoSatSoBo"
-                                                         ng-config="config"></ng-ckeditor>
+                                                    <ng-ckeditor ng-model="item.LayYKienPhanHoi"
+                                                                 ng-config="config"></ng-ckeditor>
 
+                                                </div>
+
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane " id="tab_5">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
 
-                                            <ng-ckeditor ng-model="item.KhaoSatChinhThuc"
-                                                         ng-config="config"></ng-ckeditor>
+                                <div class="tab-pane fade " id="tab_8">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Nội dung hoàn thiện báo cáo đánh giá ngoài</h3>
+                                                </div>
+                                                <div class="row">
 
+                                                    <ng-ckeditor ng-model="item.HoanThienBaoCao"
+                                                                 ng-config="config"></ng-ckeditor>
+
+                                                </div>
+
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane " id="tab_6">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
+                                <div class="tab-pane fade " id="tab_9">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="text-center">
+                                                    <h3>Tổ chức thực hiện</h3>
+                                                </div>
+                                                <div class="row">
 
-                                            <ng-ckeditor ng-model="item.DuThaoBaoCao"
-                                                         ng-config="config"></ng-ckeditor>
+                                                    <ng-ckeditor ng-model="item.ToChucThucHien"
+                                                                 ng-config="config"></ng-ckeditor>
 
+                                                </div>
+
+                                            </div>
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane " id="tab_7">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
 
-                                            <ng-ckeditor ng-model="item.LayYKienPhanHoi"
-                                                         ng-config="config"></ng-ckeditor>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane " id="tab_8">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
-
-                                            <ng-ckeditor ng-model="item.HoanThienBaoCao"
-                                                         ng-config="config"></ng-ckeditor>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane " id="tab_9">
-                            <div class="row">
-                                <div class="portlet light " style="margin-bottom:0">
-                                    <div class="form-body form-horizontal">
-                                        <div class="row">
-
-                                            <ng-ckeditor ng-model="item.ToChucThucHien"
-                                                         ng-config="config"></ng-ckeditor>
-
-                                        </div>
-
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+
+        <!---->
 
         <div class="row "
              style="position: sticky;bottom: 10px;z-index:500;background-color:white">
@@ -307,7 +272,7 @@
                 </div>
 
             </div>
-           
+
         </div>
 
 

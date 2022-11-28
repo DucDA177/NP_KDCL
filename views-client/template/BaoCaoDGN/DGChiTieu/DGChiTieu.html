@@ -20,8 +20,10 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon">Đơn vị</span>
-                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
-                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
+                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
+                                        {{dv.TenDonVi}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -48,7 +50,7 @@
                         <div class="col-md-6">
                             <div class="input-group">
                                 <span class="input-group-addon">Tiêu chí</span>
-                                <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI');onSearchKeHoachDGN()">
+                                <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI')">
                                     <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
                                 </select>
                             </div>
@@ -57,7 +59,7 @@
                     </div>
                 </div>
             </div>
-           
+
             <br />
             <div class="row">
                 <div class="col-md-6">
@@ -134,11 +136,11 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_1">
                                                 <div class="row">
-                                                    <div class="portlet light">
+                                                    <div class="col-md-12">
                                                         <div class="text-center">
                                                             <h3>Điểm mạnh</h3>
                                                         </div>
-                                                        <div class="form-body form-horizontal col-md-12">
+                                                        <div class="col-md-12">
                                                             <div>
                                                                 <ng-ckeditor ng-model="item.DiemManh"
                                                                              ng-config="config"></ng-ckeditor>
@@ -150,122 +152,126 @@
                                             </div>
                                             <div class="tab-pane fade" id="tab_2">
                                                 <div class="row">
-                                                    <div class="portlet light ">
+                                                    <div class="col-md-12">
                                                         <div class="text-center">
                                                             <h3>Điểm yếu</h3>
                                                         </div>
-                                                        <div class="form-body form-horizontal col-md-12">
-                                                            <div>
-                                                                <ng-ckeditor ng-model="item.DiemYeu"
-                                                                             ng-config="config"></ng-ckeditor>
-                                                            </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.DiemYeu"
+                                                                         ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab_3">
                                                 <div class="row">
-                                                    <div class="portlet light ">
+                                                    <div class="col-md-12">
                                                         <div class="text-center">
                                                             <h3>Kế hoạch cải tiến chất lượng</h3>
                                                         </div>
-                                                        <div class="form-body form-horizontal col-md-12">
-                                                            <div>
-                                                                <ng-ckeditor ng-model="item.KeHoachCaiTien"
-                                                                             ng-config="config"></ng-ckeditor>
-                                                            </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.KeHoachCaiTien"
+                                                                         ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab_4">
                                                 <div class="row">
-                                                    <div class="portlet light ">
+                                                    <div class="col-md-12">
                                                         <div class="text-center">
                                                             <h3>Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung chứng minh</h3>
                                                         </div>
-                                                        <div class="form-body form-horizontal col-md-12">
-                                                            <div>
-                                                                <ng-ckeditor ng-model="item.NoiDungCanBoSung"
-                                                                             ng-config="config"></ng-ckeditor>
-                                                            </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.NoiDungCanBoSung"
+                                                                         ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab_5">
                                                 <div class="row">
-                                                    <div class="portlet light ">
+                                                    <div class="col-md-12">
                                                         <div class="text-center">
                                                             <h3>Đánh giá tiêu chí</h3>
                                                         </div>
-                                                        <div class="form-body form-horizontal col-md-12">
-                                                            <div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <h3>Tiêu chí đạt mức {{checkKQDatMuc()==0?'Không đạt':checkKQDatMuc()}}</h3>
-                                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <h3>Tiêu chí: {{checkKQDatMuc()==0?'Không đạt':'Đạt mức '+checkKQDatMuc()}}</h3>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <table class="table table-bordered">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td align="center" colspan="2">Mức 1</td>
-                                                                                    <td align="center" colspan="2">Mức 2</td>
-                                                                                    <td align="center" colspan="2">Mức 3</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="center">Chỉ báo</td>
-                                                                                    <td align="center">Đạt/Không đạt</td>
-                                                                                    <td align="center">Chỉ báo</td>
-                                                                                    <td align="center">Đạt/Không đạt</td>
-                                                                                    <td align="center">Chỉ báo</td>
-                                                                                    <td align="center">Đạt/Không đạt</td>
-                                                                                </tr>
-                                                                                <tr ng-repeat="tc in ObjTieuChi.listChiBaoA">
-                                                                                    <td align="center">
-                                                                                        <span ng-if="tc.NoiDung!=null"> {{tc.STT==null || tc.STT=='.'?'*':tc.STT}}</span>
-                                                                                        <span ng-if="tc.NoiDung==null">-</span>
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        <input ng-if="tc.NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoA_'+$index]">
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoB[$index].STT==null || ObjTieuChi.listChiBaoB[$index].STT=='.'?'*':ObjTieuChi.listChiBaoB[$index].STT}}</span>
-                                                                                        <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <table class="table table-bordered">
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td align="center" colspan="2">Mức 1</td>
+                                                                                <td align="center" colspan="2">Mức 2</td>
+                                                                                <td align="center" colspan="2">Mức 3</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center">Chỉ báo</td>
+                                                                                <td align="center">Đạt/Không đạt</td>
+                                                                                <td align="center">Chỉ báo</td>
+                                                                                <td align="center">Đạt/Không đạt</td>
+                                                                                <td align="center">Chỉ báo</td>
+                                                                                <td align="center">Đạt/Không đạt</td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                                                                <td align="center">
+                                                                                    <span ng-if="tc.NoiDung!=null"> {{tc.STT==null || tc.STT=='.'?'*':tc.STT}}</span>
+                                                                                    <span ng-if="tc.NoiDung==null">-</span>
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                    <input ng-if="tc.NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoA_'+$index]">
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoB[$index].STT==null || ObjTieuChi.listChiBaoB[$index].STT=='.'?'*':ObjTieuChi.listChiBaoB[$index].STT}}</span>
+                                                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
 
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        <input ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoB_'+$index]">
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoC[$index].STT==null || ObjTieuChi.listChiBaoC[$index].STT=='.'?'*':ObjTieuChi.listChiBaoC[$index].STT}}</span>
-                                                                                        <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                    <input ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoB_'+$index]">
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoC[$index].STT==null || ObjTieuChi.listChiBaoC[$index].STT=='.'?'*':ObjTieuChi.listChiBaoC[$index].STT}}</span>
+                                                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
 
-                                                                                    </td>
-                                                                                    <td align="center">
-                                                                                        <input ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoC_'+$index]">
-                                                                                    </td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td align="center" colspan="2">
-                                                                                        <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatA">
-                                                                                    </td>
-                                                                                    <td align="center" colspan="2">
-                                                                                        <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatB">
-                                                                                    </td>
-                                                                                    <td align="center" colspan="2">
-                                                                                        <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatC">
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
+                                                                                </td>
+                                                                                <td align="center">
+                                                                                    <input ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null" style="transform:scale(1.3)" type="checkbox" ng-model="item.KQChiBaoObj[$index]['ChiBaoC_'+$index]">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td align="center" colspan="2">
+                                                                                    <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatA">
+                                                                                </td>
+                                                                                <td align="center" colspan="2">
+                                                                                    <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatB">
+                                                                                </td>
+                                                                                <td align="center" colspan="2">
+                                                                                    <input style="transform:scale(1.3)" type="checkbox" ng-model="item.KQDatC">
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -273,10 +279,166 @@
                                 </div>
 
                             </div>
-                            <div ng-if="CheckView(null,'EDIT')" class="row">
+                            <div  class="row">
                                 <div class="col-md-12">
                                     <a class="btn btn-sm btn-success btn-outline sbold"
+                                       ng-click="exportBaoCao('PrintDiv','Phiếu đánh giá tiêu chí.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
+
+                                    <a ng-if="CheckView(null,'EDIT')" class="btn btn-sm btn-success btn-outline sbold"
                                        ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
+                                    <!--region in-->
+                                    <div hidden class="row" id="PrintDiv">
+
+                                        <div class="col-md-12">
+                                            <table>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <center><h4 class="uppercase"> Phiếu đánh giá tiêu chí</h4></center>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <p>Người viết: {{item.NguoiNhapName}}</p>
+                                            <p>Đơn vị công tác: {{item.DonViNguoiNhapName}}</p>
+                                            <p>Điện thoại: {{item.DienThoai}}&nbsp;Email: {{item.Email}}</p>
+                                            <p>Trường được đánh giá ngoài: {{item.DonViName}}</p>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <p>
+                                                <div><span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span></div>
+                                                <div> <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span></div>
+                                                <div ng-if="ObjTieuChi.listChiBaoA.length>0">
+                                                    <span>Mức 1:</span>
+                                                    <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                                        <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                                    </div>
+
+                                                </div>
+                                                <div ng-if="ObjTieuChi.listChiBaoB.length>0">
+                                                    <span>Mức 2:</span>
+                                                    <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
+                                                        <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="ObjTieuChi.listChiBaoC.length>0">
+                                                    <span>Mức 3:</span>
+                                                    <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
+                                                        <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                                    </div>
+                                                </div>
+                                            </p>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h4><b>1. Điểm mạnh</b></h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div ng-bind-html="item.DiemManh"></div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <h4><b>2. Điểm yếu</b></h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div ng-bind-html="item.DiemYeu"></div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <h4><b>3. Kế hoạch cải tiến chất lượng</b></h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div ng-bind-html="item.KeHoachCaiTien"></div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <h4><b>4. Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung minh chứng</b></h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div ng-bind-html="item.NoiDungCanBoSung"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <h4><b>5. Đánh giá tiêu chí: {{(item.KQDatMuc+'')=='0'?'Không đạt':'Đạt mức '+item.KQDatMuc}}</b></h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td align="center" colspan="2">Mức 1</td>
+                                                        <td align="center" colspan="2">Mức 2</td>
+                                                        <td align="center" colspan="2">Mức 3</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center">Chỉ báo</td>
+                                                        <td align="center">Đạt/Không đạt</td>
+                                                        <td align="center">Chỉ báo</td>
+                                                        <td align="center">Đạt/Không đạt</td>
+                                                        <td align="center">Chỉ báo</td>
+                                                        <td align="center">Đạt/Không đạt</td>
+                                                    </tr>
+                                                    <tr ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                                        <td align="center">
+                                                            <span ng-if="tc.NoiDung!=null"> {{tc.STT==null || tc.STT=='.'?'*':tc.STT}}</span>
+                                                            <span ng-if="tc.NoiDung==null">-</span>
+                                                        </td>
+                                                        <td align="center">
+                                                            {{item.KQChiBaoObj[$index]['ChiBaoA_'+$index]==true?'Đạt':item.KQChiBaoObj[$index]['ChiBaoA_'+$index]==false?'Không đạt':''}}
+                                                        </td>
+                                                        <td align="center">
+                                                            <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoB[$index].STT==null || ObjTieuChi.listChiBaoB[$index].STT=='.'?'*':ObjTieuChi.listChiBaoB[$index].STT}}</span>
+                                                            <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
+
+                                                        </td>
+                                                        <td align="center">
+                                                            {{item.KQChiBaoObj[$index]['ChiBaoB_'+$index]==true?'Đạt':item.KQChiBaoObj[$index]['ChiBaoB_'+$index]==false?'Không đạt':''}}
+                                                        </td>
+                                                        <td align="center">
+                                                            <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoC[$index].STT==null || ObjTieuChi.listChiBaoC[$index].STT=='.'?'*':ObjTieuChi.listChiBaoC[$index].STT}}</span>
+                                                            <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
+
+                                                        </td>
+                                                        <td align="center">
+                                                            {{item.KQChiBaoObj[$index]['ChiBaoC_'+$index]==true?'Đạt':item.KQChiBaoObj[$index]['ChiBaoC_'+$index]==false?'Không đạt':''}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="center" colspan="2">
+                                                            {{item.KQDatA==true?'Đạt':item.KQDatA==false?'Không đạt':''}}
+                                                        </td>
+                                                        <td align="center" colspan="2">
+                                                            {{item.KQDatB==true?'Đạt':item.KQDatB==false?'Không đạt':''}}
+                                                        </td>
+                                                        <td align="center" colspan="2">
+                                                            {{item.KQDatC==true?'Đạt':item.KQDatC==false?'Không đạt':''}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <div class="col-md-12">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td align="center" class="td-no-border">
+                                                    </td>
+                                                    <td align="center" class="td-no-border"><i>......., ngày...... tháng ....... năm ........</i></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="center" width="40%" class="td-no-border">
+                                                        <b>Trưởng đoàn</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                                                    </td>
+                                                    <td align="center" width="60%" class="td-no-border">
+                                                        <b>Người đánh giá</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                    <!--endregion in-->
 
                                 </div>
                             </div>
