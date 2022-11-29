@@ -43,8 +43,8 @@
         <EntityTypeShape EntityType="WebApiDataModel.UnreadMe" Width="1.5" PointX="20.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.UserProfile" Width="1.5" PointX="20.75" PointY="3.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKhaoSatSoBoDGN" Width="1.5" PointX="5.375" PointY="20.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.tblKetQuaNghienCuuDGN" Width="1.5" PointX="7.375" PointY="20.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKQNghienCuuTieuChiDGN" Width="1.5" PointX="15.375" PointY="20.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblKetQuaNghienCuuDGN" Width="1.5" PointX="7.375" PointY="20.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

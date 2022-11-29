@@ -81,6 +81,92 @@
 
             })
         }
+
+        //Load Thông tin bổ sung tiêu chí - mục 4
+        $scope.LoadTTBoSungTieuChi = function () {
+            $scope.BoSungTC = {
+                IdDonVi: $rootScope.CurDonVi.Id,
+                IdKeHoachDGN: $scope.ItemKeHoachDGN.Id != 0 ? $scope.ItemKeHoachDGN.Id : 0,
+                IdTieuChi: $scope.filterPhieuDG.IdTieuChi != null && $scope.filterPhieuDG.IdTieuChi != 0 ? $scope.filterPhieuDG.IdTieuChi : 0,
+                ArrMC: [],
+                ChuaDG: false,
+                ChuaDGDung: false,
+                ChuaDGDayDu: false,
+                MCKiemTra: [],
+                MCBoSung: [],
+                DoiTuongPV: null,
+                SoLuong: null,
+                NoiDungPV: null
+            };
+
+            $http({
+                method: 'GET',
+                url: 'api/KetQuaNghienCuuDGN/LoadKQNghienCuuTieuChiDGN',
+                params: {
+                    IdKeHoachDGN: $scope.ItemKeHoachDGN.Id != 0 ? $scope.ItemKeHoachDGN.Id : 0,
+                    IdTieuChi: $scope.filterPhieuDG.IdTieuChi != null && $scope.filterPhieuDG.IdTieuChi != 0 ? $scope.filterPhieuDG.IdTieuChi : 0,
+                    IdDonVi: $rootScope.CurDonVi.Id
+                }
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.BoSungTC = response.data;
+                    if ($scope.BoSungTC.MCKiemTra)
+                        $scope.BoSungTC.MCKiemTra = JSON.parse($scope.BoSungTC.MCKiemTra)
+                    if ($scope.BoSungTC.MCBoSung)
+                        $scope.BoSungTC.MCBoSung = JSON.parse($scope.BoSungTC.MCBoSung)
+                }
+                $scope.LoadMinhChungByTieuChi();
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+
+        }
+
+        //Load minh chứng theo tiêu chí
+        $scope.LoadMinhChungByTieuChi = function () {
+
+            $http({
+                method: 'GET',
+                url: 'api/KetQuaNghienCuuDGN/LoadMinhChung',
+                params: {
+                    IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG != 0 ? $scope.ItemKeHoachDGN.IdKeHoachTDG : 0,
+                    IdTieuChi: $scope.filterPhieuDG.IdTieuChi != null && $scope.filterPhieuDG.IdTieuChi != 0 ? $scope.filterPhieuDG.IdTieuChi : 0
+                }
+            }).then(function successCallback(response) {
+
+                $scope.BoSungTC.ArrMC = response.data;
+                angular.forEach($scope.BoSungTC.ArrMC, function (value, key) {
+                    
+                    if ($scope.BoSungTC.MCKiemTra && $scope.BoSungTC.MCKiemTra.includes(value.Id))
+                        value.KTLai = true;
+
+                    if ($scope.BoSungTC.MCBoSung && $scope.BoSungTC.MCBoSung.includes(value.Id))
+                        value.BoSung = true;
+                });
+
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+
+        }
+
+        $scope.SaveBoSungTC = function () {
+            $scope.BoSungTC.MCKiemTra = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.KTLai).map(x => x.Id))
+            $scope.BoSungTC.MCBoSung = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.BoSung).map(x => x.Id))
+            
+            $http({
+                method: 'POST',
+                url: 'api/KetQuaNghienCuuDGN/SaveBoSungTC',
+                data: $scope.BoSungTC
+            }).then(function successCallback(response) {
+
+                toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
+
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+        }
+
         $scope.OnChangeTieuChuan = function (Id, type) {
             if (type == 'TIEUCHUAN') {
                 $scope.TieuChis = []
@@ -94,6 +180,7 @@
                 $scope.ObjTieuChi.listChiBaoC = JSON.parse($scope.ObjTieuChi.ChiBaoC)
                 $scope.LoadPhieuDanhGia();
                 $scope.LoadPhieuTuDanhGia();
+                $scope.LoadTTBoSungTieuChi();
             }
 
 
@@ -138,9 +225,9 @@
                 if (response.data != null && response.data != '' && response.data.length > 0) {
                     $scope.ItemPhieu = response.data[0]
                     let tieuchi = $scope.TieuChis.find(s => s.Id == $scope.filterPhieuDG.IdTieuChi)
-                    $scope.ItemPhieu.TieuChiName = tieuchi != null ? tieuchi.NoiDung:''
+                    $scope.ItemPhieu.TieuChiName = tieuchi != null ? tieuchi.NoiDung : ''
                 }
-                   
+
 
             }, function errorCallback(response) {
                 toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
@@ -183,8 +270,10 @@
                 data: $scope.item
             }).then(function successCallback(response) {
                 $scope.itemError = "";
-                toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
-                $scope.item.Id = response.data.Id
+                $scope.item.Id = response.data.Id;
+
+                $scope.SaveBoSungTC();
+                    
 
             }, function errorCallback(response) {
                 $scope.itemError = response.data;
@@ -206,5 +295,7 @@
                     break;
             }
         }
+
+
     }]);
 

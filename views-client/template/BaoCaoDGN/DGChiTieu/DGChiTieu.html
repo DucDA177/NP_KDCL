@@ -4,8 +4,9 @@
         border-color: #ed6b75;
         border-right: none
     }
-    .p-phieu p{
-        font-size:12pt!important
+
+    .p-phieu p {
+        font-size: 12pt !important
     }
 </style>
 <div ng-controller="BaoCaoDanhGiaChiTieuController">
@@ -177,18 +178,76 @@
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab_4">
-                                                <div class="row">
+                                                <div class="row" style="max-height:600px;overflow:auto">
+                                                    <div class="col-md-4">
+                                                        <label><input type="checkbox" ng-model="BoSungTC.ChuaDG" /> Chưa đánh giá</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label><input type="checkbox" ng-model="BoSungTC.ChuaDGDung" /> Chưa đánh giá đúng</label>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label><input type="checkbox" ng-model="BoSungTC.ChuaDGDayDu" /> Chưa đánh giá đầy đủ</label>
+                                                    </div>
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung chứng minh</h3>
+
+                                                        <div class="table-scrollable ">
+                                                            <!-- BEGIN FORM-->
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th width="1px" align="center"> STT </th>
+                                                                        <th> <div style="text-align:center">Mã minh chứng</div></th>
+                                                                        <th> <div style="text-align:center">Tên minh chứng</div> </th>
+                                                                        <th> <div style="text-align:center">Cần KT lại</div></th>
+                                                                        <th> <div style="text-align:center">Cần bổ sung</div></th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="odd gradeX" ng-repeat="dm in BoSungTC.ArrMC">
+                                                                        <td align="center" width="1px"> {{$index + 1}} </td>
+                                                                        <td>
+                                                                            <a class="link-minhchung"
+                                                                               href="javascript:void(0);"
+                                                                               id="{{dm.Id}}"
+                                                                               ng-click="OpenViewMinhChung(dm.Id)">
+                                                                                [{{dm.Ma}}]
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            {{dm.TenMinhChung}}
+                                                                        </td>
+
+                                                                        <td align="center" width="1px">
+                                                                            <input type="checkbox" ng-model="dm.KTLai" />
+                                                                        </td>
+                                                                        <td align="center" width="1px">
+                                                                            <input type="checkbox" ng-model="dm.BoSung" />
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
                                                         </div>
 
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <div>
-                                                            <ng-ckeditor ng-model="item.NoiDungCanBoSung"
-                                                                         ng-config="config"></ng-ckeditor>
-                                                        </div>
+                                                        Đối tượng phỏng vấn: <br />
+                                                        <textarea class="form-control input-sm" rows="2" ng-model="BoSungTC.DoiTuongPV"></textarea>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        Số lượng: <br />
+                                                        <input class="form-control input-sm" type="number" ng-model="BoSungTC.SoLuong" />
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        Nội dung phỏng vấn: <br />
+                                                        <textarea class="form-control input-sm" rows="2" ng-model="BoSungTC.NoiDungPV"></textarea>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        Nội dung cần bổ sung: <br />
+                                                        <ng-ckeditor ng-model="item.NoiDungCanBoSung"
+                                                                     ng-config="config"></ng-ckeditor>
+
                                                     </div>
                                                 </div>
                                             </div>

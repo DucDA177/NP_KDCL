@@ -65,8 +65,8 @@ namespace WebApiCore.Models
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
         public virtual DbSet<tblKhaoSatSoBoDGN> tblKhaoSatSoBoDGNs { get; set; }
-        public virtual DbSet<tblKetQuaNghienCuuDGN> tblKetQuaNghienCuuDGNs { get; set; }
         public virtual DbSet<tblKQNghienCuuTieuChiDGN> tblKQNghienCuuTieuChiDGNs { get; set; }
+        public virtual DbSet<tblKetQuaNghienCuuDGN> tblKetQuaNghienCuuDGNs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

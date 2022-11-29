@@ -139,7 +139,7 @@
             method: 'GET',
             url: 'api/Base/GetDMDonVi',
             params: {
-                PhanLoai: 'TRUONG',
+                PhanLoai: '',
                 SearchKey: ''
             }
         }).then(function successCallback(response) {

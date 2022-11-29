@@ -9,7 +9,6 @@
         }).then(function successCallback(response) {
 
             $scope.PhuLucMC = response.data;
-            console.log($scope.PhuLucMC)
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });

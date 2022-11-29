@@ -26,7 +26,9 @@
                             <div class="input-group">
                                 <span class="input-group-addon">Đơn vị</span>
                                 <select class="form-control select2 filter-select " ng-model="filterKeHoachTDG.IdTruong" ng-change="onSearchKeHoachTDG()">
-                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                                    <option ng-repeat="dv in DonVis" 
+                                            ng-disabled="dv.LoaiDonVi != 'TRUONG'"
+                                            value="{{dv.Id}}">{{dv.TenDonVi}}</option>
                                 </select>
                             </div>
                         </div>
@@ -53,12 +55,10 @@
                                        class="form-control ">
                             </div>
                         </div>
-                    </div>
-                    <br />
-
-                    <div class="row text-center">
-                        <a class="btn btn-primary btn-" ng-click="onSearchKeHoachTDG()"><i class="fa fa-search"></i> Tìm</a>
-                        <a class="btn btn-default btn-" ng-click="onCancelKeHoachTDG()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
+                        <div class="col-md-3 text-right">
+                            <a class="btn btn-primary btn-" ng-click="onSearchKeHoachTDG()"><i class="fa fa-search"></i> Tìm</a>
+                            <a class="btn btn-default btn-" ng-click="onCancelKeHoachTDG()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
+                        </div>
                     </div>
                     <br />
                     <div class="row">
@@ -130,7 +130,11 @@
                             <div class="input-group">
                                 <span class="input-group-addon">Đơn vị</span>
                                 <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
-                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                                    <option ng-repeat="dv in DonVis"
+                                            ng-disabled="dv.LoaiDonVi != 'TRUONG'"
+                                            value="{{dv.Id}}">
+                                        {{dv.TenDonVi}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -152,13 +156,11 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-3 text-right">
+                            <a class="btn btn-primary btn-" ng-click="onSearchKeHoachDGN()"><i class="fa fa-search"></i> Tìm</a>
+                            <a class="btn btn-default btn-" ng-click="onCancelKeHoachDGN()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
+                        </div>
                         <!--TrangThaiKHDGNs-->
-                    </div>
-                    <br />
-
-                    <div class="row text-center">
-                        <a class="btn btn-primary btn-" ng-click="onSearchKeHoachDGN()"><i class="fa fa-search"></i> Tìm</a>
-                        <a class="btn btn-default btn-" ng-click="onCancelKeHoachDGN()"><i class="glyphicon glyphicon-remove"></i> Hủy</a>
                     </div>
                     <br />
                     <div class="row">
