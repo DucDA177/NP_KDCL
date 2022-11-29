@@ -124,7 +124,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
         public IHttpActionResult GetTCTC(int IdKeHoach,string type)
         {
             int? IdKeHoachTDG = IdKeHoach;
-            if (type == "KHDGN")
+            if (type == "KHDGN" || type=="KHDGN_MYTC")
             {
                 var KH_DGN = db.tblKeHoachDGNs.Find(IdKeHoach);
                 IdKeHoachTDG = KH_DGN.IdKeHoachTDG;
@@ -132,19 +132,46 @@ namespace WebApiCore.Controllers.KeHoachDGN
            
             var KH_TDG = db.tblKeHoachTDGs.Find(IdKeHoachTDG);
             var DonVi = db.DMDonVis.FirstOrDefault(s => s.Id == KH_TDG.IdDonVi);
+          
+
             if (KH_TDG.IdQuyDinhTC != null)
             {
-                var listTCTC = from tchuan in db.DMTieuChuans
-                               join tchi in db.DMTieuChis on tchuan.Id equals tchi.IdTieuChuan
-                               where tchuan.IdQuyDinh == KH_TDG.IdQuyDinhTC && tchuan.NhomLoai.Contains(DonVi.NhomLoai) && tchuan.YCDanhGia==true
-                               select new { tchi, tchuan };
-                var result = listTCTC.OrderBy(s => s.tchuan.STT).ToList().GroupBy(t => t.tchuan)
+               
+                if(type == "KHDGN_MYTC")
+                {
+                    var hoidongTC = (from hd in db.tblHoiDongDGNs
+                                   join tchd in db.tblPhanCongTCDGNs on hd.Id equals tchd.IdHoiDongDGN
+                                   where hd.IdKeHoachDGN == IdKeHoach && hd.Username == HttpContext.Current.User.Identity.Name
+                                   select new { tchd }
+                                   ).ToList().Select(s => { return s.tchd.IdTieuChi; });
+                    var listTCTC = from tchuan in db.DMTieuChuans
+                                   join tchi in db.DMTieuChis on tchuan.Id equals tchi.IdTieuChuan
+                                   where tchuan.IdQuyDinh == KH_TDG.IdQuyDinhTC && tchuan.NhomLoai.Contains(DonVi.NhomLoai) && tchuan.YCDanhGia == true
+                                   && hoidongTC.Any(x=>x==tchi.Id)
+                                   select new { tchi, tchuan };
+                    var result = listTCTC.OrderBy(s => s.tchuan.STT).ToList().GroupBy(t => t.tchuan)
                     .Select(t => new
                     {
                         tchuan = t.FirstOrDefault()?.tchuan,
                         tchi = t.Select(x => x.tchi)
                     }).ToList();
-                return Ok(result);
+                    return Ok(result);
+                }
+                else
+                {
+                    var listTCTC = from tchuan in db.DMTieuChuans
+                                   join tchi in db.DMTieuChis on tchuan.Id equals tchi.IdTieuChuan
+                                   where tchuan.IdQuyDinh == KH_TDG.IdQuyDinhTC && tchuan.NhomLoai.Contains(DonVi.NhomLoai) && tchuan.YCDanhGia == true
+                                   select new { tchi, tchuan };
+                    var result = listTCTC.OrderBy(s => s.tchuan.STT).ToList().GroupBy(t => t.tchuan)
+                    .Select(t => new
+                    {
+                        tchuan = t.FirstOrDefault()?.tchuan,
+                        tchi = t.Select(x => x.tchi)
+                    }).ToList();
+                    return Ok(result);
+                }
+                
             }
             return Ok();
         }

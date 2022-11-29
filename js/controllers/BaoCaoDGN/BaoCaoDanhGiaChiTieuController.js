@@ -28,7 +28,7 @@
             //    GetAll: true,
             //};
             $scope.filterTCTC = {
-                type: 'KHDGN'
+                type: 'KHDGN_MYTC'
             }
             $scope.filterPhieuDG = {
                 PhanLoaiDanhGia: 'TIEUCHI'
@@ -42,6 +42,7 @@
                 return;
             }
             $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == Id)
+            $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
         }
         $scope.ServiceLoadKeHoachDGN = function (data) {
             return $http.post("api/KeHoachDGN/FilterKHDGN", data)
@@ -63,7 +64,7 @@
 
         $scope.filterTCTC = {
             //IdKeHoach: $scope.item.Id,
-            type: 'KHDGN'
+            type: 'KHDGN_MYTC'
         }
         $scope.LoadTCTC = function () {
             $scope.TieuChuans = []

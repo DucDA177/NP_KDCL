@@ -70,7 +70,7 @@
 
 
     //lap bao cao sobo
-  
+
 
     $scope.LoadTemplate = function () {
         setTimeout(function () {
@@ -89,10 +89,9 @@
         $scope.item = {}
         $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == IdKeHoach)
         $http.get("api/BaoCaoSoBo/GetByIdKeHoach?IdKeHoach=" + IdKeHoach).then(function (rs) {
-           
-
             if (rs.data != null) {
                 $scope.item = rs.data
+                $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
                 if ($scope.item.Id == null || $scope.item.Id == 0) {
                     $scope.LoadTemplate();
                 }
@@ -173,7 +172,7 @@
             url: 'api/BaoCaoSoBo/Save',
             data: $scope.item
         }).then(function successCallback(response) {
-            $scope.item = response.data;
+            $scope.item.Id = response.data.Id
             $scope.itemError = "";
             toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
         }, function errorCallback(response) {
@@ -185,9 +184,8 @@
         });
 
     }
-
     $scope.config = {
-        readOnly: $scope.item != null && !$scope.CheckView($scope.item, 'EDIT'),
+        // readOnly: $scope.item != null && !$scope.CheckView($scope.item, 'EDIT'),
         height: '300px',
         toolbar: [
             ['Source'],
@@ -204,7 +202,7 @@
         ],
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
     }
- }]);
+}]);
 
 
 angular.module('WebApiApp').controller("ModalViewKeHoachDGN", function ($rootScope, $scope, $http, $uibModalInstance, FactoryConstant, $uibModal) {
@@ -289,7 +287,7 @@ angular.module('WebApiApp').controller("ModalViewKeHoachDGN", function ($rootSco
         removeButtons: 'Strike,Subscript,Superscript,Anchor,Styles,Specialchar',
     }
 
-   
+
 
 });
 

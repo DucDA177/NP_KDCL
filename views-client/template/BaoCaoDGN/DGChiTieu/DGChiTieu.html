@@ -17,48 +17,39 @@
 
         <div class="portlet-body  form">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="row ">
-
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Đơn vị</span>
-                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
-                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
-                                        {{dv.TenDonVi}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Kế hoạch </span>
-                                <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC();onChangeKeHoach(filterTCTC.IdKeHoach)">
-                                    <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Đơn vị</span>
+                        <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
+                            <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
+                                {{dv.TenDonVi}}
+                            </option>
+                        </select>
                     </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Tiêu chuẩn</span>
-                                <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChuan" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChuan,'TIEUCHUAN')">
-                                    <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Tiêu chí</span>
-                                <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI')">
-                                    <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                </select>
-                            </div>
-                        </div>
+                </div>
 
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Kế hoạch </span>
+                        <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC();onChangeKeHoach(filterTCTC.IdKeHoach)">
+                            <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Tiêu chuẩn</span>
+                        <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChuan" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChuan,'TIEUCHUAN')">
+                            <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Tiêu chí</span>
+                        <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI')">
+                            <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -450,7 +441,7 @@
 
                 </div>
                 <div class="col-md-6">
-                    <div class="portlet light bordered">
+                    <div class="portlet light bordered" style="max-height:600px;overflow:auto">
                         <div class="portlet-title">
                             <div class="caption caption-md text-center">
                                 <span class="caption-subject font-green bold uppercase"> Phiếu tự đánh giá</span>
