@@ -4,6 +4,9 @@
         border-color: #ed6b75;
         border-right: none
     }
+    .p-phieu p{
+        font-size:12pt!important
+    }
 </style>
 <div ng-controller="BaoCaoDanhGiaChiTieuController">
     <div class="col-md-12">
@@ -279,7 +282,7 @@
                                 </div>
 
                             </div>
-                            <div  class="row">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <a class="btn btn-sm btn-success btn-outline sbold"
                                        ng-click="exportBaoCao('PrintDiv','Phiếu đánh giá tiêu chí.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
@@ -454,8 +457,59 @@
                             </div>
 
                         </div>
-                        <div class="portlet-body form">
+                        <div ng-if="ItemPhieu.Id!=null" class="portlet-body form p-phieu">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>{{ItemKeHoachDGN.DonViName}}</b></h4>
+                                    <h4><b>Tiêu chí: {{ItemPhieu.TieuChiName}}</b></h4>
+                                    <h4>Kết quả<b>: {{ItemPhieu.KQDatC==true?'Đạt mức 3':ItemPhieu.KQDatB==true?'Đạt mức 2':ItemPhieu.KQDatA==true?'Đạt mức 1':'Không đạt'}}</b></h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>1. Điểm mạnh</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="font-size:12pt" ng-bind-html="ItemPhieu.DiemManh"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>2. Điểm yếu</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="font-size:12pt" ng-bind-html="ItemPhieu.DiemYeu"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>3. Kế hoạch cải tiến</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.KeHoachCaiTien"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>4. Đánh giá theo chỉ báo</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.KQChiBao"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>5. Mô tả hiện trạng:</b></h4>
+                                    <h4><b>- Mức 1: {{ItemPhieu.KQDatA==true?'Kết quả đạt':''}}</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.MoTaA"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>- Mức 2: {{ItemPhieu.KQDatB==true?'Kết quả đạt':''}}</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.MoTaB"></div>
+                                </div> <div class="col-md-12">
+                                    <h4><b>- Mức 3: {{ItemPhieu.KQDatC==true?'Kết quả đạt':''}}</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.MoTaC"></div>
+                                </div>
 
+                            </div>
                         </div>
 
                     </div>

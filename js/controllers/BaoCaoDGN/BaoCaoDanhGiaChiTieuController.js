@@ -22,6 +22,7 @@
             $scope.TieuChuans = []
             $scope.TieuChis = []
             $scope.item = {}
+            $scope.ItemPhieu = {}
             $scope.ItemKeHoachDGN = {}
             //$scope.filterKeHoachDGN = {
             //    GetAll: true,
@@ -91,6 +92,7 @@
                 $scope.ObjTieuChi.listChiBaoB = JSON.parse($scope.ObjTieuChi.ChiBaoB)
                 $scope.ObjTieuChi.listChiBaoC = JSON.parse($scope.ObjTieuChi.ChiBaoC)
                 $scope.LoadPhieuDanhGia();
+                $scope.LoadPhieuTuDanhGia();
             }
 
 
@@ -118,6 +120,33 @@
 
         }
         //end Load Phieu danh gia chi tieu
+        //Load Phieu Tu danh gia chi tieu
+        $scope.LoadPhieuTuDanhGia = function () {
+            $scope.ItemPhieu = {}
+            let paramPhieus = {
+                IdKeHoach: $scope.ItemKeHoachDGN.IdKeHoachTDG != 0 ? $scope.ItemKeHoachDGN.IdKeHoachTDG : 0,
+                IdTieuChi: $scope.filterPhieuDG.IdTieuChi != null && $scope.filterPhieuDG.IdTieuChi != 0 ? $scope.filterPhieuDG.IdTieuChi : 0,
+                IdDonVi: 0
+            }
+            $http({
+                method: 'GET',
+                url: 'api/DanhGiaTieuChi/GetByIdKeHoach',
+                params: paramPhieus
+            }).then(function successCallback(response) {
+
+                if (response.data != null && response.data != '' && response.data.length > 0) {
+                    $scope.ItemPhieu = response.data[0]
+                    let tieuchi = $scope.TieuChis.find(s => s.Id == $scope.filterPhieuDG.IdTieuChi)
+                    $scope.ItemPhieu.TieuChiName = tieuchi != null ? tieuchi.NoiDung:''
+                }
+                   
+
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+
+        }
+        //end Load Phieu Tu danh gia chi tieu
 
         $scope.LoadDonVi = function () {
             $http({

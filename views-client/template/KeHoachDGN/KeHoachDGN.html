@@ -86,7 +86,7 @@
                                         <tr class="odd gradeX" ng-repeat="dm in KeHoachTDG">
                                             <!--<td align="center" width="1px">
                                                 <a tooltip title="Tạo kế hoạch đánh giá ngoài" ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')"><i class="font-green fa fa-play"></i></a>-->
-                                                <!--<input type="checkbox" ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" />-->
+                                            <!--<input type="checkbox" ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" />-->
                                             <!--</td>-->
                                             <td align="center" width="1px"> {{$index + 1}} </td>
                                             <td>  <a ng-click="OpenDetailKeHoachTDG(dm,'KeHoachTDG')"> {{dm.NoiDung}}</a> </td>
@@ -112,7 +112,7 @@
                                                 <a ng-if="CheckView(dm,'TAOKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-share"></i></a>
                                                 <a ng-if="CheckView(dm,'VIEWKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachTDG')" title="Xem kế hoạch đánh giá ngoài"><i class="fa fa-eye"></i></a>
                                             </td>
-                                           
+
 
                                         </tr>
 
@@ -191,7 +191,7 @@
                                                 <span ng-repeat="tt in TrangThaiKHDGNs | filter : {FCode : dm.TrangThai}"> {{tt.FName}}</span>
                                             </td>
                                             <td>
-                                                <a tooltip title="In kế hoạch đánh giá" ng-click="openModal(dm,'InKeHoachTDG')">
+                                                <a tooltip title="In kế hoạch đánh giá" ng-click="InDanhGia(dm);">
                                                     <i class="fa fa-file-word-o"></i>
                                                 </a>
                                             </td>
@@ -213,7 +213,111 @@
                             </div>
                         </div>
                     </div>
+                    <!--region in-->
+                    <div hidden class="row" id="PrintDiv">
 
+                        <div class="col-md-12">
+                            <table>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <center>
+                                <h4>
+                                    <b> KẾ HOẠCH LÀM VIỆC CỦA ĐOÀN ĐÁNH GIÁ NGOÀI</b>
+                                </h4>
+
+                            </center>
+                        </div>
+                        <div class="col-md-12">
+                            <h4><b>I. MỤC ĐÍCH</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.MucDich"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <h4><b>II. NỘI DUNG</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <h4><b>1. Nghiên cứu hồ sơ đánh giá</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.NghienCuuHSDG"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <h4><b>2. Khảo sát sơ bộ tại cơ sở giáo dục phổ thông</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.KhaoSatSoBo"></div>
+                        </div>
+                        <div class="col-md-12">
+                            <h4><b>3. Khảo sát chính thức tại cơ sở giáo dục phổ thông</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.KhaoSatChinhThuc"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4><b>4. Dự thảo báo cáo ngoài</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.DuThaoBaoCao"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4><b>5. Lấy ý kiến phản hồi của cơ sở giáo dục phổ thông về dự thảo báo cáo đánh giá ngoài</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.LayYKienPhanHoi"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4><b>6. Hoàn thiện báo cáo đánh giá ngoài</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.HoanThienBaoCao"></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4><b>III. TỔ CHỨC THỰC HIỆN</b></h4>
+                        </div>
+                        <div class="col-md-12">
+                            <div ng-bind-html="ItemKeHoach.ToChucThucHien"></div>
+                        </div>
+
+                        <br />
+                        <br />
+                        <br />
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tr>
+                                    <td align="center" class="td-no-border">
+                                        <b>DUYỆT CỦA GIÁM ĐỐC SỞ GIÁO DỤC VÀ ĐÀO TẠO</b>
+                                    </td>
+                                    <td align="center" class="td-no-border">
+                                        <i>......., ngày...... tháng ....... năm ........</i><br />
+                                        <b>TRƯỞNG ĐOÀN</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="40%" class="td-no-border">
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <b><i>Nơi nhận:</i></b><br />
+                                        - Sở GDĐT (để b/c);<br />
+                                        - Các thành viên Đoàn ĐGN (để th/h);<br />
+                                        - Trường được ĐGN (để biết);<br />
+                                        - Lưu: ...............
+                                    </td>
+                                    <td align="center" width="60%" class="td-no-border">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!--endregion in-->
                 </div>
 
             </div>

@@ -1,0 +1,150 @@
+﻿
+<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4>
+            <label class=" uppercase font-white">
+                <i class="fa fa-list"></i> Kế hoạch đánh giá ngoài
+            </label>
+        </h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row" style="max-height:450px;overflow-y:scroll" id="PrintDiv">
+
+            <div class="col-md-12">
+                <table width="100%">
+                    <tr>
+                        <td width="40%" align="center" class="td-no-border">
+                            UBND TỈNH/THÀNH PHỐ hoặc<br />
+                            SỞ GIÁO DỤC VÀ ĐÀO TẠO ...
+                            <!--{{CurDonVi.TenDonVi | uppercase}}-->
+                        </td>
+                        <td width="60%" align="center" class="td-no-border">
+                            <b>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br />
+                            <b>Độc lập - Tự do - Hạnh phúc</b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" class="td-no-border">
+                            <b style="text-transform:uppercase">ĐOÀN ĐÁNH GIÁ NGOÀI {{item.DonViName}}</b>
+                        </td>
+                        <td align="center" class="td-no-border">
+                            <i>…, ngày ... tháng ... năm ......</i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <center>
+                    <h4>
+                        <b> KẾ HOẠCH LÀM VIỆC CỦA ĐOÀN ĐÁNH GIÁ NGOÀI</b>
+                    </h4>
+
+                </center>
+            </div>
+            <div class="col-md-12">
+                <h4><b>I. MỤC ĐÍCH</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.MucDich"></div>
+            </div>
+            <div class="col-md-12">
+                <h4><b>II. NỘI DUNG</b></h4>
+            </div>
+            <div class="col-md-12">
+                <h4><b>1. Nghiên cứu hồ sơ đánh giá</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.NghienCuuHSDG"></div>
+            </div>
+            <div class="col-md-12">
+                <h4><b>2. Khảo sát sơ bộ tại cơ sở giáo dục phổ thông</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.KhaoSatSoBo"></div>
+            </div>
+            <div class="col-md-12">
+                <h4><b>3. Khảo sát chính thức tại cơ sở giáo dục phổ thông</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.KhaoSatChinhThuc"></div>
+            </div>
+
+            <div class="col-md-12">
+                <h4><b>4. Dự thảo báo cáo ngoài</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.DuThaoBaoCao"></div>
+            </div>
+
+            <div class="col-md-12">
+                <h4><b>5. Lấy ý kiến phản hồi của cơ sở giáo dục phổ thông về dự thảo báo cáo đánh giá ngoài</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.LayYKienPhanHoi"></div>
+            </div>
+
+            <div class="col-md-12">
+                <h4><b>6. Hoàn thiện báo cáo đánh giá ngoài</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.HoanThienBaoCao"></div>
+            </div>
+
+            <div class="col-md-12">
+                <h4><b>III. TỔ CHỨC THỰC HIỆN</b></h4>
+            </div>
+            <div class="col-md-12">
+                <div ng-bind-html="item.ToChucThucHien"></div>
+            </div>
+
+            <br />
+            <br />
+            <br />
+            <div class="col-md-12">
+                <table width="100%">
+                    <tr>
+                        <td align="center" class="td-no-border">
+                            <b>DUYỆT CỦA GIÁM ĐỐC SỞ GIÁO DỤC VÀ ĐÀO TẠO</b>
+                        </td>
+                        <td align="center" class="td-no-border">
+                            <i>......., ngày...... tháng ....... năm ........</i><br />
+                            <b>TRƯỞNG ĐOÀN</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="40%" class="td-no-border">
+                            <br />
+                            <br />
+                            <br />
+                            <b><i>Nơi nhận:</i></b><br />
+                            - Sở GDĐT (để b/c);<br />
+                            - Các thành viên Đoàn ĐGN (để th/h);<br />
+                            - Trường được ĐGN (để biết);<br />
+                            - Lưu: ...............
+                        </td>
+                        <td align="center" width="60%" class="td-no-border">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group margin-top-10" style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                   ng-click="exportBaoCao('PrintDiv','Kế hoạch đánh giá ngoài.doc','application/vnd.ms-word')">
+                    <i class="fa fa-file-word-o"></i> Xuất kế hoạch
+                </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

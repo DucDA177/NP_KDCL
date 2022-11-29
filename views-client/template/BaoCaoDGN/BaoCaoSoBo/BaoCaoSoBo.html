@@ -121,6 +121,11 @@
                                 <div ng-if="item.IdKeHoachDGN!=null">
                                     <div class="row">
                                         <div class="col-md-12">
+                                            <h4><b>Theo {{ItemKeHoachDGN.NoiDung}}</b></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
                                             <div class="row ">
                                                 <div class="tabbable-custom portlet box margin-top-10">
                                                     <div class="col-md-3 col-sm-3 col-xs-3">
@@ -228,10 +233,8 @@
                                         <div class="col-md-12">
                                             <a class="btn btn-sm btn-success btn-outline sbold"
                                                ng-click="exportBaoCao('PrintDiv','Báo cáo sơ bộ.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
-                                            <a class="btn btn-sm btn-success btn-outline sbold"
+                                            <a  ng-if="CheckView(null,'EDIT')" class="btn btn-sm btn-success btn-outline sbold"
                                                ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
-                                            <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
-
                                         </div>
                                     </div>
                                 </div>

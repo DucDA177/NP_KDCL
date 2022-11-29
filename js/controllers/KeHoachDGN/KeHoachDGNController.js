@@ -1,4 +1,27 @@
-﻿angular.module('WebApiApp').controller('KeHoachDGNController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', 'FactoryConstant', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings, FactoryConstant) {
+﻿angular.module('WebApiApp').controller('KeHoachDGNController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', '$timeout', 'FactoryConstant', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings, $timeout, FactoryConstant) {
+    $scope.InDanhGia = function (item) {
+        $scope.modalInstance = $uibModal.open({
+            ariaLabelledBy: 'modal-title',
+            animation: true,
+            ariaDescribedBy: 'modal-body',
+            templateUrl: 'views-client/template/KeHoachDGN/ModalInKehoach.html?bust=' + Math.random().toString(36).slice(2),
+            controller: 'ModalInKeHoachDGNController',
+            controllerAs: 'vm',
+            scope: $scope,
+            backdrop: 'static',
+            size: 'lg',
+            index: 10000,
+            resolve: {
+                item: function () { return item },
+            }
+        });
+       // $scope.ItemKeHoach = item
+       //// console.warn(item, $scope.ItemKeHoach)
+       // $timeout(() => {
+       //     $scope.exportBaoCao('PrintDiv', 'Kế hoạch đánh giá ngoài.doc', 'application/vnd.ms-word')
+       // },
+       //     50)
+    }
     // Filter danh sach ke hoach Tu danh gia
     $scope.ServiceLoadKeHoachTDG = function (data) {
         return $http.post("api/KeHoachTDG/FilterKeHoachTDG", data)
@@ -150,7 +173,7 @@
             case "HOANTHANHKHDGN":
                 return item.Id != null && (item.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode)
                 break;
-           case "EDITKHDGN":
+            case "EDITKHDGN":
                 return item.TrangThai != FactoryConstant.HOAN_THANH_KE_HOACH_NGOAI.FCode
                 break;
             default:
@@ -175,7 +198,7 @@
                     return false;
                 }
                 break;
-               
+
         }
         return true
     }
@@ -434,6 +457,14 @@ angular.module('WebApiApp').controller("DetailKeHoachTDGHandlerController", func
 
         // Load danh mục trong bảng tblDanhmuc
         $scope.LoadDanhMuc('QuyDinh', 'QUYDINH', '', '', '');
+    }
+
+});
+angular.module('WebApiApp').controller("ModalInKeHoachDGNController", function ($rootScope, $scope, $http, $uibModalInstance, $uibModal) {
+    $scope.item = $scope.$resolve.item;
+   
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
     }
 
 });

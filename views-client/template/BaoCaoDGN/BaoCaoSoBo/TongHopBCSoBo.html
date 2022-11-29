@@ -1,0 +1,152 @@
+﻿<style>
+    .tabs-left.nav-tabs > li.active > a, .tabs-left.nav-tabs > li.active > a:hover > li.active > a:focus {
+        border-width: 3px !important;
+        border-color: #ed6b75;
+        border-right: none
+    }
+    .p-vanban p {
+        margin: 10px 0 !important
+    }
+</style>
+<div ng-controller="TongHopBCSoBoController">
+    <div class="col-md-12">
+        <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> TỔNG HỢP BÁO CÁO SƠ BỘ </label></h4>
+    </div>
+    <div class="form-body form-horizontal ">
+        <div class="portlet-body light form">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Đơn vị</span>
+                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
+                                <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
+                                    {{dv.TenDonVi}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Kế hoạch </span>
+                            <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="onChangeKeHoach(filterTCTC.IdKeHoach)">
+                                <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <span class="input-group-addon">Hội đồng</span>
+                            <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
+                                <option ng-repeat="hd in HoiDongDGN" value="{{hd.us.UserName}}">{{hd.us.HoTen}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div ng-show=" ItemPhieu.Id!=null" class="col-md-3">
+                        <a class="btn btn-sm btn-success btn-outline sbold"
+                           ng-click="exportBaoCao('PrintDiv','Báo cáo sơ bộ.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
+
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div ng-show=" ItemPhieu.Id!=null" class="portlet light bordered">
+                            <div  class="row p-vanban" id="PrintDiv">
+
+                                <div class="col-md-12">
+                                    <table>
+                                    </table>
+                                </div>
+                                <div class="col-md-12">
+                                    <center><h4><b> Báo cáo sơ bộ</b></h4></center>
+                                </div>
+                                <div class="col-md-12">
+                                    <p >Người viết: {{ItemPhieu.NguoiNhapName}}</p>
+                                    <p>Đơn vị công tác: {{ItemPhieu.DonViNguoiNhapName}}</p>
+                                    <p>Điện thoại: {{ItemPhieu.DienThoai}}&nbsp;Email: {{ItemPhieu.Email}}</p>
+                                    <p>Trường được đánh giá ngoài: {{ItemPhieu.DonViName}}</p>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5><b>1. Nhận xét về hình thức trình bày</b></h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.NhanXetHinhThuc"></div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5><b>2. Nhận xét về nội dung</b></h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.NhanXetNoiDung"></div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5><b>3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</b></h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.TieuChiChuaDanhGia"></div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h5><b>4. Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</b></h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.DeXuat"></div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="col-md-12">
+                                    <table width="100%">
+                                        <tr>
+                                            <td align="center" class="td-no-border"></td>
+                                            <td align="center" class="td-no-border"><i>......., ngày...... tháng ....... năm ........</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" width="40%" class="td-no-border">
+                                            </td>
+                                            <td align="center" width="60%" class="td-no-border">
+                                                <b>Người viết</b><br /><i>(Ký và ghi rõ họ tên)</i>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<div hidden id="TemplateNhanXetHinhThuc">
+    a) Hình thức trình bày: <br />
+    b) Cấu trúc: <br />
+    c) Chính tả ngữ pháp: <br />
+    d) Các ý kiến khác (nếu có):
+</div>
+
+<div hidden id="TemplateNhanXetNoiDung">
+    a) Cơ sở dữ liệu, đặt vấn đề, kết luận chung và phần Phụ lục:<br />
+    b) Các tiêu chí:<br />
+    - Mô tả hiện trạng<br />
+    - Điểm mạnh<br />
+    - Điểm yếu<br />
+    - Kế hoạch cải tiến chất lượng<br />
+    - Kết quả tự đánh giá<br />
+    c) Việc sử dụng các minh chứng, tính trung thực và đúng, đủ của các minh chứng:<br />
+</div>
+

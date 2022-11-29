@@ -18,20 +18,27 @@ namespace WebApiCore.Controllers.ThongTinTDG
 
         [HttpGet]
         [Route("api/DanhGiaTieuChi/GetDGTC")]
-        public IHttpActionResult GetDGTC(int IdDonVi, int IdKeHoachTDG,int IdTieuChuan)
+        public IHttpActionResult GetDGTC(int IdDonVi, int IdKeHoachTDG, int IdTieuChuan)
         {
-           var data = from tchi  in db.DMTieuChis
-                      .Where(x => x.IdTieuChuan == IdTieuChuan && x.YCDanhGia == true)
-                      join dgtc in db.tblDanhGiaTieuChis
-                      .Where(x => x.IdDonVi == IdDonVi && x.IdKeHoachTDG == IdKeHoachTDG)
-                      on tchi.Id equals dgtc.IdTieuChi
-                      into _dgtc
-                      from dgtc in _dgtc.DefaultIfEmpty()
-                      select new { dgtc, tchi };
+            var data = from tchi in db.DMTieuChis
+                       .Where(x => x.IdTieuChuan == IdTieuChuan && x.YCDanhGia == true)
+                       join dgtc in db.tblDanhGiaTieuChis
+                       .Where(x => x.IdDonVi == IdDonVi && x.IdKeHoachTDG == IdKeHoachTDG)
+                       on tchi.Id equals dgtc.IdTieuChi
+                       into _dgtc
+                       from dgtc in _dgtc.DefaultIfEmpty()
+                       select new { dgtc, tchi };
 
             return Ok(data);
         }
 
+        [HttpGet]
+        [Route("api/DanhGiaTieuChi/GetByIdKeHoach")]
+        public IHttpActionResult GetByIdKeHoach(int IdDonVi, int IdKeHoach, int IdTieuChi)
+        {
+            var data = db.tblDanhGiaTieuChis.Where(s => (s.IdDonVi == IdDonVi || IdDonVi == 0) && (s.IdKeHoachTDG == IdKeHoach || IdKeHoach == 0) && (s.IdTieuChi == IdTieuChi || IdTieuChi == 0));
+            return Ok(data);
+        }
 
         [HttpPost]
         [Route("api/DanhGiaTieuChi/Save")]
@@ -115,11 +122,11 @@ namespace WebApiCore.Controllers.ThongTinTDG
         [Route("api/DanhGiaTieuChi/SaveNoiHam")]
         public IHttpActionResult SaveNoiHam([FromBody] NoiHamGDTC data)
         {
-            var dgtc = db.tblDanhGiaTieuChis.Where(x => x.IdDonVi == data.IdDonVi 
+            var dgtc = db.tblDanhGiaTieuChis.Where(x => x.IdDonVi == data.IdDonVi
             && x.IdKeHoachTDG == data.IdKeHoachTDG && x.IdTieuChi == data.IdTieuChi)
                 .AsNoTracking().FirstOrDefault();
 
-            if(dgtc == null)
+            if (dgtc == null)
             {
                 dgtc = new tblDanhGiaTieuChi();
                 dgtc.IdDonVi = data.IdDonVi;

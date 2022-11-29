@@ -1,6 +1,45 @@
-﻿angular.module('WebApiApp').controller('BaoCaoSoBoController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', 'FactoryConstant', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings, FactoryConstant) {
-    $scope.ItemKeHoachDGN = {}
+﻿angular.module('WebApiApp').controller('TongHopBCSoBoController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', 'FactoryConstant', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings, FactoryConstant) {
+    var InitLoad = function () {
+        $scope.TieuChuans = []
+        $scope.TieuChis = []
+        $scope.ItemPhieu = {}
+        $scope.ItemKeHoachDGN = {}
+        $scope.HoiDongDGN = []
+     
+        $scope.filterPhieuDG = {
+          
+        }
+    }
+    //Load hoi dong
+    $scope.LoadHoiDongDGN = function (IdKeHoach) {
+
+        $http({
+            method: 'GET',
+            url: 'api/HoiDongDGN/GetAll?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachDGN=' + IdKeHoach
+        }).then(function successCallback(response) {
+
+            $scope.HoiDongDGN = response.data.filter(s => s.hd.VietBCSoBo==true);
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    //end load hoi dong
     //Filter danh sach ke hoach ngoai
+    $scope.onChangeKeHoach = function (Id) {
+        if (Id == null || Id == 0) {
+            $scope.filterTCTC.IdKeHoach = 0;
+            InitLoad()
+            return;
+        }
+        $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == Id)
+        $scope.LoadHoiDongDGN(Id);
+
+        $scope.LoadTCTC();
+
+        $scope.LoadPhieuTuDanhGia($scope.ItemKeHoachDGN.IdKeHoachTDG);
+    }
     $scope.ServiceLoadKeHoachDGN = function (data) {
         return $http.post("api/KeHoachDGN/FilterKHDGN", data)
     }
@@ -8,8 +47,6 @@
         GetAll: true,
     };
     $scope.LoadKeHoachDGN = function () {
-        $scope.item = {}
-        $scope.ItemKeHoachDGN = {}
         $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
             $scope.KeHoachDGN = response.data.ListOut;
         }, function errorCallback(response) {
@@ -17,17 +54,101 @@
         });
     }
     $scope.LoadKeHoachDGN();
-    $scope.onCancelKeHoachDGN = function () {
-        $scope.filterKeHoachDGN = {
-            GetAll: true,
-        };
-        $scope.LoadKeHoachDGN();
-        $('.filter-select').val(null).trigger("change.select2");
-    };
-    $scope.onSearchKeHoachDGN = function () {
-        $scope.LoadKeHoachDGN();
-    };
-    //end Filter danh sach ke hoach ngoai
+        //end Filter danh sach ke hoach ngoai
+
+    //Load Tieu chuan tieu chi
+
+    $scope.filterTCTC = {
+        type: 'KHDGN'
+    }
+    $scope.LoadTCTC = function () {
+        $scope.TieuChuans = []
+        $scope.TieuChis = []
+        if ($scope.filterTCTC.IdKeHoach == null)
+            return
+        let configGetTCTC = {
+            params: $scope.filterTCTC
+        }
+        $http.get("api/KeHoachDGN/GetTCTC", configGetTCTC).then(function (rs) {
+            $scope.TieuChuanTieuChis = rs.data
+            $scope.TieuChuans = rs.data.map(s => { return s.tchuan })
+            $scope.ListTieuChuanTieuChis = $scope.TieuChuanTieuChis.reduce(function (rs, obj, index) {
+                rs = rs.concat([obj.tchuan], obj.tchi)
+                return rs;
+            }, []);
+        })
+    }
+    $scope.OnChangeTieuChuan = function (Id, type) {
+        if (type == 'TIEUCHUAN') {
+            $scope.TieuChis = []
+            $scope.ObjTieuChuan = $scope.TieuChuans.find(s => s.Id == Id)
+            $scope.TieuChis = $scope.TieuChuanTieuChis.find(s => s.tchuan.Id == Id).tchi
+        }
+        if (type == 'TIEUCHI') {
+            $scope.ObjTieuChi = $scope.TieuChis.find(s => s.Id == Id)
+            $scope.ObjTieuChi.listChiBaoA = JSON.parse($scope.ObjTieuChi.ChiBaoA)
+            $scope.ObjTieuChi.listChiBaoB = JSON.parse($scope.ObjTieuChi.ChiBaoB)
+            $scope.ObjTieuChi.listChiBaoC = JSON.parse($scope.ObjTieuChi.ChiBaoC)
+            $scope.LoadPhieuDanhGia();
+        }
+
+
+    }
+
+    //end load tieu chuan tieu chi
+
+
+
+    //Load Phieu  danh gia
+
+    $scope.filterPhieuDG = {
+        //IdKeHoach:0,
+        //IdTieuChi:0,
+        //UserName:'',
+        PhanLoaiDanhGia: 'TIEUCHI'
+    }
+    $scope.LoadPhieuDanhGia = function () {
+        if ($scope.filterPhieuDG.UserName == null )
+            return;
+        $scope.filterPhieuDG.IdKeHoach = $scope.ItemKeHoachDGN.Id
+        $scope.ItemPhieu = {}
+        let api = 'api/BaoCaoSoBo/Filter'
+        //if ($scope.filterPhieuDG.PhanLoaiDanhGia == 'TIEUCHI') {
+        //    api = 'api/DanhGiaTieuChiKHDGN/Filter'
+        //}
+        //if ($scope.filterPhieuDG.PhanLoaiDanhGia == 'SOBO') {
+        //    api = 'api/BaoCaoSoBo/Filter'
+        //}
+        $http({
+            method: 'POST',
+            url: api,
+            data: $scope.filterPhieuDG
+        }).then(function successCallback(response) {
+            if (response.data.ListOut != null && response.data.ListOut.length > 0) {
+                $scope.ItemPhieu = response.data.ListOut[0]
+               // $scope.ItemPhieu.KQChiBaoObj = $scope.ItemPhieu.KQChiBao != null ? JSON.parse($scope.ItemPhieu.KQChiBao) : $scope.ObjTieuChi.listChiBaoA
+            }
+        }, function errorCallback(response) {
+            toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+        });
+
+    }
+
+    $scope.LoadPhieuTuDanhGia = function (IdKHTDG) {
+        $http({
+            method: 'GET',
+            url: 'api/DanhGiaTieuChiKHDGN/GetDGTieuChiTDG',
+            params: {
+                IdKeHoachTDG: IdKHTDG,
+                IdTieuChi: 0
+            }
+        }).then(function successCallback(response) {
+            $scope.ListPhieuTCTCKHTDG = response.data
+        }, function errorCallback(response) {
+            toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+        });
+    }
+        //end Load Phieu danh gia
     $scope.OpenModalKeHoachDGN = function (item, type) {
         $scope.modalInstance = $uibModal.open({
             ariaLabelledBy: 'modal-title',
@@ -87,7 +208,6 @@
 
     $scope.LoadBaoCao = function (IdKeHoach) {
         $scope.item = {}
-        $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == IdKeHoach)
         $http.get("api/BaoCaoSoBo/GetByIdKeHoach?IdKeHoach=" + IdKeHoach).then(function (rs) {
            
 
@@ -103,6 +223,8 @@
     }
     //end lap bao cao so bo
 
+
+    
 
     $scope.LoadDonVi = function () {
         $http({
@@ -127,28 +249,19 @@
     $scope.TrangThaiBaoCaos = [FactoryConstant.DANG_SOAN, FactoryConstant.HOAN_THANH]
 
 
-    //$scope.CheckView = function (item, type) {
-    //    switch (type) {
-    //        case "HOANTHANH":
-    //            return item.Id != null && (item.TrangThai == FactoryConstant.DANG_SOAN.FCode)
-    //            break;
-    //        case "EDIT":
-    //            return  item.TrangThai != FactoryConstant.HOAN_THANH.FCode
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
     $scope.CheckView = function (item, type) {
         switch (type) {
-
+            case "HOANTHANH":
+                return item.Id != null && (item.TrangThai == FactoryConstant.DANG_SOAN.FCode)
+                break;
             case "EDIT":
-                return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode
+                return  item.TrangThai != FactoryConstant.HOAN_THANH.FCode
                 break;
             default:
                 break;
         }
     }
+
     $scope.ConfirmAction = function (typeUpdate) {
         switch (typeUpdate) {
             case "HOANTHANH":
@@ -159,32 +272,7 @@
         }
         return true
     }
-    $scope.SaveModal = function (typeUpdate) {
-        if (!$scope.ConfirmAction(typeUpdate)) {
-            return
-        }
-        switch (typeUpdate) {
-            case "HOANTHANH":
-                $scope.item.TrangThai = FactoryConstant.HOAN_THANH_KE_HOACH_NGOAI.FCode
-                break;
-        }
-        $http({
-            method: 'POST',
-            url: 'api/BaoCaoSoBo/Save',
-            data: $scope.item
-        }).then(function successCallback(response) {
-            $scope.item = response.data;
-            $scope.itemError = "";
-            toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
-        }, function errorCallback(response) {
-            $scope.itemError = response.data;
-            if ($scope.itemError.ModelState)
-                toastr.error('Có lỗi xảy ra trong quá trình cập nhật dữ liệu !', 'Thông báo');
-            else
-                toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
-        });
-
-    }
+   
 
     $scope.config = {
         readOnly: $scope.item != null && !$scope.CheckView($scope.item, 'EDIT'),

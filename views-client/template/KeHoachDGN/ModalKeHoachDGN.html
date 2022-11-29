@@ -262,6 +262,10 @@
                     <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
                 </div>
                 <div class="col-md-5 clearfix text-right">
+                    <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                     ng-click="InDanhGia(item)">
+                        <i class="fa fa-file-word-o"></i> Xuất kế hoạch
+                    </a>
                     <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-sm btn-success btn-outline sbold"
                        ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
                     <a class="btn btn-sm green  sbold" ng-if="CheckView(item,'BATDAUKHDGN')" title="Tiến hành" ng-click="SaveModal('BATDAU')"><i class=" fa fa-play"></i>&nbsp;Bắt đầu kế hoạch</a>

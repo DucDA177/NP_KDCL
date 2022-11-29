@@ -3050,6 +3050,7 @@
     <Content Include="js\controllers\AccountController.js" />
     <Content Include="js\controllers\AreasController.js" />
     <Content Include="js\controllers\BaoCaoDGN\BaoCaoDGNController.js" />
+    <Content Include="js\controllers\BaoCaoDGN\TongHopBCSoBoController.js" />
     <Content Include="js\controllers\BaoCaoDGN\KetQuaKhaoSatController.js" />
     <Content Include="js\controllers\BaoCaoDGN\BaoCaoDanhGiaChiTieuController.js" />
     <Content Include="js\controllers\BaoCaoDGN\DanhGiaTieuChiMuc4Controller.js" />
@@ -3820,6 +3821,7 @@
     <Content Include="views-client\dashboard.html" />
     <Content Include="views-client\profile\account.html" />
     <Content Include="views-client\template\Areas.html" />
+    <Content Include="views-client\template\BaoCaoDGN\BaoCaoSoBo\TongHopBCSoBo.html" />
     <Content Include="views-client\template\BaoCaoDGN\DGChiTieu\DGChiTieu.html" />
     <Content Include="views-client\template\BaoCaoDGN\DGChiTieu\ModalDGChiTieu.html" />
     <Content Include="views-client\template\BaoCaoDGN\BaoCaoSoBo\BaoCaoSoBo.html" />
@@ -3850,6 +3852,7 @@
     <Content Include="views-client\template\KeHoachDGN\DetailKeHoachTDG.html" />
     <Content Include="views-client\template\KeHoachDGN\HoiDongDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\KeHoachDGN.html" />
+    <Content Include="views-client\template\KeHoachDGN\ModalInKeHoach.html" />
     <Content Include="views-client\template\KeHoachDGN\ModalKeHoachDGN.html" />
     <Content Include="views-client\template\KeHoachTDG\HoiDong.html" />
     <Content Include="views-client\template\KeHoachTDG\KeHoachTDG.html" />
