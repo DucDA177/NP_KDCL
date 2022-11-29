@@ -34,6 +34,7 @@ namespace WebApiCore.Controllers
             public string DonViNguoiNhapName { get; set; }
             public string DienThoai { get; set; }
             public string Email { get; set; }
+            public bool IsBaoCao { get; set; }
 
         }
         [HttpPost]
@@ -42,6 +43,7 @@ namespace WebApiCore.Controllers
         {
             try
             {
+               
                 var listKeHoach = (from bc in db.tblBaoCaoDanhGia_KHDGN
                                    join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                                    join us in db.UserProfiles on bc.CreatedBy equals us.UserName
@@ -82,6 +84,7 @@ namespace WebApiCore.Controllers
                                        KeHoachTDGName = khtdg.NoiDung,
                                        NguoiNhapName = us.HoTen,
                                        DonViNguoiNhapName = dvUs.TenDonVi
+                                       
                                    }
                                    );
                
@@ -129,6 +132,8 @@ namespace WebApiCore.Controllers
         {
             try
             {
+                var hd = db.tblHoiDongDGNs.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
+                bool isBaoCao = hd != null ? hd.ThuKy.HasValue ? hd.ThuKy.Value : false : false;
                 var data = (from bc in db.tblBaoCaoDanhGia_KHDGN
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName
@@ -168,7 +173,8 @@ namespace WebApiCore.Controllers
                                 DonViName = dv.TenDonVi,
                                 KeHoachTDGName = khtdg.NoiDung,
                                 NguoiNhapName = us.HoTen,
-                                DonViNguoiNhapName = dvUs.TenDonVi
+                                DonViNguoiNhapName = dvUs.TenDonVi,
+                                IsBaoCao = isBaoCao
                             }
                                    ).FirstOrDefault();
                 if (data == null)
@@ -197,6 +203,7 @@ namespace WebApiCore.Controllers
                             Email = UserNhap.u.Email,
                             DienThoai = UserNhap.u.Mobile,
                             TrangThai = Commons.Constants.DANG_SOAN,
+                            IsBaoCao = isBaoCao
                         };
                         return Ok(BaoCao);
                     }

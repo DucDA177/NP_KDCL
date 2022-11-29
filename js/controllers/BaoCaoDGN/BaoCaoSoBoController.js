@@ -90,7 +90,12 @@
         $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == IdKeHoach)
         $http.get("api/BaoCaoSoBo/GetByIdKeHoach?IdKeHoach=" + IdKeHoach).then(function (rs) {
             if (rs.data != null) {
+                if (!rs.data.IsBaoCao) {
+                    confirm("Bạn không được phân quyền viết báo cáo sơ bộ!")
+                    return;
+                }
                 $scope.item = rs.data
+                
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
                 if ($scope.item.Id == null || $scope.item.Id == 0) {
                     $scope.LoadTemplate();
@@ -142,7 +147,7 @@
         switch (type) {
 
             case "EDIT":
-                return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode
+                return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode && item != null && item.IsBaoCao == true
                 break;
             default:
                 break;

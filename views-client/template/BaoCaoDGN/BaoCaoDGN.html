@@ -308,7 +308,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-6" ng-show="filterBaoCao.PhanLoaiDG=='TIEUCHI'" >
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">Tiêu chí</span>
                                                                     <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChi" ng-change="OnChangeTieuChuan(filterBaoCao.IdTieuChi,'TIEUCHI_BAOCAO')">
@@ -370,8 +370,8 @@
                                                                                      ng-config="config"></ng-ckeditor>
                                                                     </div>
                                                                     <h4>
-                                                                        5. Đánh giá tiêu chí:
-                                                                        {{ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatC')==true?'Mức 3':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatB')==true?'Mức 2':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatA')==true?'Mức 1':'Không đạt'}}
+                                                                        5. Đánh giá tiêu chí: {{(dg.KQDatMuc+'')=='0'?'Không đạt':'Đạt mức '+dg.KQDatMuc}}
+                                                                        <!--{{ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatC')==true?'Mức 3':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatB')==true?'Mức 2':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatA')==true?'Mức 1':'Không đạt'}}-->
                                                                     </h4>
                                                                 </div>
 
@@ -422,7 +422,7 @@
                                     <a class="btn btn-sm btn-success btn-outline sbold"
                                        ng-click="exportBaoCao('PrintDiv','Báo cáo đánh giá ngoài.doc','application/vnd.ms-word')"><i class="fa fa-file-word-o"></i>&nbsp;Xuất báo cáo </a>
 
-                                    <a ng-if="CheckView(null,'EDIT')" class="btn btn-sm btn-success btn-outline sbold"
+                                    <a ng-if="CheckView(item,'EDIT')" class="btn btn-sm btn-success btn-outline sbold"
                                        ng-click="SaveModal()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
                                     <!--region in-->
                                     <div hidden class="row" id="PrintDiv">
@@ -629,8 +629,8 @@
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <p>
-                                                                    <b>5. Đánh giá tiêu chí:</b>
-                                                                    {{ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatC')==true?'Mức 3':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatB')==true?'Mức 2':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatA')==true?'Mức 1':'Không đạt'}}
+                                                                    <b>5. Đánh giá tiêu chí:</b> {{(dg.KQDatMuc+'')=='0'?'Không đạt':'Đạt mức '+dg.KQDatMuc}}
+                                                                    <!--{{ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatC')==true?'Mức 3':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatB')==true?'Mức 2':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatA')==true?'Mức 1':'Không đạt'}}-->
                                                                 </p>
                                                             </div>
                                                             <div class="col-md-12">
@@ -726,7 +726,7 @@
 
                 </div>
                 <div class="col-md-6">
-                    <div class="portlet light bordered">
+                    <div class="portlet light bordered"  style="max-height:600px;overflow:auto">
                         <div class="portlet-title">
                             <div class="caption caption-md text-center">
                                 <span class="caption-subject font-green bold uppercase">
@@ -740,21 +740,23 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="input-group">
-                                        <span class="input-group-addon">Hội động</span>
-                                        <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
-                                            <option ng-repeat="hd in HoiDongDGN" value="{{hd.us.UserName}}">{{hd.us.HoTen}}</option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group">
                                         <span class="input-group-addon">Loại phiếu</span>
                                         <select ng-model="filterPhieuDG.PhanLoaiDanhGia" ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select ">
                                             <option ng-repeat="pl in PhanLoaiDanhGias" value="{{pl.Code}}">{{pl.Ten}}</option>
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-6" ng-show="filterPhieuDG.PhanLoaiDanhGia!='KQKS'">
+
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Thành viên hội đồng</span>
+                                        <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
+                                            <option ng-repeat="hd in HoiDongDGN" value="{{hd.us.UserName}}">{{hd.us.HoTen}}</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
                             </div>
                             <br />
                             <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI'">

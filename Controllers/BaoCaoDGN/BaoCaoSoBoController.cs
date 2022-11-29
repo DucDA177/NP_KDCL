@@ -31,6 +31,7 @@ namespace WebApiCore.Controllers
             public string KeHoachDGNName { get; set; }
             public string NguoiNhapName { get; set; }
             public string DonViNguoiNhapName { get; set; }
+            public bool IsBaoCao { get; set; }
         }
         [HttpPost]
         [Route("Filter")]
@@ -70,7 +71,7 @@ namespace WebApiCore.Controllers
                                        DonViName = dv.TenDonVi,
                                        KeHoachTDGName = khtdg.NoiDung,
                                        NguoiNhapName = us.HoTen,
-                                       DonViNguoiNhapName = dvUs.TenDonVi
+                                       DonViNguoiNhapName = dvUs.TenDonVi,
                                    }
                                    );
                 if (filter.IdBaoCao.HasValue)
@@ -115,6 +116,8 @@ namespace WebApiCore.Controllers
         public IHttpActionResult GetByIdKeHoach(int IdKeHoach)
         {
             try {
+                var hd = db.tblHoiDongDGNs.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
+                bool isBaoCao = hd != null ? hd.VietBCSoBo.HasValue ? hd.VietBCSoBo.Value : false : false;
                 var data = (from bc in db.tblBaoCaoSoBoDGNs
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName
@@ -147,11 +150,13 @@ namespace WebApiCore.Controllers
                                 DonViName = dv.TenDonVi,
                                 KeHoachTDGName = khtdg.NoiDung,
                                 NguoiNhapName = us.HoTen,
-                                DonViNguoiNhapName = dvUs.TenDonVi
+                                DonViNguoiNhapName = dvUs.TenDonVi,
+                                IsBaoCao = isBaoCao
                             }
                                   ).FirstOrDefault();
                 if (data == null)
                 {
+                  
                     var UserNhap = (from u in db.UserProfiles
                                     join dv in db.DMDonVis on u.IDDonVi equals dv.Id
                                     where u.UserName == HttpContext.Current.User.Identity.Name
@@ -175,7 +180,8 @@ namespace WebApiCore.Controllers
                             DonViName = KeHoachDGN.dv.TenDonVi,
                             Email = UserNhap.u.Email,
                             DienThoai = UserNhap.u.Mobile,
-                            TrangThai=Commons.Constants.DANG_SOAN
+                            TrangThai=Commons.Constants.DANG_SOAN,
+                            IsBaoCao= isBaoCao
                         };
                         return Ok(BaoCao);
                     }

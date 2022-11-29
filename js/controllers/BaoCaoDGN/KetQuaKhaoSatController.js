@@ -186,7 +186,8 @@
                 }
             }).then(function successCallback(response) {
                 $scope.item = response.data
-               
+                $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT') 
+                //console.warn('$scope.config.readOnly', $scope.config)
                 $scope.item.KQDatMuc = $scope.item.KQDatMuc+''
                 if ($scope.item.KQChiBao != null) {
                     let KQChiBaoObj = JSON.parse($scope.item.KQChiBao)
@@ -279,7 +280,7 @@
             switch (type) {
 
                 case "EDIT":
-                    return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode
+                    return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode && item!=null && item.IsBaoCao==true
                     break;
                 default:
                     break;

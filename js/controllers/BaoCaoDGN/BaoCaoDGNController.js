@@ -142,6 +142,33 @@
                 $scope.ObjTieuChi_BAOCAO.listChiBaoA = JSON.parse($scope.ObjTieuChi_BAOCAO.ChiBaoA)
                 $scope.ObjTieuChi_BAOCAO.listChiBaoB = JSON.parse($scope.ObjTieuChi_BAOCAO.ChiBaoB)
                 $scope.ObjTieuChi_BAOCAO.listChiBaoC = JSON.parse($scope.ObjTieuChi_BAOCAO.ChiBaoC)
+
+
+                if ($scope.item.Id == null || $scope.item.Id == 0) {
+                    let filterDGTieuChi = {
+                        IdKeHoach: $scope.ItemKeHoachDGN.Id,
+                        IdTieuChi: Id
+                    }
+                    $http({
+                        method: 'POST',
+                        url: 'api/DanhGiaTieuChiKHDGN/Filter',
+                        data: filterDGTieuChi
+                    }).then(function successCallback(response) {
+                        if (response.data.ListOut != null && response.data.ListOut.length > 0) {
+                            let ItemDGTieuChi = response.data.ListOut[0]
+                            let ItemDGTieuChiEdit = $scope.ListTieuChis.find(s => s.Id == filterDGTieuChi.IdTieuChi)
+                            if (ItemDGTieuChiEdit != null) {
+                                ItemDGTieuChiEdit.DiemManh = ItemDGTieuChi.DiemManh;
+                                ItemDGTieuChiEdit.DiemYeu = ItemDGTieuChi.DiemYeu;
+                                ItemDGTieuChiEdit.NoiDungCanBoSung = ItemDGTieuChi.NoiDungCanBoSung;
+                                ItemDGTieuChiEdit.KQDatMuc = ItemDGTieuChi.KQDatMuc
+                            }
+                        }
+                    }, function errorCallback(response) {
+                        toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+                    });
+                }
+               
                 //$scope.LoadPhieuDanhGia();
             }
 
@@ -255,6 +282,7 @@
                 }
             }).then(function successCallback(response) {
                 $scope.item = response.data
+                $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
                 if ($scope.item.DanhGiaTieuChi != null) {
                     let DanhGiaTieuChiObj = JSON.parse($scope.item.DanhGiaTieuChi)
                     $scope.ListTieuChis.map(s => {
@@ -373,7 +401,7 @@
             switch (type) {
 
                 case "EDIT":
-                    return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode
+                    return $scope.ItemKeHoachDGN.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode && item != null && item.IsBaoCao == true
                     break;
                 default:
                     break;
@@ -391,9 +419,9 @@
 
             return propTo != null ? rs[propTo] : rs;
         }
-        $scope.CheckTieuChiThuTuCuoi = function ( IdTieuChuan, IdTieuChi) {
+        $scope.CheckTieuChiThuTuCuoi = function (IdTieuChuan, IdTieuChi) {
 
-            let rs = $scope.ListTieuChuanTieuChis.filter(s => s.IdTieuChuan == IdTieuChuan).sort((a, b) => {return b.ThuTu-a.ThuTu })
+            let rs = $scope.ListTieuChuanTieuChis.filter(s => s.IdTieuChuan == IdTieuChuan).sort((a, b) => { return b.ThuTu - a.ThuTu })
             if (rs == null)
                 return false
             return rs[0].Id == IdTieuChi
