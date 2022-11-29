@@ -1,0 +1,154 @@
+﻿<div class="col-md-12">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> BIÊN BẢN KHẢO SÁT SƠ BỘ </label></h4>
+</div>
+<div class="form-body form-horizontal col-md-12">
+    <div class="form-group ">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">Đơn vị</span>
+                <select class="form-control select2 filter-select " convert-to-number 
+                        ng-model="filterHoiDongDGN.IdTruong" ng-change="LoadKeHoachDGN()">
+                    <option ng-repeat="dv in DonVis" ng-disabled="dv.LoaiDonVi != 'TRUONG'" value="{{dv.Id}}">{{dv.TenDonVi}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Kế hoạch ĐGN</span>
+                <select class="form-control select2 filter-select " convert-to-number
+                        ng-model="filterHoiDongDGN.IdKeHoachDGN"
+                        ng-change="LoadKhaoSatSoBo()">
+                    <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group" ng-if="filterHoiDongDGN.IdKeHoachDGN != 0">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+
+                <div class="portlet-body form">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row ">
+                                <div class="tabbable-custom portlet box margin-top-10">
+                                    <div class="col-md-3 col-sm-3 col-xs-3">
+                                        <ul class="nav nav-tabs tabs-left">
+                                            <li class="active">
+                                                <a data-target="#tab_1" data-toggle="tab" aria-expanded="true">
+                                                    1. Trao đổi về kết quả nghiên cứu hồ sơ đánh giá
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
+                                                    2.Những yêu cầu cụ thể đối với trường
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
+                                                    3. Kế hoạch khảo sát chính thức
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a>
+                                                    4. Thời gian lập biên bản (vui lòng nhập bên dưới)
+                                                </a>
+                                                <br />
+                                                <input type="text"
+                                                       placeholder="dd/MM/yyyy - vào lúc HH:mm"
+                                                       datetime="dd/MM/yyyy - vào lúc HH:mm"
+                                                       class="form-control input-sm"
+                                                       ng-model="item.ThoiGian"
+                                                       datetime-separator=",.-/" />
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-9">
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab_1">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="text-center">
+                                                            <h3>Trao đổi về kết quả nghiên cứu hồ sơ đánh giá</h3>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.KQNghienCuu"
+                                                                         ng-config="config"></ng-ckeditor>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_2">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="text-center">
+                                                            <h3>Những yêu cầu cụ thể đối với trường</h3>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.YeuCau"
+                                                                         ng-config="config"></ng-ckeditor>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_3">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="text-center">
+                                                            <h3>Kế hoạch khảo sát chính thức</h3>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.KeHoach"
+                                                                         ng-config="config"></ng-ckeditor>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-sm btn-success btn-outline sbold"
+                               ng-click="Save()"><i class="fa fa-save"></i>&nbsp;Lưu </a>
+                            <a class="btn btn-sm btn-success btn-outline sbold"
+                               ng-click="openModal(filterHoiDongDGN,'InKhaoSatSoBoDGN')">
+                            <i class="fa fa-file-word-o"></i>&nbsp;Xuất biên bản </a>
+                            <a class="btn btn-sm btn-default btn-outline sbold"
+                               ng-click="Del(item.Id)"><i class="fa fa-refresh"></i>&nbsp;Tạo lại </a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+

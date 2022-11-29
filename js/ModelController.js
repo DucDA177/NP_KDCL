@@ -2680,3 +2680,35 @@ angular.module('WebApiApp').controller("ModalHoiDongDGNHandlerController", funct
     $scope.GetAllMenuDrop()
 
 });
+
+//In biên bản khảo sát sơ bộ đánh giá ngoài
+angular.module('WebApiApp').controller("ModalInKhaoSatSoBoDGNHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+
+    $scope.LoadBienBan = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/KhaoSatSoBoDGN/LoadBienBan?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachDGN=' + $scope.item.IdKeHoachDGN
+        }).then(function successCallback(response) {
+            
+            $scope.DGN = response.data.DGN;
+            $scope.TDG = response.data.TDG;
+            $scope.BienBan = response.data.BienBan;
+            $scope.Truong = response.data.Truong;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+    
+
+});

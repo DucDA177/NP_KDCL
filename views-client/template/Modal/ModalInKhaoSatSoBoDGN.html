@@ -1,0 +1,82 @@
+﻿<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> BIÊN BẢN KHẢO SÁT SƠ BỘ</label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row" style="max-height:450px;overflow-y:scroll" id="PrintDiv">
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td style="text-align:center" width="55%" class="td-no-border">
+                            <p style="text-transform:uppercase">{{CurDonVi.TenDonVi}}</p>
+                            <p><strong>ĐOÀN ĐÁNH GIÁ NGOÀI</strong></p>
+                            <p style="text-transform:uppercase"><strong>{{Truong.TenDonVi}}</strong></p>
+                        </td>
+                        <td style="text-align:center" width="45%" class="td-no-border">
+                            <p><strong>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong></p>
+                            <p>
+                                <strong>Độc lập - Tự do - Hạnh phúc</strong>
+                                <strong>
+                                    <br>
+                                </strong>
+                                <strong>----------------</strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" class="td-no-border"></td>
+                        <td width="50%" class="td-no-border"><p style="text-align:right"><em>............, {{BienBan.ThoiGian | date: "'ngày' dd 'tháng' MM 'năm' yyyy"}}</em></p></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 style="text-align:center">BIÊN BẢN KHẢO SÁT SƠ BỘ</h3>
+            <p>
+                Hôm nay, {{BienBan.ThoiGian | date: "'ngày' dd 'tháng' MM 'năm' yyyy"}} đại diện Đoàn đánh giá ngoài tiến hành khảo sát sơ bộ tại {{Truong.TenDonVi}}
+            </p><p><strong>I. THÀNH PHẦN</strong></p>
+            <p><b>1. Đoàn đánh giá ngoài</b></p>
+            <p ng-repeat="tv in DGN">- Ông (Bà): {{tv.us.HoTen}} - {{tv.nv.Ten}}</p>
+            <p><b>2. Trường (trung tâm)</b></p>
+            <p ng-repeat="tv in TDG">- Ông (Bà): {{tv.us.HoTen}} - {{tv.cv.Ten}}, {{tv.nv.Ten}}</p>
+            <p><strong>II. NỘI DUNG</strong></p>
+            <p><b>1. Trao đổi về kết quả nghiên cứu hồ sơ đánh giá</b></p>
+            <p ng-bind-html="BienBan.KQNghienCuu"></p>
+            <p><b>2. Những yêu cầu cụ thể đối với trường</b></p>
+            <p ng-bind-html="BienBan.YeuCau"></p>
+            <p><b>3. Kế hoạch khảo sát chính thức</b></p>
+            <p ng-bind-html="BienBan.KeHoach"></p>
+            <p>Buổi làm việc kết thúc hồi {{BienBan.ThoiGian | date: "HH 'giờ' mm 'phút'"}} cùng ngày.</p>
+            <p>Biên bản được lập thành 3 bản, mỗi bên giữ 1 bản và 1 bản gửi Sở Giáo dục và Đào tạo để báo cáo./.</p>
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td style="text-align:center" width="50%" class="td-no-border">
+                            <p><strong>HIỆU TRƯỞNG </strong></p>
+                            <p><em> (Ký, ghi rõ họ tên và đóng dấu)</em></p>
+                        </td>
+                        <td style="text-align:center" width="50%" class="td-no-border">
+                            <p><strong>TRƯỞNG ĐOÀN ĐÁNH GIÁ NGOÀI</strong></p>
+                            <p><em>(Ký và ghi rõ họ tên)</em></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="form-group margin-top-10" style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                   ng-click="exportBaoCao('PrintDiv','Biên bản khảo sát sơ bộ.doc','application/vnd.ms-word')">
+                    <i class="fa fa-file-word-o"></i> In biên bản
+                </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
