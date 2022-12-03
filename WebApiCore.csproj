@@ -454,6 +454,7 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HubStore\UserActivityHub.cs" />
+    <Compile Include="Controllers\KeHoachDGN\DoanDGNController.cs" />
     <Compile Include="Controllers\KeHoachDGN\HoiDongDGNController.cs" />
     <Compile Include="Controllers\KeHoachDGN\KeHoachDGNController.cs" />
     <Compile Include="Controllers\KeHoachTDG\HoiDongController.cs" />
@@ -555,6 +556,9 @@
     <Compile Include="Models\tblDanhmuc.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblDoanDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblDuLieuNhaTruong.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
@@ -600,10 +604,16 @@
     <Compile Include="Models\tblPhanCongTCDGN.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblThanhVienDGN.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblThanhVienNhom.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tblThuVienTaiLieu.cs">
+      <DependentUpon>WebApiDataCore.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblTruongDGN.cs">
       <DependentUpon>WebApiDataCore.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongBao.cs">
@@ -3068,6 +3078,7 @@
     <Content Include="js\controllers\DanhMuc\DMDonViController.js" />
     <Content Include="js\controllers\DuLieuNhaTruong\DuLieuNhaTruongController.js" />
     <Content Include="js\controllers\GroupController.js" />
+    <Content Include="js\controllers\KeHoachDGN\DoanDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\HoiDongDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\KeHoachDGNController.js" />
     <Content Include="js\controllers\KeHoachTDG\HoiDongController.js" />
@@ -3850,6 +3861,7 @@
     <Content Include="views-client\template\EditUser.html" />
     <Content Include="views-client\template\Group.html" />
     <Content Include="views-client\template\KeHoachDGN\DetailKeHoachTDG.html" />
+    <Content Include="views-client\template\KeHoachDGN\DoanDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\HoiDongDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\KeHoachDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\ModalInKeHoach.html" />
@@ -3858,6 +3870,7 @@
     <Content Include="views-client\template\KeHoachTDG\KeHoachTDG.html" />
     <Content Include="views-client\template\MainMenu.html" />
     <Content Include="views-client\template\Menu.html" />
+    <Content Include="views-client\template\Modal\ModalAddThanhVienDGN.html" />
     <Content Include="views-client\template\Modal\ModalChiBao.html" />
     <Content Include="views-client\template\Modal\ModalChonOCung.html" />
     <Content Include="views-client\template\Modal\ModalConfig.html" />
@@ -3865,6 +3878,7 @@
     <Content Include="views-client\template\Modal\ModalDeleteBak.html" />
     <Content Include="views-client\template\Modal\ModalCreateData.html" />
     <Content Include="views-client\template\Modal\ModalDMCha.html" />
+    <Content Include="views-client\template\Modal\ModalDoanDGN.html" />
     <Content Include="views-client\template\Modal\ModalFileMinhChung.html" />
     <Content Include="views-client\template\Modal\ModalGenerateLinkBaoCao.html" />
     <Content Include="views-client\template\Modal\ModalHoiDongDGN.html" />

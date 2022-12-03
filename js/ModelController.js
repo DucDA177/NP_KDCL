@@ -2712,3 +2712,24 @@ angular.module('WebApiApp').controller("ModalInKhaoSatSoBoDGNHandlerController",
     
 
 });
+
+//Đoàn đánh giá ngoài
+angular.module('WebApiApp').controller("ModalDoanDGNHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    if (!$scope.item)
+        $scope.item = {
+            Ten: ''
+        }
+    $rootScope.DSThanhVienDGN = []
+});
+
+//Tìm kiếm và thêm thành viên đoàn đánh giá ngoài
+angular.module('WebApiApp').controller("ModalAddThanhVienDGNHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+});

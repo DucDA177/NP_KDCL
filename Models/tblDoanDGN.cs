@@ -12,26 +12,15 @@ namespace WebApiCore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblKeHoachDGN
+    public partial class tblDoanDGN
     {
         public int Id { get; set; }
         public int STT { get; set; }
         public int IdDonVi { get; set; }
-        public int Nam { get; set; }
-        public string MucDich { get; set; }
-        public string NoiDung { get; set; }
-        public string NghienCuuHSDG { get; set; }
-        public string KhaoSatSoBo { get; set; }
-        public string KhaoSatChinhThuc { get; set; }
-        public string DuThaoBaoCao { get; set; }
-        public string LayYKienPhanHoi { get; set; }
-        public string HoanThienBaoCao { get; set; }
-        public string ToChucThucHien { get; set; }
-        public string TrangThai { get; set; }
+        public string Ten { get; set; }
+        public Nullable<int> Nam { get; set; }
+        public string DSThanhVien { get; set; }
         public string GhiChu { get; set; }
-        public Nullable<int> IdTruong { get; set; }
-        public Nullable<int> IdTruongDGN { get; set; }
-        public Nullable<int> IdKeHoachTDG { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }

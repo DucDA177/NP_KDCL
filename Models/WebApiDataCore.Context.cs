@@ -47,26 +47,29 @@ namespace WebApiCore.Models
         public virtual DbSet<tblDanhGiaTieuChi_KHDGN> tblDanhGiaTieuChi_KHDGN { get; set; }
         public virtual DbSet<tblDanhGiaTieuChiMuc4_KHDGN> tblDanhGiaTieuChiMuc4_KHDGN { get; set; }
         public virtual DbSet<tblDanhmuc> tblDanhmucs { get; set; }
+        public virtual DbSet<tblDoanDGN> tblDoanDGNs { get; set; }
         public virtual DbSet<tblDuLieuNhaTruong> tblDuLieuNhaTruongs { get; set; }
         public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }
         public virtual DbSet<tblHoiDongDGN> tblHoiDongDGNs { get; set; }
         public virtual DbSet<tblKeHoachDGN> tblKeHoachDGNs { get; set; }
         public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
         public virtual DbSet<tblKetQuaKhaoSat_KHDGN> tblKetQuaKhaoSat_KHDGN { get; set; }
+        public virtual DbSet<tblKetQuaNghienCuuDGN> tblKetQuaNghienCuuDGNs { get; set; }
+        public virtual DbSet<tblKhaoSatSoBoDGN> tblKhaoSatSoBoDGNs { get; set; }
+        public virtual DbSet<tblKQNghienCuuTieuChiDGN> tblKQNghienCuuTieuChiDGNs { get; set; }
         public virtual DbSet<tblMinhChung> tblMinhChungs { get; set; }
         public virtual DbSet<tblMoDauKetLuanTC> tblMoDauKetLuanTCs { get; set; }
         public virtual DbSet<tblNhomCongTac> tblNhomCongTacs { get; set; }
         public virtual DbSet<tblPhanCongMinhChung> tblPhanCongMinhChungs { get; set; }
         public virtual DbSet<tblPhanCongTC> tblPhanCongTCs { get; set; }
         public virtual DbSet<tblPhanCongTCDGN> tblPhanCongTCDGNs { get; set; }
+        public virtual DbSet<tblThanhVienDGN> tblThanhVienDGNs { get; set; }
         public virtual DbSet<tblThanhVienNhom> tblThanhVienNhoms { get; set; }
         public virtual DbSet<tblThuVienTaiLieu> tblThuVienTaiLieux { get; set; }
+        public virtual DbSet<tblTruongDGN> tblTruongDGNs { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
-        public virtual DbSet<tblKhaoSatSoBoDGN> tblKhaoSatSoBoDGNs { get; set; }
-        public virtual DbSet<tblKQNghienCuuTieuChiDGN> tblKQNghienCuuTieuChiDGNs { get; set; }
-        public virtual DbSet<tblKetQuaNghienCuuDGN> tblKetQuaNghienCuuDGNs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {
