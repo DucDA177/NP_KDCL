@@ -28,5 +28,6 @@ namespace WebApiCore.Models
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<bool> FInUse { get; set; }
+        public string Username { get; set; }
     }
 }

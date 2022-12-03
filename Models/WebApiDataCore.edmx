@@ -810,6 +810,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="STT" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="500" />
           <Property Name="IdTruongDGN" Type="int" Nullable="false" />
           <Property Name="TruongDoan" Type="bit" />
           <Property Name="ThuKy" Type="bit" />
@@ -2267,6 +2268,7 @@
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FInUse" Type="Boolean" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblThanhVienNhom">
           <Key>
@@ -3251,6 +3253,7 @@
           <EntitySetMapping Name="tblThanhVienDGNs">
             <EntityTypeMapping TypeName="WebApiDataModel.tblThanhVienDGN">
               <MappingFragment StoreEntitySet="tblThanhVienDGN">
+                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="FInUse" ColumnName="FInUse" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
