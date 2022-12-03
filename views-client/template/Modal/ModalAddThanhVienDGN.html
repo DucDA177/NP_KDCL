@@ -10,10 +10,10 @@
     <div class="modal-body form">
         <div class="form-body form-horizontal margin-top-10">
             <div class="row margin-bottom-5">
-                <label class="control-label col-md-2">Phòng/Trường: </label>
+                <label class="control-label col-md-2">Phòng/Trường(thuộc Sở): </label>
                 <div class="col-md-4">
-                    <select ng-model="filter." class="form-control input-sm select2" 
-                            ng-change="LoadThanhVienByUserName()">
+                    <select ng-model="filter.IdPhong" class="form-control input-sm select2" 
+                            ng-change="Load()">
                         <option ng-repeat="nl in ListUsers" value={{nl.UserName}}>{{nl.HoTen}}</option>
                     </select>
                 </div>

@@ -62,14 +62,14 @@ namespace WebApiCore.Models
         public virtual DbSet<tblNhomCongTac> tblNhomCongTacs { get; set; }
         public virtual DbSet<tblPhanCongMinhChung> tblPhanCongMinhChungs { get; set; }
         public virtual DbSet<tblPhanCongTC> tblPhanCongTCs { get; set; }
-        public virtual DbSet<tblPhanCongTCDGN> tblPhanCongTCDGNs { get; set; }
         public virtual DbSet<tblThanhVienDGN> tblThanhVienDGNs { get; set; }
         public virtual DbSet<tblThanhVienNhom> tblThanhVienNhoms { get; set; }
         public virtual DbSet<tblThuVienTaiLieu> tblThuVienTaiLieux { get; set; }
-        public virtual DbSet<tblTruongDGN> tblTruongDGNs { get; set; }
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
+        public virtual DbSet<tblPhanCongTCDGN> tblPhanCongTCDGNs { get; set; }
+        public virtual DbSet<tblTruongDGN> tblTruongDGNs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

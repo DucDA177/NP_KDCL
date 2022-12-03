@@ -15,8 +15,9 @@ namespace WebApiCore.Models
     public partial class tblPhanCongTCDGN
     {
         public int Id { get; set; }
+        public int IdThanhVienDGN { get; set; }
+        public int IdTieuChi { get; set; }
         public int IdHoiDongDGN { get; set; }
-        public Nullable<int> IdTieuChi { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }

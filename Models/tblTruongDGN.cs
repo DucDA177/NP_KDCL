@@ -18,7 +18,8 @@ namespace WebApiCore.Models
         public int STT { get; set; }
         public int IdDoanDGN { get; set; }
         public int IdTruong { get; set; }
-        public string TruongDoan { get; set; }
+        public Nullable<System.DateTime> LamViecTu { get; set; }
+        public Nullable<System.DateTime> LamViecDen { get; set; }
         public string GhiChu { get; set; }
         public Nullable<System.DateTime> CreatedAt { get; set; }
         public string CreatedBy { get; set; }
