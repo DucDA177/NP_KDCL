@@ -12,15 +12,18 @@
             <div class="row margin-bottom-5">
                 <label class="control-label col-md-2">Phòng/Trường(thuộc Sở): </label>
                 <div class="col-md-4">
-                    <select ng-model="filter.IdPhong" class="form-control input-sm select2" 
-                            ng-change="Load()">
-                        <option ng-repeat="nl in ListUsers" value={{nl.UserName}}>{{nl.HoTen}}</option>
+                    <select ng-model="filter.IdPhong" class="form-control input-sm select2"
+                            convert-to-number
+                            ng-change="LoadTruong()">
+                        <option ng-repeat="nl in ListPhong" value={{nl.Id}}>{{nl.TenDonVi}}</option>
                     </select>
                 </div>
                 <label class="control-label col-md-2">Trường: </label>
                 <div class="col-md-4">
-                    <select ng-model="item.Username" class="form-control input-sm select2" ng-change="LoadThanhVienByUserName()">
-                        <option ng-repeat="nl in ListUsers" value={{nl.UserName}}>{{nl.HoTen}}</option>
+                    <select ng-model="filter.IdTruong" 
+                            class="form-control input-sm select2" 
+                            ng-change="LoadListUser()">
+                        <option ng-repeat="nl in ListTruong" value={{nl.Id}}>{{nl.TenDonVi}}</option>
                     </select>
                 </div>
             </div>

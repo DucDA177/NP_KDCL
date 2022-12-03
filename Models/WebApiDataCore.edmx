@@ -862,8 +862,9 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="STT" Type="int" Nullable="false" />
-          <Property Name="IdDoanDGN" Type="int" Nullable="false" />
-          <Property Name="IdTruong" Type="int" Nullable="false" />
+          <Property Name="IdDoanDGN" Type="int" />
+          <Property Name="IdTruong" Type="int" />
+          <Property Name="IdKeHoachTDG" Type="int" />
           <Property Name="LamViecTu" Type="datetime" />
           <Property Name="LamViecDen" Type="datetime" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
@@ -2373,8 +2374,8 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="STT" Type="Int32" Nullable="false" />
-          <Property Name="IdDoanDGN" Type="Int32" Nullable="false" />
-          <Property Name="IdTruong" Type="Int32" Nullable="false" />
+          <Property Name="IdDoanDGN" Type="Int32" />
+          <Property Name="IdTruong" Type="Int32" />
           <Property Name="LamViecTu" Type="DateTime" Precision="3" />
           <Property Name="LamViecDen" Type="DateTime" Precision="3" />
           <Property Name="GhiChu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -2383,6 +2384,7 @@
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FInUse" Type="Boolean" />
+          <Property Name="IdKeHoachTDG" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3377,6 +3379,7 @@
           <EntitySetMapping Name="tblTruongDGNs">
             <EntityTypeMapping TypeName="WebApiDataModel.tblTruongDGN">
               <MappingFragment StoreEntitySet="tblTruongDGN">
+                <ScalarProperty Name="IdKeHoachTDG" ColumnName="IdKeHoachTDG" />
                 <ScalarProperty Name="FInUse" ColumnName="FInUse" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
