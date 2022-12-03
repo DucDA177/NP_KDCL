@@ -22,6 +22,11 @@
 
     $scope.DoiTrangThai = function (item, TrangThai) {
         if (TrangThai == 'DTH') {
+            let checkExistDTH = $scope.KeHoachTDG.filter(x => x.TrangThai == 'DTH').length > 0;
+            if (checkExistDTH) {
+                toastr.error('Không được phép tiến hành nhiều kế hoạch tự đánh giá cùng lúc', 'Thông báo');
+                return;
+            }
             //let curDate = new Date();
             let curYear = localStorage.getItem('NamHoc').split('-'); //curDate.getFullYear();
             if (curYear[0] < item.NamHocBD || curYear[1] > item.NamHocKT) {

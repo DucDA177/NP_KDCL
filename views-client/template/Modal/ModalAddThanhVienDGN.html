@@ -14,17 +14,26 @@
                 <div class="col-md-4">
                     <select ng-model="filter.IdPhong" class="form-control input-sm select2"
                             convert-to-number
-                            ng-change="LoadTruong()">
+                            ng-change="LoadDonViCon(filter.IdPhong,'ListTruong')">
+                        <option value="{{CurDonVi.Id}}">---Tất cả thành viên trực thuộc Sở---</option>
                         <option ng-repeat="nl in ListPhong" value={{nl.Id}}>{{nl.TenDonVi}}</option>
                     </select>
                 </div>
-                <label class="control-label col-md-2">Trường: </label>
-                <div class="col-md-4">
-                    <select ng-model="filter.IdTruong" 
-                            class="form-control input-sm select2" 
-                            ng-change="LoadListUser()">
-                        <option ng-repeat="nl in ListTruong" value={{nl.Id}}>{{nl.TenDonVi}}</option>
-                    </select>
+                <div ng-show="ListTruong.length > 0">
+                    <label class="control-label col-md-2">Trường: </label>
+                    <div class="col-md-4">
+                        <select ng-model="filter.IdTruong"
+                                class="form-control input-sm select2"
+                                convert-to-number
+                                ng-change="LoadListUserByDonVi(filter.IdTruong)">
+                            <option ng-repeat="nl in ListTruong" value={{nl.Id}}>{{nl.TenDonVi}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom-5">
+                <div class="col-md-12 text-right">
+                    <b><i>Đã chọn {{DSThanhVienDGN.length}} thành viên</i></b>
                 </div>
             </div>
             <div class="row margin-bottom-5">
@@ -34,35 +43,32 @@
                             <tr>
                                 <th> # </th>
                                 <th> Họ và tên </th>
-                                <th> Nơi công tác </th>
                                 <th> Chức vụ </th>
-                                <th align="center" width="1px">#</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="odd gradeX" ng-repeat="tv in ListTV">
-                                <td><input type="checkbox" /></td>
-                                <td>{{tv.HoTen}}</td>
-                                <td> {{tv.NoiCongTac}} </td>
-                                <td> {{tv.ChucVu}} </td>
-                                <td>
-                                    <a class="btn btn-sm btn-danger btn-outline sbold">
-                                        <i class="fa fa-times"></i>
-                                    </a>
+                                <td width="1px">
+                                    <input type="checkbox" ng-model="tv.check" 
+                                           ng-change="OnCheckUser(tv)"/>
                                 </td>
+                                <td>{{tv.HoTen}}</td>
+                                <td> {{tv.ChucVu}} </td>
+                                
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-         
+
             <div class="form-group " style="position: sticky;bottom: 10px;z-index:500;background-color:white">
                 <div class="col-md-4 text-right">
                     <div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>
                 </div>
                 <div class="col-md-8 clearfix text-right">
-                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="SaveModal()"><i class="fa fa-save"></i> Lưu </a>
-                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="SaveModal(1)"><i class="fa fa-save"></i> Lưu và thêm </a>
+                    <a class="btn btn-sm btn-success btn-outline sbold action-btn" ng-click="cancelModal()">
+                        <i class="fa fa-save"></i> Lưu thành viên
+                    </a>
                     <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
                 </div>
 

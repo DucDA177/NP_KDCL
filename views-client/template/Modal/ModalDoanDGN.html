@@ -32,7 +32,8 @@
                             </a>
                         </li>
                         <li>
-                            <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold">
+                            <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold"
+                               ng-click="LoadListPhong();LoadListTruong()">
                                 Danh sách trường được phân công đánh giá ngoài
                             </a>
                         </li>
@@ -43,15 +44,26 @@
                             <div class="row">
                                 <div class="portlet light">
                                     <div class="form-body form-horizontal">
-                                        <div class="row">
-                                            <label class="control-label col-md-2">Tên Đoàn ĐGN:</label>
-                                            <div class="col-md-10">
-                                                <input type="text" class="input-sm" ng-model="item.Ten">
+                                        <div class="row margin-bottom-5">
+                                            <div class="{{itemError.ModelState.Ten[1]}}">
+                                                <label class="control-label col-md-1">Tên Đoàn:</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control input-sm" ng-model="item.Ten">
+                                                </div>
+                                            </div>
+                                            <label class="control-label col-md-1">STT:</label>
+                                            <div class="col-md-2">
+                                                <input type="text" oninput="this.value=this.value.replace(/[^0-9]/g,'');"
+                                                       class="form-control input-sm" ng-model="item.STT">
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <label class="control-label col-md-2">Thành viên:</label>
-                                            <div class="col-md-10 text-right">
+                                        <div class="row margin-bottom-5">
+                                            <label class="control-label col-md-1">Thành viên:</label>
+                                            <label class="control-label col-md-8">
+                                                <b><i>Danh sách bao gồm {{DSThanhVienDGN.length}} thành viên</i></b>
+                                            </label>
+
+                                            <div class="col-md-3 text-right">
                                                 <a class="btn btn-sm btn-primary btn-outline sbold"
                                                    ng-click="openModal('','AddThanhVienDGN')">
                                                     <i class="fa fa-plus"></i> Thêm thành viên
@@ -59,8 +71,8 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-11">
                                                 <div class="table-scrollable">
                                                     <table class="table table-striped table-bordered table-hover">
                                                         <thead>
@@ -72,13 +84,13 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr class="odd gradeX" ng-repeat="tv in ListTV">
+                                                            <tr class="odd gradeX" ng-repeat="tv in DSThanhVienDGN">
                                                                 <td>{{tv.HoTen}}</td>
                                                                 <td> {{tv.NoiCongTac}} </td>
                                                                 <td> {{tv.ChucVu}} </td>
                                                                 <td>
-                                                                    <a class="btn btn-sm btn-danger btn-outline sbold">
-                                                                        <i class="fa fa-times"></i> 
+                                                                    <a ng-click="DelThanhVien(tv)">
+                                                                        <i class="fa fa-times font-red"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -97,55 +109,135 @@
                             <div class="row">
                                 <div class="portlet light " style="margin-bottom:0">
                                     <div class="form-body form-horizontal">
-                                        <div class="col-md-12">
-
-                                            <div class="form-group">
-                                                <label class="control-label col-md-1">Điểm mạnh: </label>
-                                                <div class="col-md-11">
-                                                    <textarea class="form-control input-sm"
-                                                              ng-disabled="checkCapTren"
-                                                              ng-model="item.dgtc.DiemManh"
-                                                              rows="4"></textarea>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label class="control-label col-md-2">Lọc theo Phòng: </label>
+                                                <div class="col-md-7">
+                                                    <select class="select2 form-control input-sm"
+                                                            ng-model="Paging.DVCha"
+                                                            ng-change="LoadListTruong()" convert-to-number>
+                                                        <option value="{{CurDonVi.Id}}">---Tất cả các trường trực thuộc Sở---</option>
+                                                        <option ng-repeat="op in ListPhong" value="{{op.Id}}">{{op.TenDonVi}}</option>
+                                                    </select>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-1">Điểm yếu: </label>
-                                                <div class="col-md-11">
-                                                    <textarea class="form-control input-sm"
-                                                              ng-disabled="checkCapTren"
-                                                              ng-model="item.dgtc.DiemYeu"
-                                                              rows="4"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-1">Ý kiến lãnh đạo: </label>
-                                                <div class="col-md-11">
-                                                    <textarea class="form-control input-sm"
-                                                              ng-disabled="!checkTongHop"
-                                                              ng-model="item.dgtc.YKienLanhDao"
-                                                              rows="4"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="control-label col-md-1">Ý kiến cấp trên: </label>
-                                                <div class="col-md-11">
-                                                    <textarea class="form-control input-sm"
-                                                              ng-model="item.dgtc.YKienCapTrenDG"
-                                                              ng-disabled="!checkCapTren"
-                                                              rows="4"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-1"></div>
-                                                <label class="col-md-3">
-                                                    <input type="checkbox"
-                                                           ng-disabled="!checkCapTren"
-                                                           ng-model="item.dgtc.CapTrenDuyet" /> Cấp trên duyệt
-                                                </label>
-
+                                                <label class="control-label col-md-2"><b><i>Đã chọn {{DSTruongDGN.length}} trường</i></b> </label>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="col-md-9">
+                                                <div class="table-scrollable ">
+                                                    <!-- BEGIN FORM-->
+                                                    <table class="table table-striped table-bordered table-hover"
+                                                           id="fixTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th align="center"> STT </th>
+                                                                <th> <div style="text-align:center">Mã ĐV</div></th>
+                                                                <th> <div style="text-align:center">Tên đơn vị</div> </th>
+                                                                <th> <div style="text-align:center">Thời gian làm việc</div> </th>
+                                                                <th><div style="text-align:center">Chọn trưởng đoàn <span class="font-red">*</span> </div>  </th>
+                                                                <th width="1px"><div style="text-align:center">#</div>  </th>
 
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="dm in ListTruong">
+                                                                <td align="center" width="1%"> {{$index + Paging.pageStart}} </td>
+                                                                <td>  {{dm.MaDonVi}} </td>
+                                                                <td>
+                                                                    {{dm.TenDonVi}}
+                                                                </td>
+                                                                <td align="center">
+                                                                    Từ <input type="date" ng-model="dm.LamViecTu" 
+                                                                              ng-change="UpdateDataTruongDGN(dm.Id,dm.LamViecTu,'LamViecTu')"
+                                                                              ng-model-options="{updateOn: 'change'}"
+                                                                              ng-disabled="!dm.check" />
+                                                                    Đến 
+                                                                    <input type="date" ng-model="dm.LamViecDen" 
+                                                                           ng-model-options="{updateOn: 'change'}"
+                                                                           ng-change="UpdateDataTruongDGN(dm.Id,dm.LamViecDen,'LamViecDen')"
+                                                                           ng-disabled="!dm.check" />
+                                                                </td>
+                                                                <td align="center">
+                                                                    <select class=" form-control input-sm" 
+                                                                            select2 ng-model="dm.TruongDoan"
+                                                                            ng-model-options="{updateOn: 'change'}"
+                                                                            ng-change="UpdateDataTruongDGN(dm.Id,dm.TruongDoan,'TruongDoan')"
+                                                                            ng-disabled="!dm.check">
+                                                                        <option ng-repeat="us in DSThanhVienDGN" value="{{us.Username}}">
+                                                                            {{us.HoTen}}
+                                                                        </option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="checkbox" ng-model="dm.check" ng-click="OnCheckTruong(dm)"/>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="table-scrollable ">
+                                                    <!-- BEGIN FORM-->
+                                                    <table class="table table-striped table-bordered table-hover"
+                                                           id="fixTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th align="center"> STT </th>
+                                                                <th> <div style="text-align:center">Tên đơn vị</div> </th>
+                                                                <th width="1px"><div style="text-align:center">#</div>  </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr class="odd gradeX" ng-repeat="dm in DSTruongDGN">
+                                                                <td align="center" width="1%"> {{$index + 1}} </td>
+                                                                <td>
+                                                                    {{dm.TenDonVi}}
+                                                                </td>
+                                                                
+                                                                <td>
+                                                                    <a tooltip title="Xóa" ng-click="DelTruong(dm)"><i class="fa fa-times font-red"></i></a>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="pull-left col-md-3">
+                                                <div class="input-group col-md-12">
+                                                    <span class="input-group-addon"> Hiển thị </span>
+                                                    <select ng-model="Paging.pageSize"
+                                                            convert-to-number
+                                                            ng-change="LoadListTruong()" class="form-control select2">
+                                                        <option value="5">5 bản ghi</option>
+                                                        <option ng-repeat="dp in displayPage" {{dp.value}}>{{dp.text}}</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-3">
+                                                <!--<div id="displayPage"></div>-->
+                                                <!--<div class="pull-right" style="margin-top:-10px" id="show_paginator"></div>-->
+                                                <div class="pull-right" style="margin-top:-10px">
+                                                    <div class="dataTables_paginate paging_bootstrap_extended" id="datatable_products_paginate">
+                                                        <div class="pagination-panel">
+                                                            Trang
+                                                            <a href="#" class="btn btn-sm default prev " ng-click="PrePage()" title="Trang trước">
+                                                                <i class="fa fa-angle-left"></i>
+                                                            </a><input type="text" allow-only-numbers ng-model="Paging.currentPage" class="pagination-panel-input form-control input-mini input-inline input-sm" maxlenght="5" style="text-align:center; margin: 0 5px;" ng-change="LoadListTruong()" ng-model-options="{updateOn: 'change'}">
+                                                            <a href="#" class="btn btn-sm default next " ng-click="NextPage()" title="Trang tiếp theo"><i class="fa fa-angle-right"></i></a> của
+                                                            <span class="pagination-panel-total">{{Paging.totalPage}}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

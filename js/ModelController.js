@@ -2614,7 +2614,7 @@ angular.module('WebApiApp').controller("ModalHoiDongDGNHandlerController", funct
     };
 
     //Region phân quyền
-   
+
     $scope.OnCheck = function (item) {
         if (item.IsCheck == true) {
             // Nếu là tích chọn
@@ -2623,8 +2623,8 @@ angular.module('WebApiApp').controller("ModalHoiDongDGNHandlerController", funct
                 item.IsCheck = true;
                 $scope.MenuDrop.filter(x => x.LoaiDuLieu == 2 && x.IdChiTieuCha == item.Id && !x.IsTaken)
                     .forEach(t => {
-                    t.IsCheck = true;
-                });
+                        t.IsCheck = true;
+                    });
             } else {
                 // Nếu là dữ liệu con => click cho dữ liệu cha
                 item.IsCheck = true;
@@ -2698,7 +2698,7 @@ angular.module('WebApiApp').controller("ModalInKhaoSatSoBoDGNHandlerController",
             url: 'api/KhaoSatSoBoDGN/LoadBienBan?IdDonVi=' + $rootScope.CurDonVi.Id
                 + '&IdKeHoachDGN=' + $scope.item.IdKeHoachDGN
         }).then(function successCallback(response) {
-            
+
             $scope.DGN = response.data.DGN;
             $scope.TDG = response.data.TDG;
             $scope.BienBan = response.data.BienBan;
@@ -2709,7 +2709,7 @@ angular.module('WebApiApp').controller("ModalInKhaoSatSoBoDGNHandlerController",
         });
     }();
 
-    
+
 
 });
 
@@ -2719,11 +2719,181 @@ angular.module('WebApiApp').controller("ModalDoanDGNHandlerController", function
     $scope.type = $scope.$resolve.type;
     $scope.check = $scope.$resolve.check;
 
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    $rootScope.DSThanhVienDGN = [];
+    $rootScope.DSTruongDGN = [];
+
+
+    $scope.LoadTruongDGN = function () {
+        $http({
+            method: 'GET',
+            url: 'api/DoanDGN/LoadTruongDGN?IdDoanDGN=' + $scope.item.Id
+        }).then(function successCallback(response) {
+
+            $rootScope.DSTruongDGN = response.data;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
     if (!$scope.item)
         $scope.item = {
-            Ten: ''
+            IdDonVi: $rootScope.CurDonVi.Id,
+            Ten: '',
+            Nam: new Date().getFullYear(),
+            DSThanhVien: ''
         }
-    $rootScope.DSThanhVienDGN = []
+    else {
+        if ($scope.item.DSThanhVien)
+            $rootScope.DSThanhVienDGN = JSON.parse($scope.item.DSThanhVien);
+        $scope.LoadTruongDGN();
+    }
+
+
+    $scope.DelThanhVien = function (user) {
+        $rootScope.DSThanhVienDGN = $rootScope.DSThanhVienDGN.filter(x => x.Username != user.Username)
+    }
+    $scope.DelTruong = function (truong) {
+        $rootScope.DSTruongDGN = $rootScope.DSTruongDGN.filter(x => x.Id != truong.Id);
+        $scope.ListTruong.filter(x => x.Id == truong.Id)[0].check = false;
+    }
+
+    $scope.Paging = {
+        "searchKey": '',
+        "pageSize": 5,
+        "totalCount": 0,
+        "totalPage": 0,
+        "currentPage": 1,
+        "LoaiDonVi": 'TRUONG',
+        "DVCha": $rootScope.CurDonVi.Id,
+        "LoaiTruong": '0'
+    };
+    $scope.PrePage = function () {
+        if ($scope.Paging.currentPage > 1) {
+            $scope.Paging.currentPage = $scope.Paging.currentPage - 1;
+            $scope.LoadListTruong();
+        }
+
+    }
+    $scope.NextPage = function () {
+        if ($scope.Paging.currentPage < $scope.Paging.totalPage) {
+            $scope.Paging.currentPage = $scope.Paging.currentPage + 1;
+            if ($scope.Paging.currentPage == $scope.Paging.totalPage) {
+                $scope.Paging.currentPage == $scope.Paging.totalPage
+            }
+            $scope.LoadListTruong();
+        }
+
+    }
+
+    $scope.LoadListTruong = function () {
+        if ($scope.Paging.totalPage != 0) {
+            if ($scope.Paging.currentPage > $scope.Paging.totalPage)
+                $scope.Paging.currentPage = $scope.Paging.totalPage
+            if ($scope.Paging.currentPage < 1)
+                $scope.Paging.currentPage = 1
+        }
+
+        $http({
+            method: 'GET',
+            url: 'api/DonVi/GetDonVi?pageNumber=' + $scope.Paging.currentPage
+                + '&pageSize=' + $scope.Paging.pageSize
+                + '&searchKey=' + $scope.Paging.searchKey
+                + '&LoaiDonVi=' + $scope.Paging.LoaiDonVi
+                + '&DVCha=' + $scope.Paging.DVCha
+                + '&LoaiTruong=' + $scope.Paging.LoaiTruong
+        }).then(function successCallback(response) {
+
+            $scope.ListTruong = response.data.DMDonVi;
+            $scope.Paging.totalCount = response.data.totalCount;
+            $scope.Paging.pageStart = response.data.pageStart;
+            $scope.Paging.totalPage = response.data.totalPage;
+
+            angular.forEach($scope.ListTruong, (value, key) => {
+                let checkTruong = $rootScope.DSTruongDGN.filter(x => x.Id == value.Id)
+                if (checkTruong.length > 0) {
+                    value.check = true;
+                    value.LamViecTu = new Date(checkTruong[0].LamViecTu)
+                    value.LamViecDen = new Date(checkTruong[0].LamViecDen)
+                    value.TruongDoan = checkTruong[0].TruongDoan
+                };
+
+            })
+
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    $scope.LoadListPhong = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/DonVi/GetDonVi?pageNumber=1&pageSize=9999&searchKey=&LoaiDonVi=PHONG&DVCha=' + $rootScope.CurDonVi.Id
+                + '&LoaiTruong='
+        }).then(function successCallback(response) {
+
+            $scope.ListPhong = response.data.DMDonVi;
+            $scope.Paging.totalCount = response.data.totalCount;
+            $scope.Paging.pageStart = response.data.pageStart;
+            $scope.Paging.totalPage = response.data.totalPage;
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    };
+
+    $scope.OnCheckTruong = function (dv) {
+        if (dv.check)
+            $rootScope.DSTruongDGN.push(dv)
+        else
+            $rootScope.DSTruongDGN = $rootScope.DSTruongDGN.filter(x => x.Id != dv.Id)
+
+    }
+
+    $scope.Save = function (isNew) {
+
+        $scope.item.DSThanhVien = JSON.stringify($rootScope.DSThanhVienDGN);
+        let checkInputTruongDoan = $rootScope.DSTruongDGN.filter(x => !x.TruongDoan);
+        if (checkInputTruongDoan.length > 0) {
+            toastr.error(checkInputTruongDoan[0].TenDonVi + ' chưa chọn trưởng đoàn. Vui lòng thử lại!');
+            return;
+        }
+        $http({
+            method: 'POST',
+            url: 'api/DoanDGN/Save',
+            data: {
+                DoanDGN: $scope.item,
+                TruongDGN: $rootScope.DSTruongDGN
+            }
+        }).then(function successCallback(response) {
+            $scope.item = response.data.DoanDGN;
+            $scope.itemError = "";
+            toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
+            $rootScope.LoadDoanDGN();
+            $scope.cancelModal();
+            if (isNew)
+                $scope.openModal('', 'DoanDGN')
+
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            if (response.data.Message) {
+                toastr.error(response.data.Message);
+            }
+            else
+                toastr.error('Có lỗi xảy ra! Hoặc bạn chưa điền đầy đủ các trường bắt buộc !', 'Thông báo');
+
+        });
+
+    }
+
+    $scope.UpdateDataTruongDGN = function (Id, value, model) {
+        $rootScope.DSTruongDGN.filter(x => x.Id == Id)[0][model] = value;
+    }
 });
 
 //Tìm kiếm và thêm thành viên đoàn đánh giá ngoài
@@ -2732,4 +2902,56 @@ angular.module('WebApiApp').controller("ModalAddThanhVienDGNHandlerController", 
     $scope.type = $scope.$resolve.type;
     $scope.check = $scope.$resolve.check;
 
+    $scope.filter = {
+        IdPhong: $rootScope.CurDonVi.Id,
+        IdTruong: 0,
+    }
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+
+    $scope.LoadDonViCon = function (IdCha, model) {
+        $http({
+            method: 'GET',
+            url: 'api/DonVi/GetDonViCon?ParId=' + IdCha
+                + '&typeDV=&searchkey='
+        }).then(function successCallback(response) {
+
+            $scope[model] = response.data;
+
+            $scope.LoadListUserByDonVi(IdCha);
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+    $scope.LoadDonViCon($rootScope.CurDonVi.Id, 'ListPhong');
+
+    $scope.LoadListUserByDonVi = function (IdDonVi) {
+        $http({
+            method: 'GET',
+            url: 'api/DoanDGN/GetUsersExceptDV?IdDonVi=' + IdDonVi + '&MaDVExcept=PHONG'
+        }).then(function successCallback(response) {
+
+            $scope.ListTV = response.data;
+
+            angular.forEach($scope.ListTV, (value, key) => {
+                if ($rootScope.DSThanhVienDGN.filter(x => x.Username == value.Username).length > 0)
+                    value.check = true;
+            })
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }
+
+    $scope.LoadListUserByDonVi($rootScope.CurDonVi.Id)
+
+    $scope.OnCheckUser = function (user) {
+        if (user.check)
+            $rootScope.DSThanhVienDGN.push(user)
+        else
+            $rootScope.DSThanhVienDGN = $rootScope.DSThanhVienDGN.filter(x => x.Username != user.Username)
+    }
 });
