@@ -79,16 +79,16 @@
                                             </a>
                                         </td>
                                         <td nowrap>
-                                            <a ng-if="(item.Id!=null&& item.Id!=0)&&CheckView(dm,'BATDAUKHDGN')" tooltip title="Tiến hành kế hoạch" ng-click="UpdateTrangThaiKH(dm,'BATDAU')"><i class="font-green fa fa-play"></i></a>
-                                            <a ng-if="(item.Id!=null&& item.Id!=0)&&CheckView(dm,'TAMDUNGKHDGN')" tooltip title="Dừng kế hoạch" ng-click="UpdateTrangThaiKH(dm,'TAMDUNG')"><i class="font-red fa fa-stop"></i></a>&nbsp;
-                                            <a ng-if="(item.Id!=null&& item.Id!=0)&&CheckView(dm,'HOANTHANHKHDGN')" tooltip title="Hoàn thành kế hoạch" ng-click="UpdateTrangThaiKH(dm,'HOANTHANH')"><i class="font-green fa fa-check-circle"></i></a>
+                                            <a ng-if="(dm.Id!=null&& dm.Id!=0)&&CheckView(dm,'BATDAUKHDGN')" tooltip title="Tiến hành kế hoạch" ng-click="UpdateTrangThaiKH(dm,'BATDAU')"><i class="font-green fa fa-play"></i></a>
+                                            <a ng-if="(dm.Id!=null&& dm.Id!=0)&&CheckView(dm,'TAMDUNGKHDGN')" tooltip title="Dừng kế hoạch" ng-click="UpdateTrangThaiKH(dm,'TAMDUNG')"><i class="font-red fa fa-stop"></i></a>&nbsp;
+                                            <a ng-if="(dm.Id!=null&& dm.Id!=0)&&CheckView(dm,'HOANTHANHKHDGN')" tooltip title="Hoàn thành kế hoạch" ng-click="UpdateTrangThaiKH(dm,'HOANTHANH')"><i class="font-green fa fa-check-circle"></i></a>
                                         </td>
                                         <td>
-                                            <a ng-if="(item.Id!=null&& item.Id!=0)&&CheckView(dm,'EDITKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')" title="Sửa"><i class="fa fa-edit"></i></a>
-                                            <a ng-if="(item.Id==null|| item.Id==0)" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-plus-circle"></i></a>
+                                            <a ng-if="(dm.Id!=null&& dm.Id!=0)&&CheckView(dm,'EDITKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')" title="Sửa"><i class="fa fa-edit"></i></a>
+                                            <a ng-if="(dm.Id==null|| dm.Id==0)&&CheckView(dm,'EDITKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-plus-circle"></i></a>
                                         </td>
                                         <td>
-                                            <a ng-if="(item.Id!=null&& item.Id!=0)&&CheckView(dm,'EDITKHDGN')" tooltip ng-click="Del(dm)" title="Xóa kế hoạch"><i class="fa fa-trash font-red "></i></a>
+                                            <a ng-if="(dm.Id!=null&& dm.Id!=0)&&CheckView(dm,'EDITKHDGN')" tooltip ng-click="Del(dm)" title="Xóa kế hoạch"><i class="fa fa-trash font-red "></i></a>
 
                                         </td>
 

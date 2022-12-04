@@ -39,7 +39,7 @@
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
         }
-        $scope.LoadKeHoachTDG();
+       // $scope.LoadKeHoachTDG();
         $scope.onCancelKeHoachTDG = function () {
             $scope.filterKeHoachTDG = {
                 GetAll: true,
@@ -59,15 +59,17 @@
         }
         $scope.filterKeHoachDGN = {
             GetAll: true,
+            IsThanhVien:true,
         };
         $scope.LoadKeHoachDGN = function () {
+            if ($scope.filterKeHoachDGN.IdTruong ==null)return
             $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
                 $scope.KeHoachDGN = response.data.ListOut;
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
         }
-        $scope.LoadKeHoachDGN();
+      //  $scope.LoadKeHoachDGN();
         $scope.onCancelKeHoachDGN = function () {
             $scope.filterKeHoachDGN = {
                 GetAll: true,
@@ -159,22 +161,22 @@
         $scope.CheckView = function (item, type) {
             switch (type) {
                 case "TAOKHDGN":
-                    return item.IdKeHoachDGN == null && !item.ViewOnly
+                    return item.IdKeHoachDGN == null && !item.ViewOnly && item.TruongDoan == true
                     break;
                 case "VIEWKHDGN":
                     return item.IdKeHoachDGN != null && !item.ViewOnly
                     break;
                 case "BATDAUKHDGN":
-                    return item.Id != null && (item.TrangThai == FactoryConstant.DA_LAP_KE_HOACH_NGOAI.FCode || item.TrangThai == FactoryConstant.DANG_DUNG_KE_HOACH_NGOAI.FCode)
+                    return item.Id != null && (item.TrangThai == FactoryConstant.DA_LAP_KE_HOACH_NGOAI.FCode || item.TrangThai == FactoryConstant.DANG_DUNG_KE_HOACH_NGOAI.FCode) && item.TruongDoan == true
                     break;
                 case "TAMDUNGKHDGN":
-                    return item.Id != null && (item.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode)
+                    return item.Id != null && (item.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode) && item.TruongDoan == true
                     break;
                 case "HOANTHANHKHDGN":
-                    return item.Id != null && (item.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode)
+                    return item.Id != null && (item.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode) && item.TruongDoan == true
                     break;
                 case "EDITKHDGN":
-                    return item.TrangThai != FactoryConstant.HOAN_THANH_KE_HOACH_NGOAI.FCode
+                    return item.TrangThai != FactoryConstant.HOAN_THANH_KE_HOACH_NGOAI.FCode && item.TruongDoan==true
                     break;
                 default:
                     break;
@@ -414,6 +416,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
                 return
             arr.splice(index, 1)
         }
+        //setTimeout('')
     }
 
     $scope.onChangeThanhVien = function (item) {
@@ -544,9 +547,9 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
     //end load tieu chuan tieu chi
 
     $scope.OnLoad = function () {
-        if ($scope.item.Id == null || ($scope.item.Id+'') == '0') {
-           // $scope.itemKHTDG = $scope.item;
-            $scope.item = {}
+        if ($scope.item == null || $scope.item.Id == 0) {
+           // $scope.itemOLD = $scope.item;
+           // $scope.item = {}
             $scope.item.NoiDung = "Kế hoạch làm việc của đoàn đánh giá ngoài " + $scope.item.DonViName;
             //$scope.item.KeHoachTDGName = $scope.itemKHTDG.KeHoachTDGName;
             //$scope.item.DonViName = $scope.itemKHTDG.DonViName;
@@ -572,10 +575,10 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
 
         }
         let filterThanhVienDGN = {
-            PhanLoai: 'ALL',
+            PhanLoai: '',
             IdDonVi: 0,
-            IdKeHoachTDG: 0,
-            IdKeHoachDGN: 0,
+            IdKeHoachTDG: $scope.item.IdKeHoachTDG,
+            IdKeHoachDGN: $scope.item.Id,
         }
         $scope.LoadThanhVienDGN(filterThanhVienDGN)
         $scope.LoadTCTC();

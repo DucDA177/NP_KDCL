@@ -52,10 +52,10 @@
       //  $scope.LoadHoiDongDGN(Id);
         let filterThanhVienDGN = {
            // PhanLoai: 'BAOCAOSOBO',
-            PhanLoai: 'ALLBAOCAOSOBO',
+            PhanLoai: 'BAOCAOSOBO',
             IdDonVi: 0,
-            IdKeHoachTDG: 0,
-            IdKeHoachDGN: Id,
+            IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
+            IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
         }
         $scope.LoadThanhVienDGN(filterThanhVienDGN)
         $scope.LoadTCTC();
@@ -67,7 +67,7 @@
     }
     $scope.filterKeHoachDGN = {
         GetAll: true,
-        //  IsThanhVien:true
+        IsThanhVien:true
     };
     $scope.LoadKeHoachDGN = function () {
         InitLoad()
@@ -85,9 +85,9 @@
             //  $scope.LoadHoiDongDGN(Id);
             let filterThanhVienDGN = {
                 // PhanLoai: 'BAOCAOSOBO',
-                PhanLoai: 'ALLBAOCAOSOBO',
+                PhanLoai: 'BAOCAOSOBO',
                 IdDonVi: 0,
-                IdKeHoachTDG: 0,
+                IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
                 IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
             }
             $scope.LoadThanhVienDGN(filterThanhVienDGN)

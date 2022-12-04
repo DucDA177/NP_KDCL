@@ -49,17 +49,17 @@
             if (objParams == null) {
                 let PhanLoai = ""
                 if ($scope.filterPhieuDG.PhanLoaiDanhGia == "SOBO") {
-                    PhanLoai = 'ALLBAOCAOSOBO'
+                    PhanLoai = 'BAOCAOSOBO'
                 }
                 if ($scope.filterPhieuDG.PhanLoaiDanhGia == "TIEUCHI") {
-                    PhanLoai = 'ALLBAOCAOTIEUCHI'
+                    PhanLoai = 'BAOCAOTIEUCHI'
                 }
                 if (PhanLoai == '') return
                 objParams = {
                     // PhanLoai: 'BAOCAOSOBO',
                     PhanLoai: PhanLoai,
                     IdDonVi: 0,
-                    IdKeHoachTDG: 0,
+                    IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
                     IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
                 }
             }
@@ -111,6 +111,7 @@
         }
         $scope.filterKeHoachDGN = {
             GetAll: true,
+            IsThanhVien: true,
         };
         $scope.LoadKeHoachDGN = function () {
             InitLoad()
@@ -122,9 +123,9 @@
                     $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id + ''
                     $scope.filterTCTC.IdKeHoach = $scope.ItemKeHoachDGN.Id
                     let filterThanhVienDGN = {
-                        PhanLoai: 'ALLBAOCAOTIEUCHI',
+                        PhanLoai: 'BAOCAOTIEUCHI',
                         IdDonVi: 0,
-                        IdKeHoachTDG: 0,
+                        IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
                         IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
                     }
                     $scope.LoadThanhVienDGN(filterThanhVienDGN)

@@ -259,7 +259,7 @@
                                                             <div class="col-md-12">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">Tiêu chuẩn</span>
-                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChuan" ng-change="filterBaoCao.IdTieuChi==null;OnChangeTieuChuan(filterBaoCao.IdTieuChuan,'TIEUCHUAN_BAOCAO')">
+                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChuan" ng-change="filterBaoCao.IdTieuChi=null;OnChangeTieuChuan(filterBaoCao.IdTieuChuan,'TIEUCHUAN_BAOCAO')">
                                                                         <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
                                                                     </select>
                                                                 </div>
@@ -304,7 +304,7 @@
                                                             <div class="col-md-6">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">Tiêu chuẩn</span>
-                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChuan" ng-change="filterBaoCao.IdTieuChi==null;OnChangeTieuChuan(filterBaoCao.IdTieuChuan,'TIEUCHUAN_BAOCAO')">
+                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChuan" ng-change="filterBaoCao.IdTieuChi=null;OnChangeTieuChuan(filterBaoCao.IdTieuChuan,'TIEUCHUAN_BAOCAO')">
                                                                         <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
                                                                     </select>
                                                                 </div>

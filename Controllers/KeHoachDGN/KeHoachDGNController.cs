@@ -23,6 +23,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
             public string TrangThai { get; set; }
             public bool? ChuyenKeHoach { get; set; }
             public bool? IsThanhVien { get; set; }
+            public bool? TruongDoan { get; set; }
         }
         public class KeHoachDGNModel : tblKeHoachDGN
         {
@@ -44,8 +45,11 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                    from khdgn in tmpKHTDG.DefaultIfEmpty()
                                    join truongDGN in db.tblTruongDGNs on khtdg.Id equals truongDGN.IdKeHoachTDG into tmpTruongDGN
                                    from truongDGN in tmpTruongDGN.DefaultIfEmpty()
-                                   join tv in db.tblThanhVienDGNs on new { truongDGN.Id, UserName = HttpContext.Current.User.Identity.Name } equals new { Id = tv.IdTruongDGN, UserName = tv.Username } into tmpTvDGN
+                                   join tv in db.tblThanhVienDGNs on new { truongDGN.Id, UserName = HttpContext.Current.User.Identity.Name,TruongDoan=true } equals new { Id = tv.IdTruongDGN, UserName = tv.Username, TruongDoan=tv.TruongDoan.Value } into tmpTvDGN
+                                //   join tv in db.tblThanhVienDGNs on truongDGN.Id equals tv.IdTruongDGN into tmpTvDGN
                                    from tv in tmpTvDGN.DefaultIfEmpty()
+                                    join doan in db.tblDoanDGNs on truongDGN.IdDoanDGN equals doan.Id into tmpDoanDGN
+                                   from doan in tmpDoanDGN.DefaultIfEmpty()
                                    join dv in db.DMDonVis on khtdg.IdDonVi equals dv.Id
                                    where khtdg.ChuyenKeHoach == true
                                    select //kh
@@ -76,10 +80,10 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                        DonViName = dv.TenDonVi,
                                        KeHoachTDGName = khtdg.NoiDung,
                                        IdTruongDGN = khdgn.IdTruongDGN,
-                                       IsThanhVien = tv != null ? tv.Id > 0 : false,
+                                       IsThanhVien = doan != null ? doan.DSThanhVien.Contains(@""""+ HttpContext.Current.User.Identity.Name + @"""") : false,
                                        TruongDoan= tv != null?tv.TruongDoan:false,
-                                       ThuKy= tv != null?tv.ThuKy : false,
-                                       UyVien= tv != null?tv.UyVien : false,
+                                       //ThuKy= tv != null?tv.ThuKy : false,
+                                    //   UyVien= tv != null?tv.UyVien : false,
                                    }
                                    );//.ToList();
                 if (filter.IdKeHoach.HasValue)
@@ -105,6 +109,10 @@ namespace WebApiCore.Controllers.KeHoachDGN
                 if (filter.IsThanhVien.HasValue)
                 {
                     listKeHoach = listKeHoach.Where(s => s.IsThanhVien == filter.IsThanhVien);
+                }
+               if (filter.TruongDoan.HasValue)
+                {
+                    listKeHoach = listKeHoach.Where(s => s.TruongDoan == filter.TruongDoan.Value);
                 }
                 if (filter.GetAll.HasValue && filter.GetAll == true)
                 {

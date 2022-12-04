@@ -3276,7 +3276,6 @@
           <EntitySetMapping Name="tblThanhVienDGNs">
             <EntityTypeMapping TypeName="WebApiDataModel.tblThanhVienDGN">
               <MappingFragment StoreEntitySet="tblThanhVienDGN">
-                <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="FInUse" ColumnName="FInUse" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />

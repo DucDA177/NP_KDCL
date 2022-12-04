@@ -123,7 +123,7 @@
                                             <div class="form-body form-horizontal">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.NghienCuuHSDGArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                        <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.NghienCuuHSDGArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -144,26 +144,26 @@
                                                                     <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
                                                                     <td width="30%">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
                                                                             <span class="input-group-addon">-</span>
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
                                                                         </div>
 
                                                                     </td>
                                                                     <td width="50%">
-                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                        <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control input-sm" ng-model="x.NoiDung" />
                                                                     </td>
-                                                                    <td align="center" width="18%">
-                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                    <td width="18%">
+                                                                        <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
                                                                             <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <a ng-click="UpdateNoiDung('DELETE',item.NghienCuuHSDGArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                        <a ng-if="CheckView(item,'EDITKHDGN')" ng-click="UpdateNoiDung('DELETE',item.NghienCuuHSDGArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -218,8 +218,8 @@
                                                                     </td>
 
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <input ng-if="x.IdTieuChuan==null" type="checkbox" ng-click="onCheck(x,'TIEUCHUAN','CLICK')" ng-model="onCheck(x,'TIEUCHUAN','MODEL')"  ng-model-options=" {getterSetter: true }" />
-                                                                        <input ng-if="x.IdTieuChuan!=null" type="checkbox"ng-click="onCheck(x,'TIEUCHI','CLICK')" ng-model="onCheck(x,'TIEUCHI','MODEL')"  ng-model-options=" {getterSetter: true }"/>
+                                                                        <input ng-if="x.IdTieuChuan==null" type="checkbox" ng-click="CheckView(item,'EDITKHDGN')&&onCheck(x,'TIEUCHUAN','CLICK')" ng-model="onCheck(x,'TIEUCHUAN','MODEL')"  ng-model-options=" {getterSetter: true }" />
+                                                                        <input ng-if="x.IdTieuChuan!=null" type="checkbox"ng-click="CheckView(item,'EDITKHDGN')&&onCheck(x,'TIEUCHI','CLICK')" ng-model="onCheck(x,'TIEUCHI','MODEL')"  ng-model-options=" {getterSetter: true }"/>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -240,7 +240,7 @@
                                             <div class="form-body form-horizontal">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.KhaoSatSoBoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                        <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.KhaoSatSoBoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -261,26 +261,26 @@
                                                                     <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
                                                                     <td width="30%">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
                                                                             <span class="input-group-addon">-</span>
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
                                                                         </div>
 
                                                                     </td>
                                                                     <td width="50%">
-                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                        <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control input-sm" ng-model="x.NoiDung" />
                                                                     </td>
-                                                                    <td align="center" width="18%">
-                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                    <td width="18%">
+                                                                        <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
                                                                             <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <a ng-click="UpdateNoiDung('DELETE',item.KhaoSatSoBoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                        <a ng-if="CheckView(item,'EDITKHDGN')" ng-click="UpdateNoiDung('DELETE',item.KhaoSatSoBoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -298,7 +298,7 @@
                                             <div class="form-body form-horizontal">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.KhaoSatChinhThucArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                        <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.KhaoSatChinhThucArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -319,26 +319,26 @@
                                                                     <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
                                                                     <td width="30%">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
                                                                             <span class="input-group-addon">-</span>
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
                                                                         </div>
 
                                                                     </td>
                                                                     <td width="50%">
-                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                        <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control input-sm" ng-model="x.NoiDung" />
                                                                     </td>
-                                                                    <td align="center" width="18%">
-                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                    <td width="18%">
+                                                                        <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
                                                                             <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <a ng-click="UpdateNoiDung('DELETE',item.KhaoSatChinhThucArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                        <a ng-if="CheckView(item,'EDITKHDGN')" ng-click="UpdateNoiDung('DELETE',item.KhaoSatChinhThucArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -357,7 +357,7 @@
                                             <div class="form-body form-horizontal">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.DuThaoBaoCaoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                        <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.DuThaoBaoCaoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -378,26 +378,26 @@
                                                                     <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
                                                                     <td width="30%">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
                                                                             <span class="input-group-addon">-</span>
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
                                                                         </div>
 
                                                                     </td>
                                                                     <td width="50%">
-                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                        <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control input-sm" ng-model="x.NoiDung" />
                                                                     </td>
-                                                                    <td align="center" width="18%">
-                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                    <td width="18%">
+                                                                        <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
                                                                             <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <a ng-click="UpdateNoiDung('DELETE',item.DuThaoBaoCaoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                        <a ng-if="CheckView(item,'EDITKHDGN')" ng-click="UpdateNoiDung('DELETE',item.DuThaoBaoCaoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -415,7 +415,7 @@
                                             <div class="form-body form-horizontal">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.LayYKienPhanHoiArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                        <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.LayYKienPhanHoiArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
                                                     </div>
                                                 </div>
                                                 <br />
@@ -436,26 +436,26 @@
                                                                     <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
                                                                     <td width="30%">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
                                                                             <span class="input-group-addon">-</span>
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
                                                                         </div>
 
                                                                     </td>
                                                                     <td width="50%">
-                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                        <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control input-sm" ng-model="x.NoiDung" />
                                                                     </td>
-                                                                    <td align="center" width="18%">
-                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                    <td width="18%">
+                                                                        <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
                                                                             <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <a ng-click="UpdateNoiDung('DELETE',item.LayYKienPhanHoiArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                        <a ng-if="CheckView(item,'EDITKHDGN')" ng-click="UpdateNoiDung('DELETE',item.LayYKienPhanHoiArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -474,13 +474,13 @@
                                             <div class="form-body form-horizontal">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.HoanThienBaoCaoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                        <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.HoanThienBaoCaoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
                                                     </div>
                                                 </div>
                                                 <br />
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <table class="table table-bordered">
+                                                        <table class="table table-bordered" >
                                                             <thead>
                                                                 <tr>
                                                                     <th style="text-align:center;vertical-align:middle">STT</th>
@@ -495,26 +495,26 @@
                                                                     <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
                                                                     <td width="30%">
                                                                         <div class="input-group">
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
                                                                             <span class="input-group-addon">-</span>
-                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                            <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control date-control input-sm"
                                                                                    datepicker=""
                                                                                    dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
                                                                         </div>
 
                                                                     </td>
                                                                     <td width="50%">
-                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                        <input ng-disabled="!CheckView(item,'EDITKHDGN')" type="text" class="form-control input-sm" ng-model="x.NoiDung" />
                                                                     </td>
-                                                                    <td align="center" width="18%">
-                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                    <td width="18%">
+                                                                        <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
                                                                             <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <a ng-click="UpdateNoiDung('DELETE',item.HoanThienBaoCaoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                        <a ng-if="CheckView(item,'EDITKHDGN')" ng-click="UpdateNoiDung('DELETE',item.HoanThienBaoCaoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

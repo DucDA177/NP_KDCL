@@ -6,11 +6,11 @@
     }
     $scope.filterKeHoachDGN = {
         GetAll: true,
-      //  IsThanhVien:true
+        IsThanhVien: true
     };
     $scope.LoadKeHoachDGN = function () {
         $scope.item = {}
-        $scope.KeHoachDGN=[]
+        $scope.KeHoachDGN = []
         $scope.ItemKeHoachDGN = {}
         if ($scope.filterKeHoachDGN.IdTruong == null)
             return
@@ -18,7 +18,7 @@
             $scope.KeHoachDGN = response.data.ListOut;
             if (response.data.ListOut != null && response.data.ListOut.length > 0) {
                 $scope.ItemKeHoachDGN = $scope.KeHoachDGN[0]
-                $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id+''
+                $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id + ''
                 $http.get("api/BaoCaoSoBo/GetByIdKeHoach?IdKeHoach=" + $scope.ItemKeHoachDGN.Id).then(function (rs) {
                     if (rs.data != null) {
                         if (!rs.data.IsBaoCao) {
@@ -34,15 +34,15 @@
                     }
                 })
             }
-          //  console.warn('$scope.KeHoachDGN', $scope.KeHoachDGN)
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });
     }
-   // $scope.LoadKeHoachDGN();
+    // $scope.LoadKeHoachDGN();
     $scope.onCancelKeHoachDGN = function () {
         $scope.filterKeHoachDGN = {
             GetAll: true,
+            IsThanhVien: true,
         };
         $scope.LoadKeHoachDGN();
         $('.filter-select').val(null).trigger("change.select2");
@@ -118,7 +118,7 @@
                     return;
                 }
                 $scope.item = rs.data
-                
+
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
                 if ($scope.item.Id == null || $scope.item.Id == 0) {
                     $scope.LoadTemplate();

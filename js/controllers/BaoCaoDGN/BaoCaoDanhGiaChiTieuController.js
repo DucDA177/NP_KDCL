@@ -50,6 +50,7 @@
         }
         $scope.filterKeHoachDGN = {
             GetAll: true,
+            IsThanhVien: true,
         };
         $scope.LoadKeHoachDGN = function () {
             InitLoad()
