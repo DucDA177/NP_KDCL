@@ -14,7 +14,7 @@
     <div class="modal-title">
         <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
 
-        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> Cập nhật thông tin kế hoạch đánh giá ngoài</label></h4>
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i>Thông tin kế hoạch đánh giá ngoài</label></h4>
 
     </div>
 </div>
@@ -23,10 +23,10 @@
 
         <div class="row text-center uppercase">
             <h3>{{item.NoiDung}} </h3>
-            <div style="display:flex;flex-direction:row ;align-items:center;justify-content:center">
+            <!--<div style="display:flex;flex-direction:row ;align-items:center;justify-content:center">
 
                 <h3> Năm</h3> <div class="col-md-2"><input class="form-control" ng-model="item.Nam" ng-disabled="!CheckView(item,'EDITKHDGN')" /></div>
-            </div>
+            </div>-->
         </div>
         <div class="row  col-md-12">
             <h4> Căn cứ theo <a title="Xem thông tin kế hoạch tự đánh giá" ng-click="OpenDetailKeHoachTDG({IdKeHoachTDG:item.IdKeHoachTDG},'KeHoachDGN')">{{item.KeHoachTDGName}} của {{item.DonViName}}</a></h4>
@@ -47,6 +47,11 @@
                                 <li>
                                     <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
                                         Nội dung nghiên cứu
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
+                                        Phân công đánh giá tiêu chí
                                     </a>
                                 </li>
                                 <li>
@@ -98,9 +103,9 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
+                                                <!--<div class="text-center">
                                                     <h3>Mục đích</h3>
-                                                </div>
+                                                </div>-->
                                                 <div class="row">
 
                                                     <ng-ckeditor ng-model="item.MucDich"
@@ -116,13 +121,112 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
-                                                    <h3>Nội dung nghiên cứu hồ sơ</h3>
-                                                </div>
                                                 <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.NghienCuuHSDGArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in item.NghienCuuHSDGArray">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
+                                                                    <td width="30%">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
+                                                                            <span class="input-group-addon">-</span>
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
+                                                                        </div>
 
-                                                    <ng-ckeditor ng-model="item.NghienCuuHSDG"
-                                                                 ng-config="config"></ng-ckeditor>
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                    </td>
+                                                                    <td align="center" width="18%">
+                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <a ng-click="UpdateNoiDung('DELETE',item.NghienCuuHSDGArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
+                                                                 ng-config="config"></ng-ckeditor>-->
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade " id="tab_2">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">Thành viên</span>
+                                                            <select class="form-control select2 input-sm" ng-model="filterPCTieuChi.UserName">
+                                                                <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div ng-if="filterPCTieuChi.UserName!=null" class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in ListTieuChuanTieuChis">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <span ng-if="x.IdTieuChuan==null"><b> {{x.ThuTu}}</b></span>
+                                                                        <span ng-if="x.IdTieuChuan!=null"> {{(ListTieuChuanTieuChis | filter:{'Id':x.IdTieuChuan})[0].ThuTu}}.{{x.ThuTu}}</span>
+                                                                       
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span ng-if="x.IdTieuChuan==null"><b>{{x.NoiDung}}</b></span>
+                                                                        <span ng-if="x.IdTieuChuan!=null">{{x.NoiDung}}</span>
+                                                                    </td>
+
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <input ng-if="x.IdTieuChuan==null" type="checkbox" ng-click="onCheck(x,'TIEUCHUAN','CLICK')" ng-model="onCheck(x,'TIEUCHUAN','MODEL')"  ng-model-options=" {getterSetter: true }" />
+                                                                        <input ng-if="x.IdTieuChuan!=null" type="checkbox"ng-click="onCheck(x,'TIEUCHI','CLICK')" ng-model="onCheck(x,'TIEUCHI','MODEL')"  ng-model-options=" {getterSetter: true }"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
+                                                                 ng-config="config"></ng-ckeditor>-->
 
                                                 </div>
 
@@ -134,14 +238,54 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
-                                                    <h3>Nội dung khảo sát sơ bộ tại cơ sở giáo dục phổ thông</h3>
-                                                </div>
                                                 <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.KhaoSatSoBoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in item.KhaoSatSoBoArray">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
+                                                                    <td width="30%">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
+                                                                            <span class="input-group-addon">-</span>
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
+                                                                        </div>
 
-                                                    <ng-ckeditor ng-model="item.KhaoSatSoBo"
-                                                                 ng-config="config"></ng-ckeditor>
-
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                    </td>
+                                                                    <td align="center" width="18%">
+                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <a ng-click="UpdateNoiDung('DELETE',item.KhaoSatSoBoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -152,13 +296,54 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
-                                                    <h3>Nội dung khảo sát chính thức tại cơ sở giáo dục phổ thông</h3>
-                                                </div>
                                                 <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.KhaoSatChinhThucArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in item.KhaoSatChinhThucArray">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
+                                                                    <td width="30%">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
+                                                                            <span class="input-group-addon">-</span>
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
+                                                                        </div>
 
-                                                    <ng-ckeditor ng-model="item.KhaoSatChinhThuc"
-                                                                 ng-config="config"></ng-ckeditor>
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                    </td>
+                                                                    <td align="center" width="18%">
+                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <a ng-click="UpdateNoiDung('DELETE',item.KhaoSatChinhThucArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
                                                 </div>
 
@@ -170,14 +355,54 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
-                                                    <h3>Nội dung dự thảo báo cáo đánh giá ngoài</h3>
-                                                </div>
                                                 <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.DuThaoBaoCaoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in item.DuThaoBaoCaoArray">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
+                                                                    <td width="30%">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
+                                                                            <span class="input-group-addon">-</span>
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
+                                                                        </div>
 
-                                                    <ng-ckeditor ng-model="item.DuThaoBaoCao"
-                                                                 ng-config="config"></ng-ckeditor>
-
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                    </td>
+                                                                    <td align="center" width="18%">
+                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <a ng-click="UpdateNoiDung('DELETE',item.DuThaoBaoCaoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -188,14 +413,54 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
-                                                    <h3>Nội dung lấy ý kiến phản hồi về dự thảo báo cáo</h3>
-                                                </div>
                                                 <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.LayYKienPhanHoiArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in item.LayYKienPhanHoiArray">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
+                                                                    <td width="30%">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
+                                                                            <span class="input-group-addon">-</span>
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
+                                                                        </div>
 
-                                                    <ng-ckeditor ng-model="item.LayYKienPhanHoi"
-                                                                 ng-config="config"></ng-ckeditor>
-
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                    </td>
+                                                                    <td align="center" width="18%">
+                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <a ng-click="UpdateNoiDung('DELETE',item.LayYKienPhanHoiArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -207,13 +472,54 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
-                                                <div class="text-center">
-                                                    <h3>Nội dung hoàn thiện báo cáo đánh giá ngoài</h3>
-                                                </div>
                                                 <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a class="btn btn-primary btn-sm" ng-click="UpdateNoiDung('ADD',item.HoanThienBaoCaoArray)"><i class="fa fa-plus-circle"></i>&nbsp;Thêm mới</a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in item.HoanThienBaoCaoArray">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">{{$index+1}}</td>
+                                                                    <td width="30%">
+                                                                        <div class="input-group">
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.TuNgay">
+                                                                            <span class="input-group-addon">-</span>
+                                                                            <input type="text" class="form-control date-control input-sm"
+                                                                                   datepicker=""
+                                                                                   dp-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" ng-model="x.DenNgay">
+                                                                        </div>
 
-                                                    <ng-ckeditor ng-model="item.HoanThienBaoCao"
-                                                                 ng-config="config"></ng-ckeditor>
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <input type="text" class="form-control input-sm" ng-model="x.NoiDung" />
+                                                                    </td>
+                                                                    <td align="center" width="18%">
+                                                                        <select class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <a ng-click="UpdateNoiDung('DELETE',item.HoanThienBaoCaoArray)" title="Xóa"> <i class="fa fa-remove font-red"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
                                                 </div>
 
@@ -263,7 +569,7 @@
                 </div>
                 <div class="col-md-5 clearfix text-right">
                     <a class="btn btn-sm btn-success btn-outline sbold action-btn"
-                     ng-click="InDanhGia(item)">
+                       ng-click="InDanhGia(item)">
                         <i class="fa fa-file-word-o"></i> Xuất kế hoạch
                     </a>
                     <a ng-if="CheckView(item,'EDITKHDGN')" class="btn btn-sm btn-success btn-outline sbold"

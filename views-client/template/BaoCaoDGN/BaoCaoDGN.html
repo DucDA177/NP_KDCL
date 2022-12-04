@@ -17,31 +17,25 @@
     <div class="portlet  " style="margin-bottom:0">
 
         <div class="portlet-body  form">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row ">
-
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Đơn vị</span>
-                                <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
-                                    <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
-                                        {{dv.TenDonVi}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">Kế hoạch </span>
-                                <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="onChangeKeHoach(filterTCTC.IdKeHoach)">
-                                    <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
-                                </select>
-                            </div>
-                        </div>
+            <div class="row ">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon">Đơn vị</span>
+                        <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN()">
+                            <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
+                                {{dv.TenDonVi}}
+                            </option>
+                        </select>
                     </div>
-
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">Kế hoạch </span>
+                        <!--ng-change="onChangeKeHoach(filterTCTC.IdKeHoach)"-->
+                        <select disabled class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach">
+                            <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -90,7 +84,12 @@
                                             </li>
                                             <li>
                                                 <a data-target="#tab_6" data-toggle="tab" aria-expanded="true">
-                                                    6. Đánh giá tiêu chuẩn, tiêu chí
+                                                    6.1 Đánh giá tiêu chuẩn
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-target="#tab_6_0" data-toggle="tab" aria-expanded="true">
+                                                    6.2 Đánh giá tiêu chí
                                                 </a>
                                             </li>
                                             <li>
@@ -111,12 +110,6 @@
                                             <div class="tab-pane active" id="tab_1">
                                                 <div class="row">
                                                     <div class=" col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Giới thiệu</h3>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class=" col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.GioiThieuChung"
                                                                          ng-config="config"></ng-ckeditor>
@@ -127,12 +120,6 @@
                                             </div>
                                             <div class="tab-pane fade" id="tab_2">
                                                 <div class="row ">
-                                                    <div class=" col-md-12 ">
-                                                        <div class="text-center">
-                                                            <h3>Tóm tắt quá trình đánh giá ngoài</h3>
-                                                        </div>
-
-                                                    </div>
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.TomtatQuaTrinh"
@@ -144,9 +131,6 @@
                                             <div class="tab-pane fade" id="tab_3">
 
                                                 <div class="portlet light ">
-                                                    <div class="text-center">
-                                                        <h3>Tóm tắt kết quả đánh giá ngoài</h3>
-                                                    </div>
                                                     <div class="row">
                                                         <div class="form-body form-horizontal col-md-12">
                                                             <h4>a) Tính phù hợp của báo cáo tự đánh giá</h4>
@@ -250,12 +234,6 @@
                                             <div class="tab-pane fade" id="tab_4">
                                                 <div class="row ">
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Những điểm mạnh của trường</h3>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.DiemManh"
                                                                          ng-config="config"></ng-ckeditor>
@@ -265,12 +243,6 @@
                                             </div>
                                             <div class="tab-pane fade" id="tab_5">
                                                 <div class="row ">
-                                                    <div class="col-md-12 ">
-                                                        <div class="text-center">
-                                                            <h3>Những điểm yếu của trường</h3>
-                                                        </div>
-
-                                                    </div>
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.DiemYeu"
@@ -282,25 +254,9 @@
                                             <div class="tab-pane fade" id="tab_6">
                                                 <div class="row ">
                                                     <div class="col-md-12 ">
-                                                        <div class=" text-center">
-                                                            <h3>Đánh giá tiêu chí</h3>
-                                                        </div>
                                                         <div class="row">
 
                                                             <div class="col-md-12">
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon">Phân loại đánh giá</span>
-                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.PhanLoaiDG" >
-                                                                        <option value="TIEUCHUAN">Đánh giá tiêu chuẩn</option>
-                                                                        <option value="TIEUCHI">Đánh giá tiêu chí</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                          
-                                                        </div><br />
-                                                        <div class="row">
-
-                                                            <div class="col-md-6">
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon">Tiêu chuẩn</span>
                                                                     <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChuan" ng-change="filterBaoCao.IdTieuChi==null;OnChangeTieuChuan(filterBaoCao.IdTieuChuan,'TIEUCHUAN_BAOCAO')">
@@ -308,17 +264,10 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6" ng-show="filterBaoCao.PhanLoaiDG=='TIEUCHI'" >
-                                                                <div class="input-group">
-                                                                    <span class="input-group-addon">Tiêu chí</span>
-                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChi" ng-change="OnChangeTieuChuan(filterBaoCao.IdTieuChi,'TIEUCHI_BAOCAO')">
-                                                                        <option ng-repeat="tc in TieuChi_BAOCAOs" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+
                                                         </div>
 
-                                                        <div ng-if="filterBaoCao.IdTieuChuan!=null && filterBaoCao.PhanLoaiDG=='TIEUCHUAN'" class="row">
+                                                        <div ng-if="filterBaoCao.IdTieuChuan!=null" class="row">
 
                                                             <div ng-repeat="dg in TieuChuans | filter:{Id:filterBaoCao.IdTieuChuan}">
                                                                 <div class="col-md-12">
@@ -344,7 +293,32 @@
 
                                                             </div>
                                                         </div>
-                                                        <div ng-if="filterBaoCao.IdTieuChi!=null&& filterBaoCao.PhanLoaiDG=='TIEUCHI'" class="row">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_6_0">
+                                                <div class="row ">
+                                                    <div class="col-md-12 ">
+                                                        <div class="row">
+
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">Tiêu chuẩn</span>
+                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChuan" ng-change="filterBaoCao.IdTieuChi==null;OnChangeTieuChuan(filterBaoCao.IdTieuChuan,'TIEUCHUAN_BAOCAO')">
+                                                                        <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">Tiêu chí</span>
+                                                                    <select class="form-control select2 filter-select " ng-model="filterBaoCao.IdTieuChi" ng-change="OnChangeTieuChuan(filterBaoCao.IdTieuChi,'TIEUCHI_BAOCAO')">
+                                                                        <option ng-repeat="tc in TieuChi_BAOCAOs" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div ng-if="filterBaoCao.IdTieuChi!=null" class="row">
                                                             <hr />
                                                             <div ng-repeat="dg in ListTieuChis | filter:{Id:filterBaoCao.IdTieuChi}">
                                                                 <div class="col-md-12">
@@ -370,6 +344,7 @@
                                                                                      ng-config="config"></ng-ckeditor>
                                                                     </div>
                                                                     <h4>
+
                                                                         5. Đánh giá tiêu chí: {{(dg.KQDatMuc+'')=='0'?'Không đạt':'Đạt mức '+dg.KQDatMuc}}
                                                                         <!--{{ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatC')==true?'Mức 3':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatB')==true?'Mức 2':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatA')==true?'Mức 1':'Không đạt'}}-->
                                                                     </h4>
@@ -383,12 +358,6 @@
                                             <div class="tab-pane fade" id="tab_7">
                                                 <div class="row ">
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Kết luận</h3>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.KetLuan"
                                                                          ng-config="config"></ng-ckeditor>
@@ -398,12 +367,6 @@
                                             </div>
                                             <div class="tab-pane fade" id="tab_8">
                                                 <div class="row ">
-                                                    <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Kiến nghị</h3>
-                                                        </div>
-
-                                                    </div>
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.KienNghi"
@@ -705,7 +668,6 @@
                                                 </tr>
                                                 <tr>
                                                     <td width="40%" class="td-no-border">
-                                                      
                                                     </td>
                                                     <td align="center" width="60%" class="td-no-border">
                                                         <b>TRƯỞNG ĐOÀN</b><br /><i>(Ký và ghi rõ họ tên)</i>
@@ -726,7 +688,7 @@
 
                 </div>
                 <div class="col-md-6">
-                    <div class="portlet light bordered"  style="max-height:600px;overflow:auto">
+                    <div class="portlet light bordered" style="max-height:600px;overflow:auto">
                         <div class="portlet-title">
                             <div class="caption caption-md text-center">
                                 <span class="caption-subject font-green bold uppercase">
@@ -741,20 +703,18 @@
                                 <div class="col-md-6">
                                     <div class="input-group">
                                         <span class="input-group-addon">Loại phiếu</span>
-                                        <select ng-model="filterPhieuDG.PhanLoaiDanhGia" ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select ">
+                                        <select ng-model="filterPhieuDG.PhanLoaiDanhGia" ng-change="LoadThanhVienDGN();LoadPhieuDanhGia()" class="form-control select2 filter-select ">
                                             <option ng-repeat="pl in PhanLoaiDanhGias" value="{{pl.Code}}">{{pl.Ten}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6" ng-show="filterPhieuDG.PhanLoaiDanhGia!='KQKS'">
-
                                     <div class="input-group">
                                         <span class="input-group-addon">Thành viên hội đồng</span>
                                         <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
-                                            <option ng-repeat="hd in HoiDongDGN" value="{{hd.us.UserName}}">{{hd.us.HoTen}}</option>
+                                            <option ng-repeat="tv in ThanhVienDGNs" value="{{tv.us.UserName}}">{{tv.us.HoTen}}</option>
                                         </select>
                                     </div>
-
                                 </div>
 
                             </div>

@@ -24,6 +24,81 @@ namespace WebApiCore.Controllers
             public int index { get; set; }
         }
         [HttpGet]
+        [Route("api/Base/GetRoleUserDGN")]
+        public IHttpActionResult GetRoleUserDGN()
+        {
+            var userRole = (from user in db.tblThanhVienDGNs
+                            join truongDGN in db.tblTruongDGNs on user.IdTruongDGN equals truongDGN.Id
+                            where user.Username == HttpContext.Current.User.Identity.Name && truongDGN.FInUse == true
+                            select new { user, truongDGN });
+
+            return Ok();
+        }
+        [HttpGet]
+        [Route("api/Base/GetThanhVienDGN")]
+        public IHttpActionResult GetThanhVienDGN(string PhanLoai, int IdDonVi, int IdKeHoachTDG, int IdKeHoachDGN)
+        {
+            if (!PhanLoai.Contains("ALL"))
+            {
+                string RoleKeHoach = "";
+                if (IdKeHoachDGN != 0)
+                {
+
+                    if (PhanLoai == "BAOCAOSOBO")
+                    {
+                        var khDGN = db.tblKeHoachDGNs.Find(IdKeHoachDGN);
+                        RoleKeHoach = khDGN.NghienCuuHSDG;
+
+                    }
+                    if (PhanLoai == "BAOCAOTIEUCHI")
+                    {
+                        var phancong = db.tblPhanCongTCDGNs.Where(s => s.IdKeHoachDGN == IdKeHoachDGN).ToList();
+                        RoleKeHoach = String.Join(@"""", phancong.Select(s => { return s.UserName; }).ToList());
+
+                    }
+                }
+                var userRole = (from tv in db.tblThanhVienDGNs
+                                join truongDGN in db.tblTruongDGNs on tv.IdTruongDGN equals truongDGN.Id
+                                join us in db.UserProfiles on tv.Username equals us.UserName
+                                where truongDGN.IdKeHoachTDG == IdKeHoachTDG
+                                && (string.IsNullOrEmpty(RoleKeHoach) || RoleKeHoach.Contains(@"""" + tv.Username + @""""))
+                                select new { tv, us, truongDGN });
+                return Ok(userRole);
+            }
+
+            if (PhanLoai.Contains("ALL"))
+            {
+                string RoleKeHoach = "";
+                if (IdKeHoachDGN != 0)
+                {
+                    if (PhanLoai == "ALLBAOCAOSOBO")
+                    {
+                        var khDGN = db.tblKeHoachDGNs.Find(IdKeHoachDGN);
+                        RoleKeHoach = khDGN.NghienCuuHSDG;
+
+                    }
+                    if (PhanLoai == "ALLBAOCAOTIEUCHI")
+                    {
+                        var phancong = db.tblPhanCongTCDGNs.Where(s=>s.IdKeHoachDGN== IdKeHoachDGN).ToList();
+                        RoleKeHoach = String.Join( @"""",phancong.Select(s => { return s.UserName; }).ToList());
+                    }
+                }
+                var userRole = (from us in db.UserProfiles
+                                join tv in db.tblThanhVienDGNs on us.UserName equals tv.Username into userTmp
+                                from tv in userTmp.DefaultIfEmpty()
+                                join truongDGN in db.tblTruongDGNs on tv.IdTruongDGN equals truongDGN.Id into truongDGNTmp
+                                from truongDGN in truongDGNTmp.DefaultIfEmpty()
+                                where
+                                  (string.IsNullOrEmpty(RoleKeHoach) || RoleKeHoach.Contains(@"""" + us.UserName + @""""))
+
+                                // where truongDGN.IdKeHoachTDG == IdKeHoachTDG
+                                select new { tv, us, truongDGN });
+                return Ok(userRole);
+            }
+            return Ok();
+
+        }
+        [HttpGet]
         [Route("api/Base/GetDMDonVi")]
         public IHttpActionResult GetDMDonVi(string PhanLoai, string SearchKey)
         {
@@ -40,7 +115,10 @@ namespace WebApiCore.Controllers
             {
                 return Ok(rs);
             }
-
+            var Truong_User = (from user in db.tblThanhVienDGNs
+                               join truongDGN in db.tblTruongDGNs on user.IdTruongDGN equals truongDGN.Id
+                               where user.Username == HttpContext.Current.User.Identity.Name && truongDGN.FInUse == true
+                               select truongDGN).ToList();//.Select(s => { return s.IdTruong; });
             var DVSo = db.DMDonVis.FirstOrDefault(s => s.LoaiDonVi == "SO");
             ArrayList DonViList = new ArrayList();
             Stack sTree = new Stack();
@@ -59,14 +137,19 @@ namespace WebApiCore.Controllers
             {
                 itemTreeText tmp = (itemTreeText)sTree.Pop();
                 string Text = tmp.Text;
-                var o = new
+                if (tmp.LoaiDonVi != "TRUONG" || HttpContext.Current.User.Identity.Name == "admin.daduc" || Truong_User.Any(s => s.IdTruong == tmp.Id))
                 {
-                    Id = tmp.Id,
-                    code = tmp.Id,
-                    TenDonVi = Text+" " + tmp.Ten,
-                    LoaiDonVi = tmp.LoaiDonVi,
-                };
-                DonViList.Add(o);
+
+                    var o = new
+                    {
+                        Id = tmp.Id,
+                        code = tmp.Id,
+                        TenDonVi = Text + " " + tmp.Ten,
+                        LoaiDonVi = tmp.LoaiDonVi,
+                    };
+                    DonViList.Add(o);
+                }
+
                 var orgs = db.DMDonVis.Where(x => x.IDDVCha == tmp.Id).ToList();
                 for (int i = orgs.Count() - 1; i >= 0; i--)
                 {

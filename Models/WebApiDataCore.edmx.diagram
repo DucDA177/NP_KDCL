@@ -40,14 +40,14 @@
         <EntityTypeShape EntityType="WebApiDataModel.tblNhomCongTac" Width="1.5" PointX="2.75" PointY="19.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblPhanCongMinhChung" Width="1.5" PointX="4.75" PointY="19.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblPhanCongTC" Width="1.5" PointX="10.75" PointY="19.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblPhanCongTCDGN" Width="1.5" PointX="12.75" PointY="19.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblThanhVienDGN" Width="1.5" PointX="20.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblThanhVienNhom" Width="1.5" PointX="20.75" PointY="5.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblThuVienTaiLieu" Width="1.5" PointX="6.75" PointY="20.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.ThongBao" Width="1.5" PointX="20.75" PointY="13.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.UnreadMe" Width="1.5" PointX="20.75" PointY="17.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.UserProfile" Width="1.5" PointX="20.75" PointY="20.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.tblPhanCongTCDGN" Width="1.5" PointX="13.375" PointY="19.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.tblTruongDGN" Width="1.5" PointX="15.375" PointY="21.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblTruongDGN" Width="1.5" PointX="20.75" PointY="9.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.ThongBao" Width="1.5" PointX="20.75" PointY="14.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.UnreadMe" Width="1.5" PointX="20.75" PointY="18.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.UserProfile" Width="1.5" PointX="14.75" PointY="21.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

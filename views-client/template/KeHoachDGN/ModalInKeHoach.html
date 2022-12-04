@@ -61,40 +61,173 @@
                 <h4><b>1. Nghiên cứu hồ sơ đánh giá</b></h4>
             </div>
             <div class="col-md-12">
-                <div ng-bind-html="item.NghienCuuHSDG"></div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                            <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                            <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in item.NghienCuuHSDGArray">
+                            <td align="center">
+                                {{x.TuNgay+' - '+x.DenNgay}}
+                            </td>
+                            <td>
+                                {{x.NoiDung}}
+                            </td>
+                            <td align="center">
+                                {{x.HoTenThanhVien}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--<div ng-bind-html="item.NghienCuuHSDG"></div>-->
             </div>
             <div class="col-md-12">
                 <h4><b>2. Khảo sát sơ bộ tại cơ sở giáo dục phổ thông</b></h4>
             </div>
             <div class="col-md-12">
-                <div ng-bind-html="item.KhaoSatSoBo"></div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                            <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                            <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in item.KhaoSatSoBoArray">
+                            <td align="center">
+                                {{x.TuNgay+' - '+x.DenNgay}}
+                            </td>
+                            <td>
+                                {{x.NoiDung}}
+                            </td>
+                            <td align="center">
+                                {{x.HoTenThanhVien}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--<div ng-bind-html="item.KhaoSatSoBo"></div>-->
             </div>
             <div class="col-md-12">
                 <h4><b>3. Khảo sát chính thức tại cơ sở giáo dục phổ thông</b></h4>
             </div>
             <div class="col-md-12">
-                <div ng-bind-html="item.KhaoSatChinhThuc"></div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                            <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                            <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in item.KhaoSatChinhThucArray">
+                            <td align="center">
+                                {{x.TuNgay+' - '+x.DenNgay}}
+                            </td>
+                            <td>
+                                {{x.NoiDung}}
+                            </td>
+                            <td align="center">
+                                {{x.HoTenThanhVien}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--<div ng-bind-html="item.KhaoSatChinhThuc"></div>-->
             </div>
 
             <div class="col-md-12">
                 <h4><b>4. Dự thảo báo cáo ngoài</b></h4>
             </div>
             <div class="col-md-12">
-                <div ng-bind-html="item.DuThaoBaoCao"></div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                            <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                            <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in item.DuThaoBaoCaoArray">
+                            <td align="center">
+                                {{x.TuNgay+' - '+x.DenNgay}}
+                            </td>
+                            <td>
+                                {{x.NoiDung}}
+                            </td>
+                            <td align="center">
+                                {{x.HoTenThanhVien}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--<div ng-bind-html="item.DuThaoBaoCao"></div>-->
             </div>
 
             <div class="col-md-12">
                 <h4><b>5. Lấy ý kiến phản hồi của cơ sở giáo dục phổ thông về dự thảo báo cáo đánh giá ngoài</b></h4>
             </div>
             <div class="col-md-12">
-                <div ng-bind-html="item.LayYKienPhanHoi"></div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                            <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                            <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in item.LayYKienPhanHoiArray">
+                            <td align="center">
+                                {{x.TuNgay+' - '+x.DenNgay}}
+                            </td>
+                            <td>
+                                {{x.NoiDung}}
+                            </td>
+                            <td align="center">
+                                {{x.HoTenThanhVien}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--<div ng-bind-html="item.LayYKienPhanHoi"></div>-->
             </div>
 
             <div class="col-md-12">
+               
                 <h4><b>6. Hoàn thiện báo cáo đánh giá ngoài</b></h4>
             </div>
             <div class="col-md-12">
-                <div ng-bind-html="item.HoanThienBaoCao"></div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center;vertical-align:middle">Thời gian</th>
+                            <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                            <th style="text-align:center;vertical-align:middle">Người thực hiện</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in item.HoanThienBaoCaoArray">
+                            <td align="center">
+                                {{x.TuNgay+' - '+x.DenNgay}}
+                            </td>
+                            <td>
+                                {{x.NoiDung}}
+                            </td>
+                            <td align="center">
+                                {{x.HoTenThanhVien}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--<div ng-bind-html="item.HoanThienBaoCao"></div>-->
             </div>
 
             <div class="col-md-12">

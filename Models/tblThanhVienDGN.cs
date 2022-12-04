@@ -16,6 +16,7 @@ namespace WebApiCore.Models
     {
         public int Id { get; set; }
         public int STT { get; set; }
+        public string Username { get; set; }
         public int IdTruongDGN { get; set; }
         public Nullable<bool> TruongDoan { get; set; }
         public Nullable<bool> ThuKy { get; set; }
@@ -28,6 +29,5 @@ namespace WebApiCore.Models
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<bool> FInUse { get; set; }
-        public string Username { get; set; }
     }
 }

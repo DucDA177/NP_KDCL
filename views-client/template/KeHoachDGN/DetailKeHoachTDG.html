@@ -269,12 +269,13 @@
                 <!--<div style="margin-top:7px"><i>Lưu ý: <span style="color:red">*</span> Bắt buộc nhập</i></div>-->
             </div>
             <div class="col-md-5 clearfix text-right">
-                <a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'TAOKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-share"></i>Tạo kế hoạch đánh giá ngoài</a>
-                <a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'VIEWKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Xem kế hoạch đánh giá ngoài"><i class="fa fa-eye"></i>Xem kế hoạch đánh giá ngoài</a>
-
+                <!--<a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'TAOKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Tạo kế hoạch đánh giá ngoài"><i class="fa fa-share"></i>Tạo kế hoạch đánh giá ngoài</a>
+    <a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'VIEWKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Xem kế hoạch đánh giá ngoài"><i class="fa fa-eye"></i>Xem kế hoạch đánh giá ngoài</a>-->
                 <!--<a class="btn btn-sm btn-success btn-outline sbold"
-               ng-click="OpenDetailKeHoachTDG(dm,'KeHoachTDG')"><i class="fa fa-save"></i> Tạo kế hoạch đánh giá ngoài </a>-->
-
+    ng-click="OpenDetailKeHoachTDG(dm,'KeHoachTDG')"><i class="fa fa-save"></i> Tạo kế hoạch đánh giá ngoài </a>-->
+                <a class="btn btn-sm btn-success btn-outline sbold" tooltip title="In kế hoạch tự đánh giá" ng-click="openModal(item,'InKeHoachTDG')">
+                    <i class="fa fa-file-word-o"></i> Xuất báo cáo
+                </a>
                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
             </div>
 

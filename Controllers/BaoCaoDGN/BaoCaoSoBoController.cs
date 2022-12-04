@@ -116,8 +116,8 @@ namespace WebApiCore.Controllers
         public IHttpActionResult GetByIdKeHoach(int IdKeHoach)
         {
             try {
-                var hd = db.tblHoiDongDGNs.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
-                bool isBaoCao = hd != null ? hd.VietBCSoBo.HasValue ? hd.VietBCSoBo.Value : false : false;
+                var khDGN = db.tblKeHoachDGNs.FirstOrDefault(s => s.Id == IdKeHoach);// s.Username == HttpContext.Current.User.Identity.Name);
+                bool isBaoCao = khDGN != null && khDGN.NghienCuuHSDG != null ? khDGN.NghienCuuHSDG.Contains(@""""+HttpContext.Current.User.Identity.Name+@"""") : false;
                 var data = (from bc in db.tblBaoCaoSoBoDGNs
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName
@@ -125,7 +125,7 @@ namespace WebApiCore.Controllers
                             join dv in db.DMDonVis on khdgn.IdTruong equals dv.Id
                             join khtdg in db.tblKeHoachTDGs on khdgn.IdKeHoachTDG equals khtdg.Id into tmpKHTDG
                             from khtdg in tmpKHTDG.DefaultIfEmpty()
-                            where khdgn.FInUse == true && khdgn.Id == IdKeHoach
+                            where khdgn.FInUse == true && khdgn.Id == IdKeHoach && bc.CreatedBy== HttpContext.Current.User.Identity.Name
                             select
                             new BaoCaoSoBoModel
                             {

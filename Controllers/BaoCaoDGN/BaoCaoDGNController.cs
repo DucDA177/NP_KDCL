@@ -132,8 +132,11 @@ namespace WebApiCore.Controllers
         {
             try
             {
-                var hd = db.tblHoiDongDGNs.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
-                bool isBaoCao = hd != null ? hd.ThuKy.HasValue ? hd.ThuKy.Value : false : false;
+                var khDGN = db.tblKeHoachDGNs.Find(IdKeHoach);//.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
+                bool isBaoCao = khDGN != null && khDGN.HoanThienBaoCao != null ? khDGN.HoanThienBaoCao.Contains(@"""" + HttpContext.Current.User.Identity.Name + @"""") : false;
+
+                //var hd = db.tblHoiDongDGNs.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
+                //bool isBaoCao = hd != null ? hd.ThuKy.HasValue ? hd.ThuKy.Value : false : false;
                 var data = (from bc in db.tblBaoCaoDanhGia_KHDGN
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName

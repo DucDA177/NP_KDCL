@@ -24,6 +24,7 @@
             $scope.item = {}
             $scope.ItemPhieu = {}
             $scope.ItemKeHoachDGN = {}
+            $scope.ThanhVienDGNs = []
             //$scope.filterKeHoachDGN = {
             //    GetAll: true,
             //};
@@ -31,7 +32,7 @@
                 type: 'KHDGN_MYTC'
             }
             $scope.filterPhieuDG = {
-                PhanLoaiDanhGia: 'TIEUCHI'
+               // PhanLoaiDanhGia: 'TIEUCHI'
             }
         }
         //Filter danh sach ke hoach ngoai
@@ -51,8 +52,18 @@
             GetAll: true,
         };
         $scope.LoadKeHoachDGN = function () {
+            InitLoad()
+            if ($scope.filterKeHoachDGN.IdTruong == null) return;
             $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
                 $scope.KeHoachDGN = response.data.ListOut;
+                if (response.data.ListOut != null && response.data.ListOut != '') {
+                    $scope.ItemKeHoachDGN = $scope.KeHoachDGN[0]
+                    $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id + ''
+                    $scope.filterTCTC.IdKeHoach = $scope.ItemKeHoachDGN.Id
+                    //$scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
+                    $scope.LoadTCTC()
+                }
+              
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
@@ -191,6 +202,7 @@
         $scope.filterPhieuDG = {}
         $scope.LoadPhieuDanhGia = function () {
             $scope.item = {}
+            $scope.filterPhieuDG.IdKeHoach = $scope.ItemKeHoachDGN.Id
             let configGetPhieuDG = {
                 params: $scope.filterPhieuDG
             }
@@ -200,6 +212,7 @@
                 params: $scope.filterPhieuDG
             }).then(function successCallback(response) {
                 $scope.item = response.data
+                $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
                 $scope.item.KQChiBaoObj = $scope.item.KQChiBao != null ? JSON.parse($scope.item.KQChiBao) : $scope.ObjTieuChi.listChiBaoA
 
             }, function errorCallback(response) {

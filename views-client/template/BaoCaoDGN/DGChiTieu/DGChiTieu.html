@@ -21,7 +21,7 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Đơn vị</span>
-                        <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
+                        <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN()">
                             <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
                                 {{dv.TenDonVi}}
                             </option>
@@ -32,7 +32,8 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Kế hoạch </span>
-                        <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC();onChangeKeHoach(filterTCTC.IdKeHoach)">
+                        <!--ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC()"-->
+                        <select disabled class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach">
                             <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
                         </select>
                     </div>
@@ -132,14 +133,9 @@
                                             <div class="tab-pane active" id="tab_1">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Điểm mạnh</h3>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div>
-                                                                <ng-ckeditor ng-model="item.DiemManh"
-                                                                             ng-config="config"></ng-ckeditor>
-                                                            </div>
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.DiemManh"
+                                                                         ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,27 +144,16 @@
                                             <div class="tab-pane fade" id="tab_2">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Điểm yếu</h3>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.DiemYeu"
                                                                          ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab_3">
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Kế hoạch cải tiến chất lượng</h3>
-                                                        </div>
-
-                                                    </div>
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.KeHoachCaiTien"

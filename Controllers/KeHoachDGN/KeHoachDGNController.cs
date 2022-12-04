@@ -22,11 +22,16 @@ namespace WebApiCore.Controllers.KeHoachDGN
             public int? Nam { get; set; }
             public string TrangThai { get; set; }
             public bool? ChuyenKeHoach { get; set; }
+            public bool? IsThanhVien { get; set; }
         }
         public class KeHoachDGNModel : tblKeHoachDGN
         {
             public string DonViName { get; set; }
             public string KeHoachTDGName { get; set; }
+            public bool IsThanhVien { get; set; }
+            public bool? TruongDoan { get; set; }
+            public bool? ThuKy { get; set; }
+            public bool? UyVien { get; set; }
         }
         [HttpPost]
         [Route("api/KeHoachDGN/FilterKHDGN")]
@@ -34,30 +39,34 @@ namespace WebApiCore.Controllers.KeHoachDGN
         {
             try
             {
-                var listKeHoach = (from khdgn in db.tblKeHoachDGNs
-                                   join dv in db.DMDonVis on khdgn.IdTruong equals dv.Id
-                                   join khtdg in db.tblKeHoachTDGs on khdgn.IdKeHoachTDG equals khtdg.Id into tmpKHTDG
-                                   from khtdg in tmpKHTDG.DefaultIfEmpty()
-                                   where khdgn.FInUse == true
+                var listKeHoach = (from khtdg in db.tblKeHoachTDGs
+                                   join khdgn in db.tblKeHoachDGNs on khtdg.Id equals khdgn.IdKeHoachTDG into tmpKHTDG
+                                   from khdgn in tmpKHTDG.DefaultIfEmpty()
+                                   join truongDGN in db.tblTruongDGNs on khtdg.Id equals truongDGN.IdKeHoachTDG into tmpTruongDGN
+                                   from truongDGN in tmpTruongDGN.DefaultIfEmpty()
+                                   join tv in db.tblThanhVienDGNs on new { truongDGN.Id, UserName = HttpContext.Current.User.Identity.Name } equals new { Id = tv.IdTruongDGN, UserName = tv.Username } into tmpTvDGN
+                                   from tv in tmpTvDGN.DefaultIfEmpty()
+                                   join dv in db.DMDonVis on khtdg.IdDonVi equals dv.Id
+                                   where khtdg.ChuyenKeHoach == true
                                    select //kh
                                    new KeHoachDGNModel
                                    {
-                                       Id = khdgn.Id,
-                                       STT = khdgn.STT,
-                                       IdDonVi = khdgn.IdDonVi,
+                                       Id = khdgn != null ? khdgn.Id : 0,
+                                       STT = khdgn != null ? khdgn.STT : 0,
+                                       IdDonVi = khdgn != null ? khdgn.IdDonVi : 0,
                                        NoiDung = khdgn.NoiDung,
                                        TrangThai = khdgn.TrangThai,
                                        MucDich = khdgn.MucDich,
-                                       DuThaoBaoCao=khdgn.DuThaoBaoCao,
-                                       HoanThienBaoCao= khdgn.HoanThienBaoCao,
-                                       IdKeHoachTDG= khdgn.IdKeHoachTDG,
-                                       IdTruong=khdgn.IdTruong,
-                                       KhaoSatChinhThuc=khdgn.KhaoSatChinhThuc,
-                                       KhaoSatSoBo=khdgn.KhaoSatSoBo,
-                                       LayYKienPhanHoi=khdgn.LayYKienPhanHoi,
-                                       Nam=khdgn.Nam,
-                                       NghienCuuHSDG=khdgn.NghienCuuHSDG,
-                                       ToChucThucHien=khdgn.ToChucThucHien,
+                                       DuThaoBaoCao = khdgn.DuThaoBaoCao,
+                                       HoanThienBaoCao = khdgn.HoanThienBaoCao,
+                                       IdKeHoachTDG = khdgn.IdKeHoachTDG,
+                                       IdTruong = khtdg.IdDonVi,
+                                       KhaoSatChinhThuc = khdgn.KhaoSatChinhThuc,
+                                       KhaoSatSoBo = khdgn.KhaoSatSoBo,
+                                       LayYKienPhanHoi = khdgn.LayYKienPhanHoi,
+                                       Nam = khdgn != null ? khdgn.Nam : 0,
+                                       NghienCuuHSDG = khdgn.NghienCuuHSDG,
+                                       ToChucThucHien = khdgn.ToChucThucHien,
                                        GhiChu = khdgn.GhiChu,
                                        CreatedAt = khdgn.CreatedAt,
                                        CreatedBy = khdgn.CreatedBy,
@@ -65,9 +74,14 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                        UpdatedBy = khdgn.UpdatedBy,
                                        FInUse = khdgn.FInUse,
                                        DonViName = dv.TenDonVi,
-                                       KeHoachTDGName = khtdg.NoiDung
+                                       KeHoachTDGName = khtdg.NoiDung,
+                                       IdTruongDGN = khdgn.IdTruongDGN,
+                                       IsThanhVien = tv != null ? tv.Id > 0 : false,
+                                       TruongDoan= tv != null?tv.TruongDoan:false,
+                                       ThuKy= tv != null?tv.ThuKy : false,
+                                       UyVien= tv != null?tv.UyVien : false,
                                    }
-                                   );
+                                   );//.ToList();
                 if (filter.IdKeHoach.HasValue)
                 {
                     listKeHoach = listKeHoach.Where(s => s.Id == filter.IdKeHoach);
@@ -78,20 +92,25 @@ namespace WebApiCore.Controllers.KeHoachDGN
                 }
                 if (!string.IsNullOrWhiteSpace(filter.TrangThai))
                 {
-                    listKeHoach = listKeHoach.Where(s => s.TrangThai == filter.TrangThai );
+                    listKeHoach = listKeHoach.Where(s => s.TrangThai == filter.TrangThai);
                 }
                 if (filter.Nam.HasValue)
                 {
-                    listKeHoach = listKeHoach.Where(s =>s.Nam==filter.Nam);
+                    listKeHoach = listKeHoach.Where(s => s.Nam == filter.Nam);
                 }
                 if (filter.IdTruong.HasValue)
                 {
                     listKeHoach = listKeHoach.Where(s => s.IdTruong == filter.IdTruong);
                 }
+                if (filter.IsThanhVien.HasValue)
+                {
+                    listKeHoach = listKeHoach.Where(s => s.IsThanhVien == filter.IsThanhVien);
+                }
                 if (filter.GetAll.HasValue && filter.GetAll == true)
                 {
                     return Ok(new { ListOut = listKeHoach });
                 }
+
                 return Ok(Commons.Common.GetPagingList(listKeHoach, filter.PageNumber, filter.PageSize));
             }
             catch (Exception ex)
@@ -121,33 +140,32 @@ namespace WebApiCore.Controllers.KeHoachDGN
         //[AllowAnonymous]
         [HttpGet]
         [Route("api/KeHoachDGN/GetTCTC")]
-        public IHttpActionResult GetTCTC(int IdKeHoach,string type)
+        public IHttpActionResult GetTCTC(int IdKeHoach, string type)
         {
             int? IdKeHoachTDG = IdKeHoach;
-            if (type == "KHDGN" || type=="KHDGN_MYTC")
+            if (type == "KHDGN" || type == "KHDGN_MYTC")
             {
                 var KH_DGN = db.tblKeHoachDGNs.Find(IdKeHoach);
                 IdKeHoachTDG = KH_DGN.IdKeHoachTDG;
             }
-           
+
             var KH_TDG = db.tblKeHoachTDGs.Find(IdKeHoachTDG);
             var DonVi = db.DMDonVis.FirstOrDefault(s => s.Id == KH_TDG.IdDonVi);
-          
+
 
             if (KH_TDG.IdQuyDinhTC != null)
             {
-               
-                if(type == "KHDGN_MYTC")
+
+                if (type == "KHDGN_MYTC")
                 {
-                    var hoidongTC = (from hd in db.tblHoiDongDGNs
-                                   join tchd in db.tblPhanCongTCDGNs on hd.Id equals tchd.IdHoiDongDGN
-                                   where hd.IdKeHoachDGN == IdKeHoach && hd.Username == HttpContext.Current.User.Identity.Name
-                                   select new { tchd }
+                    var hoidongTC = (from  tchd in db.tblPhanCongTCDGNs 
+                                     where tchd.IdKeHoachDGN == IdKeHoach && tchd.UserName == HttpContext.Current.User.Identity.Name
+                                     select new { tchd }
                                    ).ToList().Select(s => { return s.tchd.IdTieuChi; });
                     var listTCTC = from tchuan in db.DMTieuChuans
                                    join tchi in db.DMTieuChis on tchuan.Id equals tchi.IdTieuChuan
                                    where tchuan.IdQuyDinh == KH_TDG.IdQuyDinhTC && tchuan.NhomLoai.Contains(DonVi.NhomLoai) && tchuan.YCDanhGia == true
-                                   && hoidongTC.Any(x=>x==tchi.Id)
+                                   && hoidongTC.Any(x => x == tchi.Id)
                                    select new { tchi, tchuan };
                     var result = listTCTC.OrderBy(s => s.tchuan.STT).ToList().GroupBy(t => t.tchuan)
                     .Select(t => new
@@ -171,9 +189,16 @@ namespace WebApiCore.Controllers.KeHoachDGN
                     }).ToList();
                     return Ok(result);
                 }
-                
+
             }
             return Ok();
+        }
+        [HttpGet]
+        [Route("api/KeHoachDGN/GetPhanCongTCTC")]
+        public IHttpActionResult GetPhanCongTCTC(int IdKeHoach)
+        {
+            var rs = db.tblPhanCongTCDGNs.Where(s => s.IdKeHoachDGN == IdKeHoach);
+            return Ok(rs);
         }
         [HttpPost]
         [Route("api/KeHoachDGN/Save")]
@@ -197,6 +222,23 @@ namespace WebApiCore.Controllers.KeHoachDGN
                 db.SaveChanges();
 
             }
+            if (data.ListPhanCongTCDGN != null && data.ListPhanCongTCDGN.Count() > 0)
+            {
+                foreach (var phancong in data.ListPhanCongTCDGN)
+                {
+                    phancong.IdKeHoachDGN=data.Id;
+                    if (phancong.Id == null || phancong.Id == 0)
+                    {
+                        db.tblPhanCongTCDGNs.Add(phancong);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        db.Entry(phancong).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
             return Ok(data);
 
         }
@@ -214,5 +256,12 @@ namespace WebApiCore.Controllers.KeHoachDGN
                 ModelState.AddModelError("MucDich", "has-error");
             }
         }
+    }
+}
+namespace WebApiCore.Models
+{
+    public partial class tblKeHoachDGN
+    {
+        public List<tblPhanCongTCDGN> ListPhanCongTCDGN { get; set; }
     }
 }
