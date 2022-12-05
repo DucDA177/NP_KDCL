@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -86,6 +87,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
 
         private string SaveTruongDGN(DoanDGNRequest data)
         {
+            //Làm sạch data TruongDGN trước khi lưu
             var listIdTruong = data.TruongDGN.Select(x => x.Id);
             var checkToDelete = db.tblTruongDGNs
                 .Where(x => x.IdDoanDGN == data.DoanDGN.Id && !listIdTruong.Contains(x.IdTruong));
@@ -95,16 +97,19 @@ namespace WebApiCore.Controllers.KeHoachDGN
                 db.SaveChanges();
             }    
 
+            // Bắt đầu lưu lại TruongDGN
             foreach (var item in data.TruongDGN)
             {
                 tblTruongDGN tblTruongDGN = new tblTruongDGN();
+
+                //Kiểm tra trường này đã được phân công trong đoàn nào chưa
 
                 tblTruongDGN = db.tblTruongDGNs.Where(x => x.IdDoanDGN == data.DoanDGN.Id
                 && x.IdTruong == item.Id && x.IdKeHoachTDG == item.IdKeHoachTDG).FirstOrDefault();
 
                 if (tblTruongDGN == null)
                 {
-                    
+                    // Kiểm tra kế hoạch TĐG của trường này đã có chưa hoặc đã được đánh giá ngoài bởi đoàn khác chưa
                     var KHTDGHienTai = db.tblKeHoachTDGs
                         .Where(x => x.IdDonVi == item.Id && x.TrangThai == "DTH")
                         .FirstOrDefault();
@@ -138,38 +143,29 @@ namespace WebApiCore.Controllers.KeHoachDGN
 
                 db.SaveChanges();
 
-                var currentTruongDoan = db.tblThanhVienDGNs
-                    .Where(x => x.IdTruongDGN == tblTruongDGN.Id && x.TruongDoan == true)
-                    .FirstOrDefault();
-                if (currentTruongDoan != null)
+                // Làm sạch list thành viên của đoàn với trường này
+                var currentListTV = db.tblThanhVienDGNs
+                    .Where(x => x.IdTruongDGN == tblTruongDGN.Id);
+                if (currentListTV.Any())
                 {
-                    if (currentTruongDoan.Username == item.TruongDoan)
-                        continue;
-
-                    currentTruongDoan.TruongDoan = false;
-                    currentTruongDoan.ThuKy = false;
-                    currentTruongDoan.UyVien = true;
+                    db.tblThanhVienDGNs.RemoveRange(currentListTV);
                 }
-                var existTruongDoan = db.tblThanhVienDGNs
-                    .Where(x => x.IdTruongDGN == tblTruongDGN.Id && x.Username == item.TruongDoan)
-                    .FirstOrDefault();
-                if (existTruongDoan != null)
+                // Xử lý thêm từng thành viên
+                if(!string.IsNullOrEmpty(data.DoanDGN.DSThanhVien))
                 {
-                    existTruongDoan.TruongDoan = true;
-                    currentTruongDoan.ThuKy = false;
-                    currentTruongDoan.UyVien = false;
-                }
-                else
-                {
-                    tblThanhVienDGN tblThanhVienDGN = new tblThanhVienDGN();
+                    var listTV = JsonConvert.DeserializeObject<List<ThanhVienDGNViewModel>>(data.DoanDGN.DSThanhVien);
+                    foreach(var itemTV in listTV)
+                    {
+                        tblThanhVienDGN tblThanhVienDGN = new tblThanhVienDGN();
 
-                    tblThanhVienDGN.IdTruongDGN = tblTruongDGN.Id;
-                    tblThanhVienDGN.Username = item.TruongDoan;
-                    tblThanhVienDGN.TruongDoan = true;
+                        tblThanhVienDGN.IdTruongDGN = tblTruongDGN.Id;
+                        tblThanhVienDGN.Username = itemTV.Username;
+                        tblThanhVienDGN.TruongDoan = itemTV.Username == item.TruongDoan;
 
-                    db.tblThanhVienDGNs.Add(tblThanhVienDGN);
-                    db.SaveChanges();
+                        db.tblThanhVienDGNs.Add(tblThanhVienDGN);
+                    }
                 }
+                db.SaveChanges();
             }
 
             return null;
@@ -229,7 +225,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
                             join dv in db.DMDonVis
                             on us.IDDonVi equals dv.Id
                             where us.IDDonVi == IdDonVi && us.FInUse == true
-                            select new
+                            select new ThanhVienDGNViewModel
                             {
                                 Username = us.UserName,
                                 IdDonVi = us.IDDonVi,

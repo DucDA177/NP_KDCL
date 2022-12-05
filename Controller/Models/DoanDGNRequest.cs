@@ -21,4 +21,12 @@ namespace WebApiCore.Models
         public DateTime? LamViecDen { get; set; }
         public string TruongDoan { get; set; }
     }
+    public class ThanhVienDGNViewModel
+    {
+        public string Username { get; set; }
+        public long? IdDonVi { get; set; }
+        public string HoTen { get; set; }
+        public string ChucVu { get; set; }
+        public string NoiCongTac { get; set; }
+    }
 }
