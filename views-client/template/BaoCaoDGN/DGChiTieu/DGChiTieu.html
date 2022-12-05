@@ -137,31 +137,31 @@
                         </div>
                         <div ng-if="filterPhieuDG.IdTieuChi!=null" class="portlet-body form">
                             <!--<div class="row">
-                    <div class="col-md-12">
-                        <span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span><br />
-                        <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span><br />
-                        <div ng-if="ObjTieuChi.listChiBaoA.length>0">
-                            <span>Mức 1:</span><br />
-                            <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
-                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                            </div>
+                                <div class="col-md-12">
+                                    <span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span><br />
+                                    <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span><br />
+                                    <div ng-if="ObjTieuChi.listChiBaoA.length>0">
+                                        <span>Mức 1:</span><br />
+                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                        </div>
 
-                        </div>
-                        <div ng-if="ObjTieuChi.listChiBaoB.length>0">
-                            <span>Mức 2:</span><br />
-                            <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
-                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                    </div>
+                                    <div ng-if="ObjTieuChi.listChiBaoB.length>0">
+                                        <span>Mức 2:</span><br />
+                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
+                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                        </div>
+                                    </div>
+                                    <div ng-if="ObjTieuChi.listChiBaoC.length>0">
+                                        <span>Mức 3:</span><br />
+                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
+                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div ng-if="ObjTieuChi.listChiBaoC.length>0">
-                            <span>Mức 3:</span><br />
-                            <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
-                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr />-->
+                            <hr />-->
 
                             <div class="row ">
                                 <div class="tabbable-custom portlet box margin-top-10">
@@ -459,6 +459,64 @@
                                             <h4><b>4. Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung minh chứng</b></h4>
                                         </div>
                                         <div class="col-md-12">
+                                            - Mức độ đánh giá: {{BoSungTC.ChuaDG ? 'Chưa đánh giá' : BoSungTC.ChuaDGDung ? 'Chưa đánh giá đúng' : BoSungTC.ChuaDGDayDu ? 'Chưa đánh giá đầy đủ' : '' }}
+                                        </div>
+                                        <div class="col-md-12">
+
+                                            <div class="table-scrollable ">
+                                                <!-- BEGIN FORM-->
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="1px" align="center"> STT </th>
+                                                            <th> <div style="text-align:center">Mã minh chứng</div></th>
+                                                            <th> <div style="text-align:center">Tên minh chứng</div> </th>
+                                                            <th> <div style="text-align:center">Cần kiểm tra lại</div></th>
+                                                            <th> <div style="text-align:center">Cần bổ sung</div></th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="odd gradeX" ng-repeat="dm in BoSungTC.ArrMC">
+                                                            <td align="center" width="1px"> {{$index + 1}} </td>
+                                                            <td>
+                                                                <a class="link-minhchung"
+                                                                   href="javascript:void(0);"
+                                                                   id="{{dm.Id}}"
+                                                                   ng-click="OpenViewMinhChung(dm.Id)">
+                                                                    [{{dm.Ma}}]
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                {{dm.TenMinhChung}}
+                                                            </td>
+
+                                                            <td align="center" width="1px">
+                                                                {{dm.KTLai ? 'X' : ''}}
+                                                            </td>
+                                                            <td align="center" width="1px">
+                                                                {{dm.BoSung ? 'X' : ''}}
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            - Đối tượng phỏng vấn: <br />
+                                            <div ng-bind-html="BoSungTC.DoiTuongPV"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            - Số lượng: {{BoSungTC.SoLuong}}
+                                        </div>
+                                        <div class="col-md-12">
+                                            - Nội dung phỏng vấn: <br />
+                                            <div ng-bind-html="BoSungTC.NoiDungPV"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            - Nội dung cần bổ sung: <br />
                                             <div ng-bind-html="item.NoiDungCanBoSung"></div>
                                         </div>
                                         <div class="col-md-12">

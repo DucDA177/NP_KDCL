@@ -79,7 +79,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                        FInUse = khdgn.FInUse,
                                        DonViName = dv.TenDonVi,
                                        KeHoachTDGName = khtdg.NoiDung,
-                                       IdTruongDGN = khdgn.IdTruongDGN,
+                                       IdTruongDGN = truongDGN.Id,
                                        IsThanhVien = doan != null ? doan.DSThanhVien.Contains(@""""+ HttpContext.Current.User.Identity.Name + @"""") : false,
                                        TruongDoan= tv != null?tv.TruongDoan:false,
                                        //ThuKy= tv != null?tv.ThuKy : false,

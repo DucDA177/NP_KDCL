@@ -39,7 +39,7 @@
                 Hôm nay, {{BienBan.ThoiGian | date: "'ngày' dd 'tháng' MM 'năm' yyyy"}} đại diện Đoàn đánh giá ngoài tiến hành khảo sát sơ bộ tại {{Truong.TenDonVi}}
             </p><p><strong>I. THÀNH PHẦN</strong></p>
             <p><b>1. Đoàn đánh giá ngoài</b></p>
-            <p ng-repeat="tv in DGN">- Ông (Bà): {{tv.us.HoTen}} - {{tv.nv.Ten}}</p>
+            <p ng-repeat="tv in DGN">- Ông (Bà): {{tv.HoTen}} - {{tv.TruongDoan ? 'Trưởng đoàn' : tv.ThuKy ? 'Thư ký' : 'Ủy viên'}}</p>
             <p><b>2. Trường (trung tâm)</b></p>
             <p ng-repeat="tv in TDG">- Ông (Bà): {{tv.us.HoTen}} - {{tv.cv.Ten}}, {{tv.nv.Ten}}</p>
             <p><strong>II. NỘI DUNG</strong></p>

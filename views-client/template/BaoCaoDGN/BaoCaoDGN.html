@@ -103,6 +103,68 @@
                                     <p class="p-vanban"><b>3. Kế hoạch cải tiến</b></p>
                                     <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
                                     <p class="p-vanban"><b>4. Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung minh chứng</b></p>
+                                    <div class="col-md-12">
+                                        - Mức độ đánh giá: {{BoSungTC.ChuaDG ? 'Chưa đánh giá' : BoSungTC.ChuaDGDung ? 'Chưa đánh giá đúng' : BoSungTC.ChuaDGDayDu ? 'Chưa đánh giá đầy đủ' : '' }}
+                                    </div>
+                                    <div class="col-md-12">
+
+                                        <div class="table-scrollable ">
+                                            <!-- BEGIN FORM-->
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="1px" align="center"> STT </th>
+                                                        <th> <div style="text-align:center">Mã minh chứng</div></th>
+                                                        <th> <div style="text-align:center">Tên minh chứng</div> </th>
+                                                        <th> <div style="text-align:center">Cần kiểm tra lại</div></th>
+                                                        <th> <div style="text-align:center">Cần bổ sung</div></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="odd gradeX" ng-repeat="dm in BoSungTC.ArrMC">
+                                                        <td align="center" width="1px"> {{$index + 1}} </td>
+                                                        <td>
+                                                            <a class="link-minhchung"
+                                                               href="javascript:void(0);"
+                                                               id="{{dm.Id}}"
+                                                               ng-click="OpenViewMinhChung(dm.Id)">
+                                                                [{{dm.Ma}}]
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            {{dm.TenMinhChung}}
+                                                        </td>
+
+                                                        <td align="center" width="1px">
+                                                            {{dm.KTLai ? 'X' : ''}}
+                                                        </td>
+                                                        <td align="center" width="1px">
+                                                            {{dm.BoSung ? 'X' : ''}}
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Đối tượng phỏng vấn: <br />
+                                        <div ng-bind-html="BoSungTC.DoiTuongPV"></div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Số lượng: {{BoSungTC.SoLuong}}
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Nội dung phỏng vấn: <br />
+                                        <div ng-bind-html="BoSungTC.NoiDungPV"></div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Nội dung cần bổ sung: <br />
+                                        <div ng-bind-html="ItemPhieu.NoiDungCanBoSung"></div>
+                                    </div>
+
                                     <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
                                     <p class="p-vanban"><b>5. Đánh giá tiêu chí:</b> Đạt mức {{(ItemPhieu.KQDatMuc +'')=='0'?'Không đạt':'Mức '+ItemPhieu.KQDatMuc}}&nbsp;</p>
                                     <table class="table table-bordered">
@@ -304,14 +366,14 @@
                                             </li>
                                             <li>
                                                 <a data-target="#tab_6" data-toggle="tab" aria-expanded="true">
-                                                    6.1 Đánh giá tiêu chuẩn
+                                                    6. Đánh giá tiêu chuẩn
                                                 </a>
                                             </li>
-                                            <li>
+                                            <!--<li>
                                                 <a data-target="#tab_6_0" data-toggle="tab" aria-expanded="true">
                                                     6.2 Đánh giá tiêu chí
                                                 </a>
-                                            </li>
+                                            </li>-->
                                             <li>
                                                 <a data-target="#tab_7" data-toggle="tab" aria-expanded="true">
                                                     7. Kết luận
@@ -487,7 +549,7 @@
 
                                                         </div>
 
-                                                        <div ng-if="filterBaoCao.IdTieuChuan!=null" class="row">
+                                                        <div ng-if="filterBaoCao.IdTieuChuan!=null" class="row" style="max-height:450px; overflow-y:scroll">
 
                                                             <div ng-repeat="dg in TieuChuans | filter:{Id:filterBaoCao.IdTieuChuan}">
                                                                 <div class="col-md-12">

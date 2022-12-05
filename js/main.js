@@ -119,7 +119,25 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             $('body').toggleClass('page-quick-sidebar-open');
 
         }
+        $scope.CheckQuyenThanhVien = function (KeHoachDGN, Field, Username) {
+            if (KeHoachDGN.TruongDoan)
+                return true;
 
+            let check = true;
+            try {
+                if (KeHoachDGN[Field]) {
+                    let FieldInJson = JSON.parse(KeHoachDGN[Field]);
+                    if (FieldInJson.filter(x => x.ThanhVien == Username).length == 0)
+                        check = false;
+                }
+                else
+                    check = false
+            }
+            catch {
+                check = false;
+            }
+            return check;
+        }
         $scope.DanhGiaTC = function (item, IdDonVi, IdKeHoachTDG) {
 
             $http({
@@ -166,7 +184,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
         }
 
         $scope.exportBaoCao = function (printDivId, fileName, mineType) {
-            
+
             let innerHtml = document.getElementById(printDivId).innerHTML;
             var jHtmlObject = jQuery(innerHtml);
             var editor = jQuery("<p>").append(jHtmlObject);
@@ -657,7 +675,93 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
             $rootScope.IsLockScreen = true;
         }
 
+        //Load Thông tin bổ sung tiêu chí - mục 4 - Phiếu đánh giá tiêu chí của Đánh giá ngoài
+        $scope.LoadTTBoSungTieuChi = function (IdKeHoachDGN,IdKeHoachTDG, IdTieuChi) {
+            $scope.BoSungTC = {
+                IdDonVi: $rootScope.CurDonVi.Id,
+                IdKeHoachDGN: IdKeHoachDGN,
+                IdTieuChi: IdTieuChi,
+                ArrMC: [],
+                ChuaDG: false,
+                ChuaDGDung: false,
+                ChuaDGDayDu: false,
+                MCKiemTra: [],
+                MCBoSung: [],
+                DoiTuongPV: null,
+                SoLuong: null,
+                NoiDungPV: null
+            };
 
+            $http({
+                method: 'GET',
+                url: 'api/KetQuaNghienCuuDGN/LoadKQNghienCuuTieuChiDGN',
+                params: {
+                    IdKeHoachDGN: IdKeHoachDGN,
+                    IdTieuChi: IdTieuChi,
+                    IdDonVi: $rootScope.CurDonVi.Id
+                }
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.BoSungTC = response.data;
+                    if ($scope.BoSungTC.MCKiemTra)
+                        $scope.BoSungTC.MCKiemTra = JSON.parse($scope.BoSungTC.MCKiemTra)
+                    if ($scope.BoSungTC.MCBoSung)
+                        $scope.BoSungTC.MCBoSung = JSON.parse($scope.BoSungTC.MCBoSung)
+                }
+                return $scope.LoadMinhChungByTieuChi(IdKeHoachTDG, IdTieuChi);
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+
+        }
+
+        //Load minh chứng theo tiêu chí - mục 4 - Phiếu đánh giá tiêu chí của Đánh giá ngoài
+        $scope.LoadMinhChungByTieuChi = function (IdKeHoachTDG, IdTieuChi) {
+
+            $http({
+                method: 'GET',
+                url: 'api/KetQuaNghienCuuDGN/LoadMinhChung',
+                params: {
+                    IdKeHoachTDG: IdKeHoachTDG,
+                    IdTieuChi: IdTieuChi
+                }
+            }).then(function successCallback(response) {
+
+                $scope.BoSungTC.ArrMC = response.data;
+                angular.forEach($scope.BoSungTC.ArrMC, function (value, key) {
+
+                    if ($scope.BoSungTC.MCKiemTra && $scope.BoSungTC.MCKiemTra.includes(value.Id))
+                        value.KTLai = true;
+
+                    if ($scope.BoSungTC.MCBoSung && $scope.BoSungTC.MCBoSung.includes(value.Id))
+                        value.BoSung = true;
+                });
+
+                return $scope.BoSungTC;
+
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+
+        }
+
+        // Save mục 4 - Phiếu đánh giá tiêu chí của Đánh giá ngoài
+        $scope.SaveBoSungTC = function () {
+            $scope.BoSungTC.MCKiemTra = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.KTLai).map(x => x.Id))
+            $scope.BoSungTC.MCBoSung = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.BoSung).map(x => x.Id))
+
+            $http({
+                method: 'POST',
+                url: 'api/KetQuaNghienCuuDGN/SaveBoSungTC',
+                data: $scope.BoSungTC
+            }).then(function successCallback(response) {
+
+                toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
+
+            }, function errorCallback(response) {
+                toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
+            });
+        }
 
     }]);
 
@@ -928,7 +1032,7 @@ WebApiApp.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', funct
                 }]
             }
         })
-        
+
 
 }]);
 WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies', "$state", "$stateParams",
@@ -984,7 +1088,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
             //console.log(response.data)
             $rootScope.user = response.data;
             $rootScope.CurNamHoc = localStorage.getItem('NamHoc');
-            
+
             if ($rootScope.user.LockScreenTime == null) $rootScope.user.LockScreenTime = 10;
 
             $rootScope.setIdleTime($rootScope.user.LockScreenTime * 60, $rootScope.user.UserName)

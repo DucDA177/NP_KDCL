@@ -1,7 +1,8 @@
 ﻿angular.module('WebApiApp').controller('KhaoSatSoBoController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
     $scope.filterHoiDongDGN = {
         IdTruong: 0,
-        IdKeHoachDGN: 0
+        IdKeHoachDGN: 0,
+        IdTruongDGN: 0
     }
 
     $scope.config = {
@@ -39,7 +40,9 @@
     }
     $scope.LoadDonVi();
 
+    $scope.checkQuyen = true;
     $scope.LoadKeHoachDGN = function () {
+       
         $scope.filterHoiDongDGN.IdKeHoachDGN = 0
         $http({
             method: 'POST',
@@ -51,8 +54,13 @@
         }).then(function successCallback(response) {
             $scope.KeHoachDGN = response.data.ListOut;
             if ($scope.KeHoachDGN.length > 0) {
-                $scope.filterHoiDongDGN.IdKeHoachDGN = $scope.KeHoachDGN[0].Id;
-                $scope.LoadKhaoSatSoBo();
+                let selectedKeHoachDGN = $scope.KeHoachDGN[0];
+                $scope.filterHoiDongDGN.IdKeHoachDGN = selectedKeHoachDGN.Id;
+                $scope.filterHoiDongDGN.IdTruongDGN = selectedKeHoachDGN.IdTruongDGN;
+
+                $scope.checkQuyen = $scope.CheckQuyenThanhVien(selectedKeHoachDGN, 'KhaoSatSoBo', $rootScope.user.UserName)
+                if ($scope.checkQuyen)
+                    $scope.LoadKhaoSatSoBo();
             }
             else
                 $scope.filterHoiDongDGN.IdKeHoachDGN = 0

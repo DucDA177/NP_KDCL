@@ -35,6 +35,7 @@ namespace WebApiCore.Controllers
             public string DienThoai { get; set; }
             public string Email { get; set; }
             public bool IsBaoCao { get; set; }
+            public int? IdKeHoachTDG { get; set; }
 
         }
         [HttpPost]
@@ -157,6 +158,7 @@ namespace WebApiCore.Controllers
                                 DienThoai = us.Mobile,
                                 Email = us.Email,
                                 IdKeHoachDGN = khdgn.Id,
+                                IdKeHoachTDG = khdgn.IdKeHoachTDG,
                                 DiemManh = bc.DiemManh,
                                 DiemYeu = bc.DiemYeu,
                                 GioiThieuChung = bc.GioiThieuChung,

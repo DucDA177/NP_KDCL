@@ -1,5 +1,5 @@
 ﻿angular.module('WebApiApp').controller('DoanDGNController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
- 
+    
     $scope.Del = function (Id) {
 
         if (confirm('Bạn có chắc chắn muốn xóa đối tượng này ?'))

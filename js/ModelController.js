@@ -2697,6 +2697,7 @@ angular.module('WebApiApp').controller("ModalInKhaoSatSoBoDGNHandlerController",
             method: 'GET',
             url: 'api/KhaoSatSoBoDGN/LoadBienBan?IdDonVi=' + $rootScope.CurDonVi.Id
                 + '&IdKeHoachDGN=' + $scope.item.IdKeHoachDGN
+                + '&IdTruongDGN=' + $scope.item.IdTruongDGN
         }).then(function successCallback(response) {
 
             $scope.DGN = response.data.DGN;

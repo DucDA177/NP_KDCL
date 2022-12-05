@@ -185,6 +185,12 @@
                 $scope.ObjTieuChi.listChiBaoB = JSON.parse($scope.ObjTieuChi.ChiBaoB)
                 $scope.ObjTieuChi.listChiBaoC = JSON.parse($scope.ObjTieuChi.ChiBaoC)
                 $scope.LoadPhieuDanhGia();
+
+                let curIdKeHoachDGN = $scope.ItemKeHoachDGN.Id != 0 ? $scope.ItemKeHoachDGN.Id : 0; //Id Kế hoạch ĐGN
+                let curIdKeHoachTDG = $scope.ItemKeHoachDGN.IdKeHoachTDG != 0 ? $scope.ItemKeHoachDGN.IdKeHoachTDG : 0; // Id Kế hoạch TĐG
+                let curIdTieuChi = $scope.filterPhieuDG.IdTieuChi != null && $scope.filterPhieuDG.IdTieuChi != 0 ? $scope.filterPhieuDG.IdTieuChi : 0; // Id Tiêu chí
+                $scope.LoadTTBoSungTieuChi(curIdKeHoachDGN, curIdKeHoachTDG, curIdTieuChi); // Find this in main.js
+
             }
             if (type == 'TIEUCHUAN_BAOCAO') {
                 $scope.TieuChi_BAOCAOs = []

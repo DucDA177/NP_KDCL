@@ -113,9 +113,10 @@ namespace WebApiCore.Controllers.KeHoachDGN
                     var KHTDGHienTai = db.tblKeHoachTDGs
                         .Where(x => x.IdDonVi == item.Id && x.TrangThai == "DTH")
                         .FirstOrDefault();
+                    //Nếu kế hoạch TĐG chưa có thì lấy kế hoạch chưa tiến hành gần nhất
                     if (KHTDGHienTai == null)
                         KHTDGHienTai = db.tblKeHoachTDGs
-                            .Where(x => x.IdDonVi == item.Id && x.TrangThai == "CTH")
+                            .Where(x => x.IdDonVi == item.Id && (x.TrangThai == "CTH" || string.IsNullOrEmpty(x.TrangThai) ))
                             .OrderByDescending(x => x.NamHocKT)
                             .FirstOrDefault();
                     if (KHTDGHienTai == null)

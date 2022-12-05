@@ -24,8 +24,10 @@
         </div>
 
     </div>
-
-    <div class="form-group" ng-if="filterHoiDongDGN.IdKeHoachDGN != 0">
+    <div class="form-group" ng-if="!checkQuyen">
+        <center><i class="font-red"><b>Bạn không được phân công để làm nhiệm vụ này với đơn vị được chọn!</b></i></center>
+    </div>
+    <div class="form-group" ng-if="filterHoiDongDGN.IdKeHoachDGN != 0 && checkQuyen">
         <div class="col-md-12">
             <div class="portlet light bordered">
 

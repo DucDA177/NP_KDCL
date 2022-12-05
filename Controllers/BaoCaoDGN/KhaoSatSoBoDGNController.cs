@@ -64,10 +64,10 @@ namespace WebApiCore.Controllers.BaoCaoDGN
 
         [HttpGet]
         [Route("api/KhaoSatSoBoDGN/LoadBienBan")]
-        public IHttpActionResult LoadBienBan(int IdDonVi, int IdKeHoachDGN)
+        public IHttpActionResult LoadBienBan(int IdDonVi, int IdKeHoachDGN, int IdTruongDGN)
         {
-            HoiDongDGNController hdDGN = new HoiDongDGNController();
-            var DGN = hdDGN.GetAll(IdDonVi, IdKeHoachDGN);
+            //HoiDongDGNController hdDGN = new HoiDongDGNController();
+            //var DGN = hdDGN.GetAll(IdDonVi, IdKeHoachDGN);
 
             var khDGN = db.tblKeHoachDGNs.Find(IdKeHoachDGN);
 
@@ -77,6 +77,20 @@ namespace WebApiCore.Controllers.BaoCaoDGN
 
             var BienBan = db.tblKhaoSatSoBoDGNs.Where(x => x.IdDonVi == IdDonVi && x.IdKeHoachDGN == IdKeHoachDGN).FirstOrDefault();
             var Truong = db.DMDonVis.Find(khDGN.IdTruong.Value);
+
+            var DGN = (from tv in db.tblThanhVienDGNs
+                      join us in db.UserProfiles
+                      on tv.Username equals us.UserName
+                      where tv.IdTruongDGN == IdTruongDGN
+                      select new
+                      {
+                          HoTen = us.HoTen,
+                          tv.TruongDoan,
+                          tv.ThuKy,
+                          tv.UyVien
+                      }).OrderByDescending(x => x.TruongDoan)
+                      .ThenByDescending(x => x.ThuKy)
+                      .ThenByDescending(x => x.UyVien);
 
             return Ok(new { DGN, TDG, BienBan, Truong });
         }

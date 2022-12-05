@@ -3,7 +3,8 @@
 <div class="col-md-12">
     <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> THÀNH LẬP CÁC ĐOÀN ĐÁNH GIÁ NGOÀI </label></h4>
 </div>
-<div class="form-body form-horizontal col-md-12">
+<center ng-if="!user.DaiDien"><i class="font-red"><b>Bạn không có quyền truy cập chức năng này!</b></i></center>
+<div class="form-body form-horizontal col-md-12" ng-if="user.DaiDien">
     <div class="form-group ">
 
         <div class="col-md-2 text-left">

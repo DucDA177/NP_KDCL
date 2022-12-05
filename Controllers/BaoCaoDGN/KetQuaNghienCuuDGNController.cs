@@ -16,6 +16,58 @@ namespace WebApiCore.Controllers.BaoCaoDGN
         private WebApiDataEntities db = new WebApiDataEntities();
 
         [HttpGet]
+        [Route("api/KetQuaNghienCuuDGN/Get")]
+        public IHttpActionResult GetKetQuaNghienCuuDGN(int IdDonVi, int IdKeHoachDGN)
+        {
+            var result = db.tblKetQuaNghienCuuDGNs
+                .Where(t =>
+                t.IdKeHoachDGN == IdKeHoachDGN
+                && t.IdDonVi == IdDonVi
+                && t.FInUse == true)
+                .FirstOrDefault();
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("api/KetQuaNghienCuuDGN/Save")]
+        public IHttpActionResult Save([FromBody] tblKetQuaNghienCuuDGN data)
+        {
+
+            Validate(data);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (data.Id == 0)
+            {
+                db.tblKetQuaNghienCuuDGNs.Add(data);
+                db.SaveChanges();
+            }
+            else
+            {
+                db.Entry(data).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Ok(data);
+
+        }
+        [HttpPost]
+        [Route("api/KetQuaNghienCuuDGN/Del")]
+        public IHttpActionResult Del(int Id)
+        {
+            var dt = db.tblKetQuaNghienCuuDGNs.Where(t => t.FInUse == true && t.Id == Id).FirstOrDefault();
+            db.tblKetQuaNghienCuuDGNs.Remove(dt);
+
+            db.SaveChanges();
+            return Ok(dt);
+
+        }
+
+
+        [HttpGet]
         [Route("api/KetQuaNghienCuuDGN/LoadKQNghienCuuTieuChiDGN")]
         public IHttpActionResult LoadKQNghienCuuTieuChiDGN(int IdDonVi, int IdKeHoachDGN, int IdTieuChi)
         {
