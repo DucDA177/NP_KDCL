@@ -15,7 +15,7 @@
         <div class="col-md-6">
             <div class="input-group">
                 <span class="input-group-addon">Kế hoạch ĐGN</span>
-                <select class="form-control select2 filter-select " convert-to-number
+                <select class="form-control select2 filter-select " disabled convert-to-number
                         ng-model="filterHoiDongDGN.IdKeHoachDGN"
                         ng-change="LoadKhaoSatSoBo()">
                     <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
@@ -71,12 +71,7 @@
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab_1">
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Trao đổi về kết quả nghiên cứu hồ sơ đánh giá</h3>
-                                                        </div>
-
-                                                    </div>
+                                                    
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.KQNghienCuu"
@@ -88,12 +83,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="tab_2">
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Những yêu cầu cụ thể đối với trường</h3>
-                                                        </div>
-
-                                                    </div>
+                                                    
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.YeuCau"
@@ -104,12 +94,7 @@
                                             </div>
                                             <div class="tab-pane fade" id="tab_3">
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Kế hoạch khảo sát chính thức</h3>
-                                                        </div>
-
-                                                    </div>
+                                                    
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.KeHoach"

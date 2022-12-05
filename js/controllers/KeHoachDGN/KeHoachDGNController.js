@@ -243,6 +243,7 @@
 angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, $scope, $http, $uibModalInstance, FactoryConstant, $uibModal) {
     $scope.item = $scope.$resolve.item;
     $scope.type = $scope.$resolve.type;
+
     $scope.LoadThanhVienDGN = function (objParams) {
         $http({
             method: 'GET',

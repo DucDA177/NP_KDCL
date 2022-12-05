@@ -49,7 +49,14 @@
                 GetAll: true
             }
         }).then(function successCallback(response) {
-            $scope.KeHoachDGN = response.data.ListOut
+            $scope.KeHoachDGN = response.data.ListOut;
+            if ($scope.KeHoachDGN.length > 0) {
+                $scope.filterHoiDongDGN.IdKeHoachDGN = $scope.KeHoachDGN[0].Id;
+                $scope.LoadKhaoSatSoBo();
+            }
+            else
+                $scope.filterHoiDongDGN.IdKeHoachDGN = 0
+
         }, function errorCallback(response) {
             //$scope.itemError = response.data;
             toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');

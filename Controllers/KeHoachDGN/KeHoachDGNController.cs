@@ -63,7 +63,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                        MucDich = khdgn.MucDich,
                                        DuThaoBaoCao = khdgn.DuThaoBaoCao,
                                        HoanThienBaoCao = khdgn.HoanThienBaoCao,
-                                       IdKeHoachTDG = khdgn.IdKeHoachTDG,
+                                       IdKeHoachTDG = khtdg.Id,
                                        IdTruong = khtdg.IdDonVi,
                                        KhaoSatChinhThuc = khdgn.KhaoSatChinhThuc,
                                        KhaoSatSoBo = khdgn.KhaoSatSoBo,
