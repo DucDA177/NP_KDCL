@@ -537,3 +537,77 @@ WebApiApp.directive('compile', ['$compile', function ($compile) {
         );
     };
 }])
+WebApiApp.directive('datepicker', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        compile: function () {
+            return {
+                pre: function (scope, element, attrs, ngModelCtrl) {
+                    var format, dateObj;
+                    format = (!attrs.dpFormat) ? 'd/m/yyyy' : attrs.dpFormat;
+                    if (!attrs.initDate && !attrs.dpFormat) {
+                        // If there is no initDate attribute than we will get todays date as the default
+                        dateObj = new Date();
+                        scope[attrs.ngModel] = dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear();
+                    } else if (!attrs.initDate) {
+                        // Otherwise set as the init date
+                        scope[attrs.ngModel] = attrs.initDate;
+                    } else {
+                        // I could put some complex logic that changes the order of the date string I
+                        // create from the dateObj based on the format, but I'll leave that for now
+                        // Or I could switch case and limit the types of formats...
+                    }
+                    $.fn.datepicker.dates['vi'] = {
+                        days: ["Chủ nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ nhật"],
+                        daysShort: ["CN", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN"],
+                        daysMin: ["CN", "T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                        months: ["Tháng 1", "Tháng 1", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
+                        monthsShort: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+                        today: "Hôm nay"
+                    };
+                    //$('.date-picker').datepicker({
+
+                    //    format: 'dd/mm/yyyy',
+                    //    orientation: "right",
+                    //    autoclose: true,
+                    //    minDate: 0,
+
+                    //});
+                    // Initialize the date-picker
+                    // $(element).datepicker("setDate", new Date())
+
+                    //  var dateParts = ngModelCtrl.$modelValue.split("/");
+
+                    $(element).datepicker({
+                        rtl: App.isRTL(),
+                        language: 'vi',
+                        format: format,
+                        todayHighlight: true,
+                    }).on('changeDate', function (ev) {
+                        // To me this looks cleaner than adding $apply(); after everything.
+                        //   console.warn(ev.format(format))
+                        ev.format(format) != '' ? scope.$apply(function () {
+                            ngModelCtrl.$setViewValue(ev.format(format));
+                        }) : ''
+                    });
+                    setTimeout(() => {
+                        if (ngModelCtrl.$viewValue != null && ngModelCtrl.$viewValue.includes("/")) {
+                            var dateParts = ngModelCtrl.$viewValue.split("/");
+                            $(element).datepicker("setDate", new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]))
+
+                            //  console.warn(ngModelCtrl, ngModelCtrl.$viewValue)
+                        }
+
+                    }, 100);
+
+
+                }
+            };
+        }
+    };
+});
+
+
+
+

@@ -19,7 +19,7 @@
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon">Đơn vị</span>
-                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
+                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN()">
                                 <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
                                     {{dv.TenDonVi}}
                                 </option>
@@ -30,7 +30,8 @@
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon">Kế hoạch </span>
-                            <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="onChangeKeHoach(filterTCTC.IdKeHoach)">
+                            <!--ng-change="onChangeKeHoach(filterTCTC.IdKeHoach)"-->
+                            <select disabled class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach">
                                 <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
                             </select>
                         </div>
@@ -39,7 +40,7 @@
                         <div class="input-group">
                             <span class="input-group-addon">Thành viên hội đồng</span>
                             <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
-                                <option ng-repeat="hd in HoiDongDGN" value="{{hd.us.UserName}}">{{hd.us.HoTen}}</option>
+                                <option ng-repeat="tv in ThanhVienDGNs" value="{{tv.us.UserName}}">{{tv.us.HoTen}}</option>
                             </select>
                         </div>
 

@@ -429,3 +429,8 @@
 .select2-container{
     width:auto
 }
+.date-control {
+    background-image: url(calendar.png) !important;
+    background-repeat: no-repeat !important;
+    background-position: right 5px center !important;
+}

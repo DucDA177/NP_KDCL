@@ -25,6 +25,7 @@
             $scope.ItemPhieu = {}
             $scope.ItemKeHoachDGN = {}
             $scope.HoiDongDGN = []
+            $scope.ThanhVienDGNs = []
             $scope.filterTCTC = {
                 type: 'KHDGN'
             }
@@ -34,6 +35,39 @@
             $scope.ListPhieuTCTCKHTDG = []
         }
         //Load hoi dong
+        $scope.LoadThanhVienDGN = function (objParams) {
+            $scope.ThanhVienDGNs=[]
+            if (objParams == null) {
+                let PhanLoai=""
+                if ($scope.filterPhieuDG.PhanLoaiDanhGia == "SOBO") {
+                    PhanLoai = 'BAOCAOSOBO'
+                }
+                if ($scope.filterPhieuDG.PhanLoaiDanhGia == "TIEUCHI") {
+                    PhanLoai = 'BAOCAOTIEUCHI'
+                }
+                if (PhanLoai=='')return
+                objParams = {
+                    // PhanLoai: 'BAOCAOSOBO',
+                    PhanLoai: PhanLoai,
+                    IdDonVi: 0,
+                    IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
+                    IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
+                }
+            }
+            $http({
+                method: 'GET',
+                url: 'api/Base/GetThanhVienDGN',
+                params: objParams
+            }).then(function successCallback(response) {
+                $scope.ThanhVienDGNs = response.data
+            }, function errorCallback(response) {
+                $scope.itemError = response.data;
+                if ($scope.itemError.ModelState)
+                    toastr.error('Có lỗi xảy ra trong quá trình tải dữ liệu !', 'Thông báo');
+                else
+                    toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
+            });
+        }
         $scope.LoadHoiDongDGN = function (IdKeHoach) {
 
             $http({
@@ -68,10 +102,30 @@
         }
         $scope.filterKeHoachDGN = {
             GetAll: true,
+            IsThanhVien: true,
         };
         $scope.LoadKeHoachDGN = function () {
+            InitLoad()
+            if ($scope.filterKeHoachDGN.IdTruong == null) return;
             $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
                 $scope.KeHoachDGN = response.data.ListOut;
+                if (response.data.ListOut != null && response.data.ListOut != '') {
+                    $scope.ItemKeHoachDGN = $scope.KeHoachDGN[0]
+                    $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id + ''
+                    $scope.filterTCTC.IdKeHoach = $scope.ItemKeHoachDGN.Id
+                    let filterThanhVienDGN = {
+                        // PhanLoai: 'BAOCAOSOBO',
+                        PhanLoai: 'BAOCAOTIEUCHI',
+                        IdDonVi: 0,
+                        IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
+                        IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
+                    }
+                    $scope.LoadThanhVienDGN(filterThanhVienDGN)
+                    $scope.LoadTCTC();
+
+                    $scope.LoadPhieuTuDanhGia($scope.ItemKeHoachDGN.IdKeHoachTDG);
+                }
+              
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
@@ -187,7 +241,6 @@
             }).then(function successCallback(response) {
                 $scope.item = response.data
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT') 
-                //console.warn('$scope.config.readOnly', $scope.config)
                 $scope.item.KQDatMuc = $scope.item.KQDatMuc+''
                 if ($scope.item.KQChiBao != null) {
                     let KQChiBaoObj = JSON.parse($scope.item.KQChiBao)

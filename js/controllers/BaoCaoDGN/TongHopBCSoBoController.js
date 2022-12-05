@@ -5,12 +5,27 @@
         $scope.ItemPhieu = {}
         $scope.ItemKeHoachDGN = {}
         $scope.HoiDongDGN = []
-     
+        $scope.ThanhVienDGNs = []
         $scope.filterPhieuDG = {
           
         }
     }
     //Load hoi dong
+    $scope.LoadThanhVienDGN = function (objParams) {
+        $http({
+            method: 'GET',
+            url: 'api/Base/GetThanhVienDGN',
+            params: objParams
+        }).then(function successCallback(response) {
+            $scope.ThanhVienDGNs = response.data
+        }, function errorCallback(response) {
+            $scope.itemError = response.data;
+            if ($scope.itemError.ModelState)
+                toastr.error('Có lỗi xảy ra trong quá trình tải dữ liệu !', 'Thông báo');
+            else
+                toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
+        });
+    }
     $scope.LoadHoiDongDGN = function (IdKeHoach) {
 
         $http({
@@ -34,8 +49,15 @@
             return;
         }
         $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == Id)
-        $scope.LoadHoiDongDGN(Id);
-
+      //  $scope.LoadHoiDongDGN(Id);
+        let filterThanhVienDGN = {
+           // PhanLoai: 'BAOCAOSOBO',
+            PhanLoai: 'BAOCAOSOBO',
+            IdDonVi: 0,
+            IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
+            IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
+        }
+        $scope.LoadThanhVienDGN(filterThanhVienDGN)
         $scope.LoadTCTC();
 
         $scope.LoadPhieuTuDanhGia($scope.ItemKeHoachDGN.IdKeHoachTDG);
@@ -45,10 +67,32 @@
     }
     $scope.filterKeHoachDGN = {
         GetAll: true,
+        IsThanhVien:true
     };
     $scope.LoadKeHoachDGN = function () {
+        InitLoad()
+        if ($scope.filterKeHoachDGN.IdTruong == null) return;
         $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
             $scope.KeHoachDGN = response.data.ListOut;
+            $scope.ItemKeHoachDGN = $scope.KeHoachDGN[0]
+            $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id + ''
+            $scope.filterTCTC.IdKeHoach = $scope.ItemKeHoachDGN.Id
+            //if (Id == null || Id == 0) {
+            //    $scope.filterTCTC.IdKeHoach = 0;
+            //    return;
+            //}
+        //    $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == Id)
+            //  $scope.LoadHoiDongDGN(Id);
+            let filterThanhVienDGN = {
+                // PhanLoai: 'BAOCAOSOBO',
+                PhanLoai: 'BAOCAOSOBO',
+                IdDonVi: 0,
+                IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
+                IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
+            }
+            $scope.LoadThanhVienDGN(filterThanhVienDGN)
+            $scope.LoadTCTC();
+            $scope.LoadPhieuTuDanhGia($scope.ItemKeHoachDGN.IdKeHoachTDG);
         }, function errorCallback(response) {
             toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
         });

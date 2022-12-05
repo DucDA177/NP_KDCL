@@ -21,7 +21,7 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Đơn vị</span>
-                        <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN();onChangeKeHoach()">
+                        <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="LoadKeHoachDGN()">
                             <option ng-repeat="dv in DonVis" value="{{dv.Id}}" ng-disabled="!(dv.LoaiDonVi=='TRUONG')">
                                 {{dv.TenDonVi}}
                             </option>
@@ -32,7 +32,8 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon">Kế hoạch </span>
-                        <select class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach" ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC();onChangeKeHoach(filterTCTC.IdKeHoach)">
+                        <!--ng-change="filterPhieuDG.IdKeHoach=filterTCTC.IdKeHoach;LoadTCTC()"-->
+                        <select disabled class="form-control select2 filter-select " ng-model="filterTCTC.IdKeHoach">
                             <option ng-repeat="kh in KeHoachDGN" value="{{kh.Id}}">{{kh.NoiDung}}</option>
                         </select>
                     </div>
@@ -58,6 +59,73 @@
             <br />
             <div class="row">
                 <div class="col-md-6">
+                    <div class="portlet light bordered" style="max-height:600px;overflow:auto">
+                        <div class="portlet-title">
+                            <div class="caption caption-md text-center">
+                                <span class="caption-subject font-green bold uppercase"> Phiếu tự đánh giá</span>
+                            </div>
+
+                        </div>
+                        <div ng-if="ItemPhieu.Id!=null" class="portlet-body form p-phieu">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>{{ItemKeHoachDGN.DonViName}}</b></h4>
+                                    <h4><b>Tiêu chí: {{ItemPhieu.TieuChiName}}</b></h4>
+                                    <h4>Kết quả<b>: {{ItemPhieu.KQDatC==true?'Đạt mức 3':ItemPhieu.KQDatB==true?'Đạt mức 2':ItemPhieu.KQDatA==true?'Đạt mức 1':'Không đạt'}}</b></h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4><b>1. Điểm mạnh</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="font-size:12pt" ng-bind-html="ItemPhieu.DiemManh"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>2. Điểm yếu</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div style="font-size:12pt" ng-bind-html="ItemPhieu.DiemYeu"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>3. Kế hoạch cải tiến</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.KeHoachCaiTien"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>4. Đánh giá theo chỉ báo</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.KQChiBao"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>5. Mô tả hiện trạng:</b></h4>
+                                    <h4><b>- Mức 1: {{ItemPhieu.KQDatA==true?'Kết quả đạt':''}}</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.MoTaA"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4><b>- Mức 2: {{ItemPhieu.KQDatB==true?'Kết quả đạt':''}}</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.MoTaB"></div>
+                                </div> <div class="col-md-12">
+                                    <h4><b>- Mức 3: {{ItemPhieu.KQDatC==true?'Kết quả đạt':''}}</b></h4>
+                                </div>
+                                <div class="col-md-12">
+                                    <div ng-bind-html="ItemPhieu.MoTaC"></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
                     <div class="portlet light bordered">
                         <div class="portlet-title">
                             <div class="caption caption-md text-center">
@@ -69,31 +137,31 @@
                         </div>
                         <div ng-if="filterPhieuDG.IdTieuChi!=null" class="portlet-body form">
                             <!--<div class="row">
-                                <div class="col-md-12">
-                                    <span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span><br />
-                                    <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span><br />
-                                    <div ng-if="ObjTieuChi.listChiBaoA.length>0">
-                                        <span>Mức 1:</span><br />
-                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
-                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                                        </div>
-
-                                    </div>
-                                    <div ng-if="ObjTieuChi.listChiBaoB.length>0">
-                                        <span>Mức 2:</span><br />
-                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
-                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                                        </div>
-                                    </div>
-                                    <div ng-if="ObjTieuChi.listChiBaoC.length>0">
-                                        <span>Mức 3:</span><br />
-                                        <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
-                                            <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="col-md-12">
+                        <span><b>Tiêu chẩn: {{ObjTieuChuan.NoiDung}}</b></span><br />
+                        <span>Tiêu chí: {{ObjTieuChi.NoiDung}}</span><br />
+                        <div ng-if="ObjTieuChi.listChiBaoA.length>0">
+                            <span>Mức 1:</span><br />
+                            <div ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
                             </div>
-                            <hr />-->
+
+                        </div>
+                        <div ng-if="ObjTieuChi.listChiBaoB.length>0">
+                            <span>Mức 2:</span><br />
+                            <div ng-repeat="tc in ObjTieuChi.listChiBaoB">
+                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                            </div>
+                        </div>
+                        <div ng-if="ObjTieuChi.listChiBaoC.length>0">
+                            <span>Mức 3:</span><br />
+                            <div ng-repeat="tc in ObjTieuChi.listChiBaoC">
+                                <span ng-if="tc.STT!=null">{{tc.STT}})&nbsp;</span><span>{{tc.NoiDung}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />-->
 
                             <div class="row ">
                                 <div class="tabbable-custom portlet box margin-top-10">
@@ -132,14 +200,9 @@
                                             <div class="tab-pane active" id="tab_1">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Điểm mạnh</h3>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div>
-                                                                <ng-ckeditor ng-model="item.DiemManh"
-                                                                             ng-config="config"></ng-ckeditor>
-                                                            </div>
+                                                        <div>
+                                                            <ng-ckeditor ng-model="item.DiemManh"
+                                                                         ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,27 +211,16 @@
                                             <div class="tab-pane fade" id="tab_2">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Điểm yếu</h3>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.DiemYeu"
                                                                          ng-config="config"></ng-ckeditor>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="tab_3">
                                                 <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="text-center">
-                                                            <h3>Kế hoạch cải tiến chất lượng</h3>
-                                                        </div>
-
-                                                    </div>
                                                     <div class="col-md-12">
                                                         <div>
                                                             <ng-ckeditor ng-model="item.KeHoachCaiTien"
@@ -496,72 +548,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                </div>
-                <div class="col-md-6">
-                    <div class="portlet light bordered" style="max-height:600px;overflow:auto">
-                        <div class="portlet-title">
-                            <div class="caption caption-md text-center">
-                                <span class="caption-subject font-green bold uppercase"> Phiếu tự đánh giá</span>
-                            </div>
-
-                        </div>
-                        <div ng-if="ItemPhieu.Id!=null" class="portlet-body form p-phieu">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4><b>{{ItemKeHoachDGN.DonViName}}</b></h4>
-                                    <h4><b>Tiêu chí: {{ItemPhieu.TieuChiName}}</b></h4>
-                                    <h4>Kết quả<b>: {{ItemPhieu.KQDatC==true?'Đạt mức 3':ItemPhieu.KQDatB==true?'Đạt mức 2':ItemPhieu.KQDatA==true?'Đạt mức 1':'Không đạt'}}</b></h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4><b>1. Điểm mạnh</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div style="font-size:12pt" ng-bind-html="ItemPhieu.DiemManh"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <h4><b>2. Điểm yếu</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div style="font-size:12pt" ng-bind-html="ItemPhieu.DiemYeu"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <h4><b>3. Kế hoạch cải tiến</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.KeHoachCaiTien"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <h4><b>4. Đánh giá theo chỉ báo</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.KQChiBao"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <h4><b>5. Mô tả hiện trạng:</b></h4>
-                                    <h4><b>- Mức 1: {{ItemPhieu.KQDatA==true?'Kết quả đạt':''}}</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.MoTaA"></div>
-                                </div>
-                                <div class="col-md-12">
-                                    <h4><b>- Mức 2: {{ItemPhieu.KQDatB==true?'Kết quả đạt':''}}</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.MoTaB"></div>
-                                </div> <div class="col-md-12">
-                                    <h4><b>- Mức 3: {{ItemPhieu.KQDatC==true?'Kết quả đạt':''}}</b></h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.MoTaC"></div>
-                                </div>
-
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
