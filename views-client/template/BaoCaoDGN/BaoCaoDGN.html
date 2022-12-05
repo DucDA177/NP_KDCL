@@ -42,6 +42,226 @@
             <br />
             <div class="row">
                 <div class="col-md-6">
+                    <div class="portlet light bordered" style="max-height:600px;overflow:auto">
+                        <div class="portlet-title">
+                            <div class="caption caption-md text-center">
+                                <span class="caption-subject font-green bold uppercase">
+                                    {{filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI'?'Phiếu đánh giá tiêu chí':filterPhieuDG.PhanLoaiDanhGia=='SOBO'?'Phiếu báo cáo sơ bộ':'Phiếu đánh giá'}}
+
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="portlet-body form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Loại phiếu</span>
+                                        <select ng-model="filterPhieuDG.PhanLoaiDanhGia" ng-change="LoadThanhVienDGN();LoadPhieuDanhGia()" class="form-control select2 filter-select ">
+                                            <option ng-repeat="pl in PhanLoaiDanhGias" value="{{pl.Code}}">{{pl.Ten}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" ng-show="filterPhieuDG.PhanLoaiDanhGia!='KQKS'">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Thành viên hội đồng</span>
+                                        <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
+                                            <option ng-repeat="tv in ThanhVienDGNs" value="{{tv.us.UserName}}">{{tv.us.HoTen}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI'">
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tiêu chuẩn</span>
+                                        <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChuan" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChuan,'TIEUCHUAN')">
+                                            <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Tiêu chí</span>
+                                        <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI')">
+                                            <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI' && ItemPhieu.Id!=null">
+                                <div class="col-md-12">
+                                    <p class="p-vanban"><b>1. Điểm mạnh</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemManh"></p>
+
+                                    <p class="p-vanban"><b>2. Điểm yếu</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemYeu"></p>
+                                    <p class="p-vanban"><b>3. Kế hoạch cải tiến</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
+                                    <p class="p-vanban"><b>4. Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung minh chứng</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
+                                    <p class="p-vanban"><b>5. Đánh giá tiêu chí:</b> Đạt mức {{(ItemPhieu.KQDatMuc +'')=='0'?'Không đạt':'Mức '+ItemPhieu.KQDatMuc}}&nbsp;</p>
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" colspan="2">Mức 1</td>
+                                                <td align="center" colspan="2">Mức 2</td>
+                                                <td align="center" colspan="2">Mức 3</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">Chỉ báo</td>
+                                                <td align="center">Đạt/Không đạt</td>
+                                                <td align="center">Chỉ báo</td>
+                                                <td align="center">Đạt/Không đạt</td>
+                                                <td align="center">Chỉ báo</td>
+                                                <td align="center">Đạt/Không đạt</td>
+                                            </tr>
+                                            <tr ng-repeat="tc in ObjTieuChi.listChiBaoA">
+                                                <td align="center">
+                                                    <span ng-if="tc.NoiDung!=null"> {{tc.STT==null || tc.STT=='.'?'*':tc.STT}}</span>
+                                                    <span ng-if="tc.NoiDung==null">-</span>
+                                                </td>
+                                                <td align="center">
+                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ItemPhieu.KQChiBaoObj[$index]['ChiBaoA_'+$index]==true?'Đạt':'Không đạt'}}</span>
+                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
+                                                </td>
+                                                <td align="center">
+                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoB[$index].STT==null || ObjTieuChi.listChiBaoB[$index].STT=='.'?'*':ObjTieuChi.listChiBaoB[$index].STT}}</span>
+                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
+
+                                                </td>
+                                                <td align="center">
+                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ItemPhieu.KQChiBaoObj[$index]['ChiBaoB_'+$index]==true?'Đạt':'Không đạt'}}</span>
+                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
+                                                </td>
+                                                <td align="center">
+                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoC[$index].STT==null || ObjTieuChi.listChiBaoC[$index].STT=='.'?'*':ObjTieuChi.listChiBaoC[$index].STT}}</span>
+                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
+
+                                                </td>
+                                                <td align="center">
+                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ItemPhieu.KQChiBaoObj[$index]['ChiBaoC_'+$index]==true?'Đạt':'Không đạt'}}</span>
+                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" colspan="2">
+                                                    <span ng-if="ItemPhieu.KQDatA==true">Đạt</span>
+                                                    <span ng-if="!ItemPhieu.KQDatA==true">Không đạt</span>
+                                                </td>
+                                                <td align="center" colspan="2">
+                                                    <span ng-if="ItemPhieu.KQDatB==true">Đạt</span>
+                                                    <span ng-if="!ItemPhieu.KQDatB==true">Không đạt</span>
+                                                </td>
+                                                <td align="center" colspan="2">
+                                                    <span ng-if="ItemPhieu.KQDatC==true">Đạt</span>
+                                                    <span ng-if="!ItemPhieu.KQDatC==true">Không đạt</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='SOBO' && ItemPhieu.Id!=null">
+                                <div class="col-md-12">
+                                    <p class="p-vanban"><b>1. Nhận xét về trình bày, cấu trúc, chính tả, ngữ pháp</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.NhanXetHinhThuc"></p>
+                                    <p class="p-vanban"><b>2. Nhận xét về nội dung</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.NhanXetNoiDung"></p>
+                                    <p class="p-vanban"><b>3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.TieuChiChuaDanhGia"></p>
+                                    <p class="p-vanban"><b>4. Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DeXuat"></p>
+
+                                </div>
+                            </div>
+                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='KQKS' && ItemPhieu.Id!=null">
+                                <div class="col-md-12">
+                                    <p class="p-vanban uppercase"><b>I. Giới thiệu chung về đoàn đánh giá ngoài</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.GioiThieuChung"></p>
+                                    <p class="p-vanban uppercase"><b>II. Tóm tắt quá trình đánh giá ngoài</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.Tomtat"></p>
+                                    <p class="p-vanban uppercase"><b>III. Những điểm mạnh, điểm yếu cơ bản</b></p>
+                                    <p class="p-vanban "><b>1. Điểm mạnh</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemManh"></p>
+                                    <p class="p-vanban "><b>2. Điểm yếu</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemYeu"></p>
+                                    <p class="p-vanban uppercase"><b>IV. Những nội dung chưa rõ, chưa thể đánh giá ở các tiêu chí</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.NoiDungCanBoSung"></p>
+                                    <p class="p-vanban uppercase"><b>V. Kết quả đánh giá</b></p>
+                                    <p class="p-vanban">Kết quả: đạt mức {{ItemPhieu.KQDatMuc}}</p>
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td rowspan="3" align="center" class="bold " style="vertical-align:middle">Tiêu chuẩn, tiêu chí</td>
+                                                <td rowspan="1" colspan="4" align="center" class="bold " style="vertical-align:middle">Kết quả tự đánh giá</td>
+                                                <td rowspan="1" colspan="4" align="center" class="bold " style="vertical-align:middle">Kết quả đánh giá ngoài</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2" align="center" class="bold " style="vertical-align:middle">Không đạt</td>
+                                                <td colspan="3" align="center" class="bold " style="vertical-align:middle">Đạt</td>
+                                                <td rowspan="2" align="center" class="bold " style="vertical-align:middle">Không đạt</td>
+                                                <td colspan="3" align="center" class="bold " style="vertical-align:middle">Đạt</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" class="bold " style="vertical-align:middle">Mức 1</td>
+                                                <td align="center" class="bold " style="vertical-align:middle">Mức 2</td>
+                                                <td align="center" class="bold " style="vertical-align:middle">Mức 3</td>
+                                                <td align="center" class="bold " style="vertical-align:middle">Mức 1</td>
+                                                <td align="center" class="bold " style="vertical-align:middle">Mức 2</td>
+                                                <td align="center" class="bold " style="vertical-align:middle">Mức 3</td>
+                                            </tr>
+                                            <tr ng-repeat="tc in ListTieuChuanTieuChis">
+                                                <td>
+                                                    <span ng-if="tc.IdTieuChuan==null" class="bold">Tiêu chuẩn {{tc.ThuTu}}</span>
+                                                    <span ng-if="tc.IdTieuChuan!=null">
+                                                        Tiêu chí {{(ListTieuChuanTieuChis | filter : {'Id':tc.IdTieuChuan})[0].ThuTu}}.{{tc.ThuTu}}
+                                                    </span>
+                                                </td>
+                                                <td colspan="8" ng-if="tc.IdTieuChuan==null"></td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
+                                                    {{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatA!=true &&ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatB!=true && ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatC!=true?'X':''}}
+                                                </td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">{{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatA==true?'X':''}}</td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">{{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatB==true?'X':''}}</td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">{{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatC==true?'X':''}}</td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
+                                                    {{tc.DGN_KQDatA!=true &&tc.DGN_KQDatB!=true && tc.DGN_KQDatC!=true?'X':''}}
+
+                                                </td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
+                                                    {{tc.DGN_KQDatA==true?'X':''}}
+                                                </td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
+                                                    {{tc.DGN_KQDatB==true?'X':''}}
+                                                </td>
+                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
+                                                    {{tc.DGN_KQDatC==true?'X':''}}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                    <p class="p-vanban uppercase"><b>VI. Kiến nghị đối với trường</b></p>
+                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KienNghi"></p>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
                     <div class="portlet light bordered">
                         <div class="portlet-title">
                             <div class="caption caption-md text-center">
@@ -684,224 +904,6 @@
                             </div>
 
                         </div>
-                    </div>
-
-                </div>
-                <div class="col-md-6">
-                    <div class="portlet light bordered" style="max-height:600px;overflow:auto">
-                        <div class="portlet-title">
-                            <div class="caption caption-md text-center">
-                                <span class="caption-subject font-green bold uppercase">
-                                    {{filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI'?'Phiếu đánh giá tiêu chí':filterPhieuDG.PhanLoaiDanhGia=='SOBO'?'Phiếu báo cáo sơ bộ':'Phiếu đánh giá'}}
-
-                                </span>
-                            </div>
-
-                        </div>
-                        <div class="portlet-body form">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Loại phiếu</span>
-                                        <select ng-model="filterPhieuDG.PhanLoaiDanhGia" ng-change="LoadThanhVienDGN();LoadPhieuDanhGia()" class="form-control select2 filter-select ">
-                                            <option ng-repeat="pl in PhanLoaiDanhGias" value="{{pl.Code}}">{{pl.Ten}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" ng-show="filterPhieuDG.PhanLoaiDanhGia!='KQKS'">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Thành viên hội đồng</span>
-                                        <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
-                                            <option ng-repeat="tv in ThanhVienDGNs" value="{{tv.us.UserName}}">{{tv.us.HoTen}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <br />
-                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI'">
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Tiêu chuẩn</span>
-                                        <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChuan" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChuan,'TIEUCHUAN')">
-                                            <option ng-repeat="tc in TieuChuans" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Tiêu chí</span>
-                                        <select class="form-control select2 filter-select " ng-model="filterPhieuDG.IdTieuChi" ng-change="OnChangeTieuChuan(filterPhieuDG.IdTieuChi,'TIEUCHI')">
-                                            <option ng-repeat="tc in TieuChis" value="{{tc.Id}}">{{tc.NoiDung}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <br />
-                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='TIEUCHI' && ItemPhieu.Id!=null">
-                                <div class="col-md-12">
-                                    <p class="p-vanban"><b>1. Điểm mạnh</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemManh"></p>
-
-                                    <p class="p-vanban"><b>2. Điểm yếu</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemYeu"></p>
-                                    <p class="p-vanban"><b>3. Kế hoạch cải tiến</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
-                                    <p class="p-vanban"><b>4. Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung minh chứng</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
-                                    <p class="p-vanban"><b>5. Đánh giá tiêu chí:</b> Đạt mức {{(ItemPhieu.KQDatMuc +'')=='0'?'Không đạt':'Mức '+ItemPhieu.KQDatMuc}}&nbsp;</p>
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <td align="center" colspan="2">Mức 1</td>
-                                                <td align="center" colspan="2">Mức 2</td>
-                                                <td align="center" colspan="2">Mức 3</td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">Chỉ báo</td>
-                                                <td align="center">Đạt/Không đạt</td>
-                                                <td align="center">Chỉ báo</td>
-                                                <td align="center">Đạt/Không đạt</td>
-                                                <td align="center">Chỉ báo</td>
-                                                <td align="center">Đạt/Không đạt</td>
-                                            </tr>
-                                            <tr ng-repeat="tc in ObjTieuChi.listChiBaoA">
-                                                <td align="center">
-                                                    <span ng-if="tc.NoiDung!=null"> {{tc.STT==null || tc.STT=='.'?'*':tc.STT}}</span>
-                                                    <span ng-if="tc.NoiDung==null">-</span>
-                                                </td>
-                                                <td align="center">
-                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ItemPhieu.KQChiBaoObj[$index]['ChiBaoA_'+$index]==true?'Đạt':'Không đạt'}}</span>
-                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
-                                                </td>
-                                                <td align="center">
-                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoB[$index].STT==null || ObjTieuChi.listChiBaoB[$index].STT=='.'?'*':ObjTieuChi.listChiBaoB[$index].STT}}</span>
-                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
-
-                                                </td>
-                                                <td align="center">
-                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung!=null"> {{ItemPhieu.KQChiBaoObj[$index]['ChiBaoB_'+$index]==true?'Đạt':'Không đạt'}}</span>
-                                                    <span ng-if="ObjTieuChi.listChiBaoB[$index].NoiDung==null">-</span>
-                                                </td>
-                                                <td align="center">
-                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ObjTieuChi.listChiBaoC[$index].STT==null || ObjTieuChi.listChiBaoC[$index].STT=='.'?'*':ObjTieuChi.listChiBaoC[$index].STT}}</span>
-                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
-
-                                                </td>
-                                                <td align="center">
-                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung!=null"> {{ItemPhieu.KQChiBaoObj[$index]['ChiBaoC_'+$index]==true?'Đạt':'Không đạt'}}</span>
-                                                    <span ng-if="ObjTieuChi.listChiBaoC[$index].NoiDung==null">-</span>
-
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center" colspan="2">
-                                                    <span ng-if="ItemPhieu.KQDatA==true">Đạt</span>
-                                                    <span ng-if="!ItemPhieu.KQDatA==true">Không đạt</span>
-                                                </td>
-                                                <td align="center" colspan="2">
-                                                    <span ng-if="ItemPhieu.KQDatB==true">Đạt</span>
-                                                    <span ng-if="!ItemPhieu.KQDatB==true">Không đạt</span>
-                                                </td>
-                                                <td align="center" colspan="2">
-                                                    <span ng-if="ItemPhieu.KQDatC==true">Đạt</span>
-                                                    <span ng-if="!ItemPhieu.KQDatC==true">Không đạt</span>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='SOBO' && ItemPhieu.Id!=null">
-                                <div class="col-md-12">
-                                    <p class="p-vanban"><b>1. Nhận xét về trình bày, cấu trúc, chính tả, ngữ pháp</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.NhanXetHinhThuc"></p>
-                                    <p class="p-vanban"><b>2. Nhận xét về nội dung</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.NhanXetNoiDung"></p>
-                                    <p class="p-vanban"><b>3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.TieuChiChuaDanhGia"></p>
-                                    <p class="p-vanban"><b>4. Đề xuất với đoàn ĐGN về những vấn đề thảo luận thêm</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DeXuat"></p>
-
-                                </div>
-                            </div>
-                            <div class="row" ng-show="filterPhieuDG.PhanLoaiDanhGia=='KQKS' && ItemPhieu.Id!=null">
-                                <div class="col-md-12">
-                                    <p class="p-vanban uppercase"><b>I. Giới thiệu chung về đoàn đánh giá ngoài</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.GioiThieuChung"></p>
-                                    <p class="p-vanban uppercase"><b>II. Tóm tắt quá trình đánh giá ngoài</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.Tomtat"></p>
-                                    <p class="p-vanban uppercase"><b>III. Những điểm mạnh, điểm yếu cơ bản</b></p>
-                                    <p class="p-vanban "><b>1. Điểm mạnh</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemManh"></p>
-                                    <p class="p-vanban "><b>2. Điểm yếu</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.DiemYeu"></p>
-                                    <p class="p-vanban uppercase"><b>IV. Những nội dung chưa rõ, chưa thể đánh giá ở các tiêu chí</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.NoiDungCanBoSung"></p>
-                                    <p class="p-vanban uppercase"><b>V. Kết quả đánh giá</b></p>
-                                    <p class="p-vanban">Kết quả: đạt mức {{ItemPhieu.KQDatMuc}}</p>
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                            <tr>
-                                                <td rowspan="3" align="center" class="bold " style="vertical-align:middle">Tiêu chuẩn, tiêu chí</td>
-                                                <td rowspan="1" colspan="4" align="center" class="bold " style="vertical-align:middle">Kết quả tự đánh giá</td>
-                                                <td rowspan="1" colspan="4" align="center" class="bold " style="vertical-align:middle">Kết quả đánh giá ngoài</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="2" align="center" class="bold " style="vertical-align:middle">Không đạt</td>
-                                                <td colspan="3" align="center" class="bold " style="vertical-align:middle">Đạt</td>
-                                                <td rowspan="2" align="center" class="bold " style="vertical-align:middle">Không đạt</td>
-                                                <td colspan="3" align="center" class="bold " style="vertical-align:middle">Đạt</td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center" class="bold " style="vertical-align:middle">Mức 1</td>
-                                                <td align="center" class="bold " style="vertical-align:middle">Mức 2</td>
-                                                <td align="center" class="bold " style="vertical-align:middle">Mức 3</td>
-                                                <td align="center" class="bold " style="vertical-align:middle">Mức 1</td>
-                                                <td align="center" class="bold " style="vertical-align:middle">Mức 2</td>
-                                                <td align="center" class="bold " style="vertical-align:middle">Mức 3</td>
-                                            </tr>
-                                            <tr ng-repeat="tc in ListTieuChuanTieuChis">
-                                                <td>
-                                                    <span ng-if="tc.IdTieuChuan==null" class="bold">Tiêu chuẩn {{tc.ThuTu}}</span>
-                                                    <span ng-if="tc.IdTieuChuan!=null">
-                                                        Tiêu chí {{(ListTieuChuanTieuChis | filter : {'Id':tc.IdTieuChuan})[0].ThuTu}}.{{tc.ThuTu}}
-                                                    </span>
-                                                </td>
-                                                <td colspan="8" ng-if="tc.IdTieuChuan==null"></td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
-                                                    {{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatA!=true &&ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatB!=true && ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatC!=true?'X':''}}
-                                                </td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">{{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatA==true?'X':''}}</td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">{{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatB==true?'X':''}}</td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">{{ReturnObjFromId(ListPhieuTCTCKHTDG,tc.Id,'IdTieuChi').KQDatC==true?'X':''}}</td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
-                                                    {{tc.DGN_KQDatA!=true &&tc.DGN_KQDatB!=true && tc.DGN_KQDatC!=true?'X':''}}
-
-                                                </td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
-                                                    {{tc.DGN_KQDatA==true?'X':''}}
-                                                </td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
-                                                    {{tc.DGN_KQDatB==true?'X':''}}
-                                                </td>
-                                                <td ng-if="tc.IdTieuChuan!=null" align="center">
-                                                    {{tc.DGN_KQDatC==true?'X':''}}
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-
-                                    <p class="p-vanban uppercase"><b>VI. Kiến nghị đối với trường</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KienNghi"></p>
-
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
 
                 </div>
