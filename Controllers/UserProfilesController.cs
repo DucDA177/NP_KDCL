@@ -346,6 +346,53 @@ namespace WebApiCore.Controllers
 
             return Ok(userProfile);
         }
+
+        [HttpGet]
+        [Route("api/GetCurrentUserProfiles")]
+        public async Task<IHttpActionResult> GetCurrentUserProfiles(string module)
+        {
+
+            string curUser = HttpContext.Current.User.Identity.Name;
+            var checkUpdatePass = db.AspNetUsers.Where(t => t.UserName == curUser).FirstOrDefault();
+
+            var userProfile = db.UserProfiles.Where(t =>
+            t.UserName == curUser
+            && t.FInUse == true).FirstOrDefault();
+
+            if (checkUpdatePass.FUpdateTime == null)
+                userProfile.ConnId = null;
+            else if (checkUpdatePass.FUpdateTime.Value.AddDays(90) <= DateTime.Now)
+                userProfile.ConnId = null;
+
+            var UserDv = db.DMDonVis.Find(userProfile.IDDonVi);
+
+            if (module == "TDG" && UserDv.LoaiDonVi == "SO" && UserDv.NhomLoai != "ADMIN")
+            {
+                return BadRequest("Bạn không được phép truy cập mô-đun này!");
+            }
+            if (module == "DGN" && UserDv.LoaiDonVi != "SO" && UserDv.NhomLoai != "ADMIN")
+            {
+                var checkTV = db.tblThanhVienDGNs.OrderByDescending(x => x.Id)
+                    .Where(x => x.Username == curUser).FirstOrDefault();
+                if(checkTV == null)
+                    return BadRequest("Bạn không được phép truy cập mô-đun này hoặc chưa được phân công thực hiện đánh giá ngoài!");
+                else
+                {
+                    var parDonVi = (from truongdgn in db.tblTruongDGNs
+                                   join doandgn in db.tblDoanDGNs
+                                   on truongdgn.IdDoanDGN equals doandgn.Id
+                                   where truongdgn.Id == checkTV.IdTruongDGN
+                                   select doandgn.IdDonVi).First();
+
+                    userProfile.IDDonVi = parDonVi;
+                    userProfile.DaiDien = false;
+                }
+            }
+
+
+            return Ok(userProfile);
+        }
+
         [HttpPost]
         [Route("api/UpLoadImage")]
         public IHttpActionResult Upload()
@@ -469,14 +516,14 @@ namespace WebApiCore.Controllers
             var user = db.UserProfiles.Find(userId);
             var dv = db.DMDonVis.Find(user.IDDonVi);
 
-            var listTieuChiId = db.tblPhanCongTCs.Where(t => 
+            var listTieuChiId = db.tblPhanCongTCs.Where(t =>
             t.IdDonVi == user.IDDonVi && t.IdKeHoachTDG == idKeHoachTDG && t.Username == user.UserName)
                 .Select(t => t.IdTieuChi).ToList();
 
             var dsTieuChuan = db.DMTieuChuans
                 .Where(x => x.IdQuyDinh == idQuyDinh && x.NhomLoai.Contains(dv.NhomLoai)).OrderBy(t => t.STT);
             int index = 1;
-            foreach(var item in dsTieuChuan)
+            foreach (var item in dsTieuChuan)
             {
                 DSTieuChuanTieuChiClient tchuan = new DSTieuChuanTieuChiClient();
                 tchuan.DuLieuCha = true;
@@ -490,7 +537,7 @@ namespace WebApiCore.Controllers
                 if (!tchis.Any())
                     continue;
 
-                foreach(var tchi in tchis)
+                foreach (var tchi in tchis)
                 {
                     DSTieuChuanTieuChiClient tc = new DSTieuChuanTieuChiClient();
                     tc.DuLieuCha = false;
@@ -504,7 +551,7 @@ namespace WebApiCore.Controllers
                     result.Add(tc);
                     index++;
 
-                    if(tc.IsCheck)
+                    if (tc.IsCheck)
                         tchuan.IsCheck = true;
                 }
 

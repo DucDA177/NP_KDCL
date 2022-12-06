@@ -25,7 +25,11 @@
 
     </div>
     <div class="form-group" ng-if="!checkQuyen">
-        <center><i class="font-red"><b>Bạn không được phân công để làm nhiệm vụ này với đơn vị được chọn!</b></i></center>
+        <div class="row">
+            <div class="col-md-12">
+                <h4><b>Bạn không được phân quyền làm khảo sát sơ bộ cho đơn vị này!</b></h4>
+            </div>
+        </div>
     </div>
     <div class="form-group" ng-if="filterHoiDongDGN.IdKeHoachDGN != 0 && checkQuyen">
         <div class="col-md-12">

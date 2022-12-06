@@ -30,7 +30,7 @@ namespace WebApiCore.Controllers
                 if (Com == null)
                     return NotFound();
                 ArrayList List = new ArrayList();
-                var orgs = db.Menus.Where(x => x.MainMenu == ComCode).OrderBy(t=>t.FIndex).ToList();
+                var orgs = db.Menus.Where(x => x.MainMenu == ComCode).OrderBy(t => t.FIndex).ToList();
                 foreach (Menu org in orgs)
                 {
                     var o = new
@@ -207,7 +207,7 @@ namespace WebApiCore.Controllers
         {
             if (Code != "ALL")
             {
-                var menu = db.Menus.Where(t => t.FCode == Code || t.MainMenu == Code || t.ParentMenu == Code).OrderBy(t=>t.FIndex);
+                var menu = db.Menus.Where(t => t.FCode == Code || t.MainMenu == Code || t.ParentMenu == Code).OrderBy(t => t.FIndex);
                 return menu;
             }
             else
@@ -229,8 +229,8 @@ namespace WebApiCore.Controllers
         public IHttpActionResult GetAllMenu()//(string permission, string FCode)
         {
             List<Menu> ls = new List<Menu>();
-            var menuParent = db.Menus.Where(t=>t.FInUse== true && t.FLevel == 1).ToList().OrderBy(t => t.FIndex);
-            foreach(var item in menuParent)
+            var menuParent = db.Menus.Where(t => t.FInUse == true && t.FLevel == 1).ToList().OrderBy(t => t.FIndex);
+            foreach (var item in menuParent)
             {
                 ls.Add(item);
                 var menuChild = db.Menus.Where(t => t.FInUse == true && t.ParentMenu == item.FCode).ToList().OrderBy(t => t.FIndex);
@@ -239,7 +239,7 @@ namespace WebApiCore.Controllers
             return Ok(ls);
 
         }
-      
+
         [HttpPost]
         [Route("api/DislayByPermission")]
         public IHttpActionResult DislayByPermission()//(string permission, string FCode)
@@ -248,8 +248,8 @@ namespace WebApiCore.Controllers
             string currentUser = User.Identity.Name;
             string SQL = "select Distinct mn.MainMenu,mn.Id,mn.FCode , mn.Fname , mn.FIndex,mn.CodePermission from view_quyen_menu as mn "
                          + "where mn.mauser = '" + currentUser + "'"
-                         //+ "AND mn.CodePermission like'%$" + permission + "= TRUE$%'"
-                        // + "AND mn.FCode=" + FCode
+                          //+ "AND mn.CodePermission like'%$" + permission + "= TRUE$%'"
+                          // + "AND mn.FCode=" + FCode
                           + "order by mn.FIndex asc ";
             var data = db.Database.SqlQuery<ViewPermission>(SQL);
             //if (data != null)
@@ -303,14 +303,44 @@ namespace WebApiCore.Controllers
             //    .ObjectContext
             //    .Translate<ViewMenu>(reader).ToList();
             //ls = dt;
-            var ls = ( from mn in db.Menus
-                       join grm in db.Group_Menu on mn.FCode equals grm.CodeMenu
-                       join gru in db.Group_User on grm.CodeGroup equals gru.CodeGroup
-                       where gru.UserName == currentUser && mn.FInUse == true && grm.FInUse == true && gru.FInUse == true
-                       orderby mn.FIndex
-                       select mn ).Distinct();
+            var ls = (from mn in db.Menus
+                      join grm in db.Group_Menu on mn.FCode equals grm.CodeMenu
+                      join gru in db.Group_User on grm.CodeGroup equals gru.CodeGroup
+                      where gru.UserName == currentUser && mn.FInUse == true && grm.FInUse == true && gru.FInUse == true
+                      orderby mn.FIndex
+                      select mn).Distinct();
 
             return Ok(ls);
+        }
+        [HttpPost]
+        [Route("api/getMenuByUser")]
+        public IHttpActionResult GetMenusByLevel(string module)
+        {
+            string currentUser = User.Identity.Name;
+            var user = db.UserProfiles.Where(x => x.UserName == currentUser).FirstOrDefault();
+            var userDV = db.DMDonVis.Find(user.IDDonVi);
+            if (module == "TDG" || userDV.NhomLoai == "ADMIN")
+            {
+                var ls = (from mn in db.Menus
+                          join grm in db.Group_Menu on mn.FCode equals grm.CodeMenu
+                          join gru in db.Group_User on grm.CodeGroup equals gru.CodeGroup
+                          where gru.UserName == currentUser && mn.FInUse == true && grm.FInUse == true && gru.FInUse == true
+                          orderby mn.FIndex
+                          select mn).Distinct();
+
+                return Ok(ls);
+            }
+            else
+            {
+                var ls = (from mn in db.Menus
+                          join grm in db.Group_Menu on mn.FCode equals grm.CodeMenu
+                          where mn.FInUse == true && grm.FInUse == true && grm.CodeGroup == "KHDGN"
+                          orderby mn.FIndex
+                          select mn).Distinct();
+
+                return Ok(ls);
+            }
+
         }
         [HttpPost]
         [Route("api/getMenuByUserFCode")]
@@ -322,7 +352,7 @@ namespace WebApiCore.Controllers
             string SQL = "select distinct mn.Id,mn.FCode , mn.Fname, mn.icon, mn.FIndex, mn.MainMenu,mn.ParentMenu,mn.ControllerName,mn.Url from dbo.Menu as mn inner join "
                         + "dbo.view_quyen_menu as viewq on mn.FCode = viewq.ParentMenu "
                         + "where mn.FInUse=1 AND viewq.FInUse=1 AND viewq.mauser = '" + currentUser + "' "
-                        + "AND viewq.CodePermission like'%=TRUE$%' AND viewq.FCode ='"+FCode
+                        + "AND viewq.CodePermission like'%=TRUE$%' AND viewq.FCode ='" + FCode
                         + "' order by mn.FIndex asc";
 
 
@@ -334,7 +364,7 @@ namespace WebApiCore.Controllers
                 string SQL_child = "select distinct mn.Id,mn.FCode , mn.Fname , mn.FIndex, mn.icon,mn.MainMenu,mn.ParentMenu,mn.ControllerName,mn.Url from "
                         + "dbo.view_quyen_menu as mn "
                         + "where mn.FInUse=1 AND mn.mauser = '" + currentUser + "' AND mn.ParentMenu = '"
-                        + cM.FCode + "' AND mn.CodePermission like'%=TRUE$%' AND mn.FCode ='"+FCode
+                        + cM.FCode + "' AND mn.CodePermission like'%=TRUE$%' AND mn.FCode ='" + FCode
                         + "' order by mn.FIndex asc";
 
                 var data_child = db.Database.SqlQuery<ViewMenu>(SQL_child);
@@ -363,8 +393,8 @@ namespace WebApiCore.Controllers
         [ResponseType(typeof(Menu))]
         public Menu GetMenuByFCode(string FCode)
         {
-            Menu menu =  db.Menus.Where(t=>t.FCode==FCode).FirstOrDefault();
-          
+            Menu menu = db.Menus.Where(t => t.FCode == FCode).FirstOrDefault();
+
             return menu;
         }
         // PUT: api/Menus/5
@@ -486,7 +516,7 @@ namespace WebApiCore.Controllers
         [ResponseType(typeof(Menu))]
         public IHttpActionResult DeleteMenu(long id)
         {
-            Menu menu =  db.Menus.Find(id);
+            Menu menu = db.Menus.Find(id);
             if (menu == null)
             {
                 return NotFound();
@@ -523,12 +553,12 @@ namespace WebApiCore.Controllers
         public async Task<IHttpActionResult> GetMenusByLevel()
         {
             List<Menu> obj = new List<Menu>();
-            var ParentMenu = await db.Menus.Where(x => !string.IsNullOrEmpty(x.MainMenu) && x.FInUse==true).ToListAsync(); //from m in db.Menus where m.MainMenu != null select m;
+            var ParentMenu = await db.Menus.Where(x => !string.IsNullOrEmpty(x.MainMenu) && x.FInUse == true).ToListAsync(); //from m in db.Menus where m.MainMenu != null select m;
 
             foreach (Menu cM in ParentMenu.OrderBy(x => x.FIndex))
             {
                 obj.Add(cM);
-                var objM = await db.Menus.Where(y => y.ParentMenu == cM.FCode &&  y.FInUse == true).ToListAsync();  //from oCm in db.Menus where oCm.ParentMenu == cM.FCode select oCm;
+                var objM = await db.Menus.Where(y => y.ParentMenu == cM.FCode && y.FInUse == true).ToListAsync();  //from oCm in db.Menus where oCm.ParentMenu == cM.FCode select oCm;
                 foreach (Menu o in objM.OrderBy(x => x.FIndex))
                 {
                     obj.Add(o);
@@ -536,11 +566,11 @@ namespace WebApiCore.Controllers
             }
             return Ok(obj);
         }
-    
+
         [HttpPost]
         [Route("UpdateTree")]
         [ResponseType(typeof(object))]
-        public void UpdateTree([FromBody]List<Object> obj)
+        public void UpdateTree([FromBody] List<Object> obj)
         {
             int a = obj.Count;
             string maMain = "";
@@ -631,7 +661,7 @@ namespace WebApiCore.Controllers
             public string text { get; set; }
 
         }
-      
+
         [HttpGet]
         [Route("CheckValidMenu")]
         //[ResponseType(typeof(Area))]

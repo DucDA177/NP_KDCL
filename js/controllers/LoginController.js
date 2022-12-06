@@ -8,6 +8,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
     $scope.ListNamHoc = [];
     let NamHocIfNull = (new Date().getFullYear() - 1) + '-' + (new Date().getFullYear())
     $scope.NamHoc = localStorage.getItem('NamHoc') ? localStorage.getItem('NamHoc') : NamHocIfNull;
+    $scope.Module = localStorage.getItem('Module') ? localStorage.getItem('Module') : 'TDG';
 
     var generateNamHoc = function () {
         $scope.ListNamHoc.push(NamHocIfNull);
@@ -47,7 +48,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             $scope.show = 0;
             return;
         }
-
+        
         var data = "grant_type=password&username=" + $scope.auth.username + "&password=" + $scope.auth.password;
         $scope.loading = 'loading ...';
         $http.post('/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
@@ -59,6 +60,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
                 $cookies.put('token', response.access_token);
 
                 localStorage.setItem('NamHoc', $scope.NamHoc);
+                localStorage.setItem('Module', $scope.Module);
 
                 toastr.success('Đăng nhập thành công !', 'Đăng nhập');
                 window.location.assign('/home.html');

@@ -1090,16 +1090,17 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
             $http.defaults.headers.common.Authorization = $cookies.get('token_type') + ' ' + $cookies.get('token')
         };
 
-
+        $rootScope.Module = localStorage.getItem('Module');
         // debugger
         $http({
             method: 'GET',
-            url: '/api/GetCurrentUserProfiles',
+            url: '/api/GetCurrentUserProfiles?module=' + $rootScope.Module,
 
         }).then(function successCallback(response) {
             //console.log(response.data)
             $rootScope.user = response.data;
             $rootScope.CurNamHoc = localStorage.getItem('NamHoc');
+            
 
             if ($rootScope.user.LockScreenTime == null) $rootScope.user.LockScreenTime = 10;
 
@@ -1114,23 +1115,25 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
                 }).then(function successCallback(response) {
                     $rootScope.CurDonVi = response.data;
 
-                    $http({
-                        method: 'GET',
-                        url: 'api/KeHoachTDG/LoadKeHoachTDGHienTai?IdDonVi=' + $rootScope.CurDonVi.Id
-                            + '&NamHoc=' + $rootScope.CurNamHoc,
-                    }).then(function successCallback(response) {
-                        $rootScope.KeHoachTDG = response.data;
-                        if (!$rootScope.KeHoachTDG)
-                            $rootScope.KeHoachTDG = {
-                                Id: 0,
-                                IdQuyDinhTC: 0
-                            }
-                        $cookies.put('IdKeHoachTDG', $rootScope.KeHoachTDG.Id);
-                        $rootScope.LoadThongBao();
-                        $rootScope.LoadMenu();
+                    if ($rootScope.Module == 'TDG') {
+                        $http({
+                            method: 'GET',
+                            url: 'api/KeHoachTDG/LoadKeHoachTDGHienTai?IdDonVi=' + $rootScope.CurDonVi.Id
+                                + '&NamHoc=' + $rootScope.CurNamHoc,
+                        }).then(function successCallback(response) {
+                            $rootScope.KeHoachTDG = response.data;
+                            if (!$rootScope.KeHoachTDG)
+                                $rootScope.KeHoachTDG = {
+                                    Id: 0,
+                                    IdQuyDinhTC: 0
+                                }
+                            $cookies.put('IdKeHoachTDG', $rootScope.KeHoachTDG.Id);
 
-                    }, function errorCallback(response) { });
-
+                        }, function errorCallback(response) { });
+                    }
+                    
+                    $rootScope.LoadThongBao();
+                    $rootScope.LoadMenu();
                 }, function errorCallback(response) {
                     ////console.log(response)
                 });
@@ -1156,8 +1159,10 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
             }, function errorCallback(response) {
 
             });
-        }, function errorCallback(response) {
-
+        },
+            function errorCallback(response) {
+                alert(response.data.Message);
+                window.location.href = "/login.html";
         });
 
 
@@ -1183,7 +1188,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
 
             $http({
                 method: 'POST',
-                url: '/api/getMenuByUser',
+                url: '/api/getMenuByUser?module=' + $rootScope.Module,
             }).then(function successCallback(response) {
                 $rootScope.menu = response.data;
 

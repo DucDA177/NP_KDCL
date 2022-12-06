@@ -11,7 +11,7 @@
         <div class="col-md-6" style="vertical-align: middle">
             <a ui-sref="dashboard">
                 <label style="color:black; font-size: 20px;font-weight: bold; margin-top:8px">
-                    &nbsp;&nbsp;{{CurDonVi.TenDonVi}} | Năm học {{CurNamHoc}}
+                    &nbsp;&nbsp;{{CurDonVi.TenDonVi}} <span ng-if="Module != 'DGN'">| Năm học {{CurNamHoc}}</span>
                 </label>
                 
             </a>

@@ -32,6 +32,20 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="control-label" style="color:black!important">Mô-đun</label>
+            <div class="input-icon">
+                <i class="fa fa-angle-double-down"></i>
+                <select ng-model="Module" class="form-control form-control-solid placeholder-no-fix form-group form_login">
+                    <option value="TDG">
+                        Tự đánh giá
+                    </option>
+                    <option value="DGN">
+                        Đánh giá ngoài
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group" ng-show="Module == 'TDG'">
             <label class="control-label" style="color:black!important">Năm học</label>
             <div class="input-icon">
                 <i class="fa fa-angle-double-down"></i>
@@ -43,7 +57,7 @@
             </div>
         </div>
         <div class="form-actions">
-            
+
             <button type="submit" id="loginBtn" ng-click="fnLogin()" class="btn btn-sm blue pull-right" data-style="contract">
                 Đăng nhập <i ng-hide="show==1" class="m-icon-swapright m-icon-white"></i>
                 <img width="20px" height="20px" ng-show="show==1" src="../../giphy.gif" />

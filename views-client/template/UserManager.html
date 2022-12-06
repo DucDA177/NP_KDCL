@@ -1,5 +1,9 @@
-﻿
-<div>
+﻿<div class="row" ng-if="!user.DaiDien && Module =='DGN'">
+    <div class="col-md-12">
+        <h4><b>Bạn không có quyền truy cập chức năng này!</b></h4>
+    </div>
+</div>
+<div ng-hide="!user.DaiDien && Module =='DGN'">
 
     <div class="col-md-12">
         <div class="portlet-title">
