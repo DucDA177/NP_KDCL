@@ -18,6 +18,7 @@ namespace WebApiCore.Controllers
 
             public int FLevel { get; set; }
             public int Id { get; set; }
+            public string Ma { get; set; }
             public string Ten { get; set; }
             public string Text { get; set; }
             public string LoaiDonVi { get; set; }
@@ -38,9 +39,7 @@ namespace WebApiCore.Controllers
         [Route("api/Base/GetThanhVienDGN")]
         public IHttpActionResult GetThanhVienDGN(string PhanLoai, int IdDonVi, int IdKeHoachTDG, int IdKeHoachDGN)
         {
-           // if (!string)
-            //{\
-            //
+           
             try{
                 string RoleKeHoach = "";
                 if (IdKeHoachDGN != 0)
@@ -48,28 +47,30 @@ namespace WebApiCore.Controllers
 
                     if (PhanLoai == "BAOCAOSOBO")
                     {
-                        var khDGN = db.tblKeHoachDGNs.Find(IdKeHoachDGN);
-                        RoleKeHoach = khDGN.NghienCuuHSDG;
+                       // var khDGN = db.tblKeHoachDGNs.Find(IdKeHoachDGN);
+                        RoleKeHoach = "BAOCAOSOBO";
 
                     }
                     if (PhanLoai == "BAOCAOTIEUCHI")
                     {
                         var phancong = db.tblPhanCongTCDGNs.Where(s => s.IdKeHoachDGN == IdKeHoachDGN).ToList();
                         RoleKeHoach = String.Join(@"""", phancong.Select(s => { return s.UserName; }).ToList());
-
                     }
                 }
-                var listUserByKHTDG = (from doan in db.tblDoanDGNs
-                                       join truongDGN in db.tblTruongDGNs on doan.Id equals truongDGN.IdDoanDGN
-                                       where truongDGN.IdKeHoachTDG == IdKeHoachTDG
-                                       select doan
-                                       ).FirstOrDefault();
-                string StringUserByKHTDG = listUserByKHTDG != null && !string.IsNullOrWhiteSpace(listUserByKHTDG.DSThanhVien)? listUserByKHTDG.DSThanhVien:"";
+                //var listUserByKHTDG = (from doan in db.tblDoanDGNs
+                //                       join truongDGN in db.tblTruongDGNs on doan.Id equals truongDGN.IdDoanDGN
+                //                       where truongDGN.IdKeHoachTDG == IdKeHoachTDG
+                //                       select doan
+                //                       ).FirstOrDefault();
+                //string StringUserByKHTDG = listUserByKHTDG != null && !string.IsNullOrWhiteSpace(listUserByKHTDG.DSThanhVien)? listUserByKHTDG.DSThanhVien:"";
+                
                 var userRole = (from us in db.UserProfiles
-                                where
-                                (string.IsNullOrEmpty(StringUserByKHTDG) || StringUserByKHTDG.Contains(@"""" + us.UserName + @""""))
-                                && (string.IsNullOrEmpty(RoleKeHoach) || RoleKeHoach.Contains(@"""" + us.UserName + @""""))
-                                select new { us });
+                                join tv in db.tblThanhVienDGNs on us.UserName equals tv.Username
+                                join  truongDGN in db.tblTruongDGNs on tv.IdTruongDGN equals truongDGN.Id
+                                where truongDGN.IdKeHoachTDG == IdKeHoachTDG
+                               // (string.IsNullOrEmpty(StringUserByKHTDG) || StringUserByKHTDG.Contains(@"""" + us.UserName + @""""))
+                                && (string.IsNullOrEmpty(RoleKeHoach)||tv.TruongDoan==true||(RoleKeHoach == "BAOCAOSOBO" && tv.UyVien==true) || RoleKeHoach.Contains(@"""" + us.UserName + @""""))
+                                select new { us,tv }).OrderByDescending(s=>s.tv.TruongDoan);
                 return Ok(userRole);
             }
             catch(Exception ex)
@@ -130,20 +131,21 @@ namespace WebApiCore.Controllers
             {
                 return Ok(rs);
             }
-            //var Truong_User = (from user in db.tblThanhVienDGNs
-            //                   join truongDGN in db.tblTruongDGNs on user.IdTruongDGN equals truongDGN.Id
-            //                   where user.Username == HttpContext.Current.User.Identity.Name && truongDGN.FInUse == true
-            //                   select truongDGN).ToList();
-            var Truong_User = (from doan in db.tblDoanDGNs
-                               join truongDGN in db.tblTruongDGNs on doan.Id equals truongDGN.IdDoanDGN
-                               where doan.DSThanhVien.Contains(@"""" + HttpContext.Current.User.Identity.Name + @"""") && truongDGN.FInUse == true
-                               select truongDGN).ToList().Select(s => { return s.IdTruong; });//.Select(s => { return s.IdTruong; });
+            var Truong_User = (from user in db.tblThanhVienDGNs
+                               join truongDGN in db.tblTruongDGNs on user.IdTruongDGN equals truongDGN.Id
+                               where user.Username == HttpContext.Current.User.Identity.Name && user.FInUse==true && truongDGN.FInUse == true
+                               select truongDGN).ToList().Select(s => { return s.IdTruong; });
+            //var Truong_User = (from doan in db.tblDoanDGNs
+            //                   join truongDGN in db.tblTruongDGNs on doan.Id equals truongDGN.IdDoanDGN
+            //                   where doan.DSThanhVien.Contains(@"""" + HttpContext.Current.User.Identity.Name + @"""") && truongDGN.FInUse == true
+            //                   select truongDGN).ToList().Select(s => { return s.IdTruong; });//.Select(s => { return s.IdTruong; });
             var DVSo = db.DMDonVis.FirstOrDefault(s => s.LoaiDonVi == "SO");
             ArrayList DonViList = new ArrayList();
             Stack sTree = new Stack();
             itemTreeText item = new itemTreeText()
             {
                 Id = DVSo.Id,
+                Ma = DVSo.MaDonVi,
                 Ten = DVSo.TenDonVi,
                 FLevel = 0,
                 index = 1,
@@ -162,7 +164,9 @@ namespace WebApiCore.Controllers
                 {
                     Id = tmp.Id,
                     code = tmp.Id,
+                    TenDonViGoc = tmp.Ten,
                     TenDonVi = Text + " " + tmp.Ten,
+                    MaDonVi =  tmp.Ma,
                     LoaiDonVi = tmp.LoaiDonVi,
                 };
                 DonViList.Add(o);
@@ -178,6 +182,7 @@ namespace WebApiCore.Controllers
                         index = i + 1,
                         Text = Text,
                         LoaiDonVi = orgs[i].LoaiDonVi,
+                        Ma = orgs[i].MaDonVi,
                     };
                     sTree.Push(itemO);
                 }

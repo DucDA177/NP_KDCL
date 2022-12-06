@@ -116,8 +116,17 @@ namespace WebApiCore.Controllers
         public IHttpActionResult GetByIdKeHoach(int IdKeHoach)
         {
             try {
-                var khDGN = db.tblKeHoachDGNs.FirstOrDefault(s => s.Id == IdKeHoach);// s.Username == HttpContext.Current.User.Identity.Name);
-                bool isBaoCao = khDGN != null && khDGN.NghienCuuHSDG != null ? khDGN.NghienCuuHSDG.Contains(@""""+HttpContext.Current.User.Identity.Name+@"""") : false;
+                //var khDGN = db.tblKeHoachDGNs.FirstOrDefault(s => s.Id == IdKeHoach);// s.Username == HttpContext.Current.User.Identity.Name);
+                //bool isBaoCao = khDGN != null && khDGN.NghienCuuHSDG != null ? khDGN.NghienCuuHSDG.Contains(@""""+HttpContext.Current.User.Identity.Name+@"""") : false;
+
+                var tvDGN = (from kh in db.tblKeHoachDGNs
+                             join truongDGN in db.tblTruongDGNs on kh.IdKeHoachTDG equals truongDGN.IdKeHoachTDG
+                             join tv in db.tblThanhVienDGNs on truongDGN.Id equals tv.IdTruongDGN
+                             where kh.Id == IdKeHoach && tv.Username == HttpContext.Current.User.Identity.Name
+                             select tv
+                            ).FirstOrDefault();
+                bool isBaoCao = tvDGN != null? tvDGN.TruongDoan==true|| tvDGN.UyVien==true:false;
+
                 var data = (from bc in db.tblBaoCaoSoBoDGNs
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName

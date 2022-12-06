@@ -44,52 +44,53 @@
                                         Mục đích
                                     </a>
                                 </li>
+
                                 <li>
-                                    <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
-                                        Nội dung nghiên cứu
+                                    <a data-target="#tab_2_0" data-toggle="tab" aria-expanded="true">
+                                        Phân công chức vụ trong đoàn
                                     </a>
                                 </li>
-                                <li>
+
+                                 <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
                                         Phân công đánh giá tiêu chí
                                     </a>
                                 </li>
-                                <li>
+                                <li ng-show="checkPhanCong()">
+                                    <a data-target="#tab_3" data-toggle="tab" aria-expanded="true">
+                                        Nội dung nghiên cứu
+                                    </a>
+                                </li>
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
                                         Nội dung khảo sát sơ bộ
                                     </a>
                                 </li>
-                                <!--<li>
-                                    <a data-target="#tab_4" data-toggle="tab" aria-expanded="true">
-                                        Nội dung khảo sát chính thức tại cơ sở giáo dục phổ thông
-                                    </a>
-                                </li>-->
-
-                                <li>
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_5" data-toggle="tab" aria-expanded="true">
                                         Nội dung khảo sát chính thức
                                     </a>
                                 </li>
 
-                                <li>
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_6" data-toggle="tab" aria-expanded="true">
                                         Nội dung dự thảo báo cáo
                                     </a>
                                 </li>
 
-                                <li>
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_7" data-toggle="tab" aria-expanded="true">
                                         Nội dung lấy ý kiến phản hồi về dự thảo báo cáo
                                     </a>
                                 </li>
 
-                                <li>
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_8" data-toggle="tab" aria-expanded="true">
                                         Nội dung hoàn thiện báo cáo
                                     </a>
                                 </li>
 
-                                <li>
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_9" data-toggle="tab" aria-expanded="true">
                                         Tổ chức thực hiện
                                     </a>
@@ -104,8 +105,8 @@
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
                                                 <!--<div class="text-center">
-                                                    <h3>Mục đích</h3>
-                                                </div>-->
+                        <h3>Mục đích</h3>
+                    </div>-->
                                                 <div class="row">
 
                                                     <ng-ckeditor ng-model="item.MucDich"
@@ -117,6 +118,91 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane fade " id="tab_2_0">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="1%" style="text-align:center;vertical-align:middle">STT</th>
+                                                            <th style="text-align:center;vertical-align:middle">Thành viên</th>
+                                                            <th style="text-align:center;vertical-align:middle">Trưởng đoàn</th>
+                                                            <th style="text-align:center;vertical-align:middle">Ủy viên</th>
+                                                            <th style="text-align:center;vertical-align:middle">Thư ký</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="u in ThanhVienDGNs">
+                                                            <td align="center">{{$index+1}}</td>
+                                                            <td>{{u.us.HoTen}}</td>
+                                                            <td width="1%" align="center"><span ng-if="u.tv.TruongDoan"><i class="fa fa-check"></i></span></td>
+                                                            <td width="1%" align="center"><input  ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox"ng-model="u.tv.UyVien" /></td>
+                                                            <td width="1%" align="center"><input  ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox"ng-model="u.tv.ThuKy" /></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <div class="tab-pane fade " id="tab_2">
+                                    <div class="row">
+                                        <div class="portlet light " style="margin-bottom:0">
+                                            <div class="form-body form-horizontal">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">Thành viên</span>
+                                                            <select class="form-control select2 input-sm" ng-model="filterPCTieuChi.UserName">
+                                                                <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div ng-if="filterPCTieuChi.UserName!=null" class="row">
+                                                    <div class="col-md-12">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
+                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
+                                                                    <th style="text-align:center;vertical-align:middle">#</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="x in ListTieuChuanTieuChis">
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <span ng-if="x.IdTieuChuan==null"><b> {{x.ThuTu}}</b></span>
+                                                                        <span ng-if="x.IdTieuChuan!=null"> {{(ListTieuChuanTieuChis | filter:{'Id':x.IdTieuChuan})[0].ThuTu}}.{{x.ThuTu}}</span>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span ng-if="x.IdTieuChuan==null"><b>{{x.NoiDung}}</b></span>
+                                                                        <span ng-if="x.IdTieuChuan!=null">{{x.NoiDung}}</span>
+                                                                    </td>
+
+                                                                    <td width="1%" align="center" style="vertical-align:middle">
+                                                                        <input ng-if="x.IdTieuChuan==null" type="checkbox" ng-click="CheckView(item,'EDITKHDGN')&&onCheck(x,'TIEUCHUAN','CLICK')" ng-model="onCheck(x,'TIEUCHUAN','MODEL')" ng-model-options=" {getterSetter: true }" />
+                                                                        <input ng-if="x.IdTieuChuan!=null" type="checkbox" ng-click="CheckView(item,'EDITKHDGN')&&onCheck(x,'TIEUCHI','CLICK')" ng-model="onCheck(x,'TIEUCHI','MODEL')" ng-model-options=" {getterSetter: true }" />
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
+                                     ng-config="config"></ng-ckeditor>-->
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="tab-pane fade " id="tab_3">
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
@@ -170,63 +256,7 @@
                                                         </table>
                                                     </div>
                                                     <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
-                                                                 ng-config="config"></ng-ckeditor>-->
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade " id="tab_2">
-                                    <div class="row">
-                                        <div class="portlet light " style="margin-bottom:0">
-                                            <div class="form-body form-horizontal">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon">Thành viên</span>
-                                                            <select class="form-control select2 input-sm" ng-model="filterPCTieuChi.UserName">
-                                                                <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                                <br />
-                                                <div ng-if="filterPCTieuChi.UserName!=null" class="row">
-                                                    <div class="col-md-12">
-                                                        <table class="table table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th style="text-align:center;vertical-align:middle">STT</th>
-                                                                    <th style="text-align:center;vertical-align:middle">Nội dung</th>
-                                                                    <th style="text-align:center;vertical-align:middle">#</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr ng-repeat="x in ListTieuChuanTieuChis">
-                                                                    <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <span ng-if="x.IdTieuChuan==null"><b> {{x.ThuTu}}</b></span>
-                                                                        <span ng-if="x.IdTieuChuan!=null"> {{(ListTieuChuanTieuChis | filter:{'Id':x.IdTieuChuan})[0].ThuTu}}.{{x.ThuTu}}</span>
-                                                                       
-                                                                    </td>
-
-                                                                    <td>
-                                                                        <span ng-if="x.IdTieuChuan==null"><b>{{x.NoiDung}}</b></span>
-                                                                        <span ng-if="x.IdTieuChuan!=null">{{x.NoiDung}}</span>
-                                                                    </td>
-
-                                                                    <td width="1%" align="center" style="vertical-align:middle">
-                                                                        <input ng-if="x.IdTieuChuan==null" type="checkbox" ng-click="CheckView(item,'EDITKHDGN')&&onCheck(x,'TIEUCHUAN','CLICK')" ng-model="onCheck(x,'TIEUCHUAN','MODEL')"  ng-model-options=" {getterSetter: true }" />
-                                                                        <input ng-if="x.IdTieuChuan!=null" type="checkbox"ng-click="CheckView(item,'EDITKHDGN')&&onCheck(x,'TIEUCHI','CLICK')" ng-model="onCheck(x,'TIEUCHI','MODEL')"  ng-model-options=" {getterSetter: true }"/>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
-                                                                 ng-config="config"></ng-ckeditor>-->
+                                     ng-config="config"></ng-ckeditor>-->
 
                                                 </div>
 
@@ -480,7 +510,7 @@
                                                 <br />
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <table class="table table-bordered" >
+                                                        <table class="table table-bordered">
                                                             <thead>
                                                                 <tr>
                                                                     <th style="text-align:center;vertical-align:middle">STT</th>

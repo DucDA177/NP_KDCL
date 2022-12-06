@@ -45,13 +45,13 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                    from khdgn in tmpKHTDG.DefaultIfEmpty()
                                    join truongDGN in db.tblTruongDGNs on khtdg.Id equals truongDGN.IdKeHoachTDG into tmpTruongDGN
                                    from truongDGN in tmpTruongDGN.DefaultIfEmpty()
-                                   join tv in db.tblThanhVienDGNs on new { truongDGN.Id, UserName = HttpContext.Current.User.Identity.Name,TruongDoan=true } equals new { Id = tv.IdTruongDGN, UserName = tv.Username, TruongDoan=tv.TruongDoan.Value } into tmpTvDGN
-                                //   join tv in db.tblThanhVienDGNs on truongDGN.Id equals tv.IdTruongDGN into tmpTvDGN
+                                   join tv in db.tblThanhVienDGNs on new { truongDGN.Id, UserName = HttpContext.Current.User.Identity.Name } equals new { Id = tv.IdTruongDGN, UserName = tv.Username } into tmpTvDGN
+                                   //   join tv in db.tblThanhVienDGNs on truongDGN.Id equals tv.IdTruongDGN into tmpTvDGN
                                    from tv in tmpTvDGN.DefaultIfEmpty()
-                                    join doan in db.tblDoanDGNs on truongDGN.IdDoanDGN equals doan.Id into tmpDoanDGN
+                                   join doan in db.tblDoanDGNs on truongDGN.IdDoanDGN equals doan.Id into tmpDoanDGN
                                    from doan in tmpDoanDGN.DefaultIfEmpty()
                                    join dv in db.DMDonVis on khtdg.IdDonVi equals dv.Id
-                                   where khtdg.ChuyenKeHoach == true
+                                   where khtdg.ChuyenKeHoach == true && khtdg.TrangThai == "DTH" 
                                    select //kh
                                    new KeHoachDGNModel
                                    {
@@ -80,10 +80,10 @@ namespace WebApiCore.Controllers.KeHoachDGN
                                        DonViName = dv.TenDonVi,
                                        KeHoachTDGName = khtdg.NoiDung,
                                        IdTruongDGN = truongDGN.Id,
-                                       IsThanhVien = doan != null ? doan.DSThanhVien.Contains(@""""+ HttpContext.Current.User.Identity.Name + @"""") : false,
-                                       TruongDoan= tv != null?tv.TruongDoan:false,
-                                       //ThuKy= tv != null?tv.ThuKy : false,
-                                    //   UyVien= tv != null?tv.UyVien : false,
+                                       IsThanhVien = tv != null ,
+                                       TruongDoan = tv != null ? tv.TruongDoan : false,
+                                       ThuKy = tv != null ? tv.ThuKy : false,
+                                       UyVien = tv != null ? tv.UyVien : false,
                                    }
                                    );//.ToList();
                 if (filter.IdKeHoach.HasValue)
@@ -110,7 +110,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
                 {
                     listKeHoach = listKeHoach.Where(s => s.IsThanhVien == filter.IsThanhVien);
                 }
-               if (filter.TruongDoan.HasValue)
+                if (filter.TruongDoan.HasValue)
                 {
                     listKeHoach = listKeHoach.Where(s => s.TruongDoan == filter.TruongDoan.Value);
                 }
@@ -166,14 +166,20 @@ namespace WebApiCore.Controllers.KeHoachDGN
 
                 if (type == "KHDGN_MYTC")
                 {
-                    var hoidongTC = (from  tchd in db.tblPhanCongTCDGNs 
+                    var truongdoan = (from tv in db.tblThanhVienDGNs
+                                      join kh_dgn in db.tblKeHoachDGNs on tv.IdTruongDGN equals kh_dgn.IdTruongDGN
+                                      where kh_dgn.Id == IdKeHoach && tv.TruongDoan==true
+                                      select tv).FirstOrDefault();
+                    string UserNameTruongDoan = truongdoan == null ? "" : truongdoan.Username;
+                    //if(truongdoan!=null)
+                    var hoidongTC = (from tchd in db.tblPhanCongTCDGNs
                                      where tchd.IdKeHoachDGN == IdKeHoach && tchd.UserName == HttpContext.Current.User.Identity.Name
                                      select new { tchd }
                                    ).ToList().Select(s => { return s.tchd.IdTieuChi; });
                     var listTCTC = from tchuan in db.DMTieuChuans
                                    join tchi in db.DMTieuChis on tchuan.Id equals tchi.IdTieuChuan
                                    where tchuan.IdQuyDinh == KH_TDG.IdQuyDinhTC && tchuan.NhomLoai.Contains(DonVi.NhomLoai) && tchuan.YCDanhGia == true
-                                   && hoidongTC.Any(x => x == tchi.Id)
+                                   && (hoidongTC.Any(x => x == tchi.Id) || (UserNameTruongDoan == HttpContext.Current.User.Identity.Name))
                                    select new { tchi, tchuan };
                     var result = listTCTC.OrderBy(s => s.tchuan.STT).ToList().GroupBy(t => t.tchuan)
                     .Select(t => new
@@ -234,7 +240,7 @@ namespace WebApiCore.Controllers.KeHoachDGN
             {
                 foreach (var phancong in data.ListPhanCongTCDGN)
                 {
-                    phancong.IdKeHoachDGN=data.Id;
+                    phancong.IdKeHoachDGN = data.Id;
                     if (phancong.Id == null || phancong.Id == 0)
                     {
                         db.tblPhanCongTCDGNs.Add(phancong);
@@ -245,6 +251,22 @@ namespace WebApiCore.Controllers.KeHoachDGN
                         db.Entry(phancong).State = EntityState.Modified;
                         db.SaveChanges();
                     }
+                }
+            }
+           if (data.ListThanhVien != null && data.ListThanhVien.Count() > 0)
+            {
+                foreach (var tv in data.ListThanhVien)
+                {
+                    if ( tv.Id!= 0)
+                    {
+                        db.Entry(tv).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    //else
+                    //{
+                    //    db.Entry(tv).State = EntityState.Modified;
+                    //    db.SaveChanges();
+                    //}
                 }
             }
             return Ok(data);
@@ -271,5 +293,6 @@ namespace WebApiCore.Models
     public partial class tblKeHoachDGN
     {
         public List<tblPhanCongTCDGN> ListPhanCongTCDGN { get; set; }
+        public List<tblThanhVienDGN> ListThanhVien { get; set; }
     }
 }

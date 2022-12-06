@@ -33,6 +33,7 @@
                 PhanLoaiDanhGia: 'TIEUCHI'
             }
             $scope.ListPhieuTCTCKHTDG = []
+            $scope.IsBaoCao = null
         }
         //Load hoi dong
         $scope.LoadThanhVienDGN = function (objParams) {
@@ -240,6 +241,11 @@
                 }
             }).then(function successCallback(response) {
                 $scope.item = response.data
+                if (!response.data.IsBaoCao) {
+                    $scope.IsBaoCao = false
+                    return;
+                }
+                $scope.IsBaoCao = true
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT') 
                 $scope.item.KQDatMuc = $scope.item.KQDatMuc+''
                 if ($scope.item.KQChiBao != null) {

@@ -12,6 +12,7 @@
         $scope.item = {}
         $scope.KeHoachDGN = []
         $scope.ItemKeHoachDGN = {}
+        $scope.IsBaoCao = null
         if ($scope.filterKeHoachDGN.IdTruong == null)
             return
         $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
@@ -22,9 +23,12 @@
                 $http.get("api/BaoCaoSoBo/GetByIdKeHoach?IdKeHoach=" + $scope.ItemKeHoachDGN.Id).then(function (rs) {
                     if (rs.data != null) {
                         if (!rs.data.IsBaoCao) {
-                            confirm("Bạn không được phân quyền viết báo cáo sơ bộ!")
+                            $scope.IsBaoCao = false
+                           // confirm("Bạn không được phân quyền viết báo cáo sơ bộ!")
                             return;
                         }
+                        $scope.IsBaoCao = true
+
                         $scope.item = rs.data
 
                         $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
@@ -117,6 +121,7 @@
                     confirm("Bạn không được phân quyền viết báo cáo sơ bộ!")
                     return;
                 }
+               
                 $scope.item = rs.data
 
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')

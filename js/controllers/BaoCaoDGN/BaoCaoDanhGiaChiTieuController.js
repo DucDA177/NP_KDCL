@@ -34,6 +34,7 @@
             $scope.filterPhieuDG = {
                 // PhanLoaiDanhGia: 'TIEUCHI'
             }
+            $scope.IsBaoCao =null
         }
         //Filter danh sach ke hoach ngoai
         $scope.onChangeKeHoach = function (Id) {
@@ -88,6 +89,12 @@
             }
             $http.get("api/KeHoachDGN/GetTCTC", configGetTCTC).then(function (rs) {
                 $scope.item = {}
+                if (rs.data == null || rs.data == '' || rs.data.length==0) {
+                    $scope.IsBaoCao = false
+                    // confirm("Bạn không được phân quyền viết báo cáo sơ bộ!")
+                    return;
+                }
+                $scope.IsBaoCao = true
                 $scope.TieuChuanTieuChis = rs.data
                 $scope.TieuChuans = rs.data.map(s => { return s.tchuan })
 

@@ -78,8 +78,8 @@ WebApiApp.factory('$settings', ['$rootScope', function ($rootScope) {
     return $settings;
 }]);
 
-WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '$http', '$uibModal', '$cookies', '$state', '$uibModalStack'
-    , function ($stateParams, $scope, $rootScope, $http, $uibModal, $cookies, $state, $uibModalStack) {
+WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '$http', '$uibModal', '$cookies', '$state', '$uibModalStack', '$location','$window'
+    , function ($stateParams, $scope, $rootScope, $http, $uibModal, $cookies, $state, $uibModalStack, $location,$window) {
 
         $scope.NhomLoai = [
             { Code: 'MN', Name: 'Mầm non(MN)' },
@@ -655,7 +655,18 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         };
 
-
+        $scope.RenderThanhVien = function (tv) {
+            if (tv == null) return '';
+            let arChucVu=[]
+            if (tv.tv.TruongDoan) arChucVu.push('Trưởng đoàn')
+            if (tv.tv.ThuKy) arChucVu.push('Thư ký')
+            if (tv.tv.UyVien) arChucVu.push('Ủy viên')
+            return tv.us.HoTen+( arChucVu.length == 0 ? '':' - '+ arChucVu.join('; '))
+        }
+        $scope.hostName = $location.protocol() + "://" + ($location.host() == "localhost" || $location.host() == "127.0.0.1" ? $location.host() + ':' + $location.port() : $location.host());
+        $scope.ViewBaoCaoTDG = function (MaDonVi) {
+            $window.open( $scope.hostName + "/kqdg.html?" + MaDonVi, '_blank');
+        }
         $scope.LockScreen = function () {
             if ($rootScope.IsLockScreen) return;
             var templateUrl = 'views-client/template/Modal/ModalLockScreen.html?bust=' + Math.random().toString(36).slice(2);

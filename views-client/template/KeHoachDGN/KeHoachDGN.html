@@ -11,7 +11,7 @@
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon">Đơn vị</span>
-                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
+                            <select class="form-control select2 filter-select input-sm " ng-model="filterKeHoachDGN.IdTruong" ng-change="onSearchKeHoachDGN()">
                                 <option ng-repeat="dv in DonVis"
                                         ng-disabled="dv.LoaiDonVi != 'TRUONG'"
                                         value="{{dv.Id}}">
@@ -33,7 +33,7 @@
                     <div class="col-md-3">
                         <div class="input-group">
                             <span class="input-group-addon">Trạng thái</span>
-                            <select class="form-control select2 filter-select " ng-model="filterKeHoachDGN.TrangThai" ng-change="onSearchKeHoachDGN()">
+                            <select class="form-control select2 filter-select input-sm" ng-model="filterKeHoachDGN.TrangThai" ng-change="onSearchKeHoachDGN()">
                                 <option ng-repeat="tt in TrangThaiKHDGNs" value="{{tt.FCode}}">{{tt.FName}}</option>
                             </select>
                         </div>
@@ -67,11 +67,15 @@
                                     <tr class="odd gradeX" ng-repeat="dm in KeHoachDGN">
                                         <td align="center" width="1px"> {{$index + 1}} </td>
                                         <td>  <a ng-click="OpenDetailKeHoachTDG(dm,'KeHoachDGN')"> {{dm.KeHoachTDGName}}</a> </td>
-                                        <td>  <a ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')"> {{dm.NoiDung}}</a> </td>
+                                        <td>
+                                            <a ng-if="(dm.Id!=null&& dm.Id!=0)" ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')"> {{dm.NoiDung}}</a>
+                                            <a ng-if="(dm.Id==null|| dm.Id==0)&&CheckView(dm,'EDITKHDGN')" tooltip ng-click="OpenModalKeHoachDGN(dm,'KeHoachDGN')" title="Tạo kế hoạch đánh giá ngoài">Chưa có kế hoạch! Chọn để tạo kế hoạch đánh giá ngoài &nbsp;<i class="fa fa-plus-circle"></i></a>
+
+                                        </td>
                                         <td> {{dm.DonViName}} </td>
 
                                         <td align="center">
-                                            <span ng-repeat="tt in TrangThaiKHDGNs | filter : {FCode : dm.TrangThai}"> {{tt.FName}}</span>
+                                            <span  ng-if="(dm.Id!=null&& dm.Id!=0)&&CheckView(dm,'EDITKHDGN')" ng-repeat="tt in TrangThaiKHDGNs | filter : {FCode : dm.TrangThai}"> {{tt.FName}}</span>
                                         </td>
                                         <td>
                                             <a tooltip title="In kế hoạch đánh giá ngoài" ng-click="InDanhGia(dm);">

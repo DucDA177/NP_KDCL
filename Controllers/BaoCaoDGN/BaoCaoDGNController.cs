@@ -133,11 +133,16 @@ namespace WebApiCore.Controllers
         {
             try
             {
-                var khDGN = db.tblKeHoachDGNs.Find(IdKeHoach);//.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
-                bool isBaoCao = khDGN != null && khDGN.HoanThienBaoCao != null ? khDGN.HoanThienBaoCao.Contains(@"""" + HttpContext.Current.User.Identity.Name + @"""") : false;
+              //  var khDGN = db.tblKeHoachDGNs.Find(IdKeHoach);//.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
+              //  bool isBaoCao = khDGN != null && khDGN.HoanThienBaoCao != null ? khDGN.HoanThienBaoCao.Contains(@"""" + HttpContext.Current.User.Identity.Name + @"""") : false;
 
-                //var hd = db.tblHoiDongDGNs.FirstOrDefault(s => s.Username == HttpContext.Current.User.Identity.Name);
-                //bool isBaoCao = hd != null ? hd.ThuKy.HasValue ? hd.ThuKy.Value : false : false;
+                var tvDGN = (from kh in db.tblKeHoachDGNs
+                             join truongDGN in db.tblTruongDGNs on kh.IdKeHoachTDG equals truongDGN.IdKeHoachTDG
+                             join tv in db.tblThanhVienDGNs on truongDGN.Id equals tv.IdTruongDGN
+                             where kh.Id == IdKeHoach && tv.Username == HttpContext.Current.User.Identity.Name
+                             select new { tv,kh }
+                           ).FirstOrDefault();
+                bool isBaoCao = tvDGN != null ? tvDGN.tv.TruongDoan == true ||(!string.IsNullOrWhiteSpace(tvDGN.kh.HoanThienBaoCao)&& tvDGN.kh.HoanThienBaoCao.Contains(@"""" + HttpContext.Current.User.Identity.Name + @"""")) : false;
                 var data = (from bc in db.tblBaoCaoDanhGia_KHDGN
                             join khdgn in db.tblKeHoachDGNs on bc.IdKeHoachDGN equals khdgn.Id
                             join us in db.UserProfiles on bc.CreatedBy equals us.UserName
