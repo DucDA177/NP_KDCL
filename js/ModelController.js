@@ -2956,3 +2956,38 @@ angular.module('WebApiApp').controller("ModalAddThanhVienDGNHandlerController", 
             $rootScope.DSThanhVienDGN = $rootScope.DSThanhVienDGN.filter(x => x.Username != user.Username)
     }
 });
+
+//In kết quả nghiên cứu đánh giá ngoài
+angular.module('WebApiApp').controller("ModalInKetQuaNghienCuuDGNHandlerController", function ($rootScope, $scope, $http, $uibModalInstance) {
+    $scope.item = $scope.$resolve.item;
+    $scope.type = $scope.$resolve.type;
+    $scope.check = $scope.$resolve.check;
+
+    $scope.cancelModal = function () {
+        $uibModalInstance.dismiss('close');
+    }
+    $scope.currentDate = new Date();
+
+    $scope.LoadBaoCao = function () {
+
+        $http({
+            method: 'GET',
+            url: 'api/KetQuaNghienCuuDGN/LoadBaoCao?IdDonVi=' + $rootScope.CurDonVi.Id
+                + '&IdKeHoachDGN=' + $scope.item.IdKeHoachDGN
+        }).then(function successCallback(response) {
+
+            $scope.BaoCao = response.data.BaoCao;
+            $scope.Truong = response.data.Truong;
+            $scope.TieuChis = response.data.TieuChis;
+            $scope.TieuChiKiemTra = $scope.TieuChis.filter(x => x.MCKiemTra);
+            $scope.TieuChiBoSung = $scope.TieuChis.filter(x => x.MCBoSung);
+            $scope.TieuChiPhongVan = $scope.TieuChis.filter(x => x.DoiTuongPV || x.SoLuong || x.NoiDungPV);
+
+        }, function errorCallback(response) {
+            toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+        });
+    }();
+
+
+
+});

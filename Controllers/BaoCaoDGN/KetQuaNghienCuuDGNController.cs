@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebApiCore.Controllers.KeHoachTDG;
 using WebApiCore.Controllers.ThongTinTDG;
 using WebApiCore.Models;
 using static WebApiCore.Controllers.KeHoachDGN.HoiDongDGNController;
@@ -115,6 +116,39 @@ namespace WebApiCore.Controllers.BaoCaoDGN
 
             return Ok(data);
 
+        }
+
+        [HttpGet]
+        [Route("api/KetQuaNghienCuuDGN/LoadBaoCao")]
+        public IHttpActionResult LoadBaoCao(int IdDonVi, int IdKeHoachDGN)
+        {
+            var khDGN = db.tblKeHoachDGNs.Find(IdKeHoachDGN);
+
+            var BaoCao = db.tblKetQuaNghienCuuDGNs.Where(x => x.IdDonVi == IdDonVi && x.IdKeHoachDGN == IdKeHoachDGN).FirstOrDefault();
+            var Truong = db.DMDonVis.Find(khDGN.IdTruong.Value);
+            var TieuChis = (from kqtc in db.tblKQNghienCuuTieuChiDGNs
+                            join tchi in db.DMTieuChis
+                            on kqtc.IdTieuChi equals tchi.Id
+                            join tchuan in db.DMTieuChuans
+                            on tchi.IdTieuChuan equals tchuan.Id
+                            where kqtc.IdDonVi == IdDonVi && kqtc.IdKeHoachDGN == IdKeHoachDGN
+                            select new
+                            {
+                                tchuan = tchuan.ThuTu,
+                                tchi = tchi.ThuTu,
+                                kqtc.ChuaDG,
+                                kqtc.ChuaDGDung,
+                                kqtc.ChuaDGDayDu,
+                                MCKiemTra = kqtc.MCKiemTra.Replace("[","").Replace("]","").Replace(",","; ").Replace("\"", ""),
+                                MCBoSung = kqtc.MCBoSung.Replace("[", "").Replace("]", "").Replace(",", "; ").Replace("\"", ""),
+                                kqtc.DoiTuongPV,
+                                kqtc.SoLuong,
+                                kqtc.NoiDungPV,
+                                kqtc.GhiChu
+                            }).OrderBy(x => x.tchuan).ThenBy(x => x.tchi);
+
+
+            return Ok(new { BaoCao, Truong, TieuChis });
         }
     }
 }

@@ -1,0 +1,144 @@
+﻿<div class="modal-header bg-color" style="background-color:#ccc">
+    <div class="modal-title">
+        <a title="Đóng" style="opacity:1 !important" ng-click="cancelModal()" class="close" aria-hidden="true"> </a>
+
+        <h4> <label class=" uppercase font-white"><i class="fa fa-list"></i> BIÊN BẢN KHẢO SÁT SƠ BỘ</label></h4>
+
+    </div>
+</div>
+<div class="modal-body form">
+    <div class="form-body form-horizontal">
+        <div class="row" style="max-height:550px;overflow-y:scroll" id="PrintDiv">
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td style="text-align:center" width="55%" class="td-no-border">
+                            <p style="text-transform:uppercase">{{CurDonVi.TenDonVi}}</p>
+                            <p><strong>ĐOÀN ĐÁNH GIÁ NGOÀI</strong></p>
+                            <p style="text-transform:uppercase"><strong>{{Truong.TenDonVi}}</strong></p>
+                        </td>
+                        <td style="text-align:center" width="45%" class="td-no-border">
+                            <p><strong>CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong></p>
+                            <p>
+                                <strong>Độc lập - Tự do - Hạnh phúc</strong>
+                                <strong>
+                                    <br>
+                                </strong>
+                                <strong>----------------</strong>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" class="td-no-border"></td>
+                        <td width="50%" class="td-no-border"><p style="text-align:right"><em>............, {{currentDate | date: "'ngày' dd 'tháng' MM 'năm' yyyy"}}</em></p></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 style="text-align:center">BÁO CÁO <br /> KẾT QUẢ NGHIÊN CỨU HỒ SƠ ĐÁNH GIÁ</h3>
+            <p><strong>1. Nhận xét về trình bày, cấu trúc, chính tả, ngữ pháp</strong></p>
+            <p ng-bind-html="BaoCao.TrinhBay"></p>
+            <p><strong>2. Nhận xét về nội dung</strong></p>
+            <p ng-bind-html="BaoCao.NoiDung"></p>
+            <p><strong>3. Các tiêu chí chưa đánh giá, chưa đánh giá đúng, chưa đánh giá đầy đủ</strong></p>
+            <p>
+                a) Tiêu chí chưa đánh giá: <span ng-repeat="tc in TieuChis | filter:{'ChuaDG': true}">Tiêu chí {{tc.tchuan}}.{{tc.tchi}}; </span>
+            </p>
+            <p>
+                b) Tiêu chí chưa đánh giá đúng: <span ng-repeat="tc in TieuChis | filter:{'ChuaDGDung': true}">Tiêu chí {{tc.tchuan}}.{{tc.tchi}}; </span>
+            </p>
+            <p>
+                c) Tiêu chí chưa đánh giá đầy đủ: <span ng-repeat="tc in TieuChis | filter:{'ChuaDGDayDu': true}">Tiêu chí {{tc.tchuan}}.{{tc.tchi}}; </span>
+            </p>
+            <p><strong>4. Danh sách các tiêu chí cần kiểm tra minh chứng</strong></p>
+            <p>
+                <table style="width:100%" border="1">
+                    <tbody>
+                        <tr>
+                            <td align="center">TT</td>
+                            <td align="center">Tiêu chuẩn</td>
+                            <td align="center">Tiêu chí</td>
+                            <td align="center">Mã minh chứng</td>
+                        </tr>
+                        <tr ng-repeat="tc in TieuChiKiemTra">
+                            <td>{{$index +1}}</td>
+                            <td>Tiêu chuẩn {{tc.tchuan}}</td>
+                            <td>Tiêu chí {{tc.tchi}}</td>
+                            <td>{{tc.MCKiemTra}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+            <p><strong>5. Danh sách các tiêu chí cần bổ sung minh chứng</strong></p>
+            <p>
+                <table style="width:100%" border="1">
+                    <tbody>
+                        <tr>
+                            <td align="center">TT</td>
+                            <td align="center">Tiêu chuẩn</td>
+                            <td align="center">Tiêu chí</td>
+                            <td align="center">Mã minh chứng</td>
+                        </tr>
+                        <tr ng-repeat="tc in TieuChiBoSung">
+                            <td>{{$index +1}}</td>
+                            <td>Tiêu chuẩn {{tc.tchuan}}</td>
+                            <td>Tiêu chí {{tc.tchi}}</td>
+                            <td>{{tc.MCBoSung}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+            <p><strong>6. Đối tượng và nội dung phỏng vấn</strong></p>
+            <p>
+                <table style="width:100%" border="1">
+                    <tbody>
+                        <tr>
+                            <td align="center">TT</td>
+                            <td align="center">Tiêu chuẩn</td>
+                            <td align="center">Tiêu chí</td>
+                            <td align="center">Đối tượng cần phỏng vấn</td>
+                            <td align="center">Số lượng</td>
+                            <td align="center">Nội dung phỏng vấn</td>
+                        </tr>
+                        <tr ng-repeat="tc in TieuChiBoSung">
+                            <td>{{$index +1}}</td>
+                            <td>Tiêu chuẩn {{tc.tchuan}}</td>
+                            <td>Tiêu chí {{tc.tchi}}</td>
+                            <td>{{tc.DoiTuongPV}}</td>
+                            <td>{{tc.SoLuong}}</td>
+                            <td>{{tc.NoiDungPV}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </p>
+            <p><strong>7. Cơ sở vật chất, các hoạt động cần khảo sát</strong></p>
+            <p ng-bind-html="BaoCao.CoSoVatChat"></p>
+            <table style="width:100%">
+                <tbody>
+                    <tr>
+                        <td style="text-align:left" width="70%" class="td-no-border">
+                            <p><strong><i>Nơi nhận</i> </strong></p>
+                            <p> - Sở GDĐT (để b/c);</p>
+                            <p> - Lưu.</p>
+                        </td>
+                        <td style="text-align:center" width="30%" class="td-no-border">
+                            <p><strong>TRƯỞNG ĐOÀN</strong></p>
+                            <p><em>(Ký và ghi rõ họ tên)</em></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="form-group margin-top-10" style="position: sticky;bottom: 10px;z-index:500;background-color:white">
+            <div class="col-md-12 clearfix text-right">
+                <a class="btn btn-sm btn-success btn-outline sbold action-btn"
+                   ng-click="exportBaoCao('PrintDiv','Kết quả nghiên cứu đánh giá.doc','application/vnd.ms-word')">
+                    <i class="fa fa-file-word-o"></i> In báo cáo
+                </a>
+                <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+

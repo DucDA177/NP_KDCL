@@ -689,7 +689,8 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 MCBoSung: [],
                 DoiTuongPV: null,
                 SoLuong: null,
-                NoiDungPV: null
+                NoiDungPV: null,
+                GhiChu: null
             };
 
             $http({
@@ -730,10 +731,10 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 $scope.BoSungTC.ArrMC = response.data;
                 angular.forEach($scope.BoSungTC.ArrMC, function (value, key) {
 
-                    if ($scope.BoSungTC.MCKiemTra && $scope.BoSungTC.MCKiemTra.includes(value.Id))
+                    if ($scope.BoSungTC.MCKiemTra && $scope.BoSungTC.MCKiemTra.includes(value.Ma))
                         value.KTLai = true;
 
-                    if ($scope.BoSungTC.MCBoSung && $scope.BoSungTC.MCBoSung.includes(value.Id))
+                    if ($scope.BoSungTC.MCBoSung && $scope.BoSungTC.MCBoSung.includes(value.Ma))
                         value.BoSung = true;
                 });
 
@@ -747,8 +748,8 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         // Save mục 4 - Phiếu đánh giá tiêu chí của Đánh giá ngoài
         $scope.SaveBoSungTC = function () {
-            $scope.BoSungTC.MCKiemTra = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.KTLai).map(x => x.Id))
-            $scope.BoSungTC.MCBoSung = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.BoSung).map(x => x.Id))
+            $scope.BoSungTC.MCKiemTra = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.KTLai).map(x => x.Ma))
+            $scope.BoSungTC.MCBoSung = JSON.stringify($scope.BoSungTC.ArrMC.filter(x => x.BoSung).map(x => x.Ma))
 
             $http({
                 method: 'POST',

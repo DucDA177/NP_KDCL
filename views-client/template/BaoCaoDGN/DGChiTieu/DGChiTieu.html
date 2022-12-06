@@ -297,7 +297,7 @@
                                                     </div>
                                                     <div class="col-md-12">
                                                         Nội dung cần bổ sung: <br />
-                                                        <ng-ckeditor ng-model="item.NoiDungCanBoSung"
+                                                        <ng-ckeditor ng-model="BoSungTC.GhiChu"
                                                                      ng-config="config"></ng-ckeditor>
 
                                                     </div>
@@ -462,47 +462,10 @@
                                             - Mức độ đánh giá: {{BoSungTC.ChuaDG ? 'Chưa đánh giá' : BoSungTC.ChuaDGDung ? 'Chưa đánh giá đúng' : BoSungTC.ChuaDGDayDu ? 'Chưa đánh giá đầy đủ' : '' }}
                                         </div>
                                         <div class="col-md-12">
-
-                                            <div class="table-scrollable ">
-                                                <!-- BEGIN FORM-->
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="1px" align="center"> STT </th>
-                                                            <th> <div style="text-align:center">Mã minh chứng</div></th>
-                                                            <th> <div style="text-align:center">Tên minh chứng</div> </th>
-                                                            <th> <div style="text-align:center">Cần kiểm tra lại</div></th>
-                                                            <th> <div style="text-align:center">Cần bổ sung</div></th>
-
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="odd gradeX" ng-repeat="dm in BoSungTC.ArrMC">
-                                                            <td align="center" width="1px"> {{$index + 1}} </td>
-                                                            <td>
-                                                                <a class="link-minhchung"
-                                                                   href="javascript:void(0);"
-                                                                   id="{{dm.Id}}"
-                                                                   ng-click="OpenViewMinhChung(dm.Id)">
-                                                                    [{{dm.Ma}}]
-                                                                </a>
-                                                            </td>
-                                                            <td>
-                                                                {{dm.TenMinhChung}}
-                                                            </td>
-
-                                                            <td align="center" width="1px">
-                                                                {{dm.KTLai ? 'X' : ''}}
-                                                            </td>
-                                                            <td align="center" width="1px">
-                                                                {{dm.BoSung ? 'X' : ''}}
-                                                            </td>
-                                                        </tr>
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
+                                            - Những minh chứng cần kiểm tra: <span ng-repeat="mcKtra in BoSungTC.ArrMC | filter: {'KTLai': true}">{{mcKtra.Ma}}; </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            - Những minh chứng cần bổ sung: <span ng-repeat="mcBSung in BoSungTC.ArrMC | filter: {'BoSung': true}">{{mcBSung.Ma}}; </span>
                                         </div>
                                         <div class="col-md-12">
                                             - Đối tượng phỏng vấn: <br />
@@ -517,7 +480,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             - Nội dung cần bổ sung: <br />
-                                            <div ng-bind-html="item.NoiDungCanBoSung"></div>
+                                            <div ng-bind-html="BoSungTC.GhiChu"></div>
                                         </div>
                                         <div class="col-md-12">
                                             <h4><b>5. Đánh giá tiêu chí: {{(item.KQDatMuc+'')=='0'?'Không đạt':'Đạt mức '+item.KQDatMuc}}</b></h4>
