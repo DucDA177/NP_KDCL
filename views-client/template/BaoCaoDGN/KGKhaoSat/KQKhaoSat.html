@@ -40,11 +40,22 @@
                         </select>
                     </div>
                 </div>
-
+                <div ng-if="filterKeHoachDGN.IdTruong!=null" class="col-md-3">
+                    <a class="btn btn-sm btn-success btn-outline sbold" tooltip title="Xem báo cáo tự đánh giá" ng-click="ViewBaoCaoTDG((DonVis | filter:{'Id':filterKeHoachDGN.IdTruong})[0].MaDonVi)">
+                        <i class="fa fa-eye"></i> Xem báo cáo tự đánh giá
+                    </a>
+                </div>
             </div>
 
             <br />
-            <div class="row">
+            <div ng-if="IsBaoCao==false">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4><b>Bạn không được phân quyền viết kết quả khảo sát chính thức cho đơn vị này!</b></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="IsBaoCao==true">
                 <div class="col-md-6">
                     <div class="portlet light bordered" style="max-height:600px;overflow:auto">
                         <div class="portlet-title">
@@ -70,7 +81,7 @@
                                     <div class="input-group">
                                         <span class="input-group-addon">Thành viên hội đồng</span>
                                         <select ng-change="LoadPhieuDanhGia()" class="form-control select2 filter-select " ng-model="filterPhieuDG.UserName">
-                                            <option ng-repeat="tv in ThanhVienDGNs" value="{{tv.us.UserName}}">{{tv.us.HoTen}}</option>
+                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
                                         </select>
                                     </div>
 
@@ -319,6 +330,7 @@
                                                             </div>
                                                             <br />
                                                             <div class="row">
+                                                                <d
                                                                 <div class="col-md-12">
                                                                     <table class="table table-bordered">
                                                                         <tbody>
@@ -439,13 +451,14 @@
 
                                             </center>
                                             <!--<center>
-                                    <span>
-                                        Tại {{item.DonViName}}
-                                    </span>
-                                </center>-->
+                                                <span>
+                                                    Tại {{item.DonViName}}
+                                                </span>
+                                            </center>-->
                                         </div>
                                         <div class="col-md-12">
                                             <h4><b>I. GIỚI THIỆU CHUNG VỀ ĐOÀN ĐÁNH GIÁ NGOÀI</b></h4>
+                                            h4
                                         </div>
                                         <div class="col-md-12">
                                             <div ng-bind-html="item.GioiThieuChung"></div>
@@ -547,10 +560,10 @@
                                         <div class="col-md-12">
                                             <table width="100%">
                                                 <!--<tr>
-                                        <td align="center" class="td-no-border">
-                                        </td>
-                                        <td align="center" class="td-no-border"><i>......., ngày...... tháng ....... năm ........</i></td>
-                                    </tr>-->
+                                                    <td align="center" class="td-no-border">
+                                                    </td>
+                                                    <td align="center" class="td-no-border"><i>......., ngày...... tháng ....... năm ........</i></td>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="40%" class="td-no-border">
                                                         <b><i>Nơi nhận:</i></b><br />

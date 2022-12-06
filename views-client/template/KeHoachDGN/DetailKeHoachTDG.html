@@ -273,8 +273,11 @@
     <a class="btn btn-sm btn-success btn-outline sbold" ng-if="CheckView(item,'VIEWKHDGN')" tooltip ng-click="cancelModal();OpenModalKeHoachDGN(item,'KeHoachTDG')" title="Xem kế hoạch đánh giá ngoài"><i class="fa fa-eye"></i>Xem kế hoạch đánh giá ngoài</a>-->
                 <!--<a class="btn btn-sm btn-success btn-outline sbold"
     ng-click="OpenDetailKeHoachTDG(dm,'KeHoachTDG')"><i class="fa fa-save"></i> Tạo kế hoạch đánh giá ngoài </a>-->
+                <a class="btn btn-sm btn-success btn-outline sbold" tooltip title="Xem báo cáo tự đánh giá" ng-click="ViewBaoCaoTDG((DonVis | filter:{'Id':item.IdDonVi})[0].MaDonVi)">
+                    <i class="fa fa-eye"></i> Xem báo cáo
+                </a>
                 <a class="btn btn-sm btn-success btn-outline sbold" tooltip title="In kế hoạch tự đánh giá" ng-click="openModal(item,'InKeHoachTDG')">
-                    <i class="fa fa-file-word-o"></i> Xuất báo cáo
+                    <i class="fa fa-file-word-o"></i> Xuất kế hoạch
                 </a>
                 <a class="btn btn-sm grey-cascade" ng-click="cancelModal()"><i class="fa fa-times-circle"></i> Đóng </a>
             </div>

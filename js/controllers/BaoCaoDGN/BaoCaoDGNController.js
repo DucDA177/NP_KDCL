@@ -37,6 +37,7 @@
                 PhanLoaiDG: 'TIEUCHUAN'
             }
             $scope.ListPhieuTCTCKHTDG = []
+            $scope.IsBaoCao=null
 
         }
         $scope.filterBaoCao = {
@@ -336,6 +337,11 @@
                 }
             }).then(function successCallback(response) {
                 $scope.item = response.data
+                if (response.data == null || response.data == '' ||!response.data.IsBaoCao) {
+                    $scope.IsBaoCao = false
+                    return;
+                }
+                $scope.IsBaoCao = true
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT')
                 if ($scope.item.DanhGiaTieuChi != null) {
                     let DanhGiaTieuChiObj = JSON.parse($scope.item.DanhGiaTieuChi)

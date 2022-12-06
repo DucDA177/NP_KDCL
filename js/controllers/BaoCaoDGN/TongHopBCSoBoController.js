@@ -9,6 +9,7 @@
         $scope.filterPhieuDG = {
           
         }
+        $scope.IsBaoCao=null
     }
     //Load hoi dong
     $scope.LoadThanhVienDGN = function (objParams) {
@@ -83,6 +84,12 @@
             //}
         //    $scope.ItemKeHoachDGN = $scope.KeHoachDGN.find(s => s.Id == Id)
             //  $scope.LoadHoiDongDGN(Id);
+            if ($scope.ItemKeHoachDGN.TruongDoan !=true && $scope.ItemKeHoachDGN.ThuKy!=true) {
+                $scope.IsBaoCao = false
+                // confirm("Bạn không được phân quyền viết báo cáo sơ bộ!")
+                return;
+            }
+            $scope.IsBaoCao = true
             let filterThanhVienDGN = {
                 // PhanLoai: 'BAOCAOSOBO',
                 PhanLoai: 'BAOCAOSOBO',

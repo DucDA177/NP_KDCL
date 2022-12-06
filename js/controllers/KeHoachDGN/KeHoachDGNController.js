@@ -331,6 +331,11 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
 
 
     $scope.cancelModal = function () {
+        if ($scope.item.Id == null || $scope.item.Id == 0) {
+            $scope.item.TrangThai=null
+            $scope.item.NoiDung=null
+}
+        
         $uibModalInstance.dismiss('close');
     }
     $scope.config = {
@@ -373,6 +378,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
         }
         initSave()
         $scope.item.ListPhanCongTCDGN = initSavePhanCong()
+        $scope.item.ListThanhVien = $scope.ThanhVienDGNs.map(s => { return s.tv; })
         switch (typeUpdate) {
             case "BATDAU":
                 $scope.item.TrangThai = FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode
@@ -546,10 +552,16 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
 
     }
     //end load tieu chuan tieu chi
-
+    //check phan cong
+    $scope.checkPhanCong = function () {
+        if ($scope.ThanhVienDGNs == null || $scope.ThanhVienDGNs == '' || $scope.ThanhVienDGNs.length == 0) return false;
+        let check = $scope.ThanhVienDGNs.some(s => s.tv.TruongDoan != true && s.tv.UyVien != true && s.tv.ThuKy != true)
+        return !check
+    }
+    //end check phan cong
     $scope.OnLoad = function () {
         if ($scope.item == null || $scope.item.Id == 0) {
-           // $scope.itemOLD = $scope.item;
+            $scope.itemOLD = $scope.item;
            // $scope.item = {}
             $scope.item.NoiDung = "Kế hoạch làm việc của đoàn đánh giá ngoài " + $scope.item.DonViName;
             //$scope.item.KeHoachTDGName = $scope.itemKHTDG.KeHoachTDGName;
@@ -600,6 +612,7 @@ angular.module('WebApiApp').controller("DetailKeHoachTDGHandlerController", func
 
 
     $scope.cancelModal = function () {
+
         $uibModalInstance.dismiss('close');
     }
     $scope.config = {
