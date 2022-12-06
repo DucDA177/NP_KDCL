@@ -211,6 +211,11 @@
                 if (response.data.ListOut != null && response.data.ListOut.length > 0) {
                     $scope.ItemPhieu = response.data.ListOut[0]
                     $scope.ItemPhieu.KQChiBaoObj = $scope.ItemPhieu.KQChiBao != null ? JSON.parse($scope.ItemPhieu.KQChiBao) : $scope.ObjTieuChi.listChiBaoA
+                   
+                    let checkTongHop = $scope.ListTieuChuanTieuChis.some(s => s.Id == $scope.ItemPhieu.IdTieuChi && s.IdTieuChi == null && s.IdTieuChuan != null)
+                    if (checkTongHop == true) {
+                        $scope.TongHop($scope.ItemPhieu)
+                    }
                 }
             }, function errorCallback(response) {
                 toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');
@@ -252,7 +257,7 @@
                 }
                 $scope.IsBaoCao = true
                 $scope.config.readOnly = $scope.item != null && !$scope.CheckView($scope.item, 'EDIT') 
-                $scope.item.KQDatMuc = $scope.item.KQDatMuc+''
+                $scope.item.KQDatMuc = $scope.item.KQDatMuc!=null?( $scope.item.KQDatMuc+''):null
                 if ($scope.item.KQChiBao != null) {
                     let KQChiBaoObj = JSON.parse($scope.item.KQChiBao)
                     $scope.ListTieuChuanTieuChis.map(s => {
@@ -309,17 +314,20 @@
         //}
         $scope.InitSaveKQChiBao = function () {
             return $scope.ListTieuChuanTieuChis.filter(s => s.IdTieuChuan != null).reduce(function (rs, obj, index) {
-                let o = {
-                    IdTieuChi: obj.Id,
-                    DGN_KQDatA: obj.DGN_KQDatA,
-                    DGN_KQDatB: obj.DGN_KQDatB,
-                    DGN_KQDatC: obj.DGN_KQDatC
+                if (obj.IdTieuChi != null) {
+                    let o = {
+                        IdTieuChi: obj.Id,
+                        DGN_KQDatA: obj.DGN_KQDatA,
+                        DGN_KQDatB: obj.DGN_KQDatB,
+                        DGN_KQDatC: obj.DGN_KQDatC
+                    }
+                    rs.push(o)
                 }
-                rs.push(o)
                 return rs;
             }, []);
         }
         $scope.SaveModal = function () {
+          //  $scope.item
             $scope.item.KQChiBao = JSON.stringify($scope.InitSaveKQChiBao())
             $http({
                 method: 'POST',
@@ -367,6 +375,7 @@
         $scope.TongHop = function (item) {
             let obj=$scope.ListTieuChuanTieuChis.find(s => s.Id == item.IdTieuChi && s.IdTieuChuan != null)
             if (obj != null) {
+                obj.IdTieuChi = item.IdTieuChi
                 obj.DGN_KQDatA = item.KQDatA
                 obj.DGN_KQDatB = item.KQDatB
                 obj.DGN_KQDatC = item.KQDatC
