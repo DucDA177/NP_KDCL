@@ -51,7 +51,7 @@
                                     </a>
                                 </li>
 
-                                 <li ng-show="checkPhanCong()">
+                                <li ng-show="checkPhanCong()">
                                     <a data-target="#tab_2" data-toggle="tab" aria-expanded="true">
                                         Phân công đánh giá tiêu chí
                                     </a>
@@ -105,8 +105,8 @@
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
                                                 <!--<div class="text-center">
-                        <h3>Mục đích</h3>
-                    </div>-->
+                                                    <h3>Mục đích</h3>
+                                                </div>-->
                                                 <div class="row">
 
                                                     <ng-ckeditor ng-model="item.MucDich"
@@ -122,6 +122,7 @@
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
+                                                <center><i class="font-red">Vui lòng chọn chức vụ trong đoàn cho tất cả các thành viên và nhấn nút Lưu trước khi phân công các nhiệm vụ cụ thể!</i></center>
                                                 <table class="table table-bordered">
                                                     <thead>
                                                         <tr>
@@ -137,8 +138,8 @@
                                                             <td align="center">{{$index+1}}</td>
                                                             <td>{{u.us.HoTen}}</td>
                                                             <td width="1%" align="center"><span ng-if="u.tv.TruongDoan"><i class="fa fa-check"></i></span></td>
-                                                            <td width="1%" align="center"><input  ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox"ng-model="u.tv.UyVien" /></td>
-                                                            <td width="1%" align="center"><input  ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox"ng-model="u.tv.ThuKy" /></td>
+                                                            <td width="1%" align="center"><input ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox" ng-model="u.tv.UyVien" /></td>
+                                                            <td width="1%" align="center"><input ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox" ng-model="u.tv.ThuKy" /></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -146,7 +147,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> <div class="tab-pane fade " id="tab_2">
+                                </div>
+                                <div class="tab-pane fade " id="tab_2">
                                     <div class="row">
                                         <div class="portlet light " style="margin-bottom:0">
                                             <div class="form-body form-horizontal">
@@ -194,7 +196,7 @@
                                                         </table>
                                                     </div>
                                                     <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
-                                     ng-config="config"></ng-ckeditor>-->
+                                                    ng-config="config"></ng-ckeditor>-->
 
                                                 </div>
 
@@ -245,7 +247,9 @@
                                                                     </td>
                                                                     <td width="18%">
                                                                         <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
-                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">
+                                                                                {{RenderThanhVien(u)}}
+                                                                            </option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
@@ -256,7 +260,7 @@
                                                         </table>
                                                     </div>
                                                     <!--<ng-ckeditor ng-model="item.NghienCuuHSDG"
-                                     ng-config="config"></ng-ckeditor>-->
+                                                    ng-config="config"></ng-ckeditor>-->
 
                                                 </div>
 
@@ -306,7 +310,7 @@
                                                                     </td>
                                                                     <td width="18%">
                                                                         <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
-                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
@@ -364,7 +368,7 @@
                                                                     </td>
                                                                     <td width="18%">
                                                                         <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
-                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
@@ -423,7 +427,7 @@
                                                                     </td>
                                                                     <td width="18%">
                                                                         <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
-                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
@@ -481,7 +485,7 @@
                                                                     </td>
                                                                     <td width="18%">
                                                                         <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
-                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">
@@ -540,7 +544,7 @@
                                                                     </td>
                                                                     <td width="18%">
                                                                         <select select2 ng-disabled="!CheckView(item,'EDITKHDGN')" class="form-control select2 input-sm" ng-model="x.ThanhVien" ng-change="onChangeThanhVien(x)">
-                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{u.us.HoTen}}</option>
+                                                                            <option ng-repeat="u in ThanhVienDGNs" value="{{u.us.UserName}}">{{RenderThanhVien(u)}}</option>
                                                                         </select>
                                                                     </td>
                                                                     <td width="1%" align="center" style="vertical-align:middle">

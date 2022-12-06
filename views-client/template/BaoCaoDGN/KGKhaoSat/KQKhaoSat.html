@@ -119,7 +119,30 @@
                                     <p class="p-vanban"><b>3. Kế hoạch cải tiến</b></p>
                                     <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
                                     <p class="p-vanban"><b>4. Những nội dung chưa rõ cần kiểm tra lại, cần bổ sung minh chứng</b></p>
-                                    <p class="p-vanban" ng-bind-html="ItemPhieu.KeHoachCaiTien"></p>
+                                    <div class="col-md-12">
+                                        - Mức độ đánh giá: {{BoSungTC.ChuaDG ? 'Chưa đánh giá' : BoSungTC.ChuaDGDung ? 'Chưa đánh giá đúng' : BoSungTC.ChuaDGDayDu ? 'Chưa đánh giá đầy đủ' : '' }}
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Những minh chứng cần kiểm tra: <span ng-repeat="mcKtra in BoSungTC.ArrMC | filter: {'KTLai': true}">{{mcKtra.Ma}}; </span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Những minh chứng cần bổ sung: <span ng-repeat="mcBSung in BoSungTC.ArrMC | filter: {'BoSung': true}">{{mcBSung.Ma}}; </span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Đối tượng phỏng vấn: <br />
+                                        <div ng-bind-html="BoSungTC.DoiTuongPV"></div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Số lượng: {{BoSungTC.SoLuong}}
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Nội dung phỏng vấn: <br />
+                                        <div ng-bind-html="BoSungTC.NoiDungPV"></div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        - Nội dung cần bổ sung: <br />
+                                        <div ng-bind-html="BoSungTC.GhiChu"></div>
+                                    </div>
                                     <p class="p-vanban"><b>5. Đánh giá tiêu chí:</b> {{(''+ItemPhieu.KQDatMuc)=='0'?'Không đạt':'Đạt mức '+ItemPhieu.KQDatMuc}} &nbsp;<a ng-click="TongHop(ItemPhieu)" class="btn btn-primary"><i class="fa fa-plus-circle"></i>Tổng hợp tiêu chí</a></p>
                                     <table class="table table-bordered">
                                         <tbody>
