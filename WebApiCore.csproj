@@ -3257,7 +3257,6 @@
     </Content>
     <Content Include="js\scripts\jquery-inputmask\README.md" />
     <Content Include="fonts\ARIAL.TTF" />
-    <Content Include="assets\global\img\social\Thumbs.db" />
     <Content Include="assets\global\plugins\amcharts4\CHANGELOG.md" />
     <Content Include="assets\global\plugins\amcharts4\charts.js.map" />
     <Content Include="assets\global\plugins\amcharts4\core.js.map" />
