@@ -138,8 +138,8 @@
                                                             <td align="center">{{$index+1}}</td>
                                                             <td>{{u.us.HoTen}}</td>
                                                             <td width="1%" align="center"><span ng-if="u.tv.TruongDoan"><i class="fa fa-check"></i></span></td>
-                                                            <td width="1%" align="center"><input ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox" ng-model="u.tv.UyVien" /></td>
-                                                            <td width="1%" align="center"><input ng-disabled="!CheckView(item,'EDITKHDGN')" type="checkbox" ng-model="u.tv.ThuKy" /></td>
+                                                            <td width="1%" align="center"><input ng-disabled="!CheckView(item,'EDITKHDGN')" ng-click="ChangeChucVu(u,'UYVIEN')" type="checkbox" ng-model="u.tv.UyVien" /></td>
+                                                            <td width="1%" align="center"><input ng-disabled="!CheckView(item,'EDITKHDGN')" ng-click="ChangeChucVu(u,'THUKY')" type="checkbox" ng-model="u.tv.ThuKy" /></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

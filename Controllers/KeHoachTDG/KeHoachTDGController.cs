@@ -95,6 +95,21 @@ namespace WebApiCore.Controllers.KeHoachTDG
             return Ok(data);
 
         }
+        [HttpPost]
+        [Route("api/KeHoachTDG/ChuyenKeHoach")]
+        public IHttpActionResult ChuyenKeHoach([FromBody] tblKeHoachTDG data)
+        {
+
+            
+
+            if (data.Id > 0)
+            {
+                db.Entry(data).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return Ok(data);
+
+        }
         private void CloneDataForDonVi(tblKeHoachTDG data)
         {
             var dvHienTai = db.DMDonVis.Find(data.IdDonVi);

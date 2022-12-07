@@ -39,7 +39,7 @@
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
         }
-       // $scope.LoadKeHoachTDG();
+        // $scope.LoadKeHoachTDG();
         $scope.onCancelKeHoachTDG = function () {
             $scope.filterKeHoachTDG = {
                 GetAll: true,
@@ -59,17 +59,17 @@
         }
         $scope.filterKeHoachDGN = {
             GetAll: true,
-            IsThanhVien:true,
+            IsThanhVien: true,
         };
         $scope.LoadKeHoachDGN = function () {
-            if ($scope.filterKeHoachDGN.IdTruong ==null)return
+            if ($scope.filterKeHoachDGN.IdTruong == null) return
             $scope.ServiceLoadKeHoachDGN($scope.filterKeHoachDGN).then(function successCallback(response) {
                 $scope.KeHoachDGN = response.data.ListOut;
             }, function errorCallback(response) {
                 toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
             });
         }
-      //  $scope.LoadKeHoachDGN();
+        //  $scope.LoadKeHoachDGN();
         $scope.onCancelKeHoachDGN = function () {
             $scope.filterKeHoachDGN = {
                 GetAll: true,
@@ -176,7 +176,7 @@
                     return item.Id != null && (item.TrangThai == FactoryConstant.DANG_THUC_HIEN_KE_HOACH_NGOAI.FCode) && item.TruongDoan == true
                     break;
                 case "EDITKHDGN":
-                    return item.TrangThai != FactoryConstant.HOAN_THANH_KE_HOACH_NGOAI.FCode && item.TruongDoan==true
+                    return item.TrangThai != FactoryConstant.HOAN_THANH_KE_HOACH_NGOAI.FCode && item.TruongDoan == true
                     break;
                 default:
                     break;
@@ -332,10 +332,10 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
 
     $scope.cancelModal = function () {
         if ($scope.item.Id == null || $scope.item.Id == 0) {
-            $scope.item.TrangThai=null
-            $scope.item.NoiDung=null
-}
-        
+            $scope.item.TrangThai = null
+            $scope.item.NoiDung = null
+        }
+
         $uibModalInstance.dismiss('close');
     }
     $scope.config = {
@@ -360,11 +360,11 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
         //s.UserName = objPhanCong.UserName;
         //s.IdTieuChi = objPhanCong.IdTieuChi;
         //s.IdPhanCong = objPhanCong.Id;
-        let result = $scope.ListTieuChuanTieuChis.filter(s=>s.IdTieuChuan!=null).reduce(function (rs, obj, index) {
+        let result = $scope.ListTieuChuanTieuChis.filter(s => s.IdTieuChuan != null).reduce(function (rs, obj, index) {
             let objPhanCong = {
-                Id:obj.IdPhanCong,
-                UserName:obj.UserName,
-                IdTieuChi:obj.Id,
+                Id: obj.IdPhanCong,
+                UserName: obj.UserName,
+                IdTieuChi: obj.Id,
             }
             rs.push(objPhanCong)
             return rs;
@@ -372,7 +372,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
         return result
     }
     $scope.SaveModal = function (typeUpdate) {
-      
+
         if (!$scope.ConfirmAction(typeUpdate)) {
             return
         }
@@ -460,7 +460,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
             if ($scope.item.Id != null) {
                 $http.get("api/KeHoachDGN/GetPhanCongTCTC?IdKeHoach=" + $scope.item.Id).then(function (rs) {
                     let tmpPhanCong = rs.data
-                    
+
                     if (rs.data != null && rs.data != '') {
                         $scope.ListTieuChuanTieuChis.map(s => {
                             if (s.IdTieuChuan != null) {
@@ -562,7 +562,7 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
     $scope.OnLoad = function () {
         if ($scope.item == null || $scope.item.Id == 0) {
             $scope.itemOLD = $scope.item;
-           // $scope.item = {}
+            // $scope.item = {}
             $scope.item.NoiDung = "Kế hoạch làm việc của đoàn đánh giá ngoài " + $scope.item.DonViName;
             //$scope.item.KeHoachTDGName = $scope.itemKHTDG.KeHoachTDGName;
             //$scope.item.DonViName = $scope.itemKHTDG.DonViName;
@@ -595,6 +595,20 @@ angular.module('WebApiApp').controller("ModalKeHoachDGN", function ($rootScope, 
         }
         $scope.LoadThanhVienDGN(filterThanhVienDGN)
         $scope.LoadTCTC();
+    }
+    $scope.ChangeChucVu = function (item, type) {
+        if (type == 'UYVIEN') {
+            if (item.tv.TruongDoan || item.tv.ThuKy) {
+                item.tv.UyVien = false
+                confirm("Thành viên chỉ được phép đảm nhiệm 1 chức vụ trong đoàn")
+            }
+        }
+        if (type == 'THUKY') {
+            if (item.tv.TruongDoan || item.tv.UyVien) {
+                item.tv.ThuKy = false
+                confirm("Thành viên chỉ được phép đảm nhiệm 1 chức vụ trong đoàn")
+            }
+        }
     }
     $scope.OnLoad()
 });

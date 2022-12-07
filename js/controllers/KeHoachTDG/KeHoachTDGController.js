@@ -154,7 +154,7 @@
     $scope.ConfirmAction = function (typeUpdate) {
         switch (typeUpdate) {
             case "CHUYEN":
-                if (!confirm("Bạn có chắc chắn hoàn thành kế hoạch và chuyển cho sở?")) {
+                if (!confirm("Bạn có chắc chắn muốn chuyển kế hoạch lên cho sở?")) {
                     return;
                 }
                 break;
@@ -181,7 +181,7 @@
         }
         $http({
             method: 'POST',
-            url: 'api/KeHoachDGN/Save',
+            url: 'api/KeHoachTDG/ChuyenKeHoach',
             data: item
         }).then(function successCallback(response) {
             toastr.success('Lưu dữ liệu thành công !', 'Thông báo');
