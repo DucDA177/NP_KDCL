@@ -26,5 +26,8 @@ namespace WebApiCore.Models
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<bool> FInUse { get; set; }
+        public string SoQD { get; set; }
+        public Nullable<System.DateTime> NgayQD { get; set; }
+        public string NguoiKyQD { get; set; }
     }
 }

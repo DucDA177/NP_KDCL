@@ -474,6 +474,9 @@
           <Property Name="IdDonVi" Type="int" Nullable="false" />
           <Property Name="Ten" Type="nvarchar" MaxLength="500" />
           <Property Name="Nam" Type="int" />
+          <Property Name="SoQD" Type="nvarchar" MaxLength="500" />
+          <Property Name="NgayQD" Type="datetime" />
+          <Property Name="NguoiKyQD" Type="nvarchar" MaxLength="500" />
           <Property Name="DSThanhVien" Type="nvarchar(max)" />
           <Property Name="GhiChu" Type="nvarchar(max)" />
           <Property Name="CreatedAt" Type="datetime" />
@@ -1944,6 +1947,9 @@
           <Property Name="UpdatedAt" Type="DateTime" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="FInUse" Type="Boolean" />
+          <Property Name="SoQD" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="NgayQD" Type="DateTime" Precision="3" />
+          <Property Name="NguoiKyQD" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="tblDuLieuNhaTruong">
           <Key>
@@ -2919,6 +2925,9 @@
           <EntitySetMapping Name="tblDoanDGNs">
             <EntityTypeMapping TypeName="WebApiDataModel.tblDoanDGN">
               <MappingFragment StoreEntitySet="tblDoanDGN">
+                <ScalarProperty Name="NguoiKyQD" ColumnName="NguoiKyQD" />
+                <ScalarProperty Name="NgayQD" ColumnName="NgayQD" />
+                <ScalarProperty Name="SoQD" ColumnName="SoQD" />
                 <ScalarProperty Name="FInUse" ColumnName="FInUse" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />

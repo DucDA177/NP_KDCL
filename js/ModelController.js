@@ -2750,6 +2750,9 @@ angular.module('WebApiApp').controller("ModalDoanDGNHandlerController", function
     else {
         if ($scope.item.DSThanhVien)
             $rootScope.DSThanhVienDGN = JSON.parse($scope.item.DSThanhVien);
+        if ($scope.item.NgayQD)
+            $scope.item.NgayQD = new Date($scope.item.NgayQD);
+
         $scope.LoadTruongDGN();
     }
 
@@ -2817,8 +2820,10 @@ angular.module('WebApiApp').controller("ModalDoanDGNHandlerController", function
                 let checkTruong = $rootScope.DSTruongDGN.filter(x => x.Id == value.Id)
                 if (checkTruong.length > 0) {
                     value.check = true;
-                    value.LamViecTu = new Date(checkTruong[0].LamViecTu)
-                    value.LamViecDen = new Date(checkTruong[0].LamViecDen)
+                    if (checkTruong[0].LamViecTu)
+                        value.LamViecTu = new Date(checkTruong[0].LamViecTu)
+                    if (checkTruong[0].LamViecDen)
+                        value.LamViecDen = new Date(checkTruong[0].LamViecDen)
                     value.TruongDoan = checkTruong[0].TruongDoan
                 };
 
@@ -2857,7 +2862,11 @@ angular.module('WebApiApp').controller("ModalDoanDGNHandlerController", function
     }
 
     $scope.Save = function (isNew) {
-
+        let checkIfAllChucVu = $rootScope.DSThanhVienDGN.filter(x => !x.ChucVuTrongDoan)
+        if (checkIfAllChucVu.length > 0) {
+            toastr.error('Bạn chưa chọn chức vụ trong đoàn cho tất cả các thành viên. Vui lòng thử lại !', 'Thông báo');
+            return;
+        }
         $scope.item.DSThanhVien = JSON.stringify($rootScope.DSThanhVienDGN);
         let checkInputTruongDoan = $rootScope.DSTruongDGN.filter(x => !x.TruongDoan);
         if (checkInputTruongDoan.length > 0) {

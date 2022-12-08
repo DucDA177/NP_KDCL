@@ -27,6 +27,7 @@ namespace WebApiCore.Models
         public long? IdDonVi { get; set; }
         public string HoTen { get; set; }
         public string ChucVu { get; set; }
+        public string ChucVuTrongDoan { get; set; }
         public string NoiCongTac { get; set; }
     }
 }

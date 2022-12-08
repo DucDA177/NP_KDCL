@@ -161,7 +161,9 @@ namespace WebApiCore.Controllers.KeHoachDGN
 
                         tblThanhVienDGN.IdTruongDGN = tblTruongDGN.Id;
                         tblThanhVienDGN.Username = itemTV.Username;
-                        tblThanhVienDGN.TruongDoan = itemTV.Username == item.TruongDoan;
+                        tblThanhVienDGN.TruongDoan = itemTV.ChucVuTrongDoan == "TD";
+                        tblThanhVienDGN.ThuKy = itemTV.ChucVuTrongDoan == "TK";
+                        tblThanhVienDGN.UyVien = itemTV.ChucVuTrongDoan == "UV";
 
                         db.tblThanhVienDGNs.Add(tblThanhVienDGN);
                     }
