@@ -146,6 +146,13 @@
                 }
             }).then(function successCallback(response) {
                 $scope.DonVis = response.data
+                if ($scope.DonVis != null && $scope.DonVis != '' && $scope.DonVis.length > 0) {
+                    let indexTruong = $scope.DonVis.findIndex(s => s.LoaiDonVi == 'TRUONG')
+                    if (indexTruong > -1) {
+                        $scope.filterKeHoachDGN.IdTruong = $scope.DonVis[indexTruong].Id+''
+                        $scope.onSearchKeHoachDGN()
+                    }
+                }
             }, function errorCallback(response) {
                 //$scope.itemError = response.data;
                 toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');

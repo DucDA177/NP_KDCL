@@ -65,10 +65,11 @@
                         </a>
                     </div>
                 </div>
-                <br />
+               
             </div>
            
             <div ng-if="IsBaoCao==false">
+                <br />
                 <div class="row">
                     <div class="col-md-12">
                         <h4><b>Bạn không được phân quyền đánh giá tiêu chí cho đơn vị này!</b></h4>
@@ -76,6 +77,9 @@
                 </div>
             </div>
             <div class="row" ng-show="IsBaoCao==true">
+                <div class="col-md-12">
+                    <h5 style="color:red"><b><i>Vui lòng chọn tiêu chuẩn, tiêu chí để đánh giá!</i></b></h5>
+                </div>
                 <div class="col-md-6">
                     <div class="portlet light bordered" style="max-height:600px;overflow:auto">
                         <div class="portlet-title">
@@ -180,7 +184,6 @@
                     </div>
                 </div>
                 <hr />-->
-
                             <div class="row ">
                                 <div class="tabbable-custom portlet box margin-top-10">
                                     <div class="col-md-3 col-sm-3 col-xs-3">
