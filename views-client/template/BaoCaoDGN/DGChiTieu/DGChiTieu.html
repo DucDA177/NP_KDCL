@@ -11,7 +11,7 @@
 </style>
 <div ng-controller="BaoCaoDanhGiaChiTieuController">
     <div class="col-md-12">
-        <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> LẬP ĐÁNH GIÁ TIÊU CHÍ </label></h4>
+        <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> LẬP PHIẾU ĐÁNH GIÁ TIÊU CHÍ </label></h4>
     </div>
     <br />
     <div class="portlet  " style="margin-bottom:0">
@@ -126,18 +126,18 @@
                                     <h4><b>- Mức 1: {{ItemPhieu.KQDatA==true?'Kết quả đạt':''}}</b></h4>
                                 </div>
                                 <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.MoTaA"></div>
+                                    <div compile="ItemPhieu.MoTaA"></div>
                                 </div>
                                 <div class="col-md-12">
                                     <h4><b>- Mức 2: {{ItemPhieu.KQDatB==true?'Kết quả đạt':''}}</b></h4>
                                 </div>
                                 <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.MoTaB"></div>
+                                    <div compile="ItemPhieu.MoTaB"></div>
                                 </div> <div class="col-md-12">
                                     <h4><b>- Mức 3: {{ItemPhieu.KQDatC==true?'Kết quả đạt':''}}</b></h4>
                                 </div>
                                 <div class="col-md-12">
-                                    <div ng-bind-html="ItemPhieu.MoTaC"></div>
+                                    <div compile="ItemPhieu.MoTaC"></div>
                                 </div>
 
                             </div>

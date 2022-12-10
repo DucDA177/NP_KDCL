@@ -33,6 +33,13 @@
             }
         }).then(function successCallback(response) {
             $scope.DonVis = response.data;
+
+            let listTruong = $scope.DonVis.filter(x => x.LoaiDonVi == 'TRUONG');
+            if (listTruong.length > 0) {
+                $scope.filterHoiDongDGN.IdTruong = listTruong[0].Id;
+                $scope.LoadKeHoachDGN();
+            }
+
         }, function errorCallback(response) {
             //$scope.itemError = response.data;
             toastr.error('Có lỗi trong quá trình tải dữ liệu !', 'Thông báo');

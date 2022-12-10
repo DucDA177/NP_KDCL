@@ -119,10 +119,14 @@
                                         - Mức độ đánh giá: {{BoSungTC.ChuaDG ? 'Chưa đánh giá' : BoSungTC.ChuaDGDung ? 'Chưa đánh giá đúng' : BoSungTC.ChuaDGDayDu ? 'Chưa đánh giá đầy đủ' : '' }}
                                     </div>
                                     <div class="col-md-12">
-                                        - Những minh chứng cần kiểm tra: <span ng-repeat="mcKtra in BoSungTC.ArrMC | filter: {'KTLai': true}">{{mcKtra.Ma}}; </span>
+                                        - Những minh chứng cần kiểm tra:
+                                        <a ng-repeat="mcKtra in BoSungTC.ArrMC | filter: {'KTLai': true}" class="link-minhchung" ng-click="OpenViewMinhChung(mcKtra.Id)">{{mcKtra.Ma}};</a>
+
                                     </div>
                                     <div class="col-md-12">
-                                        - Những minh chứng cần bổ sung: <span ng-repeat="mcBSung in BoSungTC.ArrMC | filter: {'BoSung': true}">{{mcBSung.Ma}}; </span>
+                                        - Những minh chứng cần bổ sung:
+                                        <a ng-repeat="mcBSung in BoSungTC.ArrMC | filter: {'BoSung': true}" class="link-minhchung" ng-click="OpenViewMinhChung(mcBSung.Id)">{{mcBSung.Ma}};</a>
+
                                     </div>
                                     <div class="col-md-12">
                                         - Đối tượng phỏng vấn: <br />
@@ -601,6 +605,8 @@
                                                                                      ng-config="config"></ng-ckeditor>
                                                                     </div>
                                                                     <h4>
+
+
 
                                                                         5. Đánh giá tiêu chí: {{(dg.KQDatMuc+'')=='0'?'Không đạt':'Đạt mức '+dg.KQDatMuc}}
                                                                         <!--{{ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatC')==true?'Mức 3':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatB')==true?'Mức 2':ReturnObjFromId(ListTieuChuanTieuChis,filterBaoCao.IdTieuChi,'IdTieuChi','DGN_KQDatA')==true?'Mức 1':'Không đạt'}}-->
