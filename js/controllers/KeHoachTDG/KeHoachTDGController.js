@@ -135,16 +135,16 @@
     $scope.CheckView = function (item, type) {
         switch (type) {
             case "CHUYEN":
-                return item.TrangThai == "DTH" && (item.ChuyenKeHoach == null || item.ChuyenKeHoach == false) && item.IdKeHoachDGN==null
+                return item?.TrangThai == "DTH" && (item?.ChuyenKeHoach == null || item?.ChuyenKeHoach == false) && item?.IdKeHoachDGN==null
                 break;
             case "THUHOI":
-                return item.TrangThai == "DTH" && item.ChuyenKeHoach == true && item.IdKeHoachDGN == null
+                return item?.TrangThai == "DTH" && item?.ChuyenKeHoach == true && item?.IdKeHoachDGN == null
                 break;
             case "DELETE":
-                return item.TrangThai != "DTH"  && item.IdKeHoachDGN == null
+                return item?.TrangThai != "DTH" && item?.IdKeHoachDGN == null
                 break;
             case "EDIT":
-                return item.IdKeHoachDGN == null
+                return item?.IdKeHoachDGN == null
                 break;
             default:
                 break;

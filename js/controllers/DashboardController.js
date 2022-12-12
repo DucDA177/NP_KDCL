@@ -137,14 +137,17 @@
         }
     }
 
-    if ($rootScope.checkCapTren)
-        $scope.LoadDonViCapDuoi();
-    else {
-        $scope.Params.IdDonVi = $rootScope.CurDonVi.Id;
-        $scope.IdKeHoachTDG = $rootScope.KeHoachTDG.Id;
-        $scope.IdQuyDinh = $rootScope.KeHoachTDG.IdQuyDinhTC;
-        $scope.LoadBieuDoTCTCDatMuc();
+    if ($rootScope.Module == "TDG") {
+        if ($rootScope.checkCapTren)
+            $scope.LoadDonViCapDuoi();
+        else {
+            $scope.Params.IdDonVi = $rootScope.CurDonVi.Id;
+            $scope.IdKeHoachTDG = $rootScope.KeHoachTDG.Id;
+            $scope.IdQuyDinh = $rootScope.KeHoachTDG.IdQuyDinhTC;
+            $scope.LoadBieuDoTCTCDatMuc();
+        }
     }
+    
 
     $scope.generateQR = function (text) {
         $('#qrcode').empty();

@@ -649,6 +649,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="assets\admin\layout\css\custom.css" />
     <Content Include="assets\admin\layout\css\layout.css" />
@@ -3155,6 +3156,7 @@
     <Content Include="js\controllers\DanhMuc\DMDonViController.js" />
     <Content Include="js\controllers\DuLieuNhaTruong\DuLieuNhaTruongController.js" />
     <Content Include="js\controllers\GroupController.js" />
+    <Content Include="js\controllers\GuiNhanBaoCao\GuiBaoCaoController.js" />
     <Content Include="js\controllers\KeHoachDGN\DoanDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\HoiDongDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\KeHoachDGNController.js" />
@@ -3876,6 +3878,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="HDKDCL.pdf" />
+    <Content Include="azure-pipelines.yml" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\WebApiCore.pubxml" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
@@ -3936,6 +3940,7 @@
     <Content Include="views-client\template\EditPassword.html" />
     <Content Include="views-client\template\EditUser.html" />
     <Content Include="views-client\template\Group.html" />
+    <Content Include="views-client\template\GuiNhanBaoCao\GuiBaoCao.html" />
     <Content Include="views-client\template\KeHoachDGN\DetailKeHoachTDG.html" />
     <Content Include="views-client\template\KeHoachDGN\DoanDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\HoiDongDGN.html" />

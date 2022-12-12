@@ -10,19 +10,22 @@
 <div class="col-md-12">
 
     <h4> <label class="uppercase font-green"><i class="fa fa-home"></i> TRANG CHỦ - PHẦN MỀM KIỂM ĐỊNH CHẤT LƯỢNG GIÁO DỤC</label></h4>
-
-    <center><h4><b>BIỂU ĐỒ THỐNG KÊ CÁC TIÊU CHÍ TỰ ĐÁNH GIÁ ĐẠT THEO MỨC</b></h4></center>
-    <center ng-if="checkCapTren">
-        <div class="input-group" style="width:30%">
-            <span class="input-group-addon">Đơn vị</span>
-            <select ng-model="Params.IdDonVi" class="form-control input-sm select2"
-                    ng-change="OnChangeDonVi()" convert-to-number >
-                <option ng-repeat="nl in TDGDonVi" value={{nl.dv.Id}}>{{nl.dv.TenDonVi}}</option>
-            </select>
-        </div>
-    </center>
-    <div id="chartdiv"></div>
-
+    <div ng-if="Module == 'TDG'">
+        <center><h4><b>BIỂU ĐỒ THỐNG KÊ CÁC TIÊU CHÍ TỰ ĐÁNH GIÁ ĐẠT THEO MỨC</b></h4></center>
+        <center ng-if="checkCapTren">
+            <div class="input-group" style="width:30%">
+                <span class="input-group-addon">Đơn vị</span>
+                <select ng-model="Params.IdDonVi" class="form-control input-sm select2"
+                        ng-change="OnChangeDonVi()" convert-to-number>
+                    <option ng-repeat="nl in TDGDonVi" value={{nl.dv.Id}}>{{nl.dv.TenDonVi}}</option>
+                </select>
+            </div>
+        </center>
+        <div id="chartdiv"></div>
+    </div>
+    <div ng-if="Module == 'DGN'">
+        <center><iframe ng-src="HDKDCL.pdf" width="100%" height="750px"></iframe></center>
+    </div>
     <!--<div class="col-md-6">
         <div class="input-group">
             <input type="text" class="form-control input-sm" ng-model="QRText" />
