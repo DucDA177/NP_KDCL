@@ -3923,6 +3923,7 @@
     <Content Include="views-client\template\BaoCaoDGN\KGKhaoSat\KQKhaoSat.html" />
     <Content Include="views-client\template\BaoCaoDGN\BaoCaoDGN.html" />
     <Content Include="views-client\template\BaoCaoDGN\KhaoSatSoBo.html" />
+    <Content Include="views-client\template\BaoCaoDGN\PartialBaoCaoDGN.html" />
     <Content Include="views-client\template\BaoCao\BaoCaoTDG.html" />
     <Content Include="views-client\template\BaoCao\ThongKeMinhChung.html" />
     <Content Include="views-client\template\BaoCao\TongHopKQDG.html" />

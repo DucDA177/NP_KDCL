@@ -1,5 +1,4 @@
 ﻿angular.module('WebApiApp').controller('GuiBaoCaoController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
-    $scope.LinkBaoCao = '/kqdg.html?' + $rootScope.CurDonVi.MaDonVi
     //Load kế hoạch tự đnahs giá
     $scope.ServiceLoadKeHoachTDG = function (data) {
         return $http.post("api/KeHoachTDG/FilterKeHoachTDG", data)

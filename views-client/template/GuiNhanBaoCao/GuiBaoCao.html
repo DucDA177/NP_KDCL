@@ -1,31 +1,28 @@
-﻿
-<div class="col-md-12">
+﻿<div class="col-md-12">
     <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> GỬI VÀ NHẬN BÁO CÁO CẤP TRÊN </label></h4>
 </div>
 <div class="form-body form-horizontal col-md-12">
 
     <div class="form-group">
-        <div class="col-md-12">
+        <div class="col-md-12" ng-controller="KeHoachTDGController">
             <div class="table-scrollable ">
                 <!-- BEGIN FORM-->
                 <table class="table table-striped table-bordered table-hover"
                        id="fixTable">
                     <thead>
                         <tr>
-                            <th width="1px" align="center"> STT </th>
                             <th> <div style="text-align:center">Nội dung kế hoạch</div></th>
                             <th> <div style="text-align:center">Giai đoạn</div> </th>
                             <th> <div style="text-align:center">Ngày bắt đầu</div></th>
                             <th> <div style="text-align:center">Ngày kết thúc</div> </th>
                             <th> <div style="text-align:center">Trạng thái</div> </th>
                             <th> <div style="text-align:center">Trạng thái chuyển kế hoạch</div> </th>
-                            <th width="1px"><div style="text-align:center">Gửi/thu hồi báo cáo</div>  </th>
+                            <th><div style="text-align:center">Gửi/thu hồi báo cáo</div>  </th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="odd gradeX" ng-repeat="dm in KeHoachTDG">
-                            <td align="center" width="1px"> {{$index + 1}} </td>
+                        <tr class="odd gradeX" ng-repeat="dm in KeHoachTDG" ng-if="dm.Id == $root.KeHoachTDG.Id">
                             <td> <a ng-click="openModal(dm,'KeHoachTDG')"> {{dm.NoiDung}}</a> </td>
                             <td align="center">
                                 {{dm.NamHocBD}} - {{dm.NamHocKT}}
@@ -44,8 +41,6 @@
                                 <span ng-if="dm.ChuyenKeHoach">Đã chuyển kế hoạch cho sở</span>
                                 <span ng-if="!dm.ChuyenKeHoach">Chưa chuyển kế hoạch cho sở</span>
                             </td>
-
-
                             <td>
                                 <a ng-if="CheckView(dm,'CHUYEN')" tooltip ng-click="UpdateTrangThaiKH(dm,'CHUYEN')" title="Gửi báo cáo">
                                     <i class="fa fa-share ">Nhấn để gửi</i>
@@ -53,8 +48,8 @@
                                 <a ng-if="CheckView(dm,'THUHOI')" tooltip ng-click="UpdateTrangThaiKH(dm,'THUHOI')" title="Thu hồi báo cáo">
                                     <i class="fa fa-refresh ">Nhấn để thu hồi</i>
                                 </a>
+                                <i ng-if="!CheckView(dm,'CHUYEN') && !CheckView(dm,'THUHOI')">Không thể gửi hoặc thu hồi do cấp trên đã tiến hành đánh giá ngoài</i>
                             </td>
-
                         </tr>
 
                     </tbody>
@@ -62,17 +57,55 @@
             </div>
         </div>
         <hr style="width:100%; color:black" />
-        <div class="col-md-6">
-            <center>
-                <h5><b>BÁO CÁO TỰ ĐÁNH GIÁ</b></h5>
-                <iframe ng-src="{{LinkBaoCao}}" width="100%" height="600px"></iframe>
-            </center>
-        </div>
-        <div class="col-md-6">
-            <center>
-                <h5><b>KẾT QUẢ ĐÁNH GIÁ NGOÀI</b></h5>
-                <iframe ng-src="{{LinkBaoCao}}" width="100%" height="600px"></iframe>
-            </center>
+
+        <div class="col-md-12">
+            <div class="tabbable-custom portlet box margin-top-10">
+                <ul class="nav nav-tabs ">
+                    <li class="active">
+                        <a data-target="#tab_1" data-toggle="tab" aria-expanded="true" class="bold">
+                            BÁO CÁO TỰ ĐÁNH GIÁ
+                        </a>
+                    </li>
+                    <li>
+                        <a data-target="#tab_2" data-toggle="tab" aria-expanded="true" class="bold">
+                            KẾT QUẢ ĐÁNH GIÁ NGOÀI
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active " id="tab_1">
+                        <div class="row">
+                            <div class="portlet light " style="margin-top:-10px">
+                                <div class="form-body form-horizontal" ng-controller="BaoCaoTDGController">
+                                    <ng-include src="'../../../views-client/template/BaoCao/BaoCaoTDG.html'"></ng-include>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="tab-pane " id="tab_2">
+                        <div class="row">
+                            <div class="portlet light " style="margin-bottom:0">
+                                <div class="col-md-8">
+                                    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> KẾT QUẢ ĐÁNH GIÁ NGOÀI {{CurDonVi.TenDonVi | uppercase}} </label></h4>
+                                </div>
+                                <div class="col-md-4 text-right margin-top-10">
+                                    <a class="btn btn-sm btn-primary"
+                                       ng-click="exportBaoCao('PrintDivKQDGN','Kết quả đánh giá ngoài.doc','application/vnd.ms-word')">
+                                        <i class="fa fa-file-word-o"></i> Xuất kết quả
+                                    </a>
+                                </div>
+                                <div class="form-body form-horizontal" ng-controller="BaoCaoDGNController">
+                                    <ng-include id="PrintDivKQDGN" src="'../../../views-client/template/BaoCaoDGN/PartialBaoCaoDGN.html'"></ng-include>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 

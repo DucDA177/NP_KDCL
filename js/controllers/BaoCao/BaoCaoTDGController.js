@@ -1,5 +1,4 @@
 ﻿angular.module('WebApiApp').controller('BaoCaoTDGController', ['$rootScope', '$scope', '$http', '$cookies', '$uibModal', '$settings', function ($rootScope, $scope, $http, $cookies, $uibModal, $settings) {
-
     $scope.LoadAll = function () {
         $scope.LoadHoiDong = function () {
 

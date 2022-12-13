@@ -409,6 +409,11 @@
             }
         ]
         $scope.LoadDonVi = function () {
+            if ($rootScope.Module == 'TDG') {
+                $scope.filterKeHoachDGN.IdTruong = $rootScope.CurDonVi.Id;
+                $scope.LoadKeHoachDGN();
+                return;
+            }
             $http({
                 method: 'GET',
                 url: 'api/Base/GetDMDonVi',
