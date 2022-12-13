@@ -37,7 +37,7 @@
                 PhanLoaiDG: 'TIEUCHUAN'
             }
             $scope.ListPhieuTCTCKHTDG = []
-            $scope.IsBaoCao=null
+            $scope.IsBaoCao = null
 
         }
         $scope.filterBaoCao = {
@@ -79,19 +79,39 @@
                     toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
             });
         }
-        $scope.LoadHoiDongDGN = function (IdKeHoach) {
-
+        $scope.LoadHoiDongDGN = function () {
+            $scope.HoiDongDGN = []
+            let objParams = {
+                PhanLoai: '',
+                IdDonVi: 0,
+                IdKeHoachTDG: $scope.ItemKeHoachDGN.IdKeHoachTDG,
+                IdKeHoachDGN: $scope.ItemKeHoachDGN.Id,
+            }
             $http({
                 method: 'GET',
-                url: 'api/HoiDongDGN/GetAll?IdDonVi=' + $rootScope.CurDonVi.Id
-                    + '&IdKeHoachDGN=' + IdKeHoach
+                url: 'api/Base/GetThanhVienDGN',
+                params: objParams
             }).then(function successCallback(response) {
-
-                $scope.HoiDongDGN = response.data;
-
+                $scope.HoiDongDGN = response.data
+                console.warn($scope.HoiDongDGN)
             }, function errorCallback(response) {
-                toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+                $scope.itemError = response.data;
+                if ($scope.itemError.ModelState)
+                    toastr.error('Có lỗi xảy ra trong quá trình tải dữ liệu !', 'Thông báo');
+                else
+                    toastr.error('Có lỗi xảy ra! ' + $scope.itemError.Message, 'Thông báo');
             });
+            //$http({
+            //    method: 'GET',
+            //    url: 'api/HoiDongDGN/GetAll?IdDonVi=' + $rootScope.CurDonVi.Id
+            //        + '&IdKeHoachDGN=' + IdKeHoach
+            //}).then(function successCallback(response) {
+
+            //    $scope.HoiDongDGN = response.data;
+
+            //}, function errorCallback(response) {
+            //    toastr.warning('Có lỗi trong quá trình tải dữ liệu!', 'Thông báo');
+            //});
         }
 
         //end load hoi dong
@@ -123,6 +143,7 @@
                     $scope.ItemKeHoachDGN = $scope.KeHoachDGN[0]
                     $scope.ItemKeHoachDGN.Id = $scope.ItemKeHoachDGN.Id + ''
                     $scope.filterTCTC.IdKeHoach = $scope.ItemKeHoachDGN.Id
+                    $scope.LoadHoiDongDGN();
                     let filterThanhVienDGN = {
                         PhanLoai: 'BAOCAOTIEUCHI',
                         IdDonVi: 0,
@@ -343,7 +364,7 @@
                 }
             }).then(function successCallback(response) {
                 $scope.item = response.data
-                if (response.data == null || response.data == '' ||!response.data.IsBaoCao) {
+                if (response.data == null || response.data == '' || !response.data.IsBaoCao) {
                     $scope.IsBaoCao = false
                     return;
                 }

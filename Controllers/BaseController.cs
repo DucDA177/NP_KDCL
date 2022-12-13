@@ -67,10 +67,11 @@ namespace WebApiCore.Controllers
                 var userRole = (from us in db.UserProfiles
                                 join tv in db.tblThanhVienDGNs on us.UserName equals tv.Username
                                 join  truongDGN in db.tblTruongDGNs on tv.IdTruongDGN equals truongDGN.Id
+                                join dv in db.DMDonVis on us.IDDonVi equals dv.Id
                                 where truongDGN.IdKeHoachTDG == IdKeHoachTDG
                                // (string.IsNullOrEmpty(StringUserByKHTDG) || StringUserByKHTDG.Contains(@"""" + us.UserName + @""""))
                                 && (string.IsNullOrEmpty(RoleKeHoach)||tv.TruongDoan==true||(RoleKeHoach == "BAOCAOSOBO" && tv.UyVien==true) || RoleKeHoach.Contains(@"""" + us.UserName + @""""))
-                                select new { us,tv }).OrderByDescending(s=>s.tv.TruongDoan);
+                                select new { us,tv, dv }).OrderByDescending(s=>s.tv.TruongDoan).ThenByDescending(s=>s.tv.ThuKy);
                 return Ok(userRole);
             }
             catch(Exception ex)

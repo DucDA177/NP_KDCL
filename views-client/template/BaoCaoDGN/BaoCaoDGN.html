@@ -685,10 +685,10 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="hd in HoiDongDGN track by hd.hd.STT">
+                                                    <tr ng-repeat="hd in HoiDongDGN ">
                                                         <td align="center">{{$index +1}}</td>
-                                                        <td align="center">{{hd.us.HoTen+ ', '+ CurDonVi.TenDonVi}}</td>
-                                                        <td align="center">{{hd.nv.Ten}}</td>
+                                                        <td >{{hd.us.HoTen+ ', '+ hd.dv.TenDonVi}}</td>
+                                                        <td align="center">{{hd.tv.TruongDoan?'Trưởng đoàn':hd.tv.ThuKy?'Thư ký':hd.tv.UyVien?'Ủy viên':'Thành viên'}}</td>
                                                         <td align="center"></td>
                                                     </tr>
                                                 </tbody>
