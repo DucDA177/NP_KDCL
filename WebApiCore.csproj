@@ -3157,6 +3157,7 @@
     <Content Include="js\controllers\DuLieuNhaTruong\DuLieuNhaTruongController.js" />
     <Content Include="js\controllers\GroupController.js" />
     <Content Include="js\controllers\GuiNhanBaoCao\GuiBaoCaoController.js" />
+    <Content Include="js\controllers\GuiNhanBaoCao\ThongTinCapTrenController.js" />
     <Content Include="js\controllers\KeHoachDGN\DoanDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\HoiDongDGNController.js" />
     <Content Include="js\controllers\KeHoachDGN\KeHoachDGNController.js" />
@@ -3942,6 +3943,7 @@
     <Content Include="views-client\template\EditUser.html" />
     <Content Include="views-client\template\Group.html" />
     <Content Include="views-client\template\GuiNhanBaoCao\GuiBaoCao.html" />
+    <Content Include="views-client\template\GuiNhanBaoCao\ThongTinCapTren.html" />
     <Content Include="views-client\template\KeHoachDGN\DetailKeHoachTDG.html" />
     <Content Include="views-client\template\KeHoachDGN\DoanDGN.html" />
     <Content Include="views-client\template\KeHoachDGN\HoiDongDGN.html" />

@@ -211,8 +211,9 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 }, function errorCallback(response) {
                     toastr.warning('Lỗi !', 'Thông báo');
                 });
-            bootbox.confirm("<b>" + u.NoiDung + "</b>"
-                + "</br> <i> - Người gửi: " + u.NguoiGui + "</i> </br>"
+            bootbox.confirm("<b>" + u.NoiDung + "</b></br> </br>"
+                + u.ChiTiet + "</br> "
+                + "<i> - Người gửi: " + u.NguoiGui + "</i> </br>"
                 + "<i>- Ngày gửi: " + ConvertToDate(new Date(u.NgayGui)) + "</i>"
                 , function (result) {
                     if (u.Link && result)

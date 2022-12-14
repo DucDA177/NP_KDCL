@@ -886,6 +886,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Link" Type="nvarchar(max)" />
           <Property Name="NoiDung" Type="nvarchar(max)" />
+          <Property Name="ChiTiet" Type="nvarchar(max)" />
           <Property Name="NguoiDoc" Type="nvarchar(max)" />
           <Property Name="DonViNhan" Type="nvarchar(max)" />
           <Property Name="FInUse" Type="bit" />
@@ -2359,6 +2360,7 @@
           <Property Name="NgayGui" Type="DateTime" Precision="3" />
           <Property Name="Loai" Type="Int32" />
           <Property Name="TrangThai" Type="Int32" />
+          <Property Name="ChiTiet" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UnreadMe">
           <Key>
@@ -3359,6 +3361,7 @@
           <EntitySetMapping Name="ThongBaos">
             <EntityTypeMapping TypeName="WebApiDataModel.ThongBao">
               <MappingFragment StoreEntitySet="ThongBao">
+                <ScalarProperty Name="ChiTiet" ColumnName="ChiTiet" />
                 <ScalarProperty Name="TrangThai" ColumnName="TrangThai" />
                 <ScalarProperty Name="Loai" ColumnName="Loai" />
                 <ScalarProperty Name="NgayGui" ColumnName="NgayGui" />

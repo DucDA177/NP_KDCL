@@ -68,7 +68,7 @@
                
             </div>
            
-            <div ng-if="IsBaoCao==false">
+            <div ng-if="!IsBaoCao">
                 <br />
                 <div class="row">
                     <div class="col-md-12">
@@ -77,7 +77,7 @@
                 </div>
             </div>
             <div class="row" ng-show="IsBaoCao==true">
-                <div class="col-md-12">
+                <div class="col-md-12" ng-if="!filterPhieuDG.IdTieuChi">
                     <h5 style="color:red"><b><i>Vui lòng chọn tiêu chuẩn, tiêu chí để đánh giá!</i></b></h5>
                 </div>
                 <div class="col-md-6">

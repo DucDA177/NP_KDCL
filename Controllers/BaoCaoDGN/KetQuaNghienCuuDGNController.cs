@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using WebApiCore.Controllers.KeHoachTDG;
 using WebApiCore.Controllers.ThongTinTDG;
@@ -102,6 +103,7 @@ namespace WebApiCore.Controllers.BaoCaoDGN
             //if (checkExist != null)
             //    db.tblKQNghienCuuTieuChiDGNs.Remove(checkExist);
 
+
             if (data.Id == 0)
             {
                 db.tblKQNghienCuuTieuChiDGNs.Add(data);
@@ -110,9 +112,46 @@ namespace WebApiCore.Controllers.BaoCaoDGN
             else
             {
                 db.Entry(data).State = EntityState.Modified;
-                db.SaveChanges();
+
+                var orignEntity = db.tblKQNghienCuuTieuChiDGNs.Where(x => x.Id == data.Id).AsNoTracking().FirstOrDefault();
+                if (orignEntity.ChuaDG != data.ChuaDG
+                    || orignEntity.ChuaDGDung != data.ChuaDGDung
+                    || orignEntity.ChuaDGDayDu != data.ChuaDGDayDu
+                    || orignEntity.MCKiemTra != data.MCKiemTra
+                    || orignEntity.MCBoSung != data.MCBoSung
+                    || orignEntity.DoiTuongPV != data.DoiTuongPV
+                    || orignEntity.SoLuong != data.SoLuong
+                    || orignEntity.NoiDungPV != data.NoiDungPV
+                    || orignEntity.GhiChu != data.GhiChu
+                    )
+                {
+                    var tchi = db.DMTieuChis.Find(data.IdTieuChi);
+                    var khDGN = db.tblKeHoachDGNs.Find(data.IdKeHoachDGN);
+                    ThongBao tb = new ThongBao();
+                    tb.DonViNhan = khDGN.IdTruong.ToString();
+                    //tb.Link = "TNTTCT";
+                    tb.NgayGui = DateTime.Now;
+                    tb.NguoiGui = HttpContext.Current.User.Identity.Name;
+                    tb.NoiDung = "Cấp trên vừa đánh giá ngoài với tiêu chí <i>" + tchi.NoiDung + "</i>";
+                    tb.ChiTiet = "<div>- Chưa đánh giá: " + (data.ChuaDG.Value ? "X" : "") + "</div></br>"
+                        + "<div>- Chưa đánh giá đúng: " + (data.ChuaDGDung.Value ? "X" : "") + "</div></br>"
+                        + "<div>- Chưa đánh giá đầy đủ: " + (data.ChuaDGDayDu.Value ? "X" : "") + "</div></br>"
+                        + "<div>- Minh chứng cần kiểm tra: " + data.MCKiemTra + "</div></br>"
+                        + "<div>- Minh chứng cần bổ sung: " + data.MCBoSung + "</div></br>"
+                        + "<div>- Đối tượng cần phỏng vấn: " + data.DoiTuongPV + "</div></br>"
+                        + "<div>- Số lượng: " + data.SoLuong + "</div></br>"
+                        + "<div>- Nội dung phỏng vấn: " + data.NoiDungPV + "</div></br>"
+                        + "<div>- Nội dung bổ sung: " + data.GhiChu + "</div></br>";
+                    tb.Loai = 1;
+
+                    db.ThongBaos.Add(tb);
+                }
+
+                    db.SaveChanges();
 
             }
+
+
 
             return Ok(data);
 
@@ -139,7 +178,7 @@ namespace WebApiCore.Controllers.BaoCaoDGN
                                 kqtc.ChuaDG,
                                 kqtc.ChuaDGDung,
                                 kqtc.ChuaDGDayDu,
-                                MCKiemTra = kqtc.MCKiemTra.Replace("[","").Replace("]","").Replace(",","; ").Replace("\"", ""),
+                                MCKiemTra = kqtc.MCKiemTra.Replace("[", "").Replace("]", "").Replace(",", "; ").Replace("\"", ""),
                                 MCBoSung = kqtc.MCBoSung.Replace("[", "").Replace("]", "").Replace(",", "; ").Replace("\"", ""),
                                 kqtc.DoiTuongPV,
                                 kqtc.SoLuong,
