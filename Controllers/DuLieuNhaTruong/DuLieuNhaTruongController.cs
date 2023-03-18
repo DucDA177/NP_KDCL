@@ -57,9 +57,17 @@ namespace WebApiCore.Controllers.DuLieuNhaTruong
 
             dynamic dulieu = JsonConvert.DeserializeObject(data.DuLieu);
             dynamic caccot = JsonConvert.DeserializeObject(data.CacCot);
-
-            var NHMoiNhatBD = Convert.ToInt32(caccot[6].title.Value.Split('-')[0].Replace("Năm học", ""));
-            var NHMoiNhatKT = Convert.ToInt32(caccot[6].title.Value.Split('-')[1]);
+            int NHMoiNhatBD, NHMoiNhatKT;
+            try
+            {
+                 NHMoiNhatBD = Convert.ToInt32(caccot.Last.title.Value.Split('-')[0].Replace("Năm học", ""));
+                 NHMoiNhatKT = Convert.ToInt32(caccot.Last.title.Value.Split('-')[1]);
+            }
+            catch
+            {
+                NHMoiNhatBD = Convert.ToInt32(caccot[6].title.Value.Split('-')[0].Replace("Năm học", ""));
+                NHMoiNhatKT = Convert.ToInt32(caccot[6].title.Value.Split('-')[1]);
+            }
 
             if (NamHocBD <= NHMoiNhatBD && NamHocKT <= NHMoiNhatKT)
                 return data;
