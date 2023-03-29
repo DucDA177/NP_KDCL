@@ -312,24 +312,24 @@ namespace WebApiCore.Controllers
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
-            if ( error != null )
+            if (error != null)
             {
                 return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
             }
 
-            if ( !User.Identity.IsAuthenticated )
+            if (!User.Identity.IsAuthenticated)
             {
                 return new ChallengeResult(provider, this);
             }
 
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
-            if ( externalLogin == null )
+            if (externalLogin == null)
             {
                 return InternalServerError();
             }
 
-            if ( externalLogin.LoginProvider != provider )
+            if (externalLogin.LoginProvider != provider)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
                 return new ChallengeResult(provider, this);
@@ -340,7 +340,7 @@ namespace WebApiCore.Controllers
 
             bool hasRegistered = user != null;
 
-            if ( hasRegistered )
+            if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 

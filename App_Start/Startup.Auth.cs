@@ -50,7 +50,7 @@ namespace WebApiCore
 
             // Enable the application to use bearer tokens to authenticate users
              app.UseOAuthBearerTokens(OAuthOptions);
-           
+
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
@@ -64,29 +64,30 @@ namespace WebApiCore
             // appId: "296791257615702",
             // appSecret: "fdbd69766f14fe28dfe430696d496ae1");
 
-            var facebookOptions = new FacebookAuthenticationOptions()
-            {
-                AppId = "296791257615702",
-                AppSecret = "fdbd69766f14fe28dfe430696d496ae1",
-                Scope = { "email", "public_profile" }
-            };
-            facebookOptions.Provider = new FacebookAuthenticationProvider()
-            {
-                OnAuthenticated = (context) =>
-                {
-                    context.Identity.AddClaim(new Claim("urn:facebook:access_token", context.AccessToken, ClaimValueTypes.String, "Facebook"));
-                    context.Identity.AddClaim(new Claim("urn:facebook:email", context.Email, ClaimValueTypes.Email, "Facebook"));
-                    return Task.FromResult(0);
-                }
-            };
-            app.UseFacebookAuthentication(facebookOptions);
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //var facebookOptions = new FacebookAuthenticationOptions()
             //{
-            //    ClientId = "800873577526-nvklkufdj4q09okjfsfie2o973h4d68c.apps.googleusercontent.com",
-            //    ClientSecret = "YC98Wv9BBnNsO-Gen4Puercf"
-            //});
+            //    AppId = "296791257615702",
+            //    AppSecret = "fdbd69766f14fe28dfe430696d496ae1",
+            //    Scope = { "email", "public_profile" }
+            //};
+            //facebookOptions.Provider = new FacebookAuthenticationProvider()
+            //{
+            //    OnAuthenticated = (context) =>
+            //    {
+            //        context.Identity.AddClaim(new Claim("urn:facebook:access_token", context.AccessToken, ClaimValueTypes.String, "Facebook"));
+            //        context.Identity.AddClaim(new Claim("urn:facebook:email", context.Email, ClaimValueTypes.Email, "Facebook"));
+            //        return Task.FromResult(0);
+            //    }
+            //};
+            //app.UseFacebookAuthentication(facebookOptions);
 
-            
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "352631061690-ojkcsrv4n1ek38s6rnufae6ct4335qdp.apps.googleusercontent.com",
+                ClientSecret = "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"
+            });
+
         }
     }
 }
