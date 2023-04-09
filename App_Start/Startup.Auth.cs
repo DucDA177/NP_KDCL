@@ -15,6 +15,9 @@ using WebApiCore.Controllers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Host.SystemWeb;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace WebApiCore
 {
@@ -30,6 +33,7 @@ namespace WebApiCore
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -49,45 +53,16 @@ namespace WebApiCore
             };
 
             // Enable the application to use bearer tokens to authenticate users
-             app.UseOAuthBearerTokens(OAuthOptions);
+            app.UseOAuthBearerTokens(OAuthOptions);
 
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
-
-            //app.UseTwitterAuthentication(
-            //    consumerKey: "",
-            //    consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            // appId: "296791257615702",
-            // appSecret: "fdbd69766f14fe28dfe430696d496ae1");
-
-            //var facebookOptions = new FacebookAuthenticationOptions()
-            //{
-            //    AppId = "296791257615702",
-            //    AppSecret = "fdbd69766f14fe28dfe430696d496ae1",
-            //    Scope = { "email", "public_profile" }
-            //};
-            //facebookOptions.Provider = new FacebookAuthenticationProvider()
-            //{
-            //    OnAuthenticated = (context) =>
-            //    {
-            //        context.Identity.AddClaim(new Claim("urn:facebook:access_token", context.AccessToken, ClaimValueTypes.String, "Facebook"));
-            //        context.Identity.AddClaim(new Claim("urn:facebook:email", context.Email, ClaimValueTypes.Email, "Facebook"));
-            //        return Task.FromResult(0);
-            //    }
-            //};
-            //app.UseFacebookAuthentication(facebookOptions);
-
-
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            var ggOptions = new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "352631061690-ojkcsrv4n1ek38s6rnufae6ct4335qdp.apps.googleusercontent.com",
-                ClientSecret = "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"
-            });
+                ClientId = "1097701043873-s78negds66u6nrcugeh7negike0tr9g9.apps.googleusercontent.com",
+                ClientSecret = "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"
+            };
+            app.UseGoogleAuthentication(ggOptions);
 
         }
     }
+
 }

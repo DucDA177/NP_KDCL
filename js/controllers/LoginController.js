@@ -76,9 +76,18 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
 
     };
     $scope.authenExProvider = function (provider) {
-        var str = "&response_type=token&client_id=self&redirect_uri=https%3A%2F%2Fkdcl.azurewebsites.net%2Flogin.html&state=Wtn-H9BTO5NG1n8sQTwX1QyTSQTUZW1mJ8FyXgTkITA1";
-        var external = "api/Account/ExternalLogin?provider=" + provider + str;
-        window.location.href = external;
+        $scope.show = 1;
+        $http({
+            method: 'GET',
+            url: 'api/Account/ExternalLogins?returnUrl=%2Flogin.html&generateState=true',
+        }).then(function successCallback(response) {
+            $scope.show = 0;
+            let url = response.data.filter(q => q.Name === provider)[0].Url;
+            window.location.href = url;
+        }, function errorCallback(response) {
+            toastr.error('Lỗi! ' + response.data.Message);
+            $scope.show = 0;
+        });
 
     }
     $scope.RequestPasswordReset = function () {
@@ -98,35 +107,36 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             });
     }
     $scope.CheckLocationHash = function () {
-        debugger
         if (location.hash) {
             if (window.location.href.indexOf("access_token=") > -1) {
                 if (location.hash.split('access_token=')) {
                     $scope.accessToken = location.hash.split('access_token=')[1].split('&')[0];
                     if ($scope.accessToken) {
-                        loginAppFactory.CheckRegistration($scope.accessToken)
+                        loginAppFactory.CheckRegistration()
                             .success(function (response) {
-                                console.log(response)
-                                //$cookies.put('username', response.userName);
+                                if (!response.HasRegistered) {
+                                    toastr.error('Tài khoản ' + response.Email + ' của bạn chưa được đăng ký. Vui lòng liên hệ quản trị viên !', 'Đăng nhập');
+                                    return;
+                                }
+                                $cookies.put('username', response.UserName);
 
-                                //$cookies.put('token_type', response.token_type);
-                                //$cookies.put('token', response.access_token);
+                                $cookies.put('token_type', response.AccessToken?.token_type);
+                                $cookies.put('token', response.AccessToken?.access_token);
 
-                                //localStorage.setItem('NamHoc', $scope.NamHoc);
-                                //localStorage.setItem('Module', $scope.Module);
+                                localStorage.setItem('NamHoc', $scope.NamHoc);
+                                localStorage.setItem('Module', $scope.Module);
 
-                                //toastr.success('Đăng nhập thành công !', 'Đăng nhập');
-                                //window.location.assign('/home.html');
+                                toastr.success('Đăng nhập thành công !', 'Đăng nhập');
+                                window.location.assign('/home.html');
 
                             }).error(function (err, status) {
 
                                 $scope.loading = "Đăng nhập";
-                                toastr.error('Sai tên đăng nhập hoặc mật khẩu !', 'Đăng nhập');
+                                toastr.error('Có lỗi trong quá trình đăng nhập !', 'Đăng nhập');
                                 $scope.show = 0;
 
 
                             });
-
                     }
                 }
             }
@@ -159,14 +169,13 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
 }]);
 WebApiApp.factory('loginAppFactory', function ($q, $http) {
     var fac = {};
-    fac.CheckRegistration = function (token) {
+    fac.CheckRegistration = function () {
         var deferred = $q.defer();
         var request = {
             method: 'get',
             url: 'api/Account/UserInfo',
             header: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer:' + token
+                'Content-Type': 'application/json'
             }
         }
         return $http(request)

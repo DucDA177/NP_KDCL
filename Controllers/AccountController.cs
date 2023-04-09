@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
@@ -17,6 +18,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Linq;
 using WebApiCore.Models;
 using WebApiCore.Providers;
 using WebApiCore.Results;
@@ -30,7 +32,6 @@ namespace WebApiCore.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
-
         public AccountController()
         {
 
@@ -58,18 +59,26 @@ namespace WebApiCore.Controllers
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
         // GET api/Account/UserInfo
-        // [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
+
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var accessToken = GenerateLocalAccessTokenResponse(externalLogin.UserName);
+            if (string.IsNullOrEmpty(externalLogin.UserName))
+                Logout();
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
-                HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                Email = externalLogin.Email,
+                FullName = externalLogin.FullName,
+                UserName = externalLogin.UserName,
+                HasRegistered = !string.IsNullOrEmpty(externalLogin.UserName),
+                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null,
+                AccessToken = accessToken
             };
+
         }
 
         // POST api/Account/Logout
@@ -77,6 +86,7 @@ namespace WebApiCore.Controllers
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             return Ok();
         }
 
@@ -86,14 +96,14 @@ namespace WebApiCore.Controllers
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            if ( user == null )
+            if (user == null)
             {
                 return null;
             }
 
             List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
-            foreach ( IdentityUserLogin linkedAccount in user.Logins )
+            foreach (IdentityUserLogin linkedAccount in user.Logins)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
@@ -102,7 +112,7 @@ namespace WebApiCore.Controllers
                 });
             }
 
-            if ( user.PasswordHash != null )
+            if (user.PasswordHash != null)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
@@ -123,23 +133,23 @@ namespace WebApiCore.Controllers
 
         private void ValidateMenu(ChangePasswordBindingModel menu)
         {
-            if ( string.IsNullOrEmpty(menu.OldPassword) )
+            if (string.IsNullOrEmpty(menu.OldPassword))
             {
                 ModelState.AddModelError("OldPassword", "Bắt buộc nhập mật khẩu cũ");
                 ModelState.AddModelError("OldPassword", "has-error");
             }
-            if ( string.IsNullOrEmpty(menu.NewPassword) )
+            if (string.IsNullOrEmpty(menu.NewPassword))
             {
                 ModelState.AddModelError("NewPassword", "Bắt buộc nhập mật khẩu mới");
                 ModelState.AddModelError("NewPassword", "has-error");
             }
-            if ( string.IsNullOrEmpty(menu.ConfirmPassword) )
+            if (string.IsNullOrEmpty(menu.ConfirmPassword))
             {
                 ModelState.AddModelError("ConfirmPassword", "Vui lòng nhập xác nhận mật khẩu mới");
                 ModelState.AddModelError("ConfirmPassword", "has-error");
             }
         }
-        
+
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(string username)
@@ -159,8 +169,6 @@ namespace WebApiCore.Controllers
         [Route("DatLaiMatKhau")]
         public async Task<IHttpActionResult> DatLaiMatKhau(string username, string password)
         {
-            WebApiDataEntities db = new WebApiDataEntities();
-
             ApplicationDbContext context = new ApplicationDbContext();
             UserStore<ApplicationUser> store = new UserStore<ApplicationUser>(context);
             UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(store);
@@ -170,13 +178,13 @@ namespace WebApiCore.Controllers
             ApplicationUser cUser = await store.FindByNameAsync(username);
             await store.SetPasswordHashAsync(cUser, hashedNewPassword);
             await store.UpdateAsync(cUser);
-            if ( !string.IsNullOrEmpty(cUser.Email) )
+            if (!string.IsNullOrEmpty(cUser.Email))
             {
                 string email = ConfigurationManager.AppSettings["email"];
                 string passmail = ConfigurationManager.AppSettings["password"];
-                using ( var mail = new MailMessage(email, cUser.Email) )
+                using (var mail = new MailMessage(email, cUser.Email))
                 {
-                    string body = "Mật khẩu đặt lại cho tài khoản " + username+ " là: "+ password;
+                    string body = "Mật khẩu đặt lại cho tài khoản " + username + " là: " + password;
                     mail.Subject = "Thông báo về đặt lại mật khẩu";
                     mail.Body = body;
                     mail.IsBodyHtml = false;
@@ -196,7 +204,7 @@ namespace WebApiCore.Controllers
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             ValidateMenu(model);
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -204,9 +212,9 @@ namespace WebApiCore.Controllers
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
 
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
-                foreach ( string err in result.Errors )
+                foreach (string err in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, err);
                 }
@@ -223,14 +231,14 @@ namespace WebApiCore.Controllers
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
 
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
@@ -242,7 +250,7 @@ namespace WebApiCore.Controllers
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -251,16 +259,16 @@ namespace WebApiCore.Controllers
 
             AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if ( ticket == null || ticket.Identity == null || ( ticket.Properties != null
+            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
                 && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow ) )
+                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
                 return BadRequest("External login failure.");
             }
 
             ExternalLoginData externalData = ExternalLoginData.FromIdentity(ticket.Identity);
 
-            if ( externalData == null )
+            if (externalData == null)
             {
                 return BadRequest("The external login is already associated with an account.");
             }
@@ -268,7 +276,7 @@ namespace WebApiCore.Controllers
             IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
                 new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
@@ -280,14 +288,14 @@ namespace WebApiCore.Controllers
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             IdentityResult result;
 
-            if ( model.LoginProvider == LocalLoginProvider )
+            if (model.LoginProvider == LocalLoginProvider)
             {
                 result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
             }
@@ -297,7 +305,7 @@ namespace WebApiCore.Controllers
                     new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
@@ -372,7 +380,7 @@ namespace WebApiCore.Controllers
 
             string state;
 
-            if ( generateState )
+            if (generateState)
             {
                 const int strengthInBits = 256;
                 state = RandomOAuthStateGenerator.Generate(strengthInBits);
@@ -382,7 +390,7 @@ namespace WebApiCore.Controllers
                 state = null;
             }
 
-            foreach ( AuthenticationDescription description in descriptions )
+            foreach (AuthenticationDescription description in descriptions)
             {
                 ExternalLoginViewModel login = new ExternalLoginViewModel
                 {
@@ -411,14 +419,14 @@ namespace WebApiCore.Controllers
             model.Password = Commons.Constants.defautPass;
             model.ConfirmPassword = Commons.Constants.defautPass;
             validate(model);
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var user = new ApplicationUser() { UserName = model.UserName };
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
@@ -427,22 +435,22 @@ namespace WebApiCore.Controllers
         }
         public void validate(RegisterBindingModel model)
         {
-            if ( string.IsNullOrEmpty(model.UserName) )
+            if (string.IsNullOrEmpty(model.UserName))
             {
                 ModelState.AddModelError("UserName", "Bắt buộc nhập tên tài khoản");
                 ModelState.AddModelError("UserName", "has-error");
             }
-            if ( string.IsNullOrEmpty(model.Password) )
+            if (string.IsNullOrEmpty(model.Password))
             {
                 ModelState.AddModelError("Password", "Bắt buộc nhập mật khẩu");
                 ModelState.AddModelError("Password", "has-error");
             }
-            if ( string.IsNullOrEmpty(model.ConfirmPassword) )
+            if (string.IsNullOrEmpty(model.ConfirmPassword))
             {
                 ModelState.AddModelError("ConfirmPassword", "Bắt buộc xác nhận mật khẩu");
                 ModelState.AddModelError("ConfirmPassword", "has-error");
             }
-            if ( model.Password != model.ConfirmPassword )
+            if (model.Password != model.ConfirmPassword)
             {
                 ModelState.AddModelError("ConfirmPassword", "Xác nhận mật khẩu không đúng");
                 // ModelState.AddModelError("ConfirmPassword", "has-error");
@@ -454,27 +462,27 @@ namespace WebApiCore.Controllers
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
-            if ( !ModelState.IsValid )
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             var info = await Authentication.GetExternalLoginInfoAsync();
             //var info = await AuthenticationManager_GetExternalLoginInfoAsync_WithExternalBearer();
-            if ( info == null )
+            if (info == null)
             {
                 return InternalServerError();
             }
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user);
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
 
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
                 return GetErrorResult(result);
             }
@@ -482,7 +490,7 @@ namespace WebApiCore.Controllers
         }
         protected override void Dispose(bool disposing)
         {
-            if ( disposing && _userManager != null )
+            if (disposing && _userManager != null)
             {
                 _userManager.Dispose();
                 _userManager = null;
@@ -500,22 +508,22 @@ namespace WebApiCore.Controllers
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
-            if ( result == null )
+            if (result == null)
             {
                 return InternalServerError();
             }
 
-            if ( !result.Succeeded )
+            if (!result.Succeeded)
             {
-                if ( result.Errors != null )
+                if (result.Errors != null)
                 {
-                    foreach ( string error in result.Errors )
+                    foreach (string error in result.Errors)
                     {
                         ModelState.AddModelError("", error);
                     }
                 }
 
-                if ( ModelState.IsValid )
+                if (ModelState.IsValid)
                 {
                     // No ModelState errors are available to send, so just return an empty BadRequest.
                     return BadRequest();
@@ -531,46 +539,64 @@ namespace WebApiCore.Controllers
         {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
+            public string FullName { get; set; }
             public string UserName { get; set; }
+            public string Email { get; set; }
 
             public IList<Claim> GetClaims()
             {
                 IList<Claim> claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
 
-                if ( UserName != null )
+                if (FullName != null)
                 {
-                    claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
+                    claims.Add(new Claim(ClaimTypes.Name, FullName, null, LoginProvider));
                 }
-
+                if (Email != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Email, Email, null, LoginProvider));
+                }
                 return claims;
             }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                if ( identity == null )
+                if (identity == null)
                 {
                     return null;
                 }
 
                 Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if ( providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value) )
+                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
+                    || String.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
 
-                if ( providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer )
+                if (providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer)
                 {
                     return null;
                 }
 
+                string userEmail = "", userName = "";
+
+                if (!string.IsNullOrEmpty(identity.FindFirstValue(ClaimTypes.Email)))
+                {
+                    var db = new WebApiDataEntities();
+                    userEmail = identity.FindFirstValue(ClaimTypes.Email);
+                    var existUser = db.UserProfiles.Where(u => (u.Email == userEmail || u.UserName == userEmail) && u.FInUse == true).FirstOrDefault();
+                    if (existUser != null)
+                        userName = existUser.UserName;
+
+                }
                 return new ExternalLoginData
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                    FullName = identity.FindFirstValue(ClaimTypes.Name),
+                    UserName = userName,
+                    Email = userEmail
                 };
             }
         }
@@ -583,7 +609,7 @@ namespace WebApiCore.Controllers
             {
                 const int bitsPerByte = 8;
 
-                if ( strengthInBits % bitsPerByte != 0 )
+                if (strengthInBits % bitsPerByte != 0)
                 {
                     throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
                 }
@@ -594,6 +620,36 @@ namespace WebApiCore.Controllers
                 _random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
+        }
+        private JObject GenerateLocalAccessTokenResponse(string userName)
+        {
+
+            var tokenExpiration = TimeSpan.FromDays(1);
+
+            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+
+            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+
+            var props = new AuthenticationProperties()
+            {
+                IssuedUtc = DateTime.UtcNow,
+                ExpiresUtc = DateTime.UtcNow.Add(tokenExpiration),
+            };
+
+            var ticket = new AuthenticationTicket(identity, props);
+
+            var accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
+
+            JObject tokenResponse = new JObject(
+                                        new JProperty("userName", userName),
+                                        new JProperty("access_token", accessToken),
+                                        new JProperty("token_type", "Bearer"),
+                                        new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
+                                        new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                                        new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+        );
+
+            return tokenResponse;
         }
 
         #endregion

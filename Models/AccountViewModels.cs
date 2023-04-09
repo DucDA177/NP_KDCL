@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 
 namespace WebApiCore.Models
@@ -28,10 +29,13 @@ namespace WebApiCore.Models
     public class UserInfoViewModel
     {
         public string Email { get; set; }
+        public string UserName { get; set; }
+        public string FullName { get; set; }
 
         public bool HasRegistered { get; set; }
 
         public string LoginProvider { get; set; }
+        public JObject AccessToken { get; set; }
     }
 
     public class UserLoginInfoViewModel

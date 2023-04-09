@@ -78,8 +78,8 @@ WebApiApp.factory('$settings', ['$rootScope', function ($rootScope) {
     return $settings;
 }]);
 
-WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '$http', '$uibModal', '$cookies', '$state', '$uibModalStack', '$location','$window'
-    , function ($stateParams, $scope, $rootScope, $http, $uibModal, $cookies, $state, $uibModalStack, $location,$window) {
+WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '$http', '$uibModal', '$cookies', '$state', '$uibModalStack', '$location', '$window'
+    , function ($stateParams, $scope, $rootScope, $http, $uibModal, $cookies, $state, $uibModalStack, $location, $window) {
 
         $scope.NhomLoai = [
             { Code: 'MN', Name: 'Mầm non(MN)' },
@@ -658,15 +658,15 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
 
         $scope.RenderThanhVien = function (tv) {
             if (tv == null) return '';
-            let arChucVu=[]
+            let arChucVu = []
             if (tv.tv.TruongDoan) arChucVu.push('Trưởng đoàn')
             if (tv.tv.ThuKy) arChucVu.push('Thư ký')
             if (tv.tv.UyVien) arChucVu.push('Ủy viên')
-            return tv.us.HoTen+( arChucVu.length == 0 ? '':' - '+ arChucVu.join('; '))
+            return tv.us.HoTen + (arChucVu.length == 0 ? '' : ' - ' + arChucVu.join('; '))
         }
         $scope.hostName = $location.protocol() + "://" + ($location.host() == "localhost" || $location.host() == "127.0.0.1" ? $location.host() + ':' + $location.port() : $location.host());
         $scope.ViewBaoCaoTDG = function (MaDonVi) {
-            $window.open( $scope.hostName + "/kqdg.html?" + MaDonVi, '_blank');
+            $window.open($scope.hostName + "/kqdg.html?" + MaDonVi, '_blank');
         }
         $scope.LockScreen = function () {
             if ($rootScope.IsLockScreen) return;
@@ -688,7 +688,7 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
         }
 
         //Load Thông tin bổ sung tiêu chí - mục 4 - Phiếu đánh giá tiêu chí của Đánh giá ngoài
-        $scope.LoadTTBoSungTieuChi = function (IdKeHoachDGN,IdKeHoachTDG, IdTieuChi) {
+        $scope.LoadTTBoSungTieuChi = function (IdKeHoachDGN, IdKeHoachTDG, IdTieuChi) {
             $scope.BoSungTC = {
                 IdDonVi: $rootScope.CurDonVi.Id,
                 IdKeHoachDGN: IdKeHoachDGN,
@@ -1088,7 +1088,10 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
         if ($cookies.get('username') == 'undefined' || $cookies.get('username') == null)
             window.location.assign('/login.html');
         else {
-            $http.defaults.headers.common.Authorization = $cookies.get('token_type') + ' ' + $cookies.get('token')
+            $http.defaults.headers.common.Authorization = $cookies.get('token')
+            if ($cookies.get('token_type'))
+                $http.defaults.headers.common.Authorization = $cookies.get('token_type') + ' ' + $cookies.get('token')
+
         };
 
         $rootScope.Module = localStorage.getItem('Module');
@@ -1101,7 +1104,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
             //console.log(response.data)
             $rootScope.user = response.data;
             $rootScope.CurNamHoc = localStorage.getItem('NamHoc');
-            
+
 
             if ($rootScope.user.LockScreenTime == null) $rootScope.user.LockScreenTime = 10;
 
@@ -1132,7 +1135,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
 
                         }, function errorCallback(response) { });
                     }
-                    
+
                     $rootScope.LoadThongBao();
                     $rootScope.LoadMenu();
                 }, function errorCallback(response) {
@@ -1164,7 +1167,7 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
             function errorCallback(response) {
                 alert(response.data.Message);
                 window.location.href = "/login.html";
-        });
+            });
 
 
         $rootScope.LoadThongBao = function () {
