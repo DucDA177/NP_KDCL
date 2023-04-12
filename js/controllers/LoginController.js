@@ -81,6 +81,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             method: 'GET',
             url: 'api/Account/ExternalLogins?returnUrl=%2Flogin.html&generateState=true',
         }).then(function successCallback(response) {
+            console.log(response)
             $scope.show = 0;
             let url = response.data.filter(q => q.Name === provider)[0].Url;
             window.location.href = url;

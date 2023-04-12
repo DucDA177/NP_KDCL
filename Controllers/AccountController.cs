@@ -26,8 +26,7 @@ using WebApiCore.Results;
 namespace WebApiCore.Controllers
 {
     [Authorize]
-    [RoutePrefix("api/Account")]
-
+    //[RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
@@ -62,7 +61,7 @@ namespace WebApiCore.Controllers
 
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
-        [Route("UserInfo")]
+        [Route("api/Account/UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
@@ -82,7 +81,7 @@ namespace WebApiCore.Controllers
         }
 
         // POST api/Account/Logout
-        [Route("Logout")]
+        [Route("api/Account/Logout")]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
@@ -91,7 +90,7 @@ namespace WebApiCore.Controllers
         }
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
-        [Route("ManageInfo")]
+        [Route("api/Account/ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -151,7 +150,7 @@ namespace WebApiCore.Controllers
         }
 
         [HttpPost]
-        [Route("ResetPassword")]
+        [Route("api/Account/ResetPassword")]
         public async Task<IHttpActionResult> ResetPassword(string username)
         {
             ApplicationDbContext context = new ApplicationDbContext();
@@ -166,7 +165,7 @@ namespace WebApiCore.Controllers
             return Ok();
         }
         [HttpGet]
-        [Route("DatLaiMatKhau")]
+        [Route("api/Account/DatLaiMatKhau")]
         public async Task<IHttpActionResult> DatLaiMatKhau(string username, string password)
         {
             ApplicationDbContext context = new ApplicationDbContext();
@@ -200,7 +199,7 @@ namespace WebApiCore.Controllers
             return Ok();
         }
         // POST api/Account/ChangePassword
-        [Route("ChangePassword")]
+        [Route("api/Account/ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             ValidateMenu(model);
@@ -228,7 +227,7 @@ namespace WebApiCore.Controllers
         }
 
         // POST api/Account/SetPassword
-        [Route("SetPassword")]
+        [Route("api/Account/SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -247,7 +246,7 @@ namespace WebApiCore.Controllers
         }
 
         // POST api/Account/AddExternalLogin
-        [Route("AddExternalLogin")]
+        [Route("api/Account/AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -285,7 +284,7 @@ namespace WebApiCore.Controllers
         }
 
         // POST api/Account/RemoveLogin
-        [Route("RemoveLogin")]
+        [Route("api/Account/RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -317,7 +316,7 @@ namespace WebApiCore.Controllers
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
-        [Route("ExternalLogin", Name = "ExternalLogin")]
+        [Route("api/Account/ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
             if (error != null)
@@ -370,9 +369,66 @@ namespace WebApiCore.Controllers
             return Ok();
         }
 
+        [OverrideAuthentication]
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
+        [AllowAnonymous]
+        [Route("signin-oidc")]
+        [HttpPost]
+        public async Task<IHttpActionResult> GetExternalLoginOidc()
+        {
+            //if (error != null)
+            //{
+            //    return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+            //}
+
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    return new ChallengeResult(provider, this);
+            //}
+
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+            if (externalLogin == null)
+            {
+                return InternalServerError();
+            }
+
+            //if (externalLogin.LoginProvider != provider)
+            //{
+            //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            //    return new ChallengeResult(provider, this);
+            //}
+
+            //ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            //    externalLogin.ProviderKey));
+
+            //bool hasRegistered = user != null;
+
+            //if (hasRegistered)
+            //{
+            //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+            //    ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+            //       OAuthDefaults.AuthenticationType);
+            //    ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+            //        CookieAuthenticationDefaults.AuthenticationType);
+
+            //    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+            //    Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+            //}
+            //else
+            //{
+            //    IEnumerable<Claim> claims = externalLogin.GetClaims();
+            //    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+            //    Authentication.SignIn(identity);
+            //}
+
+            return Ok();
+        }
+
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
-        [Route("ExternalLogins")]
+        [Route("api/Account/ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
             IEnumerable<AuthenticationDescription> descriptions = Authentication.GetExternalAuthenticationTypes();
@@ -413,7 +469,7 @@ namespace WebApiCore.Controllers
 
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("api/Account/Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             model.Password = Commons.Constants.defautPass;
@@ -459,7 +515,7 @@ namespace WebApiCore.Controllers
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
-        [Route("RegisterExternal")]
+        [Route("api/Account/RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)
