@@ -81,7 +81,6 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             method: 'GET',
             url: 'api/Account/ExternalLogins?returnUrl=%2Flogin.html&generateState=true',
         }).then(function successCallback(response) {
-            console.log(response)
             $scope.show = 0;
             let url = response.data.filter(q => q.Name === provider)[0].Url;
             window.location.href = url;
@@ -108,6 +107,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             });
     }
     $scope.CheckLocationHash = function () {
+        
         if (location.hash) {
             if (window.location.href.indexOf("access_token=") > -1) {
                 if (location.hash.split('access_token=')) {
@@ -140,9 +140,31 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
                             });
                     }
                 }
+                return;
             }
 
         }
+        const urlParams = new URLSearchParams(window.location.search);
+        let oidc_access_token = urlParams.get('access_token_oidc');
+        let userName = urlParams.get('userName');
+
+        if (oidc_access_token && userName) {
+            oidc_access_token = atob(oidc_access_token);
+            userName = atob(userName);
+
+            $cookies.put('token_type', 'Bearer');
+            $cookies.put('token', oidc_access_token);
+
+            $cookies.put('username', userName);
+
+            localStorage.setItem('NamHoc', $scope.NamHoc);
+            localStorage.setItem('Module', $scope.Module);
+
+            toastr.success('Đăng nhập thành công !', 'Đăng nhập');
+            window.location.assign('/home.html');
+        }
+
+        $scope.authenExProvider('OpenIdConnect');
     }
     $scope.$on('$viewContentLoaded', function () {
 

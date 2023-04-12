@@ -24,6 +24,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using IdentityModel.Client;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Net.Sockets;
 
 namespace WebApiCore
 {
@@ -32,7 +36,17 @@ namespace WebApiCore
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
         public static string PublicClientId { get; private set; }
+
+        public static string GG_ClientId = ConfigurationManager.AppSettings["GG_ClientId"];
+        public static string GG_ClientSecret = ConfigurationManager.AppSettings["GG_ClientSecret"];
+
         public static string CurrentHostName = ConfigurationManager.AppSettings["Hostname"];
+        public static string Oidc_ClientId = ConfigurationManager.AppSettings["Oidc_ClientId"];
+        public static string Oidc_ClientSecret = ConfigurationManager.AppSettings["Oidc_ClientSecret"];
+        public static string Oidc_ClientSecretName = ConfigurationManager.AppSettings["Oidc_ClientSecretName"];
+        public static string Oidc_Authority = ConfigurationManager.AppSettings["Oidc_Authority"];
+        public static string Oidc_RedirectUri = CurrentHostName + "/signin-oidc";
+        public static string Oidc_Scope = "openid profile email";
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
@@ -54,7 +68,7 @@ namespace WebApiCore
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(60),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
             };
@@ -64,24 +78,21 @@ namespace WebApiCore
 
             var ggOptions = new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "1097701043873-s78negds66u6nrcugeh7negike0tr9g9.apps.googleusercontent.com",
-                ClientSecret = "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"
+                ClientId = GG_ClientId,
+                ClientSecret = GG_ClientSecret
             };
             app.UseGoogleAuthentication(ggOptions);
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
             {
-                Authority = "https://sso.sempus.vn",
-                ClientId = "af1cdc16-33ac-481c-a236-1b7938e70590",
-                ClientSecret = "2fkpmDX6CmKB1JcKWdbsUoXIL9grfDAMP2Gzvedc8Ds=",
-                RedirectUri = CurrentHostName + "/signin-oidc",
+                Authority = Oidc_Authority,
+                ClientId = Oidc_ClientId,
+                ClientSecret = Oidc_ClientSecret,
+                RedirectUri = Oidc_RedirectUri,
                 ResponseType = OpenIdConnectResponseType.Code,
                 UsePkce = true,
-                Scope = OpenIdConnectScope.OpenIdProfile,
+                Scope = Oidc_Scope,
                 PostLogoutRedirectUri = CurrentHostName,
-                TokenValidationParameters = new TokenValidationParameters { NameClaimType = "name" },
-                SaveTokens = true,
-                
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
                     AuthenticationFailed = context =>
@@ -93,42 +104,12 @@ namespace WebApiCore
                     AuthorizationCodeReceived = async context =>
                     {
                         var code = context.Code;
-
-                        // create an HTTP client instance
-                        var httpClient = new HttpClient();
-
-                        // create a TokenClientOptions instance with the authorization server configuration
-                        var tokenClientOptions = new TokenClientOptions
-                        {
-                            Address = "https://sso.sempus.vn/connect/token",
-                            ClientId = "af1cdc16-33ac-481c-a236-1b7938e70590",
-                            ClientSecret = "secret_NamPhong"
-                        };
-
-                        // create a new TokenClient instance with the HTTP client and TokenClientOptions
-                        var tokenClient = new TokenClient(httpClient, tokenClientOptions);
-
-                        // send the token request and get the response
-                        var tokenResponse = await tokenClient.RequestAuthorizationCodeTokenAsync(code, CurrentHostName + "/signin-oidc", "j-qps4W6GrltacvPpBLkJ6CmHiNvQUviIqvqBk19xAY");
-
-                        if (tokenResponse.IsError)
-                        {
-                            throw new Exception(tokenResponse.Error);
-                        }
-
+                        var codeVerifier = context.TokenEndpointRequest.Parameters["code_verifier"];
+                        
+                        context.HandleResponse();
+                        context.Response.Redirect("/signin-oidc/" + code + "/" + codeVerifier);
                     },
-                    SecurityTokenValidated = async context =>
-                    {
-                        var token = context.AuthenticationTicket;
-                    },
-                    TokenResponseReceived = async context =>
-                    {
-                        var token = context.Response;
-                    },
-                    SecurityTokenReceived = async context =>
-                    {
-                        var token = context.Response;
-                    }
+                    
                 },
             });
         }

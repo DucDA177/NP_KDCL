@@ -4,6 +4,9 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Linq;
 using Spire.Pdf;
 using Spire.Pdf.Graphics;
 using Spire.Pdf.HtmlConverter;
@@ -17,6 +20,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
+using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -810,6 +814,37 @@ namespace WebApiCore.Commons
                 + Ho + " " + Ten + " " + Common.ReplaceUnicode(Ho + " " + Ten);
 
             return searchName;
+        }
+
+        public static JObject GenerateLocalAccessTokenResponse(string userName)
+        {
+
+            var tokenExpiration = TimeSpan.FromDays(1);
+
+            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+
+            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+
+            var props = new AuthenticationProperties()
+            {
+                IssuedUtc = DateTime.UtcNow,
+                ExpiresUtc = DateTime.UtcNow.Add(tokenExpiration),
+            };
+
+            var ticket = new AuthenticationTicket(identity, props);
+
+            var accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
+
+            JObject tokenResponse = new JObject(
+                                        new JProperty("userName", userName),
+                                        new JProperty("access_token", accessToken),
+                                        new JProperty("token_type", "Bearer"),
+                                        new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
+                                        new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
+                                        new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
+        );
+
+            return tokenResponse;
         }
     }
 }

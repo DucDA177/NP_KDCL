@@ -4,20 +4,24 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
+using IdentityModel.Client;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Microsoft.Owin.Security.OpenIdConnect;
 using Newtonsoft.Json.Linq;
 using WebApiCore.Models;
 using WebApiCore.Providers;
@@ -65,7 +69,7 @@ namespace WebApiCore.Controllers
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-            var accessToken = GenerateLocalAccessTokenResponse(externalLogin.UserName);
+            var accessToken = Commons.Common.GenerateLocalAccessTokenResponse(externalLogin.UserName);
             if (string.IsNullOrEmpty(externalLogin.UserName))
                 Logout();
             return new UserInfoViewModel
@@ -82,10 +86,12 @@ namespace WebApiCore.Controllers
 
         // POST api/Account/Logout
         [Route("api/Account/Logout")]
-        public IHttpActionResult Logout()
+        public async Task<IHttpActionResult> Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            Authentication.SignOut(OpenIdConnectAuthenticationDefaults.AuthenticationType);
+
             return Ok();
         }
 
@@ -369,61 +375,64 @@ namespace WebApiCore.Controllers
             return Ok();
         }
 
-        [OverrideAuthentication]
-        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
+
         [AllowAnonymous]
-        [Route("signin-oidc")]
-        [HttpPost]
-        public async Task<IHttpActionResult> GetExternalLoginOidc()
+        [Route("signin-oidc/{code}/{codeVerifier}")]
+        public async Task<HttpResponseMessage> GetExternalLoginOidc(string code, string codeVerifier)
         {
-            //if (error != null)
-            //{
-            //    return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
-            //}
 
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    return new ChallengeResult(provider, this);
-            //}
+            // create an HTTP client instance
+            var httpClient = new HttpClient();
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
-            if (externalLogin == null)
+            // create a TokenClientOptions instance with the authorization server configuration
+            var tokenClientOptions = new TokenClientOptions
             {
-                return InternalServerError();
+                Address = Startup.Oidc_Authority + "/connect/token",
+                ClientId = Startup.Oidc_ClientId,
+                ClientSecret = Startup.Oidc_ClientSecretName
+            };
+
+            // create a new TokenClient instance with the HTTP client and TokenClientOptions
+            var tokenClient = new TokenClient(httpClient, tokenClientOptions);
+
+            // send the token request and get the response
+            var tokenResponse = await tokenClient.RequestAuthorizationCodeTokenAsync(code, Startup.Oidc_RedirectUri, codeVerifier);
+
+            if (tokenResponse.IsError)
+            {
+                throw new Exception(tokenResponse.Error);
             }
 
-            //if (externalLogin.LoginProvider != provider)
-            //{
-            //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-            //    return new ChallengeResult(provider, this);
-            //}
+            var userInfoUrl = Startup.Oidc_Authority + "/connect/userinfo";
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenResponse.TokenType, tokenResponse.AccessToken);
+            var userInforesponse = httpClient.GetAsync(userInfoUrl).Result;
+            JObject userInfo = await userInforesponse.Content.ReadAsAsync<JObject>();
 
-            //ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-            //    externalLogin.ProviderKey));
+            var userEmail = userInfo["email"].ToString();
 
-            //bool hasRegistered = user != null;
+            var userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            ApplicationUser user = await userManager.FindByEmailAsync(userEmail);
 
-            //if (hasRegistered)
-            //{
-            //    Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            var response = new HttpResponseMessage(HttpStatusCode.Found);
 
-            //    ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-            //       OAuthDefaults.AuthenticationType);
-            //    ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
-            //        CookieAuthenticationDefaults.AuthenticationType);
+            var hostName = Request.RequestUri.Scheme + "://" + Request.RequestUri.Authority;
 
-            //    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-            //    Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            //}
-            //else
-            //{
-            //    IEnumerable<Claim> claims = externalLogin.GetClaims();
-            //    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-            //    Authentication.SignIn(identity);
-            //}
+            if (user != null && user.LockoutEnabled != true)
+            {
+                var accessTokenInternal = Commons.Common.GenerateLocalAccessTokenResponse(user.UserName);
+                var UrlEncodeBase64AccessToken = Convert.ToBase64String(Encoding.UTF8.GetBytes(accessTokenInternal["access_token"].ToString()));
+                var UrlEncodeBase64UserName = Convert.ToBase64String(Encoding.UTF8.GetBytes(user.UserName));
 
-            return Ok();
+                response.Headers.Location = new Uri(hostName + "/login.html?access_token_oidc="
+                    + UrlEncodeBase64AccessToken
+                    + "&userName="
+                    + UrlEncodeBase64UserName);
+
+                return response;
+            }
+            await Logout();
+
+            return response;
         }
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
@@ -677,36 +686,7 @@ namespace WebApiCore.Controllers
                 return HttpServerUtility.UrlTokenEncode(data);
             }
         }
-        private JObject GenerateLocalAccessTokenResponse(string userName)
-        {
 
-            var tokenExpiration = TimeSpan.FromDays(1);
-
-            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-
-            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-
-            var props = new AuthenticationProperties()
-            {
-                IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.Add(tokenExpiration),
-            };
-
-            var ticket = new AuthenticationTicket(identity, props);
-
-            var accessToken = Startup.OAuthOptions.AccessTokenFormat.Protect(ticket);
-
-            JObject tokenResponse = new JObject(
-                                        new JProperty("userName", userName),
-                                        new JProperty("access_token", accessToken),
-                                        new JProperty("token_type", "Bearer"),
-                                        new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
-                                        new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
-                                        new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
-        );
-
-            return tokenResponse;
-        }
 
         #endregion
     }

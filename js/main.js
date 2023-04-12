@@ -590,12 +590,15 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 method: 'POST',
                 url: 'api/Account/Logout'
             }).then(function successCallback(response) {
-                $cookies.remove("username");
-                $cookies.remove("token_type");
-                $cookies.remove("token");
-                window.location.assign('/login.html');
+                angular.forEach($cookies.getAll(), function (v, k) {
+                    $cookies.remove(k);
+                });
+                window.location.assign('https://sso.sempus.vn/connect/endsession');
             }, function errorCallback(response) {
-                toastr.warning('Đăng xuất thất bại!', 'Thông báo');
+                angular.forEach($cookies.getAll(), function (v, k) {
+                    $cookies.remove(k);
+                });
+                window.location.assign('https://sso.sempus.vn/connect/endsession');
             });
         }
 
@@ -1165,7 +1168,6 @@ WebApiApp.run(['$q', '$rootScope', '$http', '$urlRouter', '$settings', '$cookies
             });
         },
             function errorCallback(response) {
-                alert(response.data.Message);
                 window.location.href = "/login.html";
             });
 
