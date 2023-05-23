@@ -1,4 +1,5 @@
-﻿
+﻿var ssoAuthority = 'https://dangnhap.badinh.edu.vn';
+
 var $stateProviderRef = null;
 var WebApiApp = angular.module("WebApiApp", [
     "ui.router",
@@ -593,12 +594,12 @@ WebApiApp.controller('AppController', ['$stateParams', '$scope', '$rootScope', '
                 angular.forEach($cookies.getAll(), function (v, k) {
                     $cookies.remove(k);
                 });
-                window.location.assign('https://sso.sempus.vn/connect/endsession');
+                window.location.assign(ssoAuthority + '/connect/endsession');
             }, function errorCallback(response) {
                 angular.forEach($cookies.getAll(), function (v, k) {
                     $cookies.remove(k);
                 });
-                window.location.assign('https://sso.sempus.vn/connect/endsession');
+                window.location.assign(ssoAuthority + '/connect/endsession');
             });
         }
 
