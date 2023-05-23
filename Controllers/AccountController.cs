@@ -389,7 +389,7 @@ namespace WebApiCore.Controllers
             {
                 Address = Startup.Oidc_Authority + "/connect/token",
                 ClientId = Startup.Oidc_ClientId,
-                ClientSecret = Startup.Oidc_ClientSecretName
+                ClientSecret = Startup.Oidc_ClientSecret
             };
 
             // create a new TokenClient instance with the HTTP client and TokenClientOptions

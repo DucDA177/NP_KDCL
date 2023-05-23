@@ -43,7 +43,6 @@ namespace WebApiCore
         public static string CurrentHostName = ConfigurationManager.AppSettings["Hostname"];
         public static string Oidc_ClientId = ConfigurationManager.AppSettings["Oidc_ClientId"];
         public static string Oidc_ClientSecret = ConfigurationManager.AppSettings["Oidc_ClientSecret"];
-        public static string Oidc_ClientSecretName = ConfigurationManager.AppSettings["Oidc_ClientSecretName"];
         public static string Oidc_Authority = ConfigurationManager.AppSettings["Oidc_Authority"];
         public static string Oidc_RedirectUri = CurrentHostName + "/signin-oidc";
         public static string Oidc_Scope = "openid profile email";
