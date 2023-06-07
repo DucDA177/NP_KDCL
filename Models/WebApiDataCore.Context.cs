@@ -52,7 +52,6 @@ namespace WebApiCore.Models
         public virtual DbSet<tblHoiDong> tblHoiDongs { get; set; }
         public virtual DbSet<tblHoiDongDGN> tblHoiDongDGNs { get; set; }
         public virtual DbSet<tblKeHoachDGN> tblKeHoachDGNs { get; set; }
-        public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
         public virtual DbSet<tblKetQuaKhaoSat_KHDGN> tblKetQuaKhaoSat_KHDGN { get; set; }
         public virtual DbSet<tblKetQuaNghienCuuDGN> tblKetQuaNghienCuuDGNs { get; set; }
         public virtual DbSet<tblKhaoSatSoBoDGN> tblKhaoSatSoBoDGNs { get; set; }
@@ -70,6 +69,7 @@ namespace WebApiCore.Models
         public virtual DbSet<ThongBao> ThongBaos { get; set; }
         public virtual DbSet<UnreadMe> UnreadMes { get; set; }
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
+        public virtual DbSet<tblKeHoachTDG> tblKeHoachTDGs { get; set; }
     
         public virtual int aspnet_AnyDataInTables(Nullable<int> tablesToCheck)
         {

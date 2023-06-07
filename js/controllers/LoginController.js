@@ -164,7 +164,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             window.location.assign('/home.html');
         }
 
-        $scope.authenExProvider('OpenIdConnect');
+       // $scope.authenExProvider('OpenIdConnect');
     }
     $scope.$on('$viewContentLoaded', function () {
 

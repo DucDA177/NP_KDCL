@@ -85,7 +85,7 @@ namespace WebApiCore.Controllers.KeHoachTDG
             }
             else
             {
-                if (data.TrangThai == "DTH" && isTrangThaiChange == true)
+                if (data.TrangThai == "DTH" && isTrangThaiChange == true && data.DaBatDau != true)
                     CloneDataForDonVi(data);
 
                 db.Entry(data).State = EntityState.Modified;
@@ -279,7 +279,8 @@ namespace WebApiCore.Controllers.KeHoachTDG
                                        IdKeHoachDGN = khdgn.Id,
                                        DonViName = dv.TenDonVi,
                                        KeHoachTDGName = kh.NoiDung,
-                                       TrangThaiKeHoachDGN=khdgn.TrangThai
+                                       TrangThaiKeHoachDGN=khdgn.TrangThai,
+                                       DaBatDau = kh.DaBatDau,
                                    }
                                    );
                 if (!string.IsNullOrWhiteSpace(filter.SearchKey))

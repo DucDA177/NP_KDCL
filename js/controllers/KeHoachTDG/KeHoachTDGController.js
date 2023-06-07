@@ -132,7 +132,8 @@
     }
 
 
-    $scope.CheckView = function (item, type) {
+    $rootScope.CheckView = function (item, type) {
+
         switch (type) {
             case "CHUYEN":
                 return item?.TrangThai == "DTH" && (item?.ChuyenKeHoach == null || item?.ChuyenKeHoach == false) && item?.IdKeHoachDGN==null

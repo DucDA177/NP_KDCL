@@ -30,7 +30,6 @@
         <EntityTypeShape EntityType="WebApiDataModel.tblHoiDong" Width="1.5" PointX="8.75" PointY="14.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblHoiDongDGN" Width="1.5" PointX="14.75" PointY="10.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachDGN" Width="1.5" PointX="16.75" PointY="0.75" />
-        <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachTDG" Width="1.5" PointX="16.75" PointY="7.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKetQuaKhaoSat_KHDGN" Width="1.5" PointX="16.75" PointY="14.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKetQuaNghienCuuDGN" Width="1.5" PointX="18.75" PointY="0.75" />
         <EntityTypeShape EntityType="WebApiDataModel.tblKhaoSatSoBoDGN" Width="1.5" PointX="18.75" PointY="5.75" />
@@ -48,6 +47,7 @@
         <EntityTypeShape EntityType="WebApiDataModel.ThongBao" Width="1.5" PointX="20.75" PointY="14.75" />
         <EntityTypeShape EntityType="WebApiDataModel.UnreadMe" Width="1.5" PointX="20.75" PointY="18.75" />
         <EntityTypeShape EntityType="WebApiDataModel.UserProfile" Width="1.5" PointX="14.75" PointY="21.75" />
+        <EntityTypeShape EntityType="WebApiDataModel.tblKeHoachTDG" Width="1.5" PointX="21.375" PointY="21.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
