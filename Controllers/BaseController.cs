@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -191,6 +192,73 @@ namespace WebApiCore.Controllers
             }
 
             return Ok(DonViList);
+        }
+
+        [HttpGet]
+        [Route("api/Base/CopyData")]
+        public IHttpActionResult CopyData(int from, int to)
+        {
+            var fromKHTDG = db.tblKeHoachTDGs.Find(from);
+            var toKHTDG = db.tblKeHoachTDGs.Find(to);
+            var fromDV = db.DMDonVis.Find(fromKHTDG.IdDonVi);
+            var toDV = db.DMDonVis.Find(toKHTDG.IdDonVi);
+
+            //Copy minh chứng
+            var lsMC = db.tblMinhChungs.Where(x => x.IdKeHoachTDG == fromKHTDG.Id && x.IdDonVi == fromKHTDG.IdDonVi).AsNoTracking().ToList();
+            foreach(var item in lsMC)
+            {
+                item.Id = 0;
+                item.IdDonVi = toKHTDG.IdDonVi;
+                item.IdKeHoachTDG = toKHTDG.Id;
+                item.NoiBanHanh = toDV.TenDonVi;
+                
+                db.tblMinhChungs.Add(item);
+            }
+
+            //Copy DM viết tắt, Đặt vấn đề, kết luận
+            var fromDLNhaTruong = db.tblDuLieuNhaTruongs
+                .Where(x => x.IdKeHoachTDG == fromKHTDG.Id && x.IdDonVi == fromKHTDG.IdDonVi && (x.Loai == "DMVietTat" || x.Loai == "DatVanDe" || x.Loai == "KetLuan"))
+                .AsNoTracking().ToList();
+            foreach (var item in fromDLNhaTruong)
+            {
+                item.Id = 0;
+                item.IdDonVi = toKHTDG.IdDonVi;
+                item.IdKeHoachTDG = toKHTDG.Id;
+
+                db.tblDuLieuNhaTruongs.Add(item);
+            }
+
+            //Copy Mở đầu kết luận TC
+            var fromMDKLTC = db.tblMoDauKetLuanTCs
+                .Where(x => x.IdKeHoachTDG == fromKHTDG.Id && x.IdDonVi == fromKHTDG.IdDonVi )
+                .AsNoTracking().ToList();
+            foreach (var item in fromMDKLTC)
+            {
+                item.Id = 0;
+                item.IdDonVi = toKHTDG.IdDonVi;
+                item.IdKeHoachTDG = toKHTDG.Id;
+
+                db.tblMoDauKetLuanTCs.Add(item);
+            }
+
+            //Copy đánh giá tiêu chí
+            var fromDGTC = db.tblDanhGiaTieuChis
+               .Where(x => x.IdKeHoachTDG == fromKHTDG.Id && x.IdDonVi == fromKHTDG.IdDonVi)
+               .AsNoTracking().ToList();
+            foreach (var item in fromDGTC)
+            {
+                item.Id = 0;
+                item.IdDonVi = toKHTDG.IdDonVi;
+                item.IdKeHoachTDG = toKHTDG.Id;
+                item.YKienLanhDao = null;
+                item.YKienCapTrenDG = null;
+                item.CapTrenDuyet = null;
+                item.YKienCapTrenKHCT = null;
+
+                db.tblDanhGiaTieuChis.Add(item);
+            }
+
+            return Ok(db.SaveChanges());
         }
     }
 }

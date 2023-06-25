@@ -1,0 +1,95 @@
+﻿<div class="col-md-12">
+    <h4> <label class=" uppercase font-green"><i class="fa fa-list"></i> SAO CHÉP DỮ LIỆU KIỂM ĐỊNH</label></h4>
+</div>
+<div class="form-body form-horizontal col-md-12">
+    <div class="form-group">
+        <div class="col-md-12">
+            <h4>ĐƠN VỊ GỐC</h4>
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Chọn đơn vị:*</span>
+                <select ng-model="Paging.IdDonViGoc" class="form-control select2"
+                        ng-change="LoadKHTDG(Paging.IdDonViGoc, true)" convert-to-number>
+                    <option ng-repeat="nl in DonVi" value={{nl.Id}}>{{nl.TenDonVi}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Chọn kế hoạch TĐG:*</span>
+                <select ng-model="Paging.IdKHTDGGoc" class="form-control select2" convert-to-number>
+                    <option ng-repeat="nl in KHDVG" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <h4>ĐƠN VỊ ĐƯỢC CHUYỂN</h4>
+        </div>
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Chọn đơn vị:*</span>
+                <select ng-model="Paging.IdDonViChuyen" class="form-control select2"
+                        ng-change="LoadKHTDG(Paging.IdDonViChuyen, false)" convert-to-number>
+                    <option ng-repeat="nl in DonVi" value={{nl.Id}}>{{nl.TenDonVi}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-addon">Chọn kế hoạch TĐG:*</span>
+                <select ng-model="Paging.IdKHTDGChuyen" class="form-control select2" convert-to-number>
+                    <option ng-repeat="nl in KHDVC" value={{nl.Id}}>{{nl.NoiDung}}</option>
+                </select>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="form-group">
+
+        <div class="col-md-8">
+            <i class="font-red">
+                Lưu ý:
+                Vui lòng chọn đầy đủ thông tin trước khi nhấn Sao chép
+            </i>
+
+        </div>
+        <div class="col-md-4 text-right">
+            <a class="btn btn-primary" ng-click="CopyData()">
+                <i class="fa fa-copy"></i> Sao chép
+            </a>
+        </div>
+
+    </div>
+    <div class="form-group" ng-show="progress">
+        <div class="col-md-12">
+            <i> {{progress < 100 ? 'Vui lòng đợi trong quá trình sao chép dữ liệu...' : 'Hoàn tất sao chép...' }} </i>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{progress}}"
+                     aria-valuemin="0" aria-valuemax="100" style="width:{{progress}}%">
+                    <b> {{progress}} % </b>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        ComponentsSelect2.init();
+
+    });
+
+</script>

@@ -76,6 +76,11 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
 
     };
     $scope.authenExProvider = function (provider) {
+        let dialog = bootbox.dialog({
+            message: '<p class="text-center mb-0"><i class="fas fa-spin fa- cog"></i> Vui lòng đợi trong quá trình kết nối đến máy chủ SSO...</p>',
+            closeButton: false,
+            centerVertical: true,
+        });
         $scope.show = 1;
         $http({
             method: 'GET',
@@ -84,9 +89,11 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             $scope.show = 0;
             let url = response.data.filter(q => q.Name === provider)[0].Url;
             window.location.href = url;
+            dialog.modal('hide');
         }, function errorCallback(response) {
             toastr.error('Lỗi! ' + response.data.Message);
             $scope.show = 0;
+            dialog.modal('hide');
         });
 
     }
@@ -107,7 +114,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             });
     }
     $scope.CheckLocationHash = function () {
-        
+
         if (location.hash) {
             if (window.location.href.indexOf("access_token=") > -1) {
                 if (location.hash.split('access_token=')) {
@@ -164,7 +171,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             window.location.assign('/home.html');
         }
 
-       // $scope.authenExProvider('OpenIdConnect');
+        $scope.authenExProvider('OpenIdConnect');
     }
     $scope.$on('$viewContentLoaded', function () {
 
