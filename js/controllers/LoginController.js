@@ -35,7 +35,18 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
 
     }();
 
+    $scope.onLoginSuccess = function (username, token) {
+        $cookies.put('username', username);
 
+        $cookies.put('token_type', 'Bearer');
+        $cookies.put('token', token);
+
+        localStorage.setItem('NamHoc', $scope.NamHoc);
+        localStorage.setItem('Module', $scope.Module);
+
+        toastr.success('Đăng nhập thành công !', 'Đăng nhập');
+        window.location.assign('/home.html');
+    }
     $scope.fnLogin = function (obj) {
         $scope.show = 1;
         if ($scope.auth == null) {
@@ -53,17 +64,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
         $scope.loading = 'loading ...';
         $http.post('/token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .success(function (response) {
-
-                $cookies.put('username', response.userName);
-
-                $cookies.put('token_type', response.token_type);
-                $cookies.put('token', response.access_token);
-
-                localStorage.setItem('NamHoc', $scope.NamHoc);
-                localStorage.setItem('Module', $scope.Module);
-
-                toastr.success('Đăng nhập thành công !', 'Đăng nhập');
-                window.location.assign('/home.html');
+                $scope.onLoginSuccess(response.userName, response.access_token);
 
             }).error(function (err, status) {
 
@@ -126,16 +127,8 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
                                     toastr.error('Tài khoản ' + response.Email + ' của bạn chưa được đăng ký. Vui lòng liên hệ quản trị viên !', 'Đăng nhập');
                                     return;
                                 }
-                                $cookies.put('username', response.UserName);
 
-                                $cookies.put('token_type', response.AccessToken?.token_type);
-                                $cookies.put('token', response.AccessToken?.access_token);
-
-                                localStorage.setItem('NamHoc', $scope.NamHoc);
-                                localStorage.setItem('Module', $scope.Module);
-
-                                toastr.success('Đăng nhập thành công !', 'Đăng nhập');
-                                window.location.assign('/home.html');
+                                $scope.onLoginSuccess(response.userName, response.AccessToken?.access_token);
 
                             }).error(function (err, status) {
 
@@ -159,16 +152,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             oidc_access_token = atob(oidc_access_token);
             userName = atob(userName);
 
-            $cookies.put('token_type', 'Bearer');
-            $cookies.put('token', oidc_access_token);
-
-            $cookies.put('username', userName);
-
-            localStorage.setItem('NamHoc', $scope.NamHoc);
-            localStorage.setItem('Module', $scope.Module);
-
-            toastr.success('Đăng nhập thành công !', 'Đăng nhập');
-            window.location.assign('/home.html');
+            $scope.onLoginSuccess(userName, oidc_access_token);
         }
 
         $scope.authenExProvider('OpenIdConnect');
