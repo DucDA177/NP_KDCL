@@ -155,7 +155,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
             $scope.onLoginSuccess(userName, oidc_access_token);
         }
 
-        $scope.authenExProvider('OpenIdConnect');
+        //$scope.authenExProvider('OpenIdConnect');
     }
     $scope.$on('$viewContentLoaded', function () {
 
