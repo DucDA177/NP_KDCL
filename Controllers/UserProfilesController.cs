@@ -300,6 +300,13 @@ namespace WebApiCore.Controllers
             return db.UserProfiles.Count(e => e.Id == id) > 0;
         }
 
+        [HttpGet]
+        [Route("api/UserProfiles/ValidateEmail")]
+        public IHttpActionResult ValidateEmail(string email)
+        {
+            var result = db.UserProfiles.Any(x => x.Email == email) || db.AspNetUsers.Any(x => x.Email == email);
+            return Ok(result);
+        }
 
         [HttpGet]
         [Route("api/UserProfiles/GetUserbyGroup")]

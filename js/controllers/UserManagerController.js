@@ -11,6 +11,24 @@
         });
     }
 
+    $scope.ValidateEmail = function (itemUser) {
+        if (!itemUser.Email)
+            return;
+
+        $http({
+            method: 'GET',
+            url: '/api/UserProfiles/ValidateEmail',
+            params: { email: itemUser.Email }
+        }).then(function successCallback(response) {
+            if (response.data) {
+                toastr.error('Email ' + itemUser.Email + ' đã tồn tại!', 'Thông báo');
+                itemUser.Email = null;
+            }
+        }, function errorCallback(response) {
+            toastr.error('Có lỗi xảy ra!', 'Thông báo');
+        });
+    }
+
     if ($scope.itemUser == null || $scope.itemUser == undefined || $scope.itemUser == '') {
         $scope.LoadProvin('0', '0', '0');
         $scope.itemUser = {
