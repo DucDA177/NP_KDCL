@@ -211,6 +211,7 @@ namespace WebApiCore.Controllers
                 item.IdDonVi = toKHTDG.IdDonVi;
                 item.IdKeHoachTDG = toKHTDG.Id;
                 item.NoiBanHanh = toDV.TenDonVi;
+                item.DuongDanFile = null;
                 
                 db.tblMinhChungs.Add(item);
             }
