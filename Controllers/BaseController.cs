@@ -1,10 +1,13 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Http;
 using WebApiCore.Models;
@@ -215,6 +218,7 @@ namespace WebApiCore.Controllers
                 
                 db.tblMinhChungs.Add(item);
             }
+            var savedMC = db.SaveChanges();
 
             //Copy DM viết tắt, Đặt vấn đề, kết luận
             var fromDLNhaTruong = db.tblDuLieuNhaTruongs
@@ -255,11 +259,147 @@ namespace WebApiCore.Controllers
                 item.YKienCapTrenDG = null;
                 item.CapTrenDuyet = null;
                 item.YKienCapTrenKHCT = null;
+                item.MoTaA = XuLyLinkMinhChung(item.MoTaA, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.MoTaB = XuLyLinkMinhChung(item.MoTaB, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.MoTaC = XuLyLinkMinhChung(item.MoTaC, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.KQChiBao = XuLyLinkMinhChung(item.KQChiBao, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.KeHoachCaiTien = XuLyLinkMinhChung(item.KeHoachCaiTien, toKHTDG.IdDonVi, toKHTDG.Id);
 
                 db.tblDanhGiaTieuChis.Add(item);
             }
 
+            return Ok(savedMC + db.SaveChanges());
+        }
+
+        [HttpGet]
+        [Route("api/Base/CopyDataMinhChung")]
+        public IHttpActionResult CopyDataMinhChung(int from, int to)
+        {
+            var fromKHTDG = db.tblKeHoachTDGs.Find(from);
+            var toKHTDG = db.tblKeHoachTDGs.Find(to);
+            var fromDV = db.DMDonVis.Find(fromKHTDG.IdDonVi);
+            var toDV = db.DMDonVis.Find(toKHTDG.IdDonVi);
+
+            //Copy dữ liệu minh chứng
+            var lsMC = db.tblMinhChungs.Where(x => x.IdKeHoachTDG == fromKHTDG.Id 
+            && x.IdDonVi == fromKHTDG.IdDonVi).AsNoTracking().ToList();
+            foreach (var item in lsMC)
+            {
+                if(string.IsNullOrEmpty(item.DuongDanFile))
+                    continue;
+
+                // Your original folder path
+                var folderPath = item.DuongDanFile;
+
+                // Use regular expressions to replace values at the same positions
+                var pattern = @"\/(\d+)\/(\d+)\/";
+                var newFolderPath = Regex.Replace(folderPath, pattern, "/" + toKHTDG.IdDonVi + "/" + toKHTDG.Id + "/");
+
+                string serverFolderPath = HttpContext.Current.Server.MapPath("~/" + folderPath);
+                string serverNewFolderPath = HttpContext.Current.Server.MapPath("~/" + newFolderPath);
+
+                // Create the new folder if it doesn't exist
+                if (!Directory.Exists(serverFolderPath))
+                {
+                    Directory.CreateDirectory(serverFolderPath);
+                }
+
+                // Copy all the data from folderPath to newFolderPath
+                CopyDirectory(serverFolderPath, serverNewFolderPath);
+
+                var newMc = db.tblMinhChungs.Where(x => x.IdDonVi == toKHTDG.IdDonVi
+                    && x.IdKeHoachTDG == toKHTDG.Id && x.Ma == item.Ma).FirstOrDefault();
+                if(newMc != null)
+                {
+                    newMc.DuongDanFile = newFolderPath;
+                }
+            }
+
+
             return Ok(db.SaveChanges());
+        }
+
+        [HttpGet]
+        [Route("api/Base/XuLySaiLinkMinhChung")]
+        public IHttpActionResult XuLySaiLinkMinhChung(int to)
+        {
+            var toKHTDG = db.tblKeHoachTDGs.Find(to);
+            var toDV = db.DMDonVis.Find(toKHTDG.IdDonVi);
+
+            //Sửa đánh giá tiêu chí
+            var fromDGTC = db.tblDanhGiaTieuChis
+               .Where(x => x.IdKeHoachTDG == toKHTDG.Id && x.IdDonVi == toKHTDG.IdDonVi)
+               .ToList();
+            foreach (var item in fromDGTC)
+            {
+                item.MoTaA = XuLyLinkMinhChung(item.MoTaA, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.MoTaB = XuLyLinkMinhChung(item.MoTaB, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.MoTaC = XuLyLinkMinhChung(item.MoTaC, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.KQChiBao = XuLyLinkMinhChung(item.KQChiBao, toKHTDG.IdDonVi, toKHTDG.Id);
+                item.KeHoachCaiTien = XuLyLinkMinhChung(item.KeHoachCaiTien, toKHTDG.IdDonVi, toKHTDG.Id);
+            }
+
+            return Ok(db.SaveChanges());
+        }
+
+        // Recursive method to copy a directory and its contents
+        private void CopyDirectory(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir))
+            {
+                var destFile = Path.Combine(targetDir, Path.GetFileName(file));
+                File.Copy(file, destFile);
+            }
+
+            foreach (var subDir in Directory.GetDirectories(sourceDir))
+            {
+                var destSubDir = Path.Combine(targetDir, Path.GetFileName(subDir));
+                CopyDirectory(subDir, destSubDir);
+            }
+        }
+
+        private string XuLyLinkMinhChung(string html, int IdDonVi, int IdKHTDG)
+        {
+            if(string.IsNullOrEmpty(html))
+                return null;
+
+            // Load the HTML string into an HtmlDocument
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            // Select all <a> elements using XPath
+            HtmlNodeCollection linkNodes = doc.DocumentNode.SelectNodes("//a[@class='link-minhchung']");
+
+            // Loop through the <a> elements and modify attributes
+            if (linkNodes != null)
+            {
+                foreach (HtmlNode linkNode in linkNodes)
+                {
+                    // Get the inner text of the <a> element
+                    string MaMinhChung = linkNode.InnerText.Replace("[","").Replace("]", "");
+
+                    var MinhChung = db.tblMinhChungs.Where(x => x.IdDonVi == IdDonVi 
+                    && x.IdKeHoachTDG == IdKHTDG && x.Ma == MaMinhChung).FirstOrDefault();
+                    if (MinhChung != null)
+                    {
+                        string IdMinhChung = MinhChung.Id.ToString();
+                        // Modify the 'id' attribute
+                        linkNode.Attributes["id"].Value = IdMinhChung;
+
+                        // Modify the 'onclick' attribute
+                        linkNode.Attributes["onclick"].Value = "angular.element(document.body).scope().OpenViewMinhChung(" + IdMinhChung + ")";
+
+                    }
+
+                }
+            }
+
+            // Get the modified HTML
+            string modifiedHTML = doc.DocumentNode.OuterHtml;
+
+            return modifiedHTML;
         }
     }
 }
