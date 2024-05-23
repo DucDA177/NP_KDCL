@@ -128,7 +128,7 @@ WebApiApp.controller('LoginController', ['$rootScope', '$scope', '$http', '$cook
                                     return;
                                 }
 
-                                $scope.onLoginSuccess(response.userName, response.AccessToken?.access_token);
+                                $scope.onLoginSuccess(response.UserName, response.AccessToken?.access_token);
 
                             }).error(function (err, status) {
 
